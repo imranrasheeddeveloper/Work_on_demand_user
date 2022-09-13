@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">RizorsiUmaniUser</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="GOOGLE_MAP_API_KEY">AIzaSyB11X41y7bTYh77LEo0onVh43ODv7cNxmA</string>
+    <string name="map_id">5017e8a7429ec1c</string>
+    <string name="confirm">Confirm</string>
+
+</resources>

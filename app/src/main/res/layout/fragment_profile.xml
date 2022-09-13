@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.ProfileFragment">
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:scrollbars="none"
+        android:fillViewport="true">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:contentScrim="@color/primary"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="80dp"
+                        android:background="@color/primary"
+                        android:padding="20dp"
+                        app:layout_collapseMode="parallax"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/wallet_balance_card"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="1dp"
+                            app:cardUseCompatPadding="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/balance_wallet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:padding="8dp"
+                                    android:textSize="15sp"
+                                    android:text="Balance in wallet"
+                                    android:textColor="@color/black"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                                <TextView
+                                    android:id="@+id/wallet_price"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:drawableEnd="@drawable/ic_dollar"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:padding="10dp"
+                                    android:text="100"
+                                    android:gravity="center_horizontal"
+                                    android:textColor="@color/primary"
+                                    android:textSize="20sp"
+                                    app:layout_constraintBottom_toBottomOf="@id/balance_wallet"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="@id/balance_wallet" />
+
+                                <ImageView
+                                    android:id="@+id/line"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:src="@drawable/horizontal_line"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/wallet_price" />
+
+                                <TextView
+                                    android:id="@+id/wallet_"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawableTop="@drawable/ic_walle_icon"
+                                    android:drawablePadding="5dp"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:gravity="center"
+                                    android:padding="20dp"
+                                    android:text="wallet"
+                                    android:textColor="@color/black"
+                                    android:textSize="11sp"
+                                    app:layout_constraintEnd_toStartOf="@id/booking_"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/line" />
+
+                                <TextView
+                                    android:id="@+id/booking_"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawableTop="@drawable/ic_booking_icon"
+                                    android:drawablePadding="5dp"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:gravity="center"
+                                    android:padding="20dp"
+                                    android:text="Booking"
+                                    android:textColor="@color/black"
+                                    android:textSize="11sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@id/wallet_"
+                                    app:layout_constraintTop_toBottomOf="@id/line" />
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        app:contentInsetStart="0dp"
+                        app:layout_collapseMode="pin">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/user_name_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/close_profile"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:visibility="gone"
+                                android:src="@drawable/circular_cross"
+                                app:layout_constraintBottom_toBottomOf="@+id/user_image"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/user_image"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:layout_marginStart="8dp"
+                                android:src="@drawable/user"
+                                android:background="@color/transparent"
+                                app:civ_border_color="@color/off_white"
+                                app:civ_border_width="1dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/close_profile"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/username"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="Ahmed Raza"
+                                android:textColor="@color/off_white"
+                                android:textSize="18sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/user_image"
+                                app:layout_constraintTop_toTopOf="@+id/user_image" />
+
+                            <TextView
+                                android:id="@+id/user_number"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:fontFamily="@font/poppin_regular"
+                                android:text="+9238483479"
+                                android:textColor="@color/off_white"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/user_image"
+                                app:layout_constraintTop_toBottomOf="@id/username" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.appcompat.widget.Toolbar>
+
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/off_white"
+                    >
+
+                    <!--general setting-->
+
+                    <TextView
+                        android:id="@+id/general_setting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:padding="20dp"
+                        android:text="General Settings"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_bookings"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Booking"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/ic_booking_icon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/general_setting" />
+
+                    <TextView
+                        android:id="@+id/tv_notifications"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Notifications"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/notification_p"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_bookings" />
+
+                    <TextView
+                        android:id="@+id/tv_invite"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Invite Friends"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/email_p"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_notifications" />
+
+                    <TextView
+                        android:id="@+id/tv_emergency"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Emergency Call"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/emergency_call"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_invite" />
+
+
+                    <TextView
+                        android:id="@+id/tv_address"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Addresses"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/emergency_call"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_emergency" />
+
+                    <!--Account setting-->
+                    <TextView
+                        android:id="@+id/account_setting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:padding="20dp"
+                        android:text="Account Settings"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_address" />
+
+                    <TextView
+                        android:id="@+id/tv_personal_details"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Personal Details"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/personal_detail"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/account_setting" />
+
+                    <TextView
+                        android:id="@+id/tv_change_password"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Change Password"
+                        android:visibility="gone"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/change_password"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_personal_details" />
+
+                    <!--support setting-->
+                    <TextView
+                        android:id="@+id/support_setting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:padding="20dp"
+                        android:text="The Support Settings"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_change_password" />
+
+                    <TextView
+                        android:id="@+id/tv_privacy_policy"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Privacy Policy"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/personal_detail"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/support_setting" />
+
+                    <TextView
+                        android:id="@+id/tv_about_us"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Information About Us"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/about_us"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_privacy_policy" />
+
+                    <TextView
+                        android:id="@+id/tv_terms"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Terms And Conditions"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/terms_condition"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_about_us" />
+
+                    <TextView
+                        android:id="@+id/tv_comments"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Comments"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/comments"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_terms" />
+
+                    <TextView
+                        android:id="@+id/tv_reach_us"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Reach Us"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/reach_us"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_comments" />
+
+                    <!--payment-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:text="Payment"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textColor="@color/black"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_reach_us"
+                        android:padding="20dp"
+                        android:id="@+id/pay_setting"/>
+
+                    <TextView
+                        android:id="@+id/tv_my_wallet"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="My Wallet"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/ic_walle_icon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/pay_setting" />
+
+
+                    <TextView
+                        android:id="@+id/tv_payment_method"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="Payment Method or Payment"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/payment"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_my_wallet" />
+
+                    <TextView
+                        android:id="@+id/tv_logout"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Logout"
+                        android:textColor="@color/primary"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/logout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_payment_method" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

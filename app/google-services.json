@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "501384305521",
+    "project_id": "rizorsiumaniclientapp",
+    "storage_bucket": "rizorsiumaniclientapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501384305521:android:98c7ba0f14864444e6b4d0",
+        "android_client_info": {
+          "package_name": "com.rizorsiumani.workondemanduser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501384305521-u249tbs4db81f1mrepvgu8fncvhaj4a0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rizorsiumani.workondemanduser",
+            "certificate_hash": "74febc3e982a7c6af61a513836b07208a30ee983"
+          }
+        },
+        {
+          "client_id": "501384305521-f9rlk6qhon1i8c29gaef0hnrftueth9h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAONXE8YfUSGJ9OKdch5lFxdg6Wyq2l7O8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501384305521-f9rlk6qhon1i8c29gaef0hnrftueth9h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

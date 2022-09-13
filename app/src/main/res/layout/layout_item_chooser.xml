@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:backgroundTint="@color/off_white"
+        app:cardCornerRadius="18dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/off_white"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Add Photos"
+                android:fontFamily="@font/poppin_regular"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:id="@+id/tv_add"/>
+
+            <com.skydoves.elasticviews.ElasticImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_add"
+                android:src="@drawable/ic_camera"
+                android:background="@drawable/circle_light"
+                android:padding="16dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/cameraIcon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/cameraIcon"
+                app:layout_constraintTop_toBottomOf="@id/cameraIcon"
+                android:text="Camera"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/poppin_regular"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:id="@+id/camera"/>
+
+            <com.skydoves.elasticviews.ElasticImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/cameraIcon"
+                app:layout_constraintTop_toBottomOf="@id/tv_add"
+                android:src="@drawable/ic_gallery"
+                android:layout_marginStart="40dp"
+                android:background="@drawable/circle_light"
+                android:padding="16dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/galleryIcon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/galleryIcon"
+                app:layout_constraintTop_toBottomOf="@id/galleryIcon"
+                android:text="Gallery"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/poppin_regular"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:id="@+id/gallery"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

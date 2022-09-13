@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.post_job.PostJob">
+
+    <include
+        android:id="@+id/post_job_toolbar"
+        layout="@layout/post_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/post_job_toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Which Service you want?"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingBottom="@dimen/_4sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/tv_ask_service"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ask_service"
+                android:background="@drawable/edit_text_bg"
+                android:padding="@dimen/_10sdp"
+                android:hint="service .."
+                style="@style/normalText"
+                android:id="@+id/ed_service"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Budget"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingBottom="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ed_service"
+                android:id="@+id/tv_budget"/>
+
+            <com.google.android.material.slider.RangeSlider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_budget"
+                android:id="@+id/budget_range_slider"
+                app:values="@array/initial_slider_values"
+                android:valueFrom="1"
+                android:valueTo="500" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deadline"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingBottom="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/budget_range_slider"
+                android:id="@+id/tv_deadline"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_deadline"
+                android:background="@drawable/edit_text_bg"
+                android:padding="@dimen/_10sdp"
+                android:drawableStart="@drawable/ic_calender"
+                android:drawablePadding="@dimen/_8sdp"
+                android:text="2/22/22"
+                style="@style/normalText"
+                android:id="@+id/deadline_date"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Attach Photos"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingBottom="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/deadline_date"
+                android:id="@+id/tv_attach_photos"/>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_attach_photos"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/imagesLayout">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/attach_images_list"/>
+
+                <ImageView
+                    android:id="@+id/iv_add_image"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:scaleType="fitCenter"
+                    android:padding="@dimen/_30sdp"
+                    android:background="@drawable/rect_bg"
+                    android:src="@drawable/add1"
+                    android:backgroundTint="#b7fef7"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                     />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Describe your problem"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingBottom="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imagesLayout"
+                android:id="@+id/tv_describe"/>
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_90sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_describe"
+                android:background="@drawable/edit_text_bg"
+                android:padding="@dimen/_10sdp"
+                android:hint="ex.  I have water leaks in the bathroom"
+                android:gravity="start|top"
+                android:maxLines="5"
+                android:ellipsize="end"
+                style="@style/normalText"
+                android:id="@+id/ed_describe"/>
+
+            <Button
+                android:id="@+id/btn_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_round_bg"
+                android:textColor="@color/white"
+                style="@style/greenButtonStyle"
+                android:text="Post"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textAllCaps="false"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ed_describe"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

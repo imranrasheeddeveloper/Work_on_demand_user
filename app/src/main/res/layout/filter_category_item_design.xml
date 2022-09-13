@@ -1,0 +1,44 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="12dp"
+    android:background="@color/off_white"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Cleaner"
+        android:textColor="@color/black"
+        android:fontFamily="@font/poppins_medium"
+        android:textSize="16sp"
+        android:id="@+id/serviceName01"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/serviceName01"
+        android:text="3 Services"
+        android:textColor="@color/dark_gray"
+        android:fontFamily="@font/poppin_regular"
+        android:textSize="14sp"
+        android:id="@+id/serviceCount"/>
+
+    <com.skydoves.elasticviews.ElasticImageView
+        android:id="@+id/selectCat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:tag="unselect"
+        app:imageView_scale="0.7"
+        app:imageView_duration="300"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/unselected_value"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

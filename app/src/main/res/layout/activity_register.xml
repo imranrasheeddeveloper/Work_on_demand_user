@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="@dimen/_20sdp"
+    android:layout_height="match_parent"
+    tools:context=".ui.register.Register">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Let's get started!"
+        style="@style/headingText"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:id="@+id/tv_start"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="First Name"
+        style="@style/normalText"
+        android:textColor="@color/black"
+        android:paddingEnd="@dimen/_18sdp"
+        android:paddingBottom="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_start"
+        android:id="@+id/tv_firstname"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_firstname"
+        android:background="@drawable/edit_text_bg"
+        android:padding="@dimen/_10sdp"
+        android:hint="first name"
+        style="@style/normalText"
+        android:id="@+id/ed_firstname"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last Name"
+        style="@style/normalText"
+        android:textColor="@color/black"
+        android:paddingEnd="@dimen/_18sdp"
+        android:paddingBottom="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ed_firstname"
+        android:id="@+id/tv_lastname"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_lastname"
+        android:background="@drawable/edit_text_bg"
+        android:padding="@dimen/_10sdp"
+        android:hint="last name"
+        style="@style/normalText"
+        android:id="@+id/ed_lastname"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        style="@style/normalText"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:paddingEnd="@dimen/_18sdp"
+        android:paddingBottom="@dimen/_4sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ed_lastname"
+        android:id="@+id/tv_email"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_email"
+        android:background="@drawable/edit_text_bg"
+        android:padding="@dimen/_10sdp"
+        android:hint="email"
+        style="@style/normalText"
+        android:id="@+id/ed_email"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone number"
+        style="@style/normalText"
+        android:textColor="@color/black"
+        android:paddingEnd="@dimen/_18sdp"
+        android:paddingBottom="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ed_email"
+        android:id="@+id/tv_number"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/edit_text_bg">
+
+
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/countryCode_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:ccp_showFlag="true"
+            app:ccp_defaultPhoneCode="92"
+            app:ccp_textSize="14sp"
+            app:ccpDialog_textColor="@color/white"
+            app:ccpDialog_backgroundColor="@color/primary"
+            app:ccp_showNameCode="false"
+            app:ccp_clickable="true"
+            app:ccp_contentColor="@color/black"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/countryCode_picker"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:hint="2378723"
+            android:background="@color/transparent"
+            style="@style/normalText"
+            android:id="@+id/ed_number"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_round_bg"
+        android:textColor="@color/white"
+        style="@style/greenButtonStyle"
+        android:text="Next"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textAllCaps="false"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

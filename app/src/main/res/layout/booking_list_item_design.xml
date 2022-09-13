@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="#F7F7F7"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="9dp"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:text="Active"
+            android:gravity="center"
+            android:fontFamily="@font/poppin_regular"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:background="@drawable/booking_status_tag"
+            android:id="@+id/booking_status"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/booking_status"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Booking"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_semibold"
+                android:id="@+id/booking"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/booking"
+                android:text="#132"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_semibold"
+                android:id="@+id/booking_token"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/booking"
+                app:layout_constraintStart_toStartOf="@id/booking"
+                android:text="Book a Ride"
+                android:background="@drawable/rect_bg"
+                android:backgroundTint="@color/primary"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/poppin_regular"
+                android:id="@+id/book_ride"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/book_ride"
+                android:src="@drawable/ic_dot2"
+                android:id="@+id/starting_location_icon"
+                android:layout_marginTop="11dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/book_ride"
+                app:layout_constraintStart_toEndOf="@id/starting_location_icon"
+                android:text="PickUp Address"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppin_regular"
+                android:textColor="#404040"
+                android:alpha="0.5"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:id="@+id/choose_starting_location"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/choose_starting_location"
+                app:layout_constraintStart_toStartOf="@id/choose_starting_location"
+                android:text="Gulberg 3 , Lahore"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppin_regular"
+                android:textColor="@color/black"
+                android:id="@+id/booking_starting_location"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/booking_starting_location"
+                android:src="@drawable/ic_oval"
+                android:id="@+id/drop_location_icon"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/booking_starting_location"
+                app:layout_constraintStart_toEndOf="@id/drop_location_icon"
+                android:text="Drop Off Address"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppin_regular"
+                android:textColor="#404040"
+                android:alpha="0.5"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:id="@+id/choose_drop_location"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/choose_drop_location"
+                app:layout_constraintStart_toStartOf="@id/choose_drop_location"
+                android:text="Gulberg 3 , Lahore"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppin_regular"
+                android:textColor="@color/black"
+                android:id="@+id/booking_drop_location"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/white"
+                android:backgroundTint="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/booking_drop_location"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="-30dp"
+                android:layout_marginEnd="-30dp"
+                android:id="@+id/break_line"/>
+
+            <com.skydoves.elasticviews.ElasticButton
+                android:id="@+id/cancel_booking"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/outline_back"
+                android:padding="14dp"
+                android:gravity="center"
+                android:fontFamily="@font/poppin_regular"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:button_duration="250"
+                app:button_scale="0.94"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/blue"
+                app:layout_constraintStart_toStartOf="@id/booking_drop_location"
+                app:layout_constraintEnd_toStartOf="@id/reschedule_booking"
+                app:layout_constraintTop_toBottomOf="@id/break_line"
+                android:text="Cancel Booking"/>
+
+
+            <com.skydoves.elasticviews.ElasticButton
+                android:id="@+id/reschedule_booking"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cancel_booking"
+                app:layout_constraintTop_toBottomOf="@id/break_line"
+                android:text="Reschedule"
+                android:visibility="gone"
+                app:button_duration="250"
+                app:button_scale="0.94"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/outline_back"
+                android:padding="14dp"
+                android:gravity="center"
+                android:fontFamily="@font/poppin_regular"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/break_line"
+                android:text="12/2/2022"
+                android:layout_marginTop="16dp"
+                android:alpha="0.9"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textColor="#404040"
+                android:fontFamily="@font/poppin_regular"
+                android:id="@+id/booking_date"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/break_line"
+                android:text="05:45"
+                android:layout_marginTop="16dp"
+                android:alpha="0.9"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textColor="#404040"
+                android:fontFamily="@font/poppin_regular"
+                android:id="@+id/booking_time"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.cardview.widget.CardView>

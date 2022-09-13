@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.welcome_user.WelcomeUser">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Welcome"
+        style="@style/headingText"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:id="@+id/tv_welcome"/>
+
+    <ImageView
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="@dimen/_230sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_30sdp"
+        app:layout_constraintTop_toBottomOf="@id/tv_welcome"
+        android:src="@drawable/ic_welcome"
+        android:id="@+id/iv_welcome"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/_50sdp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select your account type and Log In"
+            style="@style/normalText"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/tv_select"/>
+
+        <Button
+            android:id="@+id/btn_residential"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_round_bg"
+            android:textColor="@color/white"
+            style="@style/greenButtonStyle"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="I’m a Residential User"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
+
+        <Button
+            android:id="@+id/btn_commercial"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_round_bg"
+            android:textColor="@color/white"
+            style="@style/blueButtonStyle"
+            android:text="I’m a Commercial User"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginTop="@dimen/_5sdp"
+           />
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
