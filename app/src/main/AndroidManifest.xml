@@ -3,23 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.rizorsiumani.workondemanduser">
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="true" />
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.flash"
-        android:required="false" />
-
-
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -31,6 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RizorsiUmaniUser"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.sp_detail.ServiceProviderProfile"
+            android:exported="false" />
+        <activity
+            android:name=".ui.service_providers.Serviceproviders"
+            android:exported="false" />
+        <activity
+            android:name=".ui.address.SavedAddresses"
+            android:exported="false" />
         <activity
             android:name=".ui.post_job.PostJob"
             android:exported="false" />
@@ -92,7 +84,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.rizorsiumani.workondemanduser.provider"
@@ -103,5 +94,21 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

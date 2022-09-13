@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragment.WalletFragment">
+    tools:context=".ui.fragment.wallet.WalletFragment">
 
     <ScrollView
         android:id="@+id/scrollview"
@@ -215,14 +215,12 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:layout_height="match_parent"
+                    android:background="@color/off_white"
                     >
 
-                    <!--general setting-->
-
                     <TextView
-                        android:id="@+id/general_setting"
+                        android:id="@+id/tv_recent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semibold"
@@ -234,6 +232,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/_3sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_recent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:id="@+id/transactionsList"/>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
