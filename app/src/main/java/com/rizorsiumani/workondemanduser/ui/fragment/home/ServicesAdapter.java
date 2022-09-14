@@ -1,6 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
 
 import java.util.List;
 
@@ -41,6 +43,12 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         Integer icon = icons.get(position);
         holder.imageView.setImageResource(icon);
         holder.serName.setText(name);
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(ctx, Serviceproviders.class);
+            intent.putExtra("ser_name",name);
+            ctx.startActivity(intent);
+        });
     }
 
     @Override
