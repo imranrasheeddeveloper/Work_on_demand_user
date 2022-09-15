@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rating_bg"
+    android:padding="@dimen/_10sdp"
+    android:layout_margin="@dimen/_10sdp"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/user"
+        android:background="@color/transparent"
+        app:civ_border_color="@color/off_white"
+        app:civ_border_width="1dp"
+        android:id="@+id/iv_sp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/iv_sp"
+        app:layout_constraintStart_toEndOf="@id/iv_sp"
+        android:layout_marginStart="@dimen/_10sdp"
+        style="@style/mediumText"
+        android:text="Ayesja Ali"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:id="@+id/tv_sp_name"/>
+
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_sp_name"
+        app:layout_constraintStart_toStartOf="@id/tv_sp_name"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/iv_sp"
+        app:layout_constraintStart_toStartOf="@id/iv_sp"
+        style="@style/mediumText"
+        android:text="Services"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:id="@+id/tv_sp_services"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_sp_services"
+        app:layout_constraintStart_toStartOf="@id/tv_sp_services"
+        style="@style/normalText"
+        android:text="Office Cleaning"
+        android:textColor="@color/black"
+        android:id="@+id/sp_service"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/sp_service"
+        app:layout_constraintStart_toStartOf="@id/sp_service"
+        style="@style/mediumText"
+        android:textStyle="bold"
+        android:text="$20"
+        android:textColor="@color/primary"
+        android:id="@+id/sp_rate"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/sp_rate"
+        app:layout_constraintStart_toStartOf="@id/sp_rate"
+        app:layout_constraintEnd_toStartOf="@id/profile"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:background="@drawable/button_round_bg"
+        style="@style/lightGreenButtonStyle"
+        android:text="Message"
+        android:padding="@dimen/_6sdp"
+        android:id="@+id/message"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:background="@drawable/button_round_bg"
+        app:layout_constraintTop_toBottomOf="@id/sp_rate"
+        app:layout_constraintStart_toEndOf="@id/message"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_5sdp"
+        style="@style/greenButtonStyle"
+        android:padding="@dimen/_6sdp"
+        android:text="Profile"
+        android:id="@+id/profile"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_5sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_image"
+        android:layout_width="46dp"
+        android:layout_height="45dp"
+        android:src="@drawable/user"
+        android:background="@color/transparent"
+        app:civ_border_color="@color/off_white"
+        app:civ_border_width="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/user_image"
+        app:layout_constraintBottom_toBottomOf="@id/user_image"
+        app:layout_constraintStart_toEndOf="@id/user_image"
+        style="@style/mediumText"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:paddingTop="@dimen/_3sdp"
+        android:text="Willard Parnel"
+        android:id="@+id/sp_location"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rating_bg"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingEnd="@dimen/_16sdp"
+        android:paddingTop="@dimen/_4sdp"
+        android:paddingBottom="@dimen/_4sdp"
+        app:layout_constraintTop_toTopOf="@id/user_image"
+        app:layout_constraintBottom_toBottomOf="@id/user_image"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_rate"
+            android:id="@+id/rating_icon"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/rating_icon"
+            app:layout_constraintStart_toEndOf="@id/rating_icon"
+            app:layout_constraintBottom_toBottomOf="@id/rating_icon"
+            style="@style/mediumText"
+            android:textColor="@color/primary"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:paddingTop="@dimen/_3sdp"
+            android:text="4"
+            android:id="@+id/sp_reviews"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/user_image"
+        app:layout_constraintStart_toStartOf="@id/user_image"
+        style="@style/_14sp_regular"
+        android:padding="@dimen/_5sdp"
+        android:text="Awesome! this is what i was looking for , I recommend to everyone."
+        android:id="@+id/comment"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/comment"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/mediumText"
+        android:padding="@dimen/_5sdp"
+        android:text="3 weeks ago"
+        android:layout_marginEnd="@dimen/_40sdp"
+        android:id="@+id/comment_time"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

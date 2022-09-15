@@ -146,13 +146,13 @@
 
                 <ImageView
                     android:id="@+id/iv_add_image"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
                     android:scaleType="fitCenter"
-                    android:padding="@dimen/_30sdp"
+                    android:padding="@dimen/_25sdp"
                     android:background="@drawable/rect_bg"
                     android:src="@drawable/add1"
-                    android:backgroundTint="#b7fef7"
+                    android:backgroundTint="@color/teal_200"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                      />

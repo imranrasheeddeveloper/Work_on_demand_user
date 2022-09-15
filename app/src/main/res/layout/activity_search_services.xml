@@ -32,7 +32,7 @@
             android:padding="@dimen/_15sdp">
 
             <EditText
-                android:id="@+id/serachView"
+                android:id="@+id/searchView"
                 style="@style/normalText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -57,19 +57,20 @@
                 android:padding="@dimen/_10sdp"
                 android:src="@drawable/ic_filter"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/serachView"
+                app:layout_constraintStart_toEndOf="@id/searchView"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/result_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/serachView"
+                app:layout_constraintTop_toBottomOf="@id/searchView"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="Result for “cleaning”"
                 style="@style/mediumText"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                />
 
             <TextView
                 android:layout_width="wrap_content"

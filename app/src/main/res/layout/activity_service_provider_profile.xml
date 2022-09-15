@@ -6,30 +6,234 @@
     android:layout_height="match_parent"
     tools:context=".ui.sp_detail.ServiceProviderProfile">
 
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sp_profile_toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/dummy_sp"
+                android:id="@+id/sp_image"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sp_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/headingText"
+                    android:textStyle="bold"
+                    android:text="Office Cleaning"
+                    android:id="@+id/sp_service"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/sp_service"
+                    app:layout_constraintStart_toStartOf="@id/sp_service"
+                    style="@style/mediumText"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:textColor="@color/primary"
+                    android:text="Angel  William"
+                    android:id="@+id/sp_name"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:layout_constraintTop_toBottomOf="@id/sp_service"
+                    app:layout_constraintStart_toEndOf="@id/sp_name"
+                    android:layout_marginStart="@dimen/_40sdp"
+                    android:src="@drawable/ic_rate"
+                    android:id="@+id/rating_icon"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/rating_icon"
+                    app:layout_constraintStart_toEndOf="@id/rating_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/rating_icon"
+                    style="@style/_14sp_regular"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:text="1k+ reviews"
+                    android:id="@+id/sp_reviews"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/sp_name"
+                    app:layout_constraintStart_toStartOf="@id/sp_name"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    style="@style/normalText"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    android:background="@drawable/rect_bg"
+                    android:backgroundTint="@color/teal_200"
+                    android:padding="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:text="Cleaning"
+                    android:id="@+id/spService"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/spService"
+                    app:layout_constraintStart_toEndOf="@id/spService"
+                    android:layout_marginStart="@dimen/_40sdp"
+                    app:layout_constraintBottom_toBottomOf="@id/spService"
+                    android:background="@drawable/ic_oval"
+                    android:backgroundTint="@color/primary"
+                    android:id="@+id/location_icon"/>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/location_icon"
+                    app:layout_constraintStart_toEndOf="@id/location_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/location_icon"
+                    style="@style/mediumText"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:text="Lahore , Pakistan"
+                    android:id="@+id/sp_location"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/spService"
+                    app:layout_constraintStart_toStartOf="@id/spService"
+                    style="@style/headingText"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:textColor="@color/primary"
+                    android:text="$20"
+                    android:id="@+id/sp_rate"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/sp_rate"
+                    app:layout_constraintStart_toEndOf="@id/sp_rate"
+                    app:layout_constraintBottom_toBottomOf="@id/sp_rate"
+                    style="@style/_14sp_regular"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:text="(Floor Price)"
+                    android:id="@+id/sp_ser_type"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    app:layout_constraintTop_toBottomOf="@id/sp_rate"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@color/gray"
+                    android:alpha="0.1"
+                    android:id="@+id/view"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/sp_about_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/headingText"
+                        android:textStyle="bold"
+                        android:text="About Me"
+                        android:id="@+id/sp_about"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sp_about"
+                        style="@style/normalText"
+                        android:textSize="13sp"
+                        android:text="@string/about"
+                        android:id="@+id/about_tv"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/sp_gallery_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/sp_about_layout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/headingText"
+                        android:textStyle="bold"
+                        android:text="Photos &amp; Videos"
+                        android:id="@+id/sp_photos"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/sp_photos"
+                        app:layout_constraintBottom_toBottomOf="@id/sp_photos"
+                        style="@style/mediumText"
+                        android:text="See All"
+                        android:textColor="@color/primary"
+                        android:id="@+id/all_photos"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <include
-        android:id="@+id/sp_profile_toolbar"
-        layout="@layout/toolbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
