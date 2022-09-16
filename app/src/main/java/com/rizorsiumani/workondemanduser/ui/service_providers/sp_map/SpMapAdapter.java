@@ -1,9 +1,10 @@
-package com.rizorsiumani.workondemanduser.ui.fragment.sp_map;
+package com.rizorsiumani.workondemanduser.ui.service_providers.sp_map;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,13 +55,15 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
+        public Button profile;
 
         public ViewHolder(@NonNull View itemView, ItemClickListener listener) {
             super(itemView);
 
             name = itemView.findViewById(R.id.tv_sp_name);
+            profile = itemView.findViewById(R.id.profile);
 
-            itemView.setOnClickListener(view -> {
+            profile.setOnClickListener(view -> {
                 if (listener != null){
                     if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                         listener.onProfileClick(getAdapterPosition());

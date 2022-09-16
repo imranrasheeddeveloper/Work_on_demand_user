@@ -1,4 +1,4 @@
-package com.rizorsiumani.workondemanduser.ui.fragment.sp_map;
+package com.rizorsiumani.workondemanduser.ui.service_providers.sp_map;
 
 import static android.content.ContentValues.TAG;
 
@@ -10,6 +10,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,7 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMapsBinding> implements OnMapReadyCallback, OnLocationUpdateListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
+public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMapsBinding> implements OnMapReadyCallback,
+        OnLocationUpdateListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
     private ArrayList<Marker> markers;
@@ -78,6 +80,9 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (layoutManager.findFirstVisibleItemPosition() > 0) {
+
+                    try {
+
                     final Marker marker = markers.get(layoutManager.findFirstVisibleItemPosition());
                     final LatLng markerPosition = marker.getPosition();
                     for (int i = 0; i < names.size()-1; i++) {
@@ -87,6 +92,11 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
                     CameraPosition cameraPosition = new CameraPosition.Builder().target(markerPosition).zoom(12).build();
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     Log.d("Scrolling Right", "SCROLL");
+
+                    }catch (NullPointerException e){
+                        Log.e("location",e.getMessage());
+                    }
+
                 } else {
 
                     Log.d("Scrolling left", "SCROLL");
@@ -132,7 +142,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
         boolean isCalled = true;
         if (isCalled) {
             MapConfig.config.moveCamera(currentLocation, mMap);
-            MapConfig.config.addMarkers(mMap, currentLocation, App.applicationContext);
+          //  MapConfig.config.addMarkers(mMap, currentLocation, App.applicationContext);
         }
     }
 
@@ -200,6 +210,8 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
+        try {
+
         if (null != selectedMarker) {
             selectedMarker.setIcon(bitmapDescriptorFromVector(requireActivity(),R.drawable.map_stop_position));
         }
@@ -208,15 +220,23 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
         final LatLng markerPosition = marker.getPosition();
         int selected_marker = -1;
-        for (int i = 0; i < names.size()-1; i++) {
+        for (int i = 0; i <= names.size()-1; i++) {
             if (markerPosition.latitude == names.get(i).latitude && markerPosition.longitude == names.get(i).longitude) {
                 selected_marker = i;
             }
         }
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(markerPosition).zoom(12).build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        adapter.notifyDataSetChanged();
-        fragmentBinding.markersLocationList.smoothScrollToPosition(selected_marker);
+        if (selected_marker != -1) {
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(markerPosition).zoom(12).build();
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            adapter.notifyDataSetChanged();
+            fragmentBinding.markersLocationList.smoothScrollToPosition(selected_marker);
+        }else {
+            Toast.makeText(requireContext(), "List doesn't contain this location", Toast.LENGTH_SHORT).show();
+        }
+
+        }catch (NullPointerException e){
+            Log.e("location", e.getMessage());
+        }
         return true;
 
     }

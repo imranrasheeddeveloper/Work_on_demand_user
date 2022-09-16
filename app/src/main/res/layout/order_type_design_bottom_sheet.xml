@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    app:behavior_hideable="false"
+    android:paddingBottom="@dimen/_50sdp"
+    android:layout_marginBottom="-30dp"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginStart="-6dp"
+        android:layout_marginEnd="-6dp"
+        app:cardUseCompatPadding="true"
+        android:background="@color/transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="24dp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="60dp"
+            >
+
+
+            <View
+                android:id="@+id/SlideUp"
+                android:layout_width="70dp"
+                android:layout_height="3dp"
+                android:background="#5E6272"
+                android:alpha="0.5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/SlideUp"
+                style="@style/boldHeadingText"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="Order Options"
+                android:id="@+id/tv_order_option"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_order_option"
+                style="@style/mediumText"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="How often do you need this order?"
+                android:id="@+id/tv_duration"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_duration"
+                android:background="@drawable/rect_bg"
+                android:backgroundTint="@color/primary"
+                android:padding="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:id="@+id/single_order_option_layout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/mediumText"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="Single Order"
+                    android:id="@+id/tv_single"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/mediumText"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="$20"
+                    android:id="@+id/tv_single_rate"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/single_order_option_layout"
+                android:background="@drawable/rect_bg"
+                android:backgroundTint="@color/off_white"
+                android:padding="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:id="@+id/recurring_order_option_layout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/mediumText"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    android:text="Recurring Order"
+                    android:id="@+id/tv_recurring"/>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_recurring"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:id="@+id/plansList"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btn_add_cart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_round_bg"
+                style="@style/disableButton"
+                android:text="Add to Cart for $20"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textAllCaps="false"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recurring_order_option_layout"
+                />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

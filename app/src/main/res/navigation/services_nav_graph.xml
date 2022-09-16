@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/services_nav_graph.xml"
+    app:startDestination="@id/services">
+
+    <fragment
+        android:id="@+id/services"
+        android:name="com.rizorsiumani.workondemanduser.ui.sp_detail.fragment.Services"
+        android:label="fragment_services"
+        tools:layout="@layout/fragment_services" />
+    <fragment
+        android:id="@+id/gallery2"
+        android:name="com.rizorsiumani.workondemanduser.ui.sp_detail.fragment.Gallery"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" />
+    <fragment
+        android:id="@+id/reviews"
+        android:name="com.rizorsiumani.workondemanduser.ui.sp_detail.fragment.Reviews"
+        android:label="fragment_reviews"
+        tools:layout="@layout/fragment_reviews" />
+</navigation>

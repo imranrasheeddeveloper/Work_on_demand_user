@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ServiceProviderProfile;
+import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
         holder.name.setText(name);
 
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(ctx, ServiceProviderProfile.class);
+            Intent intent = new Intent(ctx, SpProfile.class);
             ctx.startActivity(intent);
         });
     }

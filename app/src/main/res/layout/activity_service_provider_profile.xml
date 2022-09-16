@@ -21,6 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_200sdp"
@@ -31,13 +33,24 @@
                 android:src="@drawable/dummy_sp"
                 android:id="@+id/sp_image"/>
 
+            <com.skydoves.elasticviews.ElasticImageView
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/circular_back"
+                android:layout_margin="10dp"
+                app:imageView_scale="0.7"
+                app:imageView_duration="300"
+                android:id="@+id/back"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sp_image"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:padding="@dimen/_10sdp">
+                android:padding="@dimen/_11sdp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -185,6 +198,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/sp_about"
                         style="@style/normalText"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:textSize="13sp"
                         android:text="@string/about"
                         android:id="@+id/about_tv"/>
@@ -199,7 +213,7 @@
                     app:layout_constraintTop_toBottomOf="@id/sp_about_layout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="@dimen/_5sdp">
+                    android:layout_marginTop="@dimen/_6sdp">
 
 
                     <TextView
@@ -223,8 +237,108 @@
                         android:textColor="@color/primary"
                         android:id="@+id/all_photos"/>
 
+                    <include
+                        layout="@layout/gallery_view"
+                        android:id="@+id/sp_gallery"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_200sdp"
+                        app:layout_constraintTop_toBottomOf="@id/sp_photos"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/sp_review_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/sp_gallery_layout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/_6sdp">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:src="@drawable/ic_rate"
+                        android:id="@+id/sp_review_icon"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@id/sp_review_icon"
+                        app:layout_constraintStart_toEndOf="@id/sp_review_icon"
+                        app:layout_constraintBottom_toBottomOf="@id/sp_review_icon"
+                        style="@style/mediumText"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:text="1k+ reviews"
+                        android:id="@+id/sp_reviews_count"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/sp_reviews_count"
+                        app:layout_constraintBottom_toBottomOf="@id/sp_reviews_count"
+                        style="@style/mediumText"
+                        android:text="See All"
+                        android:textColor="@color/primary"
+                        android:id="@+id/all_reviews"/>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sp_reviews_count"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:id="@+id/reviewsList"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/sp_review_layout"
+                    app:layout_constraintStart_toStartOf="@id/sp_review_layout"
+                    app:layout_constraintEnd_toStartOf="@id/btn_book_now"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:background="@drawable/button_round_bg"
+                    style="@style/lightGreenButtonStyle"
+                    android:text="Message"
+                    android:padding="@dimen/_6sdp"
+                    android:id="@+id/btn_message"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:background="@drawable/button_round_bg"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sp_review_layout"
+                    app:layout_constraintStart_toEndOf="@id/btn_message"
+                    app:layout_constraintEnd_toEndOf="@id/sp_review_layout"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    style="@style/greenButtonStyle"
+                    android:padding="@dimen/_6sdp"
+                    android:text="Book Now"
+                    android:id="@+id/btn_book_now"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
