@@ -38,6 +38,7 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
 
     }
 
+
     private void clickListeners() {
         activityBinding.back.setOnClickListener(view -> {
             onBackPressed();

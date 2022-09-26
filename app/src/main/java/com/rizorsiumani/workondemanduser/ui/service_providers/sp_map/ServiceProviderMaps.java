@@ -36,6 +36,7 @@ import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServiceProviderMapsBinding;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ServiceProviderProfile;
+import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
@@ -173,7 +174,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
             @Override
             public void onProfileClick(int position) {
-                ActivityUtil.gotoPage(requireContext(), ServiceProviderProfile.class);
+                ActivityUtil.gotoPage(requireContext(), SpProfile.class);
                 requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });

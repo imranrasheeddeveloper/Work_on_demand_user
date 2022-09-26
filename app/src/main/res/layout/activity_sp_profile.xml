@@ -158,27 +158,38 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayout"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="-25dp"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:background="@drawable/rating_bg"
-                    android:padding="@dimen/_5sdp"
+                    android:layout_height="60dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tabGravity="fill"
-                    app:tabIndicatorColor="@color/transparent"
-                    app:tabIndicatorHeight="0dp"
-                    app:tabInlineLabel="true"
-                    app:tabSelectedTextColor="@color/white"
-                    app:tabTextAppearance="@style/mediumText"
-                    app:tabTextColor="@color/black">
+                    android:background="@drawable/rating_bg"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="-25dp"
+                    android:layout_marginEnd="@dimen/_20sdp">
 
-                </com.google.android.material.tabs.TabLayout>
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tabGravity="fill"
+                        app:tabIndicatorColor="@color/transparent"
+                        app:tabIndicatorHeight="0dp"
+                        app:tabInlineLabel="true"
+                        app:tabSelectedTextColor="@color/white"
+                        app:tabTextAppearance="@style/mediumText"
+                        app:tabTextColor="@color/black">
+
+                    </com.google.android.material.tabs.TabLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
                 <TextView

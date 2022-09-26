@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,6 +16,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
           android:padding="@dimen/_8sdp">
 
 
@@ -38,14 +39,14 @@
                 app:layout_constraintBottom_toBottomOf="@id/back"
                 android:text="_"
                 android:textSize="18sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:textColor="@color/primary"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/black"
                 android:id="@+id/title"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

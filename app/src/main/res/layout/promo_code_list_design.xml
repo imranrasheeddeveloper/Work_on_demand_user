@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rect_bg"
+    android:backgroundTint="@color/off_white"
+    android:padding="16dp"
+    android:layout_marginTop="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/imgVoucher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/voucher"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/imgVoucher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgVoucher"
+        app:layout_constraintBottom_toBottomOf="@id/imgVoucher"
+        android:padding="8dp"
+        android:textSize="14sp"
+        android:fontFamily="@font/poppin_regular"
+        android:textColor="@color/gray"
+        android:text="use_and_deduct_00_10_of_your_amount"
+        android:id="@+id/tvCodeText"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgVoucher"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="8dp"
+        android:textSize="14sp"
+        android:fontFamily="@font/poppin_regular"
+        android:textColor="@color/black"
+        android:text="Code"
+        android:id="@+id/tvCode"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tvCode"
+        app:layout_constraintTop_toBottomOf="@id/imgVoucher"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="8dp"
+        android:layout_marginStart="-10dp"
+        android:textSize="14sp"
+        android:fontFamily="@font/poppin_regular"
+        android:textColor="@color/black"
+        android:text="----"
+        android:id="@+id/tvPromoCode"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgVoucher"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="8dp"
+        android:textSize="14sp"
+        android:fontFamily="@font/poppin_regular"
+        android:textColor="@color/primary"
+        android:text="Activate the discount code"
+        android:id="@+id/tvActivate"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

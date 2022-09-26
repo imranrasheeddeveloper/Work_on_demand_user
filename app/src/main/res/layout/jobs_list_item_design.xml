@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/off_white"
+        android:padding="@dimen/_10sdp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/user"
+            android:id="@+id/user"/>
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/user"
+            app:layout_constraintEnd_toEndOf="@id/user"
+            app:layout_constraintTop_toBottomOf="@id/user"
+            style="@style/normalText"
+            android:text="Username"
+            android:layout_marginTop="5dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/user"
+            android:layout_marginStart="@dimen/_20sdp"
+            style="@style/mediumText"
+            android:text="House Cleaning"
+            android:textColor="@color/black"
+            android:id="@+id/service_title"/>
+
+
+        <TextView
+            android:id="@+id/ser_detail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/service_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/service_title"
+            style="@style/normalText"
+            android:text="This text is an example of a text that can be replaced in the sameSpace"
+            android:layout_marginTop="5dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ser_detail"
+            app:layout_constraintStart_toStartOf="@id/ser_detail"
+            style="@style/mediumText"
+            android:text="$30"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="@color/primary"
+            android:id="@+id/service_rate"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/service_rate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:background="@drawable/button_round_bg"
+            style="@style/greenButtonStyle"
+            android:text="Alter Request"
+            android:padding="@dimen/_6sdp"
+            android:id="@+id/btn_alter"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:background="@drawable/button_round_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/service_rate"
+            app:layout_constraintStart_toEndOf="@id/btn_alter"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/_14sdp"
+            style="@style/redButtonStyle"
+            android:padding="@dimen/_6sdp"
+            android:text="Cancel Request"
+            android:id="@+id/btn_cancel"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

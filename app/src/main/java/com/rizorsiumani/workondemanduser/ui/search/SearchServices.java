@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
+import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySearchServicesBinding;
-import com.rizorsiumani.workondemanduser.ui.address.AdressesAdapter;
+import com.rizorsiumani.workondemanduser.ui.searched_sp.ResultantServiceProviders;
+import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
+import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +70,11 @@ public class SearchServices extends BaseActivity<ActivitySearchServicesBinding> 
         activityBinding.searchDataList.setLayoutManager(layoutManager);
         SearchServiceAdapter adapter = new SearchServiceAdapter(ser_categories, App.applicationContext);
         activityBinding.searchDataList.setAdapter(adapter);
+
+        adapter.setOnCategoryClickListener(position -> {
+            ActivityUtil.gotoPage(SearchServices.this, ResultantServiceProviders.class);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
 
     }
 

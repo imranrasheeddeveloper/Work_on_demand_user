@@ -14,7 +14,10 @@ import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.FragmentProfileBinding;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
+import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
+import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 
 public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
@@ -35,6 +38,20 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     private void clickListeners() {
         fragmentBinding.tvAddress.setOnClickListener(view -> {
             ActivityUtil.gotoPage(requireContext(), SavedAddresses.class);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        fragmentBinding.tvNotifications.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(requireContext(), Notification.class);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        fragmentBinding.tvInvite.setOnClickListener(view -> {
+            Constants.constant.shareApp(requireContext());
+        });
+
+        fragmentBinding.tvPersonalDetails.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(requireContext(), EditProfile.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }

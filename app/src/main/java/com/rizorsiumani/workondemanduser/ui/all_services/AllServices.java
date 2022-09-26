@@ -5,6 +5,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.ServicesAdapter;
+import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
+import com.rizorsiumani.workondemanduser.ui.searched_sp.ResultantServiceProviders;
+import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +53,16 @@ public class AllServices extends BaseActivity<com.rizorsiumani.workondemanduser.
         service_icons.add(R.drawable.ic_electronics__2_);
 
 
-
         GridLayoutManager glm = new GridLayoutManager(AllServices.this, 3);
         activityBinding.allServicesList.setLayoutManager(glm);
         ServicesAdapter adapter = new ServicesAdapter(AllServices.this, service_categories, service_icons);
         activityBinding.allServicesList.setAdapter(adapter);
+
+        adapter.setOnServiceClickListener(position -> {
+            ActivityUtil.gotoPage(AllServices.this, ResultantServiceProviders.class);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
     }
 
     private void clickListeners() {

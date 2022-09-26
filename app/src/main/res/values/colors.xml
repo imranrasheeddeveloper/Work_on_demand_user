@@ -13,9 +13,10 @@
     <color name="gray">#4D4D4D</color>
     <color name="light_gray">#8D8D8D</color>
     <color name="blue">#0263E0</color>
-    <color name="off_white">#F7F7F7</color>
+    <color name="off_white">#F9FAFD</color>
     <color name="light_grey1">#F5F5F5</color>
     <color name="transparent">#00000000</color>
     <color name="light_grey">#B8B8BC</color>
+    <color name="red">#d1001f</color>
 
 </resources>

@@ -31,6 +31,27 @@
         android:theme="@style/Theme.RizorsiUmaniUser"
         tools:targetApi="31">
         <activity
+            android:name=".ui.promo_code.PromoCode"
+            android:exported="false" />
+        <activity
+            android:name=".ui.edit_profile.EditProfile"
+            android:exported="false" />
+        <activity
+            android:name=".ui.all_posted_jobs.AllPostedJobs"
+            android:exported="false" />
+        <activity
+            android:name=".ui.notification.Notification"
+            android:exported="false" />
+        <activity
+            android:name=".ui.booking_detail.BookingDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ui.searched_sp.ResultantServiceProviders"
+            android:exported="false" />
+        <activity
+            android:name=".ui.booking.BookService"
+            android:exported="false" />
+        <activity
             android:name=".ui.sp_detail.SpProfile"
             android:exported="false" />
         <activity
@@ -59,7 +80,13 @@
             android:exported="false" />
         <activity
             android:name=".ui.dashboard.Dashboard"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.register.OtpVerification"
             android:exported="false" />
@@ -72,11 +99,13 @@
         <activity
             android:name=".ui.login.Login"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".ui.welcome_user.WelcomeUser"

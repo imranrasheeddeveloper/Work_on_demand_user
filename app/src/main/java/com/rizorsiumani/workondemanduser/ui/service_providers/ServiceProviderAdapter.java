@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ServiceProviderProfile;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 
@@ -20,6 +21,11 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
 
     private final List<String> list;
     private final Context ctx;
+    onItemClickListener itemClickListener;
+
+    public void setOnProviderSelectListener(onItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
 
     public ServiceProviderAdapter(List<String> data, Context context) {
         this.list = data;
@@ -30,7 +36,7 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
     @Override
     public ServiceProviderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.service_provider_item_design, parent, false);
-        return new ServiceProviderAdapter.ViewHolder(view);
+        return new ServiceProviderAdapter.ViewHolder(view,itemClickListener);
     }
 
     @Override
@@ -49,13 +55,26 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
         return list.size();
     }
 
+    public interface onItemClickListener{
+        void onProviderSelect(int position);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, onItemClickListener itemClickListener) {
             super(itemView);
 
             name = itemView.findViewById(R.id.sp_name);
+
+            itemView.setOnClickListener(view -> {
+                if (itemClickListener!= null){
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        itemClickListener.onProviderSelect(position);
+                    }
+                }
+            });
         }
     }
 }

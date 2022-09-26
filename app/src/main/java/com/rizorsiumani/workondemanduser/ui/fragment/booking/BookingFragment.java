@@ -33,7 +33,7 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
 
 
         fragmentBinding.bookingToolbar.title.setText("Bookings");
-        fragmentBinding.bookingToolbar.back.setVisibility(View.GONE);
+        fragmentBinding.bookingToolbar.back.setVisibility(View.INVISIBLE);
 
 
         clickListeners();
@@ -68,7 +68,6 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
 
             fragmentBinding.bookingList.setVisibility(View.GONE);
             fragmentBinding.noDataLayout.setVisibility(View.VISIBLE);
-
         });
 
         fragmentBinding.current.setOnClickListener(view1 -> {
@@ -79,7 +78,6 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
 
             fragmentBinding.bookingList.setVisibility(View.VISIBLE);
             fragmentBinding.noDataLayout.setVisibility(View.GONE);
-
         });
     }
 }

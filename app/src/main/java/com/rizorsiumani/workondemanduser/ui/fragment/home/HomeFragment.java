@@ -21,6 +21,7 @@ import com.rizorsiumani.workondemanduser.ui.all_services.AllServices;
 import com.rizorsiumani.workondemanduser.ui.filter.FilterSearch;
 
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
+import com.rizorsiumani.workondemanduser.ui.searched_sp.ResultantServiceProviders;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
@@ -108,6 +109,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         fragmentBinding.servicesList.setLayoutManager(glm);
         ServicesAdapter adapter = new ServicesAdapter(requireContext(), service_categories,service_icons);
         fragmentBinding.servicesList.setAdapter(adapter);
+        adapter.setOnServiceClickListener(position -> {
+            ActivityUtil.gotoPage(requireContext(), ResultantServiceProviders.class);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
 
     }
 

@@ -2,6 +2,7 @@ package com.rizorsiumani.workondemanduser.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -16,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.material.snackbar.Snackbar;
+import com.rizorsiumani.workondemanduser.BuildConfig;
 import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
 
 import java.io.ByteArrayOutputStream;
@@ -80,5 +82,14 @@ public final class Constants {
             }
         }
         return path;
+    }
+
+    public void shareApp(Context context) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT,
+                "Hey check out my app at: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
+        sendIntent.setType("text/plain");
+        context.startActivity(sendIntent);
     }
 }
