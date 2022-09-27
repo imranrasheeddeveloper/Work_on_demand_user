@@ -2,8 +2,11 @@ package com.rizorsiumani.workondemanduser.ui.dashboard;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
@@ -13,15 +16,19 @@ import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityDashboardBinding;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
-public class Dashboard extends BaseActivity<ActivityDashboardBinding> {
+public class Dashboard extends AppCompatActivity {
 
-    private NavController mNavController;
+    public static NavController mNavController;
     boolean isHome = false;
-    NavOptions options;
+    public static NavOptions options;
+
+    public static ActivityDashboardBinding binding;
 
     @Override
-    protected ActivityDashboardBinding getActivityBinding() {
-        return ActivityDashboardBinding.inflate(getLayoutInflater());
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 
     @Override
@@ -33,7 +40,7 @@ public class Dashboard extends BaseActivity<ActivityDashboardBinding> {
             mNavController = navHostFragment.getNavController();
         }
 
-        activityBinding.navigation.homeFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+        binding.navigation.homeFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
 
         NavOptions.Builder builder = new NavOptions.Builder()
                 .setLaunchSingleTop(true)
@@ -49,48 +56,48 @@ public class Dashboard extends BaseActivity<ActivityDashboardBinding> {
     }
 
     private void clickListeners(NavOptions options) {
-        activityBinding.navigation.bookingFragment.setOnClickListener(view -> {
-            changeIconColor( activityBinding.navigation.bookingFragment,
-                    activityBinding.navigation.walletFragment,
-                    activityBinding.navigation.profileFragment,
-                    activityBinding.navigation.homeFragment
+        binding.navigation.bookingFragment.setOnClickListener(view -> {
+            changeIconColor( binding.navigation.bookingFragment,
+                    binding.navigation.walletFragment,
+                    binding.navigation.profileFragment,
+                    binding.navigation.homeFragment
             );
-            activityBinding.navigation.bookingFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+            binding.navigation.bookingFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
 
-            mNavController.navigate(R.id.bookingFragment,null, this.options);
+            mNavController.navigate(R.id.bookingFragment,null, options);
         });
 
-        activityBinding.navigation.walletFragment.setOnClickListener(view -> {
-            changeIconColor( activityBinding.navigation.walletFragment,
-                    activityBinding.navigation.bookingFragment,
-                    activityBinding.navigation.profileFragment,
-                    activityBinding.navigation.homeFragment
+        binding.navigation.walletFragment.setOnClickListener(view -> {
+            changeIconColor( binding.navigation.walletFragment,
+                    binding.navigation.bookingFragment,
+                    binding.navigation.profileFragment,
+                    binding.navigation.homeFragment
             );
-            mNavController.navigate(R.id.walletFragment,null, this.options);
-
-        });
-
-        activityBinding.navigation.profileFragment.setOnClickListener(view -> {
-            changeIconColor( activityBinding.navigation.profileFragment,
-                    activityBinding.navigation.walletFragment,
-                    activityBinding.navigation.bookingFragment,
-                    activityBinding.navigation.homeFragment
-            );
-            mNavController.navigate(R.id.profileFragment,null, this.options);
+            mNavController.navigate(R.id.walletFragment,null, options);
 
         });
 
-        activityBinding.navigation.homeFragment.setOnClickListener(view -> {
-            changeIconColor( activityBinding.navigation.homeFragment,
-                    activityBinding.navigation.walletFragment,
-                    activityBinding.navigation.profileFragment,
-                    activityBinding.navigation.bookingFragment
+        binding.navigation.profileFragment.setOnClickListener(view -> {
+            changeIconColor( binding.navigation.profileFragment,
+                    binding.navigation.walletFragment,
+                    binding.navigation.bookingFragment,
+                    binding.navigation.homeFragment
             );
-            mNavController.navigate(R.id.homeFragment,null, this.options);
+            mNavController.navigate(R.id.profileFragment,null,options);
 
         });
 
-        activityBinding.navigation.postJob.setOnClickListener(view -> {
+        binding.navigation.homeFragment.setOnClickListener(view -> {
+            changeIconColor( binding.navigation.homeFragment,
+                    binding.navigation.walletFragment,
+                    binding.navigation.profileFragment,
+                    binding.navigation.bookingFragment
+            );
+            mNavController.navigate(R.id.homeFragment,null, options);
+
+        });
+
+        binding.navigation.postJob.setOnClickListener(view -> {
             NavOptions.Builder builder = new NavOptions.Builder()
                     .setLaunchSingleTop(true)
                     .setEnterAnim(R.anim.slide_up)
@@ -106,7 +113,7 @@ public class Dashboard extends BaseActivity<ActivityDashboardBinding> {
 
     }
 
-    private void changeIconColor(ImageView selectedTab, ImageView unselectedTab1, ImageView unselectedTab2, ImageView unselectedTab3) {
+    public static void changeIconColor(ImageView selectedTab, ImageView unselectedTab1, ImageView unselectedTab2, ImageView unselectedTab3) {
         selectedTab.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
         unselectedTab1.setImageTintList(ColorStateList.valueOf(Color.parseColor("#8D8D8D")));
         unselectedTab2.setImageTintList(ColorStateList.valueOf(Color.parseColor("#8D8D8D")));
@@ -123,5 +130,25 @@ public class Dashboard extends BaseActivity<ActivityDashboardBinding> {
         }else {
             mNavController.navigate(R.id.homeFragment);
         }
+    }
+    
+    public static void goToWallet(){
+        changeIconColor(binding.navigation.walletFragment,
+                binding.navigation.bookingFragment,
+                binding.navigation.profileFragment,
+                binding.navigation.homeFragment
+        );
+        mNavController.navigate(R.id.walletFragment,null, options);
+    }
+
+    public static void goToBooking(){
+        changeIconColor( binding.navigation.bookingFragment,
+                binding.navigation.walletFragment,
+                binding.navigation.profileFragment,
+                binding.navigation.homeFragment
+        );
+        binding.navigation.bookingFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+
+        mNavController.navigate(R.id.bookingFragment,null, options);
     }
 }

@@ -14,6 +14,7 @@ import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.FragmentProfileBinding;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -53,6 +54,22 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         fragmentBinding.tvPersonalDetails.setOnClickListener(view -> {
             ActivityUtil.gotoPage(requireContext(), EditProfile.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        fragmentBinding.tvBookings.setOnClickListener(view -> {
+            Dashboard.goToBooking();
+        });
+
+        fragmentBinding.tvMyWallet.setOnClickListener(view -> {
+            Dashboard.goToWallet();
+        });
+
+        fragmentBinding.booking.setOnClickListener(view -> {
+            Dashboard.goToBooking();
+        });
+
+        fragmentBinding.wallet.setOnClickListener(view -> {
+            Dashboard.goToWallet();
         });
     }
 }

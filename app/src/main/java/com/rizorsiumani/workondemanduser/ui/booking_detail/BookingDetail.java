@@ -12,6 +12,8 @@ import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookingDetailBinding;
+import com.rizorsiumani.workondemanduser.ui.promo_code.PromoCode;
+import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,11 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             onBackPressed();
             finish();
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        });
+
+        activityBinding.promoCard.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(BookingDetail.this, PromoCode.class);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
 

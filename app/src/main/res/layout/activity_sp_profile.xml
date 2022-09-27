@@ -82,6 +82,7 @@
                             app:layout_constraintTop_toBottomOf="@id/tv_sp_name" />
 
                         <TextView
+                            android:id="@+id/availability"
                             style="@style/normalText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -89,10 +90,10 @@
                             android:background="@drawable/outline_back"
                             android:backgroundTint="@color/white"
                             android:paddingStart="@dimen/_5sdp"
-                            android:paddingTop="@dimen/_3sdp"
+                            android:paddingTop="@dimen/_4sdp"
                             android:paddingEnd="@dimen/_5sdp"
-                            android:paddingBottom="@dimen/_3sdp"
-                            android:text="View Profile"
+                            android:paddingBottom="@dimen/_4sdp"
+                            android:text="View Availability"
                             android:textColor="@color/white"
                             app:layout_constraintStart_toStartOf="@id/tv_sp_name"
                             app:layout_constraintTop_toBottomOf="@id/arting" />

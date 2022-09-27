@@ -69,8 +69,7 @@ public final class GeoCoders {
             String postalCode = addresses.get(0).getPostalCode();
             String knownName = addresses.get(0).getFeatureName();
 
-            return address + "," + city;
-            //binding.locationAddress.setText(address+","+city);
+            return address;
 
         } catch (IOException e) {
 

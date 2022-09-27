@@ -10,6 +10,7 @@ import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityResultantServiceProvidersBinding;
+import com.rizorsiumani.workondemanduser.ui.search.SearchServiceAdapter;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderAdapter;
 import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
@@ -32,7 +33,7 @@ public class ResultantServiceProviders extends BaseActivity<ActivityResultantSer
     protected void onStart() {
         super.onStart();
 
-        activityBinding.searchedToolbar.title.setText("Providers");
+        activityBinding.searchedToolbar.title.setText("Sub Services");
         activityBinding.searchedToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
@@ -43,18 +44,34 @@ public class ResultantServiceProviders extends BaseActivity<ActivityResultantSer
     }
 
     private void buildRv() {
-        List<String> name = new ArrayList<>();
-        name.add("Michel Jeff");
-        name.add("Michel Jeff");
+//        List<String> name = new ArrayList<>();
+//        name.add("Michel Jeff");
+//        name.add("Michel Jeff");
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
+//        activityBinding.searchDataList.setLayoutManager(layoutManager);
+//        SearchedProviderAdapter adapter = new SearchedProviderAdapter(name, App.applicationContext);
+//        activityBinding.searchDataList.setAdapter(adapter);
+//
+//        adapter.setOnProviderListener(position -> {
+//            ActivityUtil.gotoPage(ResultantServiceProviders.this, Serviceproviders.class);
+//            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//        });
+
+        List<String> ser_categories = new ArrayList<>();
+        ser_categories.add("Home Cleaning");
+        ser_categories.add("Office Cleaning");
+        ser_categories.add("Warehouse Cleaning");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
         activityBinding.searchDataList.setLayoutManager(layoutManager);
-        SearchedProviderAdapter adapter = new SearchedProviderAdapter(name, App.applicationContext);
+        SearchServiceAdapter adapter = new SearchServiceAdapter(ser_categories, App.applicationContext);
         activityBinding.searchDataList.setAdapter(adapter);
 
-        adapter.setOnProviderListener(position -> {
+        adapter.setOnCategoryClickListener(position -> {
             ActivityUtil.gotoPage(ResultantServiceProviders.this, Serviceproviders.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+
     }
 }

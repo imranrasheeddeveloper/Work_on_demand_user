@@ -1,14 +1,17 @@
 package com.rizorsiumani.workondemanduser.ui.sp_detail;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
@@ -17,6 +20,7 @@ import com.rizorsiumani.workondemanduser.databinding.ActivitySpProfileBinding;
 public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
 
     NavController mNavController;
+    int count = 0;
 
 
     @Override
@@ -44,11 +48,30 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
             onBackPressed();
             finish();
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        });
 
+        activityBinding.availability.setOnClickListener(view -> {
+            showProfileDetail();
         });
 
 
     }
+
+    private void showProfileDetail() {
+        if (count == 0) {
+            count = 1;
+            final BottomSheetDialog bt = new BottomSheetDialog(SpProfile.this, R.style.BottomSheetDialogTheme);
+            bt.setCanceledOnTouchOutside(false);
+            View profileView = LayoutInflater.from(SpProfile.this).inflate(R.layout.sp_profile_detail_bottomsheet, null, false);
+
+            bt.getBehavior().addBottomSheetCallback(mBottomSheetBehaviorCallback);
+
+
+            bt.setContentView(profileView);
+            bt.show();
+        }
+    }
+
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void setTabs() {
@@ -69,9 +92,9 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
                 tab.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
                 if (tab.getId() == 0) {
                     mNavController.navigate(R.id.services);
-                } else if (tab.getId() == 1){
+                } else if (tab.getId() == 1) {
                     mNavController.navigate(R.id.gallery2);
-                }else {
+                } else {
                     mNavController.navigate(R.id.reviews);
                 }
 
@@ -90,4 +113,22 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
 
 
     }
+
+    private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
+
+        @Override
+        public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                count = 0;
+            } else {
+                count = 1;
+            }
+
+        }
+
+        @Override
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+        }
+    };
+
 }
