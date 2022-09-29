@@ -1,5 +1,6 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,8 +14,10 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.view.View;
 
 import com.google.android.gms.dynamic.IFragmentWrapper;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.SerCategoryModel;
 import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
 import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
 import com.rizorsiumani.workondemanduser.ui.all_services.AllServices;
@@ -22,8 +25,12 @@ import com.rizorsiumani.workondemanduser.ui.filter.FilterSearch;
 
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
 import com.rizorsiumani.workondemanduser.ui.searched_sp.ResultantServiceProviders;
+import com.rizorsiumani.workondemanduser.ui.walkthrough.SliderAdapter;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,20 +53,30 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         if (prefRepository.getString("CURRENT_LOCATION") != null){
             String address = prefRepository.getString("CURRENT_LOCATION");
             if (address.equalsIgnoreCase("nil")){
-                fragmentBinding.tvLocation.setText("Please set your location");
+                fragmentBinding.tvChooseAddress.setText("Please set your location");
             }else {
-                fragmentBinding.tvLocation.setText(address);
+                fragmentBinding.tvChooseAddress.setText(address);
             }
         }
 
         getPromotionalImages();
         getServices();
         clickListeners();
+
+        ArrayList<String> names = new ArrayList<>();
+        names.add("40.01$");
+        names.add("40.01$");
+        names.add("40.01$");
+
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false);
+        fragmentBinding.recomendedList.setLayoutManager(layoutManager1);
+        PromotionalAdapter adapter1 = new PromotionalAdapter(requireContext(), names);
+        fragmentBinding.recomendedList.setAdapter(adapter1);
     }
 
     private void clickListeners() {
 
-        fragmentBinding.serachView.setOnClickListener(view -> {
+        fragmentBinding.searchIcon.setOnClickListener(view -> {
             ActivityUtil.gotoPage(requireContext(), SearchServices.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
@@ -74,61 +91,56 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
-        fragmentBinding.tvLocation.setOnClickListener(view -> {
-            ActivityUtil.gotoPage(requireContext(), AddAddress.class);
-            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        });
+//        fragmentBinding.tvLocation.setOnClickListener(view -> {
+//            ActivityUtil.gotoPage(requireContext(), AddAddress.class);
+//            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//        });
     }
 
     private void getServices() {
 
-        List<String> service_categories = new ArrayList<>();
-        service_categories.add("Cleaning");
-        service_categories.add("Shifting");
-        service_categories.add("Appliances");
-        service_categories.add("Painting");
-        service_categories.add("Electronic");
-        service_categories.add("Repairing");
-        service_categories.add("Cleaning");
-        service_categories.add("More");
-
-        List<Integer> service_icons = new ArrayList<>();
-        service_icons.add(R.drawable.ic_cleaning);
-        service_icons.add(R.drawable.ic_shifting);
-        service_icons.add(R.drawable.ic_appliances__2_);
-        service_icons.add(R.drawable.ic_painting__2_);
-        service_icons.add(R.drawable.ic_electronics__2_);
-        service_icons.add(R.drawable.ic_repairing);
-        service_icons.add(R.drawable.ic_cleaning);
-        service_icons.add(R.drawable.more);
+        List<SerCategoryModel> service_categories = new ArrayList<>();
+        service_categories.add(new SerCategoryModel("Cleaning",R.drawable.ic_cleaning,R.drawable.gradient_bg));
+        service_categories.add(new SerCategoryModel("Appliances",R.drawable.ic_electric_appliance,R.drawable.gradient_bg));
+        service_categories.add(new SerCategoryModel("Electronic",R.drawable.ic_electrician,R.drawable.gradient_bg));
+        service_categories.add(new SerCategoryModel("Washing",R.drawable.ic_laundry_machine,R.drawable.gradient_bg));
+        service_categories.add(new SerCategoryModel("Painting",R.drawable.ic_paint_roller,R.drawable.gradient_bg));
+        service_categories.add(new SerCategoryModel("Wood Working",R.drawable.ic_woodworking,R.drawable.gradient_bg));
+        service_categories.add(new SerCategoryModel("Shifting",R.drawable.ic_shiftinng,R.drawable.gradient_bg));
 
 
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false);
+        fragmentBinding.categoriesList.setLayoutManager(layoutManager);
+        CategoriesAdapter adapter = new CategoriesAdapter(requireContext(), service_categories);
+        fragmentBinding.categoriesList.setAdapter(adapter);
 
-        GridLayoutManager glm = new GridLayoutManager(requireContext(), 4);
-        fragmentBinding.servicesList.setLayoutManager(glm);
-        ServicesAdapter adapter = new ServicesAdapter(requireContext(), service_categories,service_icons);
-        fragmentBinding.servicesList.setAdapter(adapter);
-        adapter.setOnServiceClickListener(position -> {
-            ActivityUtil.gotoPage(requireContext(), ResultantServiceProviders.class);
-            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        });
+
+
+//        adapter.setOnServiceClickListener(position -> {
+//            ActivityUtil.gotoPage(requireContext(), ResultantServiceProviders.class);
+//            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//        });
 
     }
 
     private void getPromotionalImages() {
 
-        List<Integer> images = new ArrayList<>();
-        images.add(R.drawable.dummy_promotional_image);
-        images.add(R.drawable.dummy_promotional_image);
+        List<String> images = new ArrayList<>();
+        images.add("Fix the Broken Stuff by Asking for he Technicians.");
+        images.add("Fix the Broken Stuff by Asking for he Technicians.");
+        images.add("Fix the Broken Stuff by Asking for he Technicians.");
 
 
-        fragmentBinding.promotionsList.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
-        SnapHelper snapHelper = new PagerSnapHelper();
-        fragmentBinding.promotionsList.setOnFlingListener(null);
-
-        snapHelper.attachToRecyclerView(fragmentBinding.promotionsList);
-        fragmentBinding.promotionsList.setAdapter(new PromotionalAdapter(requireContext(), images));
+        HomeSliderAdapter sliderAdapter = new HomeSliderAdapter(requireContext(), images);
+        fragmentBinding.imageSlider.setSliderAdapter(sliderAdapter);
+        fragmentBinding.imageSlider.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
+        fragmentBinding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+        fragmentBinding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        fragmentBinding.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+        fragmentBinding.imageSlider.setIndicatorSelectedColor(Color.WHITE);
+        fragmentBinding.imageSlider.setIndicatorUnselectedColor(Color.WHITE);
+        fragmentBinding.imageSlider.setAutoCycle(false);
 
     }
 

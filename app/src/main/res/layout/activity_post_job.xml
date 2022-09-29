@@ -28,18 +28,18 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_10sdp">
+            android:background="@color/off_white"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Which Service you want?"
+                android:text="Select you Service"
                 style="@style/normalText"
                 android:textColor="@color/black"
-                android:paddingEnd="@dimen/_18sdp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:paddingBottom="@dimen/_4sdp"
+                android:padding="@dimen/_10sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/tv_ask_service"/>
@@ -50,8 +50,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_ask_service"
-                android:background="@drawable/edit_text_bg"
+                android:background="@color/white"
                 android:padding="@dimen/_10sdp"
+                android:gravity="top|start"
                 android:hint="service .."
                 style="@style/normalText"
                 android:id="@+id/ed_service"/>
@@ -59,28 +60,77 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Budget"
+                android:text="What is your budget?"
                 style="@style/normalText"
                 android:textColor="@color/black"
-                android:paddingEnd="@dimen/_18sdp"
+                android:padding="@dimen/_10sdp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:paddingBottom="@dimen/_4sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ed_service"
                 android:id="@+id/tv_budget"/>
 
-            <com.google.android.material.slider.RangeSlider
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/budgetLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:background="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/tv_budget"
-                android:id="@+id/budget_range_slider"
-                app:values="@array/initial_slider_values"
-                android:valueFrom="1"
-                android:valueTo="500" />
+                android:layout_marginTop="@dimen/_5sdp"
+                android:padding="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="Budget"
+                    android:textColor="@color/black"
+                    style="@style/mediumText"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/ed_budget"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="$"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:textColor="@color/black"
+                    style="@style/mediumText"/>
+
+                <EditText
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:background="@drawable/edit_text_bg1"
+                    android:padding="@dimen/_5sdp"
+                    android:gravity="center"
+                    android:hint="Min 10"
+                    style="@style/mediumText"
+                    android:id="@+id/ed_budget"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--            <com.google.android.material.slider.RangeSlider-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/tv_budget"-->
+<!--                android:id="@+id/budget_range_slider"-->
+<!--                app:values="@array/initial_slider_values"-->
+<!--                android:valueFrom="1"-->
+<!--                android:valueTo="500" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,13 +138,12 @@
                 android:text="Deadline"
                 style="@style/normalText"
                 android:textColor="@color/black"
-                android:paddingEnd="@dimen/_18sdp"
                 android:textSize="14sp"
+                android:padding="@dimen/_10sdp"
                 android:textStyle="bold"
-                android:paddingBottom="@dimen/_4sdp"
                 android:layout_marginTop="@dimen/_4sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/budget_range_slider"
+                app:layout_constraintTop_toBottomOf="@id/budgetLayout"
                 android:id="@+id/tv_deadline"/>
 
             <TextView
@@ -103,8 +152,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_deadline"
-                android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
+                android:background="@color/white"
                 android:drawableStart="@drawable/ic_calender"
                 android:drawablePadding="@dimen/_8sdp"
                 android:text="2/22/22"
@@ -117,10 +166,9 @@
                 android:text="Attach Photos"
                 style="@style/normalText"
                 android:textColor="@color/black"
-                android:paddingEnd="@dimen/_18sdp"
+                android:padding="@dimen/_10sdp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:paddingBottom="@dimen/_4sdp"
                 android:layout_marginTop="@dimen/_6sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/deadline_date"
@@ -150,6 +198,7 @@
                     android:layout_height="130dp"
                     android:scaleType="fitCenter"
                     android:padding="@dimen/_25sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:background="@drawable/rect_bg"
                     android:src="@drawable/add1"
                     android:backgroundTint="@color/teal_200"
@@ -165,13 +214,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Describe your problem"
+                android:text="Add description"
                 style="@style/normalText"
                 android:textColor="@color/black"
-                android:paddingEnd="@dimen/_18sdp"
+                android:padding="@dimen/_10sdp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:paddingBottom="@dimen/_4sdp"
                 android:layout_marginTop="@dimen/_4sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imagesLayout"
@@ -184,7 +232,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_describe"
-                android:background="@drawable/edit_text_bg"
+                android:background="@color/white"
                 android:padding="@dimen/_10sdp"
                 android:hint="ex.  I have water leaks in the bathroom"
                 android:gravity="start|top"
