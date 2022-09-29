@@ -7,17 +7,12 @@
     android:layout_marginEnd="@dimen/_6sdp"
     app:cardUseCompatPadding="true">
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cat_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/gradient_bg"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
+        android:background="@drawable/gradient_bg"
+        android:padding="@dimen/_8sdp">
 
 
 
@@ -28,10 +23,7 @@
             android:layout_height="wrap_content"
             android:text="Medical Services"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:paddingTop="@dimen/_8sdp"
-            android:paddingStart="@dimen/_6sdp"
-            android:paddingEnd="@dimen/_6sdp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,8 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:scaleType="fitCenter"
-            android:paddingEnd="@dimen/_8sdp"
-            android:paddingBottom="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sName"

@@ -1,6 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         SerCategoryModel model = services.get(position);
 
         holder.serName.setText(model.getName());
-        holder.layout.setImageResource(model.getBackground());
+        Drawable drawable = ctx.getResources().getDrawable(model.getBackground());
+        holder.layout.setBackground(drawable);
         holder.serImage.setImageResource(model.getIcon());
 
     }
@@ -57,7 +59,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView serName;
         public ImageView serImage;
-        public ImageView layout;
+        public ConstraintLayout layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
