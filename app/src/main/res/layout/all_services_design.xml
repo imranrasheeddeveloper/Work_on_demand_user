@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_12sdp"
+        android:text="Categories"
+        style="@style/headingText"
+        android:textColor="@color/semi_black"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/tv_categories"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:text="View All"
+        android:paddingStart="@dimen/_15sdp"
+        android:paddingEnd="@dimen/_15sdp"
+        android:paddingTop="@dimen/_9sdp"
+        android:paddingBottom="@dimen/_9sdp"
+        style="@style/normalText"
+        android:gravity="center_horizontal"
+        android:background="@drawable/round_bg"
+        android:backgroundTint="#fdeee0"
+        android:textColor="#e88a33"
+        app:layout_constraintTop_toTopOf="@id/tv_categories"
+        app:layout_constraintBottom_toBottomOf="@id/tv_categories"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/tv_viewAll"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_categories"
+        android:id="@+id/categoriesList"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

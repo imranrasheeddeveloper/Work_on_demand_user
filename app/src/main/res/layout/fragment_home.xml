@@ -168,6 +168,8 @@
                              />
 
 
+
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -252,38 +254,6 @@
                         android:paddingTop="@dimen/_8sdp"
                         android:background="@color/white">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/_12sdp"
-                            android:text="Recommended for you"
-                            style="@style/headingText"
-                            android:textColor="@color/semi_black"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:textSize="16sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            android:id="@+id/tv_recomended"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_12sdp"
-                            android:text="View All"
-                            android:paddingStart="@dimen/_15sdp"
-                            android:paddingEnd="@dimen/_15sdp"
-                            android:paddingTop="@dimen/_9sdp"
-                            android:paddingBottom="@dimen/_9sdp"
-                            style="@style/normalText"
-                            android:gravity="center_horizontal"
-                            android:background="@drawable/round_bg"
-                            android:backgroundTint="#fdeee0"
-                            android:textColor="#e88a33"
-                            app:layout_constraintTop_toTopOf="@id/tv_recomended"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_recomended"
-                            android:textSize="16sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:id="@+id/tv_viewAll1"/>
-
                         <androidx.recyclerview.widget.RecyclerView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -294,7 +264,26 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/recomendedList"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:background="@color/off_white">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:id="@+id/AllServicesList"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.core.widget.NestedScrollView>
 

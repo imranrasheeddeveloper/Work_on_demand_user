@@ -27,7 +27,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@drawable/dummy_promotional_image"
                 android:scaleType="fitXY"
                 android:id="@+id/sp_image"/>
 
