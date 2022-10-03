@@ -106,6 +106,7 @@ dependencies {
 
     //dexter
     implementation 'com.karumi:dexter:6.2.3'
+//    implementation 'com.github.darsh2:MultipleImageSelect:v0.0.4'
 
     //swipe layout
     implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.3'
