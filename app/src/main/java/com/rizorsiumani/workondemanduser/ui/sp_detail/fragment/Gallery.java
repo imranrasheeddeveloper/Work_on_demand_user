@@ -1,20 +1,15 @@
 package com.rizorsiumani.workondemanduser.ui.sp_detail.fragment;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.FragmentGalleryBinding;
-import com.rizorsiumani.workondemanduser.ui.fragment.home.ServicesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +35,11 @@ public class Gallery extends BaseFragment<FragmentGalleryBinding> {
 
         List<Integer> images = new ArrayList<>();
         images.add(R.drawable.dummy_sp);
-        images.add(R.drawable.dummy_sp);
-        images.add(R.drawable.dummy_sp);
-        images.add(R.drawable.dummy_sp);
-        images.add(R.drawable.dummy_sp);
-        images.add(R.drawable.dummy_sp);
+        images.add(R.drawable.ic_car_three);
+        images.add(R.drawable.ic_three);
+        images.add(R.drawable.ic_one);
+        images.add(R.drawable.ic_car_one);
+        images.add(R.drawable.ic_two);
 
         GridLayoutManager glm = new GridLayoutManager(requireContext(), 2);
         fragmentBinding.galleryList.setLayoutManager(glm);

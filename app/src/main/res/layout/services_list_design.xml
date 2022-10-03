@@ -1,103 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/_10sdp"
-    app:cardUseCompatPadding="true"
-    android:layout_height="wrap_content">
+    app:cardUseCompatPadding="true">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:padding="@dimen/_5sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:padding="@dimen/_5sdp">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+
+            <TextView
+                android:id="@+id/sName"
+                style="@style/mediumText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 Hours Office Cleaning"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="2dp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:background="@color/primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sName" />
+
+            <TextView
+                android:id="@+id/sDetail"
+                style="@style/normalText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since."
+                android:textColor="@color/light_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view" />
+
+            <TextView
+                android:id="@+id/sPerHour"
+                style="@style/mediumText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="$9/ Hour"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sDetail" />
+
+
+            <TextView
+                android:id="@+id/sHours"
+                style="@style/mediumText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(Minimum 2.00 Hours)"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sPerHour" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/sBook"
+            style="@style/mediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/mediumText"
-            android:textColor="@color/black"
-            android:text="2 Hours Office Cleaning"
-            android:textSize="18sp"
-            android:id="@+id/sName"/>
-
-        <View
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="2dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sName"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:background="@color/primary"
-            android:id="@+id/view"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view"
-            style="@style/normalText"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:textColor="@color/light_gray"
-            android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since."
-            android:id="@+id/sDetail"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sDetail"
-            android:layout_marginTop="@dimen/_8sdp"
-            style="@style/mediumText"
-            android:textColor="@color/black"
-            android:text="$9/ Hour"
-            android:id="@+id/sPerHour"/>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sPerHour"
-            style="@style/mediumText"
-            android:textColor="@color/black"
-            android:text="(Minimum 2.00 Hours)"
-            android:id="@+id/sHours"/>
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/_8sdp"
-        style="@style/mediumText"
-        android:textColor="@color/white"
-        android:text="Book Now"
-        android:layout_marginEnd="-5dp"
-        android:gravity="center"
-        android:drawablePadding="@dimen/_8sdp"
-        android:drawableEnd="@drawable/forward_icon"
-        android:background="@drawable/button_round_bg"
-        android:backgroundTint="@color/primary"
-        android:paddingTop="@dimen/_4sdp"
-        android:paddingBottom="@dimen/_4sdp"
-        android:paddingStart="@dimen/_14sdp"
-        android:paddingEnd="@dimen/_14sdp"
-        android:id="@+id/sBook"/>
+            android:layout_marginEnd="-5dp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:background="@drawable/button_round_bg"
+            android:backgroundTint="@color/primary"
+            android:drawableEnd="@drawable/forward_icon"
+            android:drawablePadding="@dimen/_8sdp"
+            android:gravity="center"
+            android:paddingStart="@dimen/_14sdp"
+            android:paddingTop="@dimen/_4sdp"
+            android:paddingEnd="@dimen/_14sdp"
+            android:paddingBottom="@dimen/_4sdp"
+            android:text="Book Now"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

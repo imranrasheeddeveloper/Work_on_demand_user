@@ -1,5 +1,7 @@
 package com.rizorsiumani.workondemanduser.utils;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +10,9 @@ import android.os.Bundle;
 public class ActivityUtil {
 
     public static void gotoPage(Context context, Class<?> activityClass) {
-        context.startActivity(new Intent(context, activityClass));
+        Intent i = new Intent(context, activityClass);
+        i.addFlags(FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
     }
 
     public static void gotoPage(Context context, Class<?> activityClass, Bundle bundle) {

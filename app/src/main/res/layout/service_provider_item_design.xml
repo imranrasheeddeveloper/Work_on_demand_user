@@ -27,6 +27,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/ic_one"
                 android:scaleType="fitXY"
                 android:id="@+id/sp_image"/>
 

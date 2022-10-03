@@ -1,11 +1,12 @@
 package com.rizorsiumani.workondemanduser.ui.all_services;
 
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.CategoryModel;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.ServicesAdapter;
-import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
 import com.rizorsiumani.workondemanduser.ui.searched_sp.ResultantServiceProviders;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
@@ -30,32 +31,21 @@ public class AllServices extends BaseActivity<com.rizorsiumani.workondemanduser.
     }
 
     private void allServices() {
-        List<String> service_categories = new ArrayList<>();
-        service_categories.add("Cleaning");
-        service_categories.add("Shifting");
-        service_categories.add("Appliances");
-        service_categories.add("Painting");
-        service_categories.add("Electronice");
-        service_categories.add("Repairing");
-        service_categories.add("Appliances");
-        service_categories.add("Painting");
-        service_categories.add("Electronice");
 
-        List<Integer> service_icons = new ArrayList<>();
-        service_icons.add(R.drawable.ic_cleaning);
-        service_icons.add(R.drawable.ic_shifting);
-        service_icons.add(R.drawable.ic_appliances__2_);
-        service_icons.add(R.drawable.ic_painting__2_);
-        service_icons.add(R.drawable.ic_electronics__2_);
-        service_icons.add(R.drawable.ic_repairing);
-        service_icons.add(R.drawable.ic_appliances__2_);
-        service_icons.add(R.drawable.ic_painting__2_);
-        service_icons.add(R.drawable.ic_electronics__2_);
+        List<CategoryModel> categories = new ArrayList<>();
+        categories.add(new CategoryModel("Cleaning", R.drawable.ic_cleaning, "#eb5657"));
+        categories.add(new CategoryModel("Appliances", R.drawable.ic_electric_appliance, "#0ebdde"));
+        categories.add(new CategoryModel("Electronic", R.drawable.ic_electrician, "#1aa882"));
+        categories.add(new CategoryModel("Washing", R.drawable.ic_laundry_machine, "#5824c4"));
+        categories.add(new CategoryModel("Painting", R.drawable.ic_paint_roller, "#fda145"));
+        categories.add(new CategoryModel("Wood Working", R.drawable.ic_woodworking, "#0ebdde"));
+        categories.add(new CategoryModel("Shifting", R.drawable.ic_shiftinng, "#eb5657"));
 
 
-        GridLayoutManager glm = new GridLayoutManager(AllServices.this, 3);
+        LinearLayoutManager glm = new LinearLayoutManager(AllServices.this, RecyclerView.VERTICAL, false);
         activityBinding.allServicesList.setLayoutManager(glm);
-        ServicesAdapter adapter = new ServicesAdapter(AllServices.this, service_categories, service_icons);
+
+        ServicesAdapter adapter = new ServicesAdapter(categories);
         activityBinding.allServicesList.setAdapter(adapter);
 
         adapter.setOnServiceClickListener(position -> {

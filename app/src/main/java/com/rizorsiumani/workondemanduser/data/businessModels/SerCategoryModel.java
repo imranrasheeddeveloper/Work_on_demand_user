@@ -4,24 +4,24 @@ import android.graphics.drawable.Drawable;
 
 public class SerCategoryModel {
     String name ;
-    Integer icon ;
-    Integer background;
+    int icon ;
+    String colorCode;
 
-    public SerCategoryModel(String name, Integer icon, Integer background) {
+    public SerCategoryModel(String name, int icon, String colorCode) {
         this.name = name;
         this.icon = icon;
-        this.background = background;
+        this.colorCode = colorCode;
     }
 
     public String getName() {
         return name;
     }
 
-    public Integer getIcon() {
+    public int getIcon() {
         return icon;
     }
 
-    public Integer getBackground() {
-        return background;
+    public String getColorCode() {
+        return colorCode;
     }
 }

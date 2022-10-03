@@ -1,4 +1,4 @@
-package com.rizorsiumani.workondemanduser.ui.fragment.home;
+package com.rizorsiumani.workondemanduser.ui.category;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,13 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.SerCategoryModel;
+import com.rizorsiumani.workondemanduser.ui.fragment.home.CategoriesAdapter;
 
 import java.util.List;
 
-public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
+public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
 
-    private final List<SerCategoryModel> services;
-    private final Context ctx;
+    private final List<SerCategoryModel> data;
+    private final Context context;
     OnItemClickListener itemClickListener;
 
 
@@ -29,30 +30,31 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         this.itemClickListener = itemClickListener;
     }
 
-    public CategoriesAdapter(Context context, List<SerCategoryModel> list) {
-        this.ctx = context;
-        this.services = list;
+
+    public CatAdapter(List<SerCategoryModel> list, Context appContext) {
+        this.context = appContext;
+        this.data = list;
     }
 
     @NonNull
     @Override
-    public CategoriesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.categories_item_design, parent, false);
-        return new CategoriesAdapter.ViewHolder(view,itemClickListener);
+    public CatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.categories_list_design, parent, false);
+        return new CatAdapter.ViewHolder(view,itemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoriesAdapter.ViewHolder holder, int position) {
-        SerCategoryModel model = services.get(position);
+    public void onBindViewHolder(@NonNull CatAdapter.ViewHolder holder, int position) {
 
-        holder.serName.setText(model.getName());
-        holder.serImage.setImageResource(model.getIcon());
+        SerCategoryModel model = data.get(position);
+        holder.icon.setImageResource(model.getIcon());
 
         try {
 
-            final int[] colors = new int[2];
-            colors[0] = Color.parseColor(model.getColorCode());
-            colors[1] = Color.parseColor("#fef4ea");
+            final int[] colors = new int[3];
+            colors[0] = Color.parseColor("#fef4ea");
+            colors[1] = Color.parseColor(model.getColorCode());
+            colors[2] = Color.parseColor("#fef4ea");
 
             GradientDrawable gd = new GradientDrawable(
                     GradientDrawable.Orientation.LEFT_RIGHT,
@@ -62,29 +64,29 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
     public int getItemCount() {
-        return services.size();
+        return data.size();
     }
 
     public interface OnItemClickListener {
         void onServiceSelect(int position);
     }
 
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView serName;
-        public ImageView serImage;
         public ConstraintLayout layout;
+        public TextView query;
+        public ImageView icon;
 
         public ViewHolder(@NonNull View itemView, OnItemClickListener itemClickListener) {
             super(itemView);
-
-            serName = itemView.findViewById(R.id.sName);
-            serImage = itemView.findViewById(R.id.sImage);
-            layout = itemView.findViewById(R.id.cat_layout);
+            //find views
+            query = itemView.findViewById(R.id.query);
+            icon = itemView.findViewById(R.id.icon);
+            layout = itemView.findViewById(R.id.catView);
 
             layout.setOnClickListener(view -> {
                 if (itemClickListener != null) {
@@ -94,7 +96,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                     }
                 }
             });
-
 
         }
     }

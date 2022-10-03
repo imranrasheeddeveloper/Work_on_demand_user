@@ -5,11 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     private final List<Integer> list;
     private final Context ctx;
 
-    public GalleryAdapter(Context context,List<Integer> data) {
+    public GalleryAdapter(Context context, List<Integer> data) {
         this.ctx = context;
         this.list = data;
     }
@@ -34,7 +34,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull GalleryAdapter.ViewHolder holder, int position) {
         Integer name = list.get(position);
-        holder.imageView.setImageResource(name);
+        Glide.with(holder.imageView.getContext())
+                .load(name)
+                .into(holder.imageView);
+//        holder.imageView.setImageResource(name);
     }
 
     @Override

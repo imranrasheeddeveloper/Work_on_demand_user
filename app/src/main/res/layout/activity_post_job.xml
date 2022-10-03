@@ -60,7 +60,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="What is your budget?"
+                android:text="Choose a category"
                 style="@style/normalText"
                 android:textColor="@color/black"
                 android:padding="@dimen/_10sdp"
@@ -69,6 +69,93 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ed_service"
+                android:id="@+id/tv_choose_category"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/categoryLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/tv_choose_category"
+                android:layout_marginTop="@dimen/_5sdp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="Category"
+                    android:padding="@dimen/_8sdp"
+                    android:textColor="@color/black"
+                    style="@style/normalText"/>
+
+
+                <TextView
+                    android:id="@+id/selected_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/tv_category"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_category"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="-"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:textColor="@color/primary"
+                    android:fontFamily="@font/inter_medium"
+                    />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/off_white"
+                    app:layout_constraintTop_toBottomOf="@id/tv_category"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/view1"/>
+
+                <TextView
+                    android:id="@+id/tv_subcategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/view1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="Subcategory"
+                    android:padding="@dimen/_8sdp"
+                    android:textColor="@color/black"
+                    style="@style/normalText"/>
+
+
+                <TextView
+                    android:id="@+id/selected_subcategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/tv_subcategory"                   app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_subcategory"
+                    android:text="-"
+                    android:fontFamily="@font/inter_medium"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:textColor="@color/primary" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What is your budget?"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:padding="@dimen/_10sdp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/categoryLayout"
                 android:id="@+id/tv_budget"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -184,12 +271,12 @@
                 android:id="@+id/imagesLayout">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/iv_add_image"
                     android:id="@+id/attach_images_list"/>
 
                 <ImageView
@@ -197,12 +284,12 @@
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:scaleType="fitCenter"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:padding="@dimen/_25sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
                     android:background="@drawable/rect_bg"
                     android:src="@drawable/add1"
                     android:backgroundTint="@color/teal_200"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/attach_images_list"
                     app:layout_constraintTop_toTopOf="parent"
                      />
 

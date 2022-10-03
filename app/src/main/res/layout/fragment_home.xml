@@ -1,464 +1,432 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.home.HomeFragment">
 
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <com.google.android.material.appbar.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/off_white"
+            app:elevation="0dp">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/off_white"
-                app:elevation="0dp">
-
-                <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:contentScrim="@color/primary"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
-                        android:background="@color/off_white"
-                        app:layout_collapseMode="parallax"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-
-                        <com.smarteist.autoimageslider.SliderView
-                            android:layout_width="match_parent"
-                            android:layout_height="250dp"
-                            app:sliderAnimationDuration="600"
-                            app:sliderAutoCycleDirection="back_and_forth"
-                            app:sliderIndicatorAnimationDuration="600"
-                            app:sliderIndicatorEnabled="true"
-                            app:sliderIndicatorGravity="center_horizontal|bottom"
-                            app:sliderIndicatorMargin="15dp"
-                            app:sliderIndicatorMarginBottom="35dp"
-                            app:sliderIndicatorOrientation="horizontal"
-                            app:sliderIndicatorPadding="5dp"
-                            app:sliderIndicatorRadius="1.8dp"
-                            app:sliderIndicatorSelectedColor="@color/white"
-                            app:sliderScrollTimeInSec="1"
-                            android:id="@+id/image_slider"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                    <androidx.appcompat.widget.Toolbar
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/off_white"
-                        app:contentInsetStart="0dp">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/user_name_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="10dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-
-                            <TextView
-                                android:id="@+id/username"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_semibold"
-                                android:text="Rizorsi Usmani Services"
-                                android:textColor="#e88a33"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:textSize="16sp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </androidx.appcompat.widget.Toolbar>
-
-
-                </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/wallet_balance_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="-40dp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:backgroundTint="@color/white"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="1dp"
-                    app:cardUseCompatPadding="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/_6sdp"
-                        >
-
-                       <ImageView
-                           android:id="@+id/search_icon"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           app:layout_constraintTop_toTopOf="parent"
-                           app:layout_constraintStart_toStartOf="parent"
-                           android:layout_marginStart="@dimen/_8sdp"
-                           app:layout_constraintBottom_toBottomOf="parent"
-                           android:background="@drawable/ic_search"
-                           android:backgroundTint="#f4841f"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintStart_toEndOf="@id/search_icon"
-                            app:layout_constraintTop_toTopOf="@id/search_icon"
-                            app:layout_constraintBottom_toBottomOf="@id/search_icon"
-                            android:layout_marginStart="@dimen/_6sdp"
-                            android:text="search for services"
-                            android:textSize="13sp"
-                            android:textColor="@color/hint_color"
-                            style="@style/normalText"
-                            />
-
-
-                        <TextView
-                            android:id="@+id/filter"
-                            style="@style/mediumText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_8sdp"
-                            android:background="@drawable/rect_bg"
-                            android:backgroundTint="#f4f6f5"
-                            android:drawableEnd="@drawable/filter_icon"
-                            android:drawablePadding="@dimen/_10sdp"
-                            android:paddingStart="@dimen/_9sdp"
-                            android:paddingEnd="@dimen/_9sdp"
-                            android:paddingTop="@dimen/_8sdp"
-                            android:paddingBottom="@dimen/_8sdp"
-                            android:gravity="center"
-                            android:text="Filter"
-                            android:textColor="@color/semi_black"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                             />
-
-
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-
-
-            </com.google.android.material.appbar.AppBarLayout>
-
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                android:paddingBottom="@dimen/_10sdp"
+                app:contentScrim="@color/primary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/off_white"
-                    >
+                    app:layout_collapseMode="parallax"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/tv_choose_address"
+
+                    <com.smarteist.autoimageslider.SliderView
+                        android:id="@+id/image_slider"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="250dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        style="@style/normalText"
-                        android:textColor="@color/semi_black"
-                        android:padding="@dimen/_12sdp"
-                        android:drawablePadding="@dimen/_5sdp"
-                        android:gravity="center|start"
-                        android:text="Please choose your address"
-                        android:layout_marginTop="1dp"
-                        app:drawableEndCompat="@drawable/locator"
-                        app:drawableStartCompat="@drawable/ic_location_icon"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"  />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:sliderAnimationDuration="600"
+                        app:sliderAutoCycleDirection="back_and_forth"
+                        app:sliderIndicatorAnimationDuration="600"
+                        app:sliderIndicatorEnabled="true"
+                        app:sliderIndicatorGravity="center_horizontal|bottom"
+                        app:sliderIndicatorMargin="15dp"
+                        app:sliderIndicatorMarginBottom="35dp"
+                        app:sliderIndicatorOrientation="horizontal"
+                        app:sliderIndicatorPadding="5dp"
+                        app:sliderIndicatorRadius="1.8dp"
+                        app:sliderIndicatorSelectedColor="@color/white"
+                        app:sliderScrollTimeInSec="1" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/wallet_balance_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="-40dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_6sdp">
+
+                    <ImageView
+                        android:id="@+id/search_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:background="@drawable/ic_search"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        style="@style/normalText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:text="search for services"
+                        android:textColor="@color/hint_color"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@id/search_icon"
+                        app:layout_constraintStart_toEndOf="@id/search_icon"
+                        app:layout_constraintTop_toTopOf="@id/search_icon" />
 
 
                     <TextView
+                        android:id="@+id/filter"
+                        style="@style/mediumText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_12sdp"
-                        android:text="Categories"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:background="@drawable/rect_bg"
+                        android:backgroundTint="#f4f6f5"
+                        android:drawableEnd="@drawable/filter_icon"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_9sdp"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingEnd="@dimen/_9sdp"
+                        android:paddingBottom="@dimen/_8sdp"
+                        android:text="Filter"
+                        android:textColor="@color/semi_black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/off_white">
+
+                <TextView
+                    android:id="@+id/tv_choose_address"
+                    style="@style/normalText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:gravity="center|start"
+                    android:padding="@dimen/_12sdp"
+                    android:text="Please choose your address"
+                    android:textColor="@color/semi_black"
+                    app:drawableEndCompat="@drawable/locator"
+                    app:drawableStartCompat="@drawable/ic_location_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/tv_categories"
+                    style="@style/headingText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_12sdp"
+                    android:text="Categories"
+                    android:textColor="@color/semi_black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_choose_address" />
+
+                <TextView
+                    android:id="@+id/tv_viewAll"
+                    style="@style/normalText"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:background="@drawable/round_bg"
+                    android:backgroundTint="@color/primary"
+                    android:gravity="center"
+                    android:text="View All"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_categories"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_categories" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoriesList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_categories" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingTop="@dimen/_8sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/categoriesList">
+
+                    <TextView
+                        android:id="@+id/tv_recomended"
                         style="@style/headingText"
-                        android:textColor="@color/semi_black"
-                        app:layout_constraintTop_toBottomOf="@id/tv_choose_address"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:id="@+id/tv_categories"/>
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_12sdp"
-                        android:text="View All"
-                        android:paddingStart="@dimen/_15sdp"
-                        android:paddingEnd="@dimen/_15sdp"
-                        android:paddingTop="@dimen/_9sdp"
-                        android:paddingBottom="@dimen/_9sdp"
-                        style="@style/normalText"
-                        android:gravity="center_horizontal"
-                        android:background="@drawable/round_bg"
-                        android:backgroundTint="#fdeee0"
-                        android:textColor="#e88a33"
-                        app:layout_constraintTop_toTopOf="@id/tv_categories"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_categories"
+                        android:padding="@dimen/_12sdp"
+                        android:text="Recommended for you"
+                        android:textColor="@color/semi_black"
                         android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_viewAll1"
+                        style="@style/normalText"
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                        android:background="@drawable/round_bg"
+                        android:backgroundTint="@color/primary"
+                        android:gravity="center"
+                        android:text="View All"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_recomended"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:id="@+id/tv_viewAll"/>
+                        app:layout_constraintTop_toTopOf="@id/tv_recomended" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recomendedList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_categories"
-                        android:id="@+id/categoriesList"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_recomended" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/all_service"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/categoriesList"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:paddingTop="@dimen/_8sdp"
-                        android:background="@color/white">
+                        android:layout_marginTop="@dimen/_5sdp"
+                        app:layout_constraintTop_toBottomOf="@+id/recomendedList" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_recomended"
-                            android:id="@+id/recomendedList"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </androidx.core.widget.NestedScrollView>
 
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/recomendedList"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:paddingTop="@dimen/_8sdp"
-                        android:background="@color/off_white">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:id="@+id/AllServicesList"/>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.core.widget.NestedScrollView>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@+id/mainContent"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/navigation"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        <androidx.core.widget.NestedScrollView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:fillViewport="true"-->
-<!--            android:scrollbars="none">-->
-
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
 
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_welcome"-->
-<!--                    style="@style/mediumText"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:paddingStart="@dimen/_15sdp"-->
-<!--                    android:paddingTop="@dimen/_10sdp"-->
-<!--                    android:text="Wellcome Username"-->
-<!--                    android:textColor="@color/blue"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/mainContent"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/navigation"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_location"-->
-<!--                    style="@style/normalText"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:paddingStart="@dimen/_15sdp"-->
-<!--                    android:paddingEnd="@dimen/_15sdp"-->
-<!--                    android:gravity="start"-->
-<!--                    android:maxLines="2"-->
-<!--                    android:ellipsize="end"-->
-<!--                    android:text="Please set your location"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/tv_welcome" />-->
+    <!--        <androidx.core.widget.NestedScrollView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:fillViewport="true"-->
+    <!--            android:scrollbars="none">-->
 
-<!--                <View-->
-<!--                    android:id="@+id/view"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="1dp"-->
-<!--                    android:layout_marginTop="@dimen/_5sdp"-->
-<!--                    android:alpha="0.2"-->
-<!--                    android:background="#8D8D8D"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/tv_location" />-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="0dp"-->
-<!--                    android:padding="@dimen/_15sdp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/view">-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/serachView"-->
-<!--                        style="@style/normalText"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginEnd="@dimen/_8sdp"-->
-<!--                        android:background="@drawable/rect_bg"-->
-<!--                        android:backgroundTint="@color/light_grey1"-->
-<!--                        android:drawableStart="@drawable/ic_search"-->
-<!--                        android:drawablePadding="@dimen/_8sdp"-->
-<!--                        android:hint="search anything"-->
-<!--                        android:padding="@dimen/_10sdp"-->
-<!--                        android:textSize="14sp"-->
-<!--                        app:layout_constraintEnd_toStartOf="@id/filter"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/filter"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:background="@drawable/rect_bg"-->
-<!--                        android:backgroundTint="@color/primary"-->
-<!--                        android:padding="@dimen/_10sdp"-->
-<!--                        android:src="@drawable/ic_filter"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toEndOf="@id/serachView"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_promotion"-->
-<!--                        style="@style/mediumText1"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/_10sdp"-->
-<!--                        android:text="Promotions"-->
-<!--                        android:textColor="@color/primary"-->
-<!--                        android:textStyle="bold"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/serachView" />-->
-
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                        android:id="@+id/promotionsList"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/tv_promotion" />-->
+    <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content">-->
 
 
-<!--                    <View-->
-<!--                        android:id="@+id/view1"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="1dp"-->
-<!--                        android:layout_marginTop="@dimen/_6sdp"-->
-<!--                        android:alpha="0.2"-->
-<!--                        android:background="#8D8D8D"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/promotionsList" />-->
+    <!--                <TextView-->
+    <!--                    android:id="@+id/tv_welcome"-->
+    <!--                    style="@style/mediumText"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:paddingStart="@dimen/_15sdp"-->
+    <!--                    android:paddingTop="@dimen/_10sdp"-->
+    <!--                    android:text="Wellcome Username"-->
+    <!--                    android:textColor="@color/blue"-->
+    <!--                    android:textStyle="bold"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_services"-->
-<!--                        style="@style/mediumText1"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/_10sdp"-->
-<!--                        android:text="Services"-->
-<!--                        android:textColor="@color/primary"-->
-<!--                        android:textStyle="bold"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/view1" />-->
+    <!--                <TextView-->
+    <!--                    android:id="@+id/tv_location"-->
+    <!--                    style="@style/normalText"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:paddingStart="@dimen/_15sdp"-->
+    <!--                    android:paddingEnd="@dimen/_15sdp"-->
+    <!--                    android:gravity="start"-->
+    <!--                    android:maxLines="2"-->
+    <!--                    android:ellipsize="end"-->
+    <!--                    android:text="Please set your location"-->
+    <!--                    android:textColor="@color/black"-->
+    <!--                    android:textStyle="bold"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toBottomOf="@id/tv_welcome" />-->
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_view_all"-->
-<!--                        style="@style/normalText"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/_10sdp"-->
-<!--                        android:text="View All"-->
-<!--                        android:textColor="@color/light_gray"-->
-<!--                        android:textStyle="bold"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/view1" />-->
+    <!--                <View-->
+    <!--                    android:id="@+id/view"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="1dp"-->
+    <!--                    android:layout_marginTop="@dimen/_5sdp"-->
+    <!--                    android:alpha="0.2"-->
+    <!--                    android:background="#8D8D8D"-->
+    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toBottomOf="@id/tv_location" />-->
 
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                        android:id="@+id/servicesList"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/tv_services" />-->
+    <!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="0dp"-->
+    <!--                    android:padding="@dimen/_15sdp"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toBottomOf="@id/view">-->
+
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/serachView"-->
+    <!--                        style="@style/normalText"-->
+    <!--                        android:layout_width="0dp"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_marginEnd="@dimen/_8sdp"-->
+    <!--                        android:background="@drawable/rect_bg"-->
+    <!--                        android:backgroundTint="@color/light_grey1"-->
+    <!--                        android:drawableStart="@drawable/ic_search"-->
+    <!--                        android:drawablePadding="@dimen/_8sdp"-->
+    <!--                        android:hint="search anything"-->
+    <!--                        android:padding="@dimen/_10sdp"-->
+    <!--                        android:textSize="14sp"-->
+    <!--                        app:layout_constraintEnd_toStartOf="@id/filter"-->
+    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+    <!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--                    <ImageView-->
+    <!--                        android:id="@+id/filter"-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:background="@drawable/rect_bg"-->
+    <!--                        android:backgroundTint="@color/primary"-->
+    <!--                        android:padding="@dimen/_10sdp"-->
+    <!--                        android:src="@drawable/ic_filter"-->
+    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                        app:layout_constraintStart_toEndOf="@id/serachView"-->
+    <!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/tv_promotion"-->
+    <!--                        style="@style/mediumText1"-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_marginTop="@dimen/_10sdp"-->
+    <!--                        android:text="Promotions"-->
+    <!--                        android:textColor="@color/primary"-->
+    <!--                        android:textStyle="bold"-->
+    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+    <!--                        app:layout_constraintTop_toBottomOf="@id/serachView" />-->
+
+    <!--                    <androidx.recyclerview.widget.RecyclerView-->
+    <!--                        android:id="@+id/promotionsList"-->
+    <!--                        android:layout_width="match_parent"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+    <!--                        app:layout_constraintTop_toBottomOf="@id/tv_promotion" />-->
 
 
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--                    <View-->
+    <!--                        android:id="@+id/view1"-->
+    <!--                        android:layout_width="match_parent"-->
+    <!--                        android:layout_height="1dp"-->
+    <!--                        android:layout_marginTop="@dimen/_6sdp"-->
+    <!--                        android:alpha="0.2"-->
+    <!--                        android:background="#8D8D8D"-->
+    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+    <!--                        app:layout_constraintTop_toBottomOf="@id/promotionsList" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/tv_services"-->
+    <!--                        style="@style/mediumText1"-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_marginTop="@dimen/_10sdp"-->
+    <!--                        android:text="Services"-->
+    <!--                        android:textColor="@color/primary"-->
+    <!--                        android:textStyle="bold"-->
+    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+    <!--                        app:layout_constraintTop_toBottomOf="@id/view1" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/tv_view_all"-->
+    <!--                        style="@style/normalText"-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_marginTop="@dimen/_10sdp"-->
+    <!--                        android:text="View All"-->
+    <!--                        android:textColor="@color/light_gray"-->
+    <!--                        android:textStyle="bold"-->
+    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                        app:layout_constraintTop_toBottomOf="@id/view1" />-->
+
+    <!--                    <androidx.recyclerview.widget.RecyclerView-->
+    <!--                        android:id="@+id/servicesList"-->
+    <!--                        android:layout_width="match_parent"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+    <!--                        app:layout_constraintTop_toBottomOf="@id/tv_services" />-->
 
 
-<!--        </androidx.core.widget.NestedScrollView>-->
+    <!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--        </androidx.core.widget.NestedScrollView>-->
+
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
