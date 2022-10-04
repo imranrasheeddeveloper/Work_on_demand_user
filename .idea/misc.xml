@@ -73,9 +73,11 @@
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable/ripple_bg_selector.xml" value="0.234" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable/ripple_bg_selector1.xml" value="0.139" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable/round_bg.xml" value="0.152" />
+        <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable/round_with_stroke.xml" value="0.194" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable/selected_bg.xml" value="0.234" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable/selected_value.xml" value="0.234" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable/selector_bg.xml" value="0.234" />
+        <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable/shopping_cart.xml" value="0.194" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable/terms_condition.xml" value="0.234" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable/unselected_value.xml" value="0.234" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable/voucher.xml" value="0.152" />
@@ -94,7 +96,7 @@
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/activity_notification.xml" value="0.259375" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/activity_onboarding.xml" value="0.371875" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/activity_otp_verification.xml" value="0.3578125" />
-        <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/activity_post_job.xml" value="0.2" />
+        <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/activity_post_job.xml" value="0.1694915254237288" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/activity_profile.xml" value="0.3578125" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/activity_promo_code.xml" value="0.259375" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/activity_register.xml" value="0.371875" />
@@ -118,7 +120,7 @@
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/four_plus_images.xml" value="0.25833333333333336" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/fragment_booking.xml" value="0.136" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/fragment_gallery.xml" value="0.2453125" />
-        <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/fragment_home.xml" value="0.2037735849056604" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/fragment_profile.xml" value="0.23316062176165803" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/fragment_reviews.xml" value="0.259375" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/layout/fragment_service_provider_list.xml" value="0.3578125" />

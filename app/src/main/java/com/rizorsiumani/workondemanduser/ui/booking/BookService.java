@@ -31,14 +31,17 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
     private void clickListeners() {
 
         activityBinding.bookToolbar.back.setOnClickListener(view -> {
+            prefRepository.setString("cart", String.valueOf(false));
             onBackPressed();
             finish();
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         });
 
         activityBinding.btnAddItem.setOnClickListener(view -> {
-            ActivityUtil.gotoPage(BookService.this, BookingDetail.class);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            prefRepository.setString("cart", String.valueOf(true));
+            onBackPressed();
+            finish();
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         });
 
     }

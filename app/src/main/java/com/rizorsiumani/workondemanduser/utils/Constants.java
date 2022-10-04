@@ -21,6 +21,7 @@ import com.rizorsiumani.workondemanduser.BuildConfig;
 import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 public final class Constants {
     public static final String BASE_URL = "";
@@ -92,4 +93,6 @@ public final class Constants {
         sendIntent.setType("text/plain");
         context.startActivity(sendIntent);
     }
+
+
 }

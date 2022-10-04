@@ -82,7 +82,7 @@ public class ServiceProviderProfile extends BaseActivity<ActivityServiceProvider
     }
 
     private void getImages() {
-        activityBinding.spGallery.fourPlusImagesLayout.iv4Plus.setVisibility(View.VISIBLE);
-        activityBinding.spGallery.fourPlusImagesLayout.L4PText.setText("+6");
+//        activityBinding.spGallery.fourPlusImagesLayout.iv4Plus.setVisibility(View.VISIBLE);
+//        activityBinding.spGallery.fourPlusImagesLayout.L4PText.setText("+6");
     }
 }

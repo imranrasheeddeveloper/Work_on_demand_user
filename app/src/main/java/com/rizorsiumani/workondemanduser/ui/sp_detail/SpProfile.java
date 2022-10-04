@@ -16,6 +16,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySpProfileBinding;
+import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
+import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
 public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
 
@@ -31,6 +33,10 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
     @Override
     protected void onStart() {
         super.onStart();
+
+        if (prefRepository.getString("cart").equalsIgnoreCase("true")){
+            activityBinding.cartItem.setVisibility(View.VISIBLE);
+        }
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.sp_nav_host_fragment);
         if (navHostFragment != null) {
@@ -54,6 +60,10 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
             showProfileDetail();
         });
 
+        activityBinding.cartItem.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(SpProfile.this, BookingDetail.class);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
 
     }
 

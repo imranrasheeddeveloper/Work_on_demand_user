@@ -50,12 +50,9 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
         holder.icon.setImageResource(model.getIcon());
 
         try {
-
-            final int[] colors = new int[3];
+            final int[] colors = new int[2];
             colors[0] = Color.parseColor("#fef4ea");
             colors[1] = Color.parseColor(model.getColorCode());
-            colors[2] = Color.parseColor("#fef4ea");
-
             GradientDrawable gd = new GradientDrawable(
                     GradientDrawable.Orientation.LEFT_RIGHT,
                     colors

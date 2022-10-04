@@ -1,18 +1,19 @@
 package com.rizorsiumani.workondemanduser.ui.post_job;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,17 +33,18 @@ import com.paulrybitskyi.valuepicker.model.Item;
 import com.paulrybitskyi.valuepicker.model.PickerItem;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.data.businessModels.SerCategoryModel;
 import com.rizorsiumani.workondemanduser.databinding.ActivityPostJobBinding;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.skydoves.elasticviews.ElasticImageView;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
-public class PostJob extends BaseActivity<ActivityPostJobBinding> {
+public class PostJob extends BaseActivity<ActivityPostJobBinding> implements DatePickerDialog.OnDateSetListener {
 
     List<String> imagesPath;
     AlertDialog.Builder dialogBuilder;
@@ -61,6 +63,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> {
         imagesPath = new ArrayList<>();
 
         clickListeners();
+
     }
 
     private void clickListeners() {
@@ -81,6 +84,12 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> {
 
         activityBinding.tvSubcategory.setOnClickListener(view -> {
             showCategoriesDialogue(activityBinding.selectedSubcategory);
+        });
+
+        activityBinding.deadlineDate.setOnClickListener(view -> {
+            com.rizorsiumani.workondemanduser.utils.DatePicker mDatePickerDialogFragment;
+            mDatePickerDialogFragment = new com.rizorsiumani.workondemanduser.utils.DatePicker();
+            mDatePickerDialogFragment.show(getSupportFragmentManager(), "Select Date");
         });
 
 
@@ -168,15 +177,14 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> {
                                 bt.cancel();
                             });
                             gallery.setOnClickListener(view -> {
-                                Intent galleryIntent = new Intent(
-                                        Intent.ACTION_PICK,
-                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(galleryIntent, 13);
-//                                Intent intent = new Intent();
-//                                intent.setType("image/*");
-//                                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                                startActivityForResult(Intent.createChooser(intent,"Select images"), 13);
+//                                Intent galleryIntent = new Intent(
+//                                        Intent.ACTION_PICK,
+//                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                                startActivityForResult(galleryIntent, 13);
+                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                                intent.setType("image/*");
+                                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 13);
 
                                 bt.cancel();
                             });
@@ -225,18 +233,44 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> {
                 }
             }
         } else if (requestCode == 13) {
+            if(data.getClipData() != null) {
+                int count = data.getClipData().getItemCount();
+                for(int i = 0; i < count; i++) {
+                    Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                    getImageFilePath(imageUri);
 
-//            int count = data.getClipData().getItemCount();
+//                    String path = Constants.constant.getRealPathFromURI(imageUri, PostJob.this);
+//                    imagesPath.add(path);
+                }
+                buildPhotosList(imagesPath);
+            }
+
+////            int count = data.getClipData().getItemCount();
+////
+////            for(int i = 0; i < count; i++){
+////                Uri imageUri = data.getClipData().getItemAt(i).getUri();
+////            }
+//            Uri imageUri = data.getData();
+//            String path = Constants.constant.getRealPathFromURI(imageUri, PostJob.this);
 //
-//            for(int i = 0; i < count; i++){
-//                Uri imageUri = data.getClipData().getItemAt(i).getUri();
-//            }
-            Uri imageUri = data.getData();
-            String path = Constants.constant.getRealPathFromURI(imageUri, PostJob.this);
+//            imagesPath.add(path);
+//            buildPhotosList(imagesPath);
 
-            imagesPath.add(path);
-            buildPhotosList(imagesPath);
+        }
+    }
 
+    public void getImageFilePath(Uri uri) {
+
+        File file = new File(uri.getPath());
+        String[] filePath = file.getPath().split(":");
+        String image_id = filePath[filePath.length - 1];
+
+        Cursor cursor = getContentResolver().query(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, MediaStore.Images.Media._ID + " = ? ", new String[]{image_id}, null);
+        if (cursor!=null) {
+            cursor.moveToFirst();
+            @SuppressLint("Range") String imagePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            imagesPath.add(imagePath);
+            cursor.close();
         }
     }
 
@@ -248,4 +282,14 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> {
         activityBinding.attachImagesList.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+            Calendar mCalendar = Calendar.getInstance();
+            mCalendar.set(Calendar.YEAR, year);
+            mCalendar.set(Calendar.MONTH, month);
+            mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mCalendar.getTime());
+            activityBinding.deadlineDate.setText(selectedDate);
+
+    }
 }

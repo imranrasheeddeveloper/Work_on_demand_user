@@ -1,48 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardUseCompatPadding="true"
-    android:elevation="2dp"
-    app:cardCornerRadius="@dimen/_8sdp"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/_5sdp"
     android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/sName"
+        style="@style/mediumText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_8sdp">
+        android:text="1 Hours Office Cleaning"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/mediumText"
-            android:textColor="@color/black"
-            android:text="1 Hours Office Cleaning"
-            android:textSize="16sp"
-            android:id="@+id/sName"/>
+    <TextView
+        android:id="@+id/sRate"
+        style="@style/mediumText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$5.50"
+        android:textColor="@color/primary"
+        app:layout_constraintBottom_toBottomOf="@id/sName"
+        app:layout_constraintEnd_toStartOf="@id/perHour"
+        app:layout_constraintTop_toTopOf="@id/sName" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/sName"
-            app:layout_constraintTop_toBottomOf="@id/sName"
-            style="@style/mediumText"
-            android:textColor="@color/primary"
-            android:text="$5.50"
-            android:id="@+id/sRate"/>
+    <TextView
+        android:id="@+id/perHour"
+        style="@style/normalText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" /hour"
+        android:textColor="@color/light_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/sName" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/sRate"
-            app:layout_constraintTop_toBottomOf="@id/sName"
-            style="@style/mediumText"
-            android:textColor="@color/light_gray"
-            android:text=" /hour"
-            android:id="@+id/perHour"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

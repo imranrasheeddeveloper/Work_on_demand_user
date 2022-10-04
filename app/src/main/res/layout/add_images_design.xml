@@ -10,8 +10,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="8dp"
-        >
+        app:cardCornerRadius="8dp">
 
         <ImageView
             android:id="@+id/iv_add"
@@ -19,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/off_white"/>
-
 
     </androidx.cardview.widget.CardView>
 
