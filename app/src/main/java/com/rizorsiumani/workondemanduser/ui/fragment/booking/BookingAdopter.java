@@ -4,13 +4,17 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.gms.common.api.Api;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.ui.requested_sevices.RequestServices;
+import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.skydoves.elasticviews.ElasticButton;
 
 import java.util.List;
@@ -46,6 +50,13 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
         String item = list.get(position);
 
         holder.status.setText(item);
+        holder.service.setHorizontallyScrolling(true);
+        holder.service.setFocusable(true);
+        holder.service.setSelected(true);
+
+        holder.requested.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(context, RequestServices.class);
+        });
 
 
     }
@@ -62,8 +73,8 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView status, pickup_address, dropof_address, time,date,token;
-        ElasticButton cancel,reshedule;
+        TextView status, service, time,date,token;
+        Button requested;
 
 
         public ViewHolder(View itemView, ItemClickListener mListener) {
@@ -71,6 +82,8 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
 
 
             status = itemView.findViewById(R.id.booking_status);
+            service = itemView.findViewById(R.id.booking_service_title);
+            requested = itemView.findViewById(R.id.requested_booking);
 
 
         }

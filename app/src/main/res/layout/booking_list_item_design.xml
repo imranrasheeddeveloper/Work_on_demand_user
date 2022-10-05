@@ -32,11 +32,11 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/booking_status"
+            app:layout_constraintTop_toTopOf="parent"
             android:paddingStart="@dimen/_10sdp"
             android:paddingEnd="@dimen/_10sdp"
             android:paddingBottom="@dimen/_10sdp"
-            android:paddingTop="@dimen/_5sdp">
+            android:paddingTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -74,51 +74,117 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/view"
                 android:layout_marginTop="@dimen/_8sdp"
+                android:paddingTop="@dimen/_4sdp"
+                android:paddingStart="@dimen/_6sdp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:ellipsize="marquee"
+                android:paddingBottom="@dimen/_4sdp"
+                android:paddingEnd="@dimen/_6sdp"
+                android:background="@drawable/rect_bg"
+                android:backgroundTint="@color/teal_200"
                 app:layout_constraintStart_toStartOf="@id/view"
                 android:text="Deep Clean"
-                android:textSize="14sp"
+                android:fadingEdge="horizontal"
+                android:textSize="12sp"
                 android:fontFamily="@font/poppin_regular"
                 android:textColor="@color/black"
                 android:id="@+id/booking_service_title"/>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_sp"
+                android:layout_width="50dp"
+                android:layout_height="50sp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@color/transparent"
+                android:src="@drawable/user"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="1dp"
                 app:layout_constraintTop_toBottomOf="@id/booking_service_title"
-                app:layout_constraintStart_toStartOf="@id/booking_service_title"
+                app:layout_constraintStart_toStartOf="@id/arting"
+                app:layout_constraintEnd_toEndOf="@id/arting"
+
+                />
+
+            <TextView
+                android:id="@+id/tv_sp_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Ahmed Raza"
+                android:textColor="@color/semi_black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_sp"
+                app:layout_constraintTop_toTopOf="@+id/iv_sp" />
+
+            <TextView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_sp_name"
+                app:layout_constraintStart_toStartOf="@id/tv_sp_name"
                 android:text="2x Extras Inside Fridge"
                 android:textSize="12sp"
                 android:fontFamily="@font/poppin_regular"
                 android:textColor="#404040"
                 android:alpha="0.5"
-                android:layout_marginTop="5dp"
-                android:id="@+id/extras"/>
+                android:id="@+id/location"/>
 
-            <TextView
+            <RatingBar
+                android:id="@+id/arting"
+                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/extras"
-                app:layout_constraintStart_toStartOf="@id/extras"
-                android:text="1x Oven "
-                android:textSize="12sp"
-                android:fontFamily="@font/poppin_regular"
-                android:textColor="#404040"
-                android:alpha="0.5"
-                android:id="@+id/extras1"/>
+                android:rating="5"
+                android:layout_marginStart="-8dp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:theme="@style/RatingBar"
+                android:scaleX=".7"
+                android:scaleY=".7"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/extras1"
-                app:layout_constraintStart_toStartOf="@id/extras1"
-                android:text="2x Glaseed "
-                android:textSize="12sp"
-                android:fontFamily="@font/poppin_regular"
-                android:textColor="#404040"
-                android:alpha="0.5"
-                android:id="@+id/extras2"/>
 
+            <Button
+                android:id="@+id/cancel_booking"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@drawable/outline_back"
+                android:gravity="center_horizontal"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/poppin_regular"
+                android:textSize="12sp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/arting"
+                android:text="Cancel Booking"/>
+
+
+            <Button
+                android:id="@+id/requested_booking"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cancel_booking"
+                android:background="@drawable/outline_back"
+                android:gravity="center_horizontal"
+                android:text="View Requested Services"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/poppin_regular"
+                android:textSize="12sp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textColor="@color/primary"/>
 
             <View
                 android:layout_width="match_parent"
@@ -127,61 +193,24 @@
                 android:backgroundTint="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/extras2"
+                app:layout_constraintTop_toBottomOf="@id/requested_booking"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="-30dp"
                 android:layout_marginEnd="-30dp"
                 android:id="@+id/break_line"/>
 
-            <com.skydoves.elasticviews.ElasticButton
-                android:id="@+id/cancel_booking"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/outline_back"
-                android:padding="10dp"
-                android:gravity="center"
-                android:fontFamily="@font/poppin_regular"
-                android:textSize="14sp"
-                app:button_duration="250"
-                app:button_scale="0.94"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/blue"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/reschedule_booking"
-                app:layout_constraintTop_toBottomOf="@id/break_line"
-                android:text="Cancel Booking"/>
 
-
-            <com.skydoves.elasticviews.ElasticButton
-                android:id="@+id/reschedule_booking"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cancel_booking"
-                app:layout_constraintTop_toBottomOf="@id/break_line"
-                android:text="Reschedule"
-                app:button_duration="250"
-                app:button_scale="0.94"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/outline_back"
-                android:padding="10dp"
-                android:gravity="center"
-                android:fontFamily="@font/poppin_regular"
-                android:textSize="14sp"
-                android:textColor="@color/blue"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cancel_booking"
-                android:text="12/2/2022"
+                app:layout_constraintTop_toBottomOf="@id/break_line"
+                android:text="(Wed) 05 OCT, 2022"
                 android:layout_marginTop="10dp"
                 android:alpha="0.9"
                 android:gravity="center"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textColor="#404040"
                 android:fontFamily="@font/poppin_regular"
                 android:id="@+id/booking_date"/>
@@ -190,12 +219,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/reschedule_booking"
+                app:layout_constraintTop_toBottomOf="@id/break_line"
                 android:text="05:45"
                 android:layout_marginTop="10dp"
                 android:alpha="0.9"
                 android:gravity="center"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textColor="#404040"
                 android:fontFamily="@font/poppin_regular"
                 android:id="@+id/booking_time"/>

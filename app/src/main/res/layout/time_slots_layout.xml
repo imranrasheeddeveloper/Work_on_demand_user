@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/two_am"
+        android:text="12 AM - 01 AM"
+        android:layout_marginEnd="@dimen/_3sdp"
+        style="@style/time_slots_style"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/one_am"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/one_am"
+        app:layout_constraintEnd_toStartOf="@id/three_am"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="01 AM - 02 AM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/two_am"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/two_am"
+        android:text="02 AM - 03 AM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/three_am"/>
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/one_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintEnd_toStartOf="@id/five_am"
+        android:text="03 AM - 04 AM"
+        android:layout_marginEnd="@dimen/_3sdp"
+        style="@style/time_slots_style"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/four_am"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/four_am"
+        app:layout_constraintEnd_toStartOf="@id/six_am"
+        app:layout_constraintTop_toBottomOf="@id/one_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:text="04 AM - 05 AM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/five_am"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/one_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintStart_toEndOf="@id/five_am"
+        android:text="05 AM - 06 AM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/six_am"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/four_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintEnd_toStartOf="@id/eight_am"
+        android:text="06 AM - 07 AM"
+        android:layout_marginEnd="@dimen/_3sdp"
+        style="@style/time_slots_style"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/seven_am"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/seven_am"
+        app:layout_constraintEnd_toStartOf="@id/nine_am"
+        app:layout_constraintTop_toBottomOf="@id/four_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:text="07 AM - 08 AM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/eight_am"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/four_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintStart_toEndOf="@id/eight_am"
+        android:text="08 AM - 09 AM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/nine_am"/>
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seven_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintEnd_toStartOf="@id/eleven_am"
+        android:text="09 AM - 10 AM"
+        android:layout_marginEnd="@dimen/_3sdp"
+        style="@style/time_slots_style"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/ten_am"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/ten_am"
+        app:layout_constraintEnd_toStartOf="@id/twelve_am"
+        app:layout_constraintTop_toBottomOf="@id/seven_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:text="10 AM - 11 AM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/eleven_am"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seven_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintStart_toEndOf="@id/eleven_am"
+        android:text="11 AM - 12 PM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/twelve_am"/>
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ten_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintEnd_toStartOf="@id/two_pm"
+        android:text="12 PM - 01 PM"
+        android:layout_marginEnd="@dimen/_3sdp"
+        style="@style/time_slots_style"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/one_pm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/one_pm"
+        app:layout_constraintEnd_toStartOf="@id/three_pm"
+        app:layout_constraintTop_toBottomOf="@id/ten_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:text="01 PM - 02 PM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/two_pm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ten_am"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintStart_toEndOf="@id/two_pm"
+        android:text="02 PM - 03 PM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/three_pm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/one_pm"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintEnd_toStartOf="@id/five_pm"
+        android:text="03 PM - 04 PM"
+        android:layout_marginEnd="@dimen/_3sdp"
+        style="@style/time_slots_style"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/four_pm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/four_pm"
+        app:layout_constraintEnd_toStartOf="@id/six_pm"
+        app:layout_constraintTop_toBottomOf="@id/one_pm"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:text="04 PM - 05 PM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/five_pm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/one_pm"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintStart_toEndOf="@id/five_pm"
+        android:text="05 PM - 06 PM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/six_pm"/>
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/four_pm"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintEnd_toStartOf="@id/eight_pm"
+        android:text="06 PM - 07 PM"
+        android:layout_marginEnd="@dimen/_3sdp"
+        style="@style/time_slots_style"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/seven_pm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/seven_pm"
+        app:layout_constraintEnd_toStartOf="@id/nine_pm"
+        app:layout_constraintTop_toBottomOf="@id/four_pm"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:text="07 PM - 08 PM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/eight_pm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/four_pm"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintStart_toEndOf="@id/eight_pm"
+        android:text="08 PM - 09 PM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/nine_pm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seven_pm"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintEnd_toStartOf="@id/eleven_pm"
+        android:text="09 PM - 10 PM"
+        android:layout_marginEnd="@dimen/_3sdp"
+        style="@style/time_slots_style"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/ten_pm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/ten_pm"
+        app:layout_constraintEnd_toStartOf="@id/twelve_pm"
+        app:layout_constraintTop_toBottomOf="@id/seven_pm"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:text="10 PM - 11 PM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/eleven_pm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seven_pm"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintStart_toEndOf="@id/eleven_pm"
+        android:text="11 PM - 12 AM"
+        style="@style/time_slots_style"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:background="@drawable/rect_bg"
+        android:id="@+id/twelve_pm"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
