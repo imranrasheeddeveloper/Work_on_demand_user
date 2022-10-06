@@ -35,6 +35,8 @@ public class Dashboard extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+
+
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         if (navHostFragment != null) {
             mNavController = navHostFragment.getNavController();
@@ -52,6 +54,15 @@ public class Dashboard extends AppCompatActivity {
         options = builder.build();
 
         clickListeners(options);
+
+        if (getIntent() != null){
+            String nav = getIntent().getStringExtra("Navigation");
+            if (nav != null) {
+                if (nav.equalsIgnoreCase("Booking")) {
+                    Dashboard.goToBooking();
+                }
+            }
+        }
 
     }
 

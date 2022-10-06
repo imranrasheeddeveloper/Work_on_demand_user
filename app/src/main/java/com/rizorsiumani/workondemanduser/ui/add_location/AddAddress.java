@@ -7,6 +7,7 @@ import static com.rizorsiumani.workondemanduser.utils.map_utils.GeoCoders.GetPro
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityAddAddressBinding;
+import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.MapConfig;
@@ -53,9 +56,10 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
         activityBinding.confirmLocation.setOnClickListener(view -> {
             String address = activityBinding.locationAddress.getText().toString();
             prefRepository.setString("CURRENT_LOCATION", address);
-            onBackPressed();
-            finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+//            Intent intent = new Intent(AddAddress.this, Dashboard.class);
+//            startActivity(intent);
+//            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 
         });
     }

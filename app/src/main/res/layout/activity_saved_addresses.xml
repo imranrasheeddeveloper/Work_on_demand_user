@@ -1,30 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".ui.address.SavedAddresses">
 
-    <include
-        android:id="@+id/address_toolbar"
-        layout="@layout/toolbar_layout"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/searchBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="56dp"
+        android:padding="@dimen/_5sdp"
+        android:background="@color/primary"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/rect_bg"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cancel">
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:background="@drawable/ic_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/search"
+                style="@style/normalText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:hint="Search"
+                android:paddingEnd="@dimen/_5sdp"
+                android:background="@color/white"
+                android:textColorHint="@color/hint_color"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@id/clear_icon"
+                app:layout_constraintBottom_toBottomOf="@id/search_icon"
+                app:layout_constraintStart_toEndOf="@id/search_icon"
+                app:layout_constraintTop_toTopOf="@id/search_icon" />
+
+
+            <ImageView
+                android:id="@+id/clear_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="visible"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@drawable/circular_cross1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loadingView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                android:visibility="gone"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/search_loading" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/mediumText"
+            android:text="CANCEL"
+            android:textColor="@color/white"
+            android:paddingEnd="@dimen/_8sdp"
+            android:paddingStart="@dimen/_8sdp"
+            android:id="@+id/cancel"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/address_toolbar">
+        app:layout_constraintTop_toBottomOf="@id/searchBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -35,32 +120,287 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/addressList"
-                />
+                android:padding="@dimen/_8sdp"
+                android:id="@+id/placesList"/>
 
 
-            <Button
+
+
+
+            <LinearLayout
+                android:id="@+id/fav_locations"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
-                android:layout_margin="@dimen/_10sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:id="@+id/add_address"
-                android:text="Add Address"
-                android:textColor="@color/white"
-                style="@style/greenButtonStyle"
-                android:textSize="16sp"
-                />
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <TextView
+                    android:id="@+id/tv_locations"
+                    style="@style/headingText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_12sdp"
+                    android:text="Favourite Locations"
+                    android:textColor="@color/semi_black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="@dimen/_8sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:src="@drawable/ic_home_place"
+                        android:id="@+id/home_icon"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:background="@drawable/ic_addd"
+                        android:id="@+id/add"
+                        app:tint="@color/dark_gray" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/home_icon"
+                        app:layout_constraintEnd_toStartOf="@id/add"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="Home Place"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toTopOf="@id/homeAddress"
+                        style="@style/normalText"
+                        android:textSize="14sp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:id="@+id/tv_home"/>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="@id/tv_home"
+                        app:layout_constraintEnd_toStartOf="@id/add"
+                        app:layout_constraintTop_toBottomOf="@id/tv_home"
+                        android:text="Gulberg 23sdbksbckb"
+                        android:maxLines="2"
+                        android:visibility="gone"
+                        android:ellipsize="end"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        style="@style/normalText"
+                        android:textSize="10sp"
+                        android:id="@+id/homeAddress"
+                    />
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:padding="@dimen/_8sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:src="@drawable/ic_work_address"
+                        android:id="@+id/work_icon"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:background="@drawable/ic_addd"
+                        android:id="@+id/add_work_address"
+                        app:tint="@color/dark_gray" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/work_icon"
+                        app:layout_constraintEnd_toStartOf="@id/add_work_address"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="Work Place"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@id/workddress"
+                        style="@style/normalText"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:id="@+id/tv_work"/>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="@id/tv_work"
+                        app:layout_constraintEnd_toStartOf="@id/add_work_address"
+                        app:layout_constraintTop_toBottomOf="@id/tv_work"
+                        android:text="Gulberg 23sdbksbckb"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        style="@style/normalText"
+                        android:textSize="10sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:id="@+id/workddress"
+                        />
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:padding="@dimen/_8sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:src="@drawable/ic_set_current_location"
+                        android:id="@+id/current_address_icon"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/forward_icon"
+                        android:padding="@dimen/_5sdp"
+                        app:tint="@color/dark_gray"
+                        android:id="@+id/add_current_address"
+                         />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/current_address_icon"
+                        app:layout_constraintEnd_toStartOf="@id/add_current_address"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="Set Current Location"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        style="@style/normalText"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:id="@+id/tv_current_address"/>
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:padding="@dimen/_8sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:src="@drawable/ic_location_on_map"
+                        android:id="@+id/map_location_icon"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/forward_icon"
+                        android:padding="@dimen/_5sdp"
+                        app:tint="@color/dark_gray"
+                        android:id="@+id/add_map_location"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/map_location_icon"
+                        app:layout_constraintEnd_toStartOf="@id/add_map_location"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="Set Location on map"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        style="@style/normalText"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:id="@+id/tv_map_location"/>
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            </LinearLayout>
+
+
+            <!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/_5sdp"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                android:id="@+id/addressList"-->
+<!--                />-->
+
+
+<!--            <Button-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="@dimen/_10sdp"-->
+<!--                android:layout_margin="@dimen/_10sdp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                android:id="@+id/add_address"-->
+<!--                android:text="Add Address"-->
+<!--                android:textColor="@color/white"-->
+<!--                style="@style/greenButtonStyle"-->
+<!--                android:textSize="16sp"-->
+<!--                />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

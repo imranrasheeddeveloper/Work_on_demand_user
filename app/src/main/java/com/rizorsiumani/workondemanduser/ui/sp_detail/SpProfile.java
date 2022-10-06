@@ -36,6 +36,8 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
 
         if (prefRepository.getString("cart").equalsIgnoreCase("true")){
             activityBinding.cartItem.setVisibility(View.VISIBLE);
+        }else {
+            activityBinding.cartItem.setVisibility(View.GONE);
         }
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.sp_nav_host_fragment);

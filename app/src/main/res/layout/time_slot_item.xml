@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_92sdp"
+    android:layout_height="@dimen/_40sdp"
+    app:cardCornerRadius="@dimen/_5sdp"
+    app:cardUseCompatPadding="true"
+    android:id="@+id/slotCard"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="12 AM - 01 AM"
+        style="@style/time_slots_style"
+        android:id="@+id/one_am"/>
+
+
+</androidx.cardview.widget.CardView>

@@ -1,6 +1,13 @@
 package com.rizorsiumani.workondemanduser.ui.booking_detail;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -12,6 +19,8 @@ import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookingDetailBinding;
+import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.promo_code.PromoCode;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
@@ -24,6 +33,8 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
     CartServicesAdapter adapter;
     List<String> name;
+    AlertDialog.Builder dialogBuilder;
+    AlertDialog alertDialog;
 
     @Override
     protected ActivityBookingDetailBinding getActivityBinding() {
@@ -34,11 +45,47 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     protected void onStart() {
         super.onStart();
 
+//        String request_status = prefRepository.getString("Complete");
+//        if (request_status.equalsIgnoreCase("true")){
+//            showRequestedDialogue();
+//        }
+
+
+
 
         activityBinding.bookingDetailToolbar.title.setText("Booking Details");
         clickListeners();
         getCartServices();
     }
+
+    private void showRequestedDialogue() {
+        dialogBuilder = new AlertDialog.Builder(BookingDetail.this);
+        View layoutView = getLayoutInflater().inflate(R.layout.booking_request_complete_dialogue, null);
+        TextView cancel = (TextView) layoutView.findViewById(R.id.cancel_dialogue);
+        Button booking_ = (Button) layoutView.findViewById(R.id.view_booking);
+
+        dialogBuilder.setView(layoutView);
+        alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimations;
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+
+        cancel.setOnClickListener(view -> alertDialog.dismiss());
+        booking_.setOnClickListener(view -> {
+            Intent intent = new Intent(BookingDetail.this,Dashboard.class);
+            intent.putExtra("Navigation","Booking");
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+        });
+
+        cancel.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(BookingDetail.this,Dashboard.class);
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        });
+    }
+
 
     private void getCartServices() {
         name = new ArrayList<>();
@@ -65,6 +112,11 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
         activityBinding.promoCard.setOnClickListener(view -> {
             ActivityUtil.gotoPage(BookingDetail.this, PromoCode.class);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        activityBinding.btnPayNow.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(BookingDetail.this, BookingDateTime.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }

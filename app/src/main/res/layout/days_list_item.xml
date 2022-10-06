@@ -3,12 +3,12 @@
     android:layout_width="@dimen/_90sdp"
     android:layout_height="@dimen/_80sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="@dimen/_5sdp"
-    app:cardElevation="@dimen/_4sdp"
+    app:cardCornerRadius="@dimen/_8sdp"
     android:outlineAmbientShadowColor="@color/dark_gray"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -22,7 +22,7 @@
             android:textAllCaps="true"
             android:textSize="@dimen/_16sdp"
             android:textColor="@color/dark_gray"
-            style="@style/mediumText1"
+            style="@style/mediumText"
             android:id="@+id/tv_day"/>
 
         <TextView

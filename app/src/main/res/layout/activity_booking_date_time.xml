@@ -38,7 +38,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="Select Day"
                 android:textColor="@color/semi_black"
-                style="@style/headingText"
+                style="@style/mediumText"
                 android:textSize="@dimen/_14sdp"
                 android:id="@+id/tv_select_day"/>
 
@@ -60,29 +60,46 @@
                 android:text="Select Time"
                 android:layout_marginTop="@dimen/_12sdp"
                 android:textColor="@color/semi_black"
-                style="@style/headingText"
+                style="@style/mediumText"
                 android:textSize="@dimen/_14sdp"
                 android:id="@+id/tv_select_time"/>
 
-            <include
-                layout="@layout/time_slots_layout"
-                android:id="time_slots"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tv_select_time"
-                android:layout_marginTop="@dimen/_5sdp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+<!--            <include-->
+<!--                layout="@layout/time_slots_layout"-->
+<!--                android:id="time_slots"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/tv_select_time"-->
+<!--                android:layout_marginTop="@dimen/_5sdp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"/>-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_select_time"
                 android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:layout_constraintBottom_toTopOf="@id/btn_continue"
                 android:id="@+id/timeList"/>
+
+            <Button
+                android:id="@+id/btn_continue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_round_bg"
+                android:textColor="@color/white"
+                style="@style/greenButtonStyle"
+                android:text="Continue"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textAllCaps="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
 
 
 

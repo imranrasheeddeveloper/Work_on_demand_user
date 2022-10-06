@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:background="?attr/selectableItemBackground">
+
+
+    <ImageView
+        android:id="@+id/location_icon"
+        android:layout_width="@dimen/_18sdp"
+        android:layout_height="@dimen/_18sdp"
+        android:src="@drawable/ic_location_icon"
+        app:layout_constraintBottom_toBottomOf="@id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/placeName" />
+
+    <TextView
+        android:id="@+id/placeName"
+        style="@style/mediumText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:text="Guest House"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/location_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/placeAddress"
+        style="@style/normalText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="kdfksn.d"
+        android:maxLines="2"
+        android:ellipsize="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/placeName"
+        app:layout_constraintTop_toBottomOf="@id/placeName" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:alpha="0.3"
+        android:background="@color/gray"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/placeName"
+        app:layout_constraintTop_toBottomOf="@id/placeAddress"
+        android:id="@+id/view"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

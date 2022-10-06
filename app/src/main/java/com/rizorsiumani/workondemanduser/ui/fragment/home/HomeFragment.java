@@ -19,6 +19,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.SerCategoryModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceModel;
 import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
 import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
+import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.all_services.AllServices;
 import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.filter.FilterSearch;
@@ -142,7 +143,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
         });
 
         fragmentBinding.tvChooseAddress.setOnClickListener(view -> {
-            ActivityUtil.gotoPage(requireContext(), AddAddress.class);
+            ActivityUtil.gotoPage(requireContext(), SavedAddresses.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }

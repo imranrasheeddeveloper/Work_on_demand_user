@@ -152,6 +152,8 @@
                     android:drawablePadding="@dimen/_5sdp"
                     android:gravity="center|start"
                     android:padding="@dimen/_12sdp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     android:text="Please choose your address"
                     android:textColor="@color/semi_black"
                     app:drawableEndCompat="@drawable/locator"

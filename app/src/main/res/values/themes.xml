@@ -34,13 +34,13 @@
     </style>
 
     <style name="time_slots_style">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">11sp</item>
         <item name="fontFamily">@font/poppin_regular</item>
-        <item name="android:gravity">center</item>
-        <item name="backgroundTint">@color/light_grey1</item>
         <item name="android:padding">@dimen/_10sdp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+
 
     <style name="mediumText">
         <item name="android:textSize">14sp</item>

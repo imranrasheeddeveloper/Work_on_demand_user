@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/LogoutConfirmation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="30dp"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_260sdp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:elevation="2dp"
+        android:layout_gravity="center_horizontal"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:padding="@dimen/_10sdp"
+            android:layout_height="match_parent">
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/trip_complete"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.2"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/complete" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Booking Requested"
+                android:gravity="center"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="@color/black"
+                style="@style/mediumText"
+                app:layout_constraintTop_toBottomOf="@id/trip_complete"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/tv_requested"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your Service Provider has received the booking request and will get back to you shortly. You can check out the status of your request on the 'Bookings' item."
+                android:id="@+id/booking_messgae"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppin_regular"
+                android:textColor="@color/semi_black"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_requested"/>
+
+            <Button
+                android:id="@+id/view_booking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_round_bg"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:text="View Bookings"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/booking_messgae" />
+
+
+            <TextView
+                android:id="@+id/cancel_dialogue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center"
+                android:text="Cancel"
+                android:textColor="@color/dark_gray"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_booking" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
