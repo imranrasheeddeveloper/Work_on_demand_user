@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.commercial_user_info.ComapnyInformation">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_20sdp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Company Details"
+                style="@style/headingText"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:id="@+id/tv_company"/>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Company Name"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_company"
+                android:id="@+id/tv_company_name"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_company_name"
+                android:background="@drawable/edit_text_bg"
+                android:padding="@dimen/_10sdp"
+                android:hint="fitrid technologies"
+                style="@style/normalText"
+                android:id="@+id/ed_company_name"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Company’s Registration Number"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ed_company_name"
+                android:id="@+id/tv_company_reg"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_company_reg"
+                android:background="@drawable/edit_text_bg"
+                android:padding="@dimen/_10sdp"
+                android:hint="3438746"
+                style="@style/normalText"
+                android:id="@+id/ed_company_reg"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Company’s VAT Number"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ed_company_reg"
+                android:id="@+id/tv_company_vat"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_company_vat"
+                android:background="@drawable/edit_text_bg"
+                android:padding="@dimen/_10sdp"
+                android:hint="3438746"
+                style="@style/normalText"
+                android:id="@+id/ed_company_vat"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Owner Name (ID Name)"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ed_company_vat"
+                android:id="@+id/tv_company_owner"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_company_owner"
+                android:background="@drawable/edit_text_bg"
+                android:padding="@dimen/_10sdp"
+                android:hint="name"
+                style="@style/normalText"
+                android:id="@+id/ed_company_owner"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Position in Company"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ed_company_owner"
+                android:id="@+id/tv_company_position"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_company_position"
+                android:background="@drawable/edit_text_bg"
+                android:padding="@dimen/_10sdp"
+                android:hint="name"
+                style="@style/normalText"
+                android:id="@+id/ed_company_position"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Building Name / No"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ed_company_position"
+                android:id="@+id/tv_company_building"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_company_building"
+                android:background="@drawable/edit_text_bg"
+                android:padding="@dimen/_10sdp"
+                android:hint="big city plaza"
+                style="@style/normalText"
+                android:id="@+id/ed_company_building"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registered Company Street Address"
+                style="@style/normalText"
+                android:textColor="@color/black"
+                android:paddingEnd="@dimen/_18sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ed_company_building"
+                android:id="@+id/tv_company_street"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_company_street"
+                android:background="@drawable/edit_text_bg"
+                android:padding="@dimen/_10sdp"
+                android:hint="big city plaza"
+                style="@style/normalText"
+                android:id="@+id/ed_company_street"/>
+
+            <Button
+                android:id="@+id/btn_save_company_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_round_bg"
+                android:textColor="@color/white"
+                style="@style/greenButtonStyle"
+                android:text="Next"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textAllCaps="false"
+                android:layout_marginTop="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ed_company_street"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

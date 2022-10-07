@@ -19,6 +19,7 @@ import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookingDateTimeBinding;
+import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
@@ -34,6 +35,8 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
 
     String selectedDate = "";
     String selectedTime = "";
+    AlertDialog.Builder dialogBuilder;
+    AlertDialog alertDialog;
 
     @Override
     protected ActivityBookingDateTimeBinding getActivityBinding() {
@@ -56,13 +59,39 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
             } else if (selectedDate.isEmpty()) {
                 Toast.makeText(this, "Select Date", Toast.LENGTH_SHORT).show();
             }else {
-                prefRepository.setString("Complete","true");
-                onBackPressed();
-                finish();
-                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+               showRequestedDialogue();
             }
         });
     }
+
+    private void showRequestedDialogue() {
+        dialogBuilder = new AlertDialog.Builder(BookingDateTime.this);
+        View layoutView = getLayoutInflater().inflate(R.layout.booking_request_complete_dialogue, null);
+        TextView cancel = (TextView) layoutView.findViewById(R.id.cancel_dialogue);
+        Button booking_ = (Button) layoutView.findViewById(R.id.view_booking);
+
+        dialogBuilder.setView(layoutView);
+        alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimations;
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+
+        cancel.setOnClickListener(view -> alertDialog.dismiss());
+        booking_.setOnClickListener(view -> {
+            Intent intent = new Intent(BookingDateTime.this, Dashboard.class);
+            intent.putExtra("Navigation", "Booking");
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+        });
+
+        cancel.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(BookingDateTime.this, Dashboard.class);
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        });
+    }
+
 
 
     private void daysRv() {

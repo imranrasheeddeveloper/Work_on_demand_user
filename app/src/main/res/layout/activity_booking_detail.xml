@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.booking_detail.BookingDetail">
 
     <include
@@ -344,9 +345,9 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/totalCard"
-                    android:background="@drawable/round_bg"
+                    android:background="@drawable/button_round_bg"
                     style="@style/blueButtonStyle"
-                    android:padding="@dimen/_5sdp"
+                    android:padding="@dimen/_6sdp"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:textAllCaps="false"
@@ -363,10 +364,9 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toEndOf="@id/btnPayLater"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:background="@drawable/round_bg"
-                    android:padding="@dimen/_5sdp"
+                    android:background="@drawable/button_round_bg"
+                    android:padding="@dimen/_6sdp"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginStart="@dimen/_5sdp"
                     app:layout_constraintTop_toBottomOf="@id/totalCard"
                     style="@style/greenButtonStyle"
                     android:textAllCaps="false"
