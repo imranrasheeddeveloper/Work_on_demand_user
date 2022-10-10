@@ -62,6 +62,12 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
                showRequestedDialogue();
             }
         });
+
+        activityBinding.searchedToolbar.back.setOnClickListener(view -> {
+            onBackPressed();
+            finish();
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        });
     }
 
     private void showRequestedDialogue() {
