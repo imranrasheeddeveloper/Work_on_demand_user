@@ -113,7 +113,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_70sdp"
+                    android:layout_height="@dimen/_50sdp"
                     android:background="@color/primary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -123,9 +123,9 @@
                     android:id="@+id/wallet_balance_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="-88dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:layout_marginTop="-65dp"
+                    android:layout_marginEnd="@dimen/_30sdp"
                     android:backgroundTint="@color/white"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="1dp"
@@ -140,53 +140,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rect_bg">
 
-                        <TextView
-                            android:id="@+id/balance_wallet"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:padding="8dp"
-                            android:text="Balance in wallet"
-                            android:textColor="@color/black"
-                            android:textSize="15sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-
-                        <TextView
-                            android:id="@+id/wallet_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:text="0"
-                            android:gravity="center"
-                            android:layout_marginEnd="@dimen/_5sdp"
-                            android:textColor="@color/primary"
-                            android:textSize="20sp"
-                            app:layout_constraintEnd_toStartOf="@id/dollar_icon"
-                            app:layout_constraintBottom_toBottomOf="@id/balance_wallet"
-                            app:layout_constraintTop_toTopOf="@id/balance_wallet"
-                            tools:layout_editor_absoluteX="284dp" />
-
-                        <ImageView
-                            android:id="@+id/dollar_icon"
-                            android:layout_width="@dimen/_20sdp"
-                            android:layout_height="@dimen/_20sdp"
-                            android:layout_marginEnd="@dimen/_10sdp"
-                            app:layout_constraintTop_toTopOf="@id/wallet_price"
-                            app:layout_constraintBottom_toBottomOf="@id/wallet_price"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:src="@drawable/ic_dollar"/>
-                        <ImageView
-                            android:id="@+id/line"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/horizontal_line"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/wallet_price" />
 
                         <TextView
                             android:id="@+id/wallet_"
@@ -202,7 +155,7 @@
                             android:textSize="11sp"
                             app:layout_constraintEnd_toStartOf="@id/booking_"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/line" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/booking_"
@@ -218,7 +171,7 @@
                             android:textSize="11sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/wallet_"
-                            app:layout_constraintTop_toBottomOf="@id/line" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

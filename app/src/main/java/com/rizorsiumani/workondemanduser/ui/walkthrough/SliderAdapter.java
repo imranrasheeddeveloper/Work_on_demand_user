@@ -11,40 +11,28 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardDataItem;
+import com.rizorsiumani.workondemanduser.utils.Constants;
+
+import java.util.List;
 
 
 public class SliderAdapter extends PagerAdapter {
 
     Context context;
     LayoutInflater layoutInflater;
+    List<OnBoardDataItem> data;
 
-    public SliderAdapter(Context context) {
+    public SliderAdapter(Context context, List<OnBoardDataItem> dataItems) {
         this.context = context;
+        this.data = dataItems;
     }
-
-    public int[] slideImages = {
-            R.drawable.page_1,
-            R.drawable.page_1,
-            R.drawable.page_1
-    };
-
-    public String[] slideHeadings = {
-            "Introducing Rizorsi Usmani!",
-            "Avail Services In Hours",
-            "Introducing Rizorsi Usmani!"
-    };
-
-    public String[] slideDescriptions = {
-            "The brand new all-in-one App Offering multiple services to Residential and Commmercial users.",
-            "The brand new all-in-one App Offering multiple services to Residential and Commmercial users.",
-            "The brand new all-in-one App Offering multiple services to Residential and Commmercial users."
-    };
-
 
     @Override
     public int getCount() {
-        return slideHeadings.length;
+        return data.size();
     }
 
     @Override
@@ -63,9 +51,14 @@ public class SliderAdapter extends PagerAdapter {
         TextView slideHeading = (TextView) view.findViewById(R.id.tv_heading);
         TextView slideDescription = (TextView) view.findViewById(R.id.tv_description);
 
-        slideImageView.setImageResource(slideImages[position]);
-        slideHeading.setText(slideHeadings[position]);
-        slideDescription.setText(slideDescriptions[position]);
+        OnBoardDataItem boardDataItem = data.get(position);
+
+        Glide.with(context)
+                .load(Constants.IMG_PATH + boardDataItem.getImage())
+                .into(slideImageView);
+
+        slideHeading.setText(boardDataItem.getTitle());
+        slideDescription.setText(boardDataItem.getDescription());
 
         container.addView(view);
 

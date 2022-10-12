@@ -24,7 +24,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public final class Constants {
-    public static final String BASE_URL = "";
+    public static final String BASE_URL = "http://18.212.61.242:4000/";
+    public static final String IMG_PATH = "http://18.212.61.242:4000";
 
     public static final String APP_PREFERENCES = "com.rizorsiumani.workondemanduser.preferences";
     public static boolean isHome = false;
