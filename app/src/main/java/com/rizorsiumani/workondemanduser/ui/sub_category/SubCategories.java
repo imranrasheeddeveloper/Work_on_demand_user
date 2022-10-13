@@ -1,27 +1,28 @@
-package com.rizorsiumani.workondemanduser.ui.searched_sp;
+package com.rizorsiumani.workondemanduser.ui.sub_category;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
 
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
 import com.rizorsiumani.workondemanduser.databinding.ActivityResultantServiceProvidersBinding;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServiceAdapter;
-import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
-import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderAdapter;
 import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
-import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
+import com.rizorsiumani.workondemanduser.ui.walkthrough.OnBoardingViewModel;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResultantServiceProviders extends BaseActivity<ActivityResultantServiceProvidersBinding> {
+public class SubCategories extends BaseActivity<ActivityResultantServiceProvidersBinding> {
 
+
+    private SubCategoryViewModel viewModel;
+    List<SubCategoryDataItem> dataItems;
+    int catID;
 
     @Override
     protected ActivityResultantServiceProvidersBinding getActivityBinding() {
@@ -33,6 +34,39 @@ public class ResultantServiceProviders extends BaseActivity<ActivityResultantSer
     protected void onStart() {
         super.onStart();
 
+        try {
+            catID = getIntent().getIntExtra("category_id",0);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+        viewModel = new ViewModelProvider(this).get(SubCategoryViewModel.class);
+
+        if (viewModel._subCategory.getValue() == null){
+            viewModel.subCategories(catID,1);
+        }
+
+        viewModel._subCategory.observe(this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (!response.getError().isEmpty()) {
+                    //we have error to show
+                    hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+                    hideLoading();
+
+                    dataItems = new ArrayList<>();
+                    dataItems.addAll(response.getData().getData());
+                    if (dataItems.size() > 0) {
+                        buildRv(dataItems);
+                    }
+
+                }
+            }
+        });
+
         activityBinding.searchedToolbar.title.setText("Sub Services");
         activityBinding.searchedToolbar.back.setOnClickListener(view -> {
             onBackPressed();
@@ -40,10 +74,9 @@ public class ResultantServiceProviders extends BaseActivity<ActivityResultantSer
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         });
 
-        buildRv();
     }
 
-    private void buildRv() {
+    private void buildRv(List<SubCategoryDataItem> dataItems) {
 //        List<String> name = new ArrayList<>();
 //        name.add("Michel Jeff");
 //        name.add("Michel Jeff");
@@ -58,20 +91,23 @@ public class ResultantServiceProviders extends BaseActivity<ActivityResultantSer
 //            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 //        });
 
-        List<String> ser_categories = new ArrayList<>();
-        ser_categories.add("Home Cleaning");
-        ser_categories.add("Office Cleaning");
-        ser_categories.add("Warehouse Cleaning");
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
         activityBinding.searchDataList.setLayoutManager(layoutManager);
-        SearchServiceAdapter adapter = new SearchServiceAdapter(ser_categories, App.applicationContext);
+        SearchServiceAdapter adapter = new SearchServiceAdapter(dataItems, SubCategories.this);
         activityBinding.searchDataList.setAdapter(adapter);
 
         adapter.setOnCategoryClickListener(position -> {
-            ActivityUtil.gotoPage(ResultantServiceProviders.this, Serviceproviders.class);
+            ActivityUtil.gotoPage(SubCategories.this, Serviceproviders.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        viewModel._subCategory.removeObservers(this);
+        viewModel = null;
     }
 }

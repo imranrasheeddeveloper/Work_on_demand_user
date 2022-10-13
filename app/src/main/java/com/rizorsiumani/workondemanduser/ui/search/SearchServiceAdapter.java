@@ -4,19 +4,22 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.ui.fragment.booking.BookingAdopter;
+import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
 public class SearchServiceAdapter extends RecyclerView.Adapter<SearchServiceAdapter.ViewHolder> {
 
-    private final List<String> list;
+    private final List<SubCategoryDataItem> list;
     private final Context ctx;
     ItemClickListener listener;
 
@@ -24,7 +27,7 @@ public class SearchServiceAdapter extends RecyclerView.Adapter<SearchServiceAdap
         this.listener = listener;
     }
 
-    public SearchServiceAdapter(List<String> data, Context context) {
+    public SearchServiceAdapter(List<SubCategoryDataItem> data, Context context) {
         this.list = data;
         this.ctx = context;
     }
@@ -38,8 +41,11 @@ public class SearchServiceAdapter extends RecyclerView.Adapter<SearchServiceAdap
 
     @Override
     public void onBindViewHolder(@NonNull SearchServiceAdapter.ViewHolder holder, int position) {
-        String name = list.get(position);
-        holder.name.setText(name);
+        SubCategoryDataItem dataItem = list.get(position);
+        holder.name.setText(dataItem.getTitle());
+        Glide.with(ctx)
+                .load(Constants.IMG_PATH + dataItem.getImage())
+                .into(holder.icon);
     }
 
     @Override
@@ -54,11 +60,13 @@ public class SearchServiceAdapter extends RecyclerView.Adapter<SearchServiceAdap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
+        public ImageView icon;
 
         public ViewHolder(@NonNull View itemView, ItemClickListener listener) {
             super(itemView);
 
             name = itemView.findViewById(R.id.serName);
+            icon = itemView.findViewById(R.id.ser_image);
 
             itemView.setOnClickListener(view -> {
                 if (listener!= null){

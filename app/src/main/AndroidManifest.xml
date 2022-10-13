@@ -33,10 +33,10 @@
         android:theme="@style/Theme.RizorsiUmaniUser"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Inbox"
+            android:name=".ui.Inbox"
             android:exported="false" />
         <activity
-            android:name=".Chatroom"
+            android:name=".ui.chat.Chatroom"
             android:exported="false" />
         <activity
             android:name=".ui.commercial_user_info.ComapnyInformation"
@@ -66,7 +66,7 @@
             android:name=".ui.booking_detail.BookingDetail"
             android:exported="false" />
         <activity
-            android:name=".ui.searched_sp.ResultantServiceProviders"
+            android:name=".ui.sub_category.SubCategories"
             android:exported="false" />
         <activity
             android:name=".ui.booking.BookService"
@@ -102,12 +102,12 @@
             android:name=".ui.dashboard.Dashboard"
             android:exported="true">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity
             android:name=".ui.register.OtpVerification"
@@ -138,11 +138,11 @@
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
         <meta-data

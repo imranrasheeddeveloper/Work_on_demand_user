@@ -1,7 +1,6 @@
-package com.rizorsiumani.workondemanduser.ui.searched_sp;
+package com.rizorsiumani.workondemanduser.ui.sub_category;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 
 import java.util.List;
 
-public class SearchedProviderAdapter extends RecyclerView.Adapter<SearchedProviderAdapter.ViewHolder> {
+public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdapter.ViewHolder> {
 
     private final List<String> list;
     private final Context ctx;
@@ -25,20 +23,20 @@ public class SearchedProviderAdapter extends RecyclerView.Adapter<SearchedProvid
         this.itemClickListener = itemClickListener;
     }
 
-    public SearchedProviderAdapter(List<String> data, Context context) {
+    public SubCategoriesAdapter(List<String> data, Context context) {
         this.list = data;
         this.ctx = context;
     }
 
     @NonNull
     @Override
-    public SearchedProviderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SubCategoriesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.service_provider_item_design, parent, false);
-        return new SearchedProviderAdapter.ViewHolder(view,itemClickListener);
+        return new SubCategoriesAdapter.ViewHolder(view,itemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchedProviderAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SubCategoriesAdapter.ViewHolder holder, int position) {
         String name = list.get(position);
         holder.name.setText(name);
 
@@ -56,7 +54,7 @@ public class SearchedProviderAdapter extends RecyclerView.Adapter<SearchedProvid
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
 
-        public ViewHolder(@NonNull View itemView, SearchedProviderAdapter.onItemClickListener itemClickListener) {
+        public ViewHolder(@NonNull View itemView, SubCategoriesAdapter.onItemClickListener itemClickListener) {
             super(itemView);
 
             name = itemView.findViewById(R.id.sp_name);

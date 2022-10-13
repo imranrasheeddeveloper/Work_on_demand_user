@@ -7,24 +7,24 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeSliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.RecommendedServicesModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.SerCategoryModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.SliderDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
-import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
-import com.rizorsiumani.workondemanduser.ui.all_services.AllServices;
 import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.filter.FilterSearch;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
-import com.rizorsiumani.workondemanduser.ui.searched_sp.ResultantServiceProviders;
+import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
@@ -38,6 +38,10 @@ import java.util.List;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements PromotionalAdapter.OnPromotionAdapterClick {
 
+    private HomeViewModel viewModel;
+    private SliderViewModel sliderViewModel;
+    List<CategoriesDataItem> categoriesDataItems;
+    List<SliderDataItem> sliderDataItems;
 
     @Override
     protected FragmentHomeBinding getFragmentBinding() {
@@ -47,6 +51,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        sliderViewModel = new ViewModelProvider(this).get(SliderViewModel.class);
+        setSlider();
+
 
         Constants.isHome = true;
 
@@ -59,7 +68,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
             }
         }
 
-        slider();
         getServices();
         clickListeners();
 
@@ -94,6 +102,31 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
 
 
         populateCarServices();
+
+    }
+
+    private void setSlider() {
+        if (sliderViewModel._slider.getValue() == null){
+            sliderViewModel.getSliderInfo();
+        }
+
+        sliderViewModel._slider.observe(getViewLifecycleOwner(), response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    //showLoading();
+                } else if (!response.getError().isEmpty()) {
+                   // hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getSliderData() != null) {
+                   // hideLoading();
+
+                    sliderDataItems = new ArrayList<>();
+                    sliderDataItems.addAll(response.getData().getSliderData());
+                    slider(sliderDataItems);
+
+                }
+            }
+        });
 
     }
 
@@ -150,51 +183,80 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
 
     private void getServices() {
 
-        List<SerCategoryModel> service_categories = new ArrayList<>();
-        service_categories.add(new SerCategoryModel("Cleaning", R.drawable.ic_cleaning, "#eb5657"));
-        service_categories.add(new SerCategoryModel("Appliances", R.drawable.ic_electric_appliance, "#0ebdde"));
-        service_categories.add(new SerCategoryModel("Electronic", R.drawable.ic_electrician, "#1aa882"));
-        service_categories.add(new SerCategoryModel("Washing", R.drawable.ic_laundry_machine, "#5824c4"));
-        service_categories.add(new SerCategoryModel("Painting", R.drawable.ic_paint_roller, "#fda145"));
-        service_categories.add(new SerCategoryModel("Wood Working", R.drawable.ic_woodworking, "#0ebdde"));
-        service_categories.add(new SerCategoryModel("Shifting", R.drawable.ic_shiftinng, "#eb5657"));
+        if (viewModel._category.getValue() == null){
+            viewModel.categories(1);
+        }
+
+        viewModel._category.observe(getViewLifecycleOwner(), response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                  //  showLoading();
+                } else if (!response.getError().isEmpty()) {
+                   // hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+                   // hideLoading();
+                    categoriesDataItems = new ArrayList<>();
+                    categoriesDataItems.addAll(response.getData().getData());
+                    if (categoriesDataItems.size() > 0){
+                        buildCategoryRv(categoriesDataItems);
+                    }
 
 
+                }
+            }
+        });
+
+
+//        List<SerCategoryModel> service_categories = new ArrayList<>();
+//        service_categories.add(new SerCategoryModel("Cleaning", R.drawable.ic_cleaning, "#eb5657"));
+//        service_categories.add(new SerCategoryModel("Appliances", R.drawable.ic_electric_appliance, "#0ebdde"));
+//        service_categories.add(new SerCategoryModel("Electronic", R.drawable.ic_electrician, "#1aa882"));
+//        service_categories.add(new SerCategoryModel("Washing", R.drawable.ic_laundry_machine, "#5824c4"));
+//        service_categories.add(new SerCategoryModel("Painting", R.drawable.ic_paint_roller, "#fda145"));
+//        service_categories.add(new SerCategoryModel("Wood Working", R.drawable.ic_woodworking, "#0ebdde"));
+//        service_categories.add(new SerCategoryModel("Shifting", R.drawable.ic_shiftinng, "#eb5657"));
+
+
+
+
+    }
+
+    private void buildCategoryRv(List<CategoriesDataItem> categoriesDataItems) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false);
         fragmentBinding.categoriesList.setLayoutManager(layoutManager);
-        CategoriesAdapter adapter = new CategoriesAdapter(requireContext(), service_categories);
+        CategoriesAdapter adapter = new CategoriesAdapter(requireContext(), categoriesDataItems);
         fragmentBinding.categoriesList.setAdapter(adapter);
 
 
         adapter.setOnServiceClickListener(position -> {
-            ActivityUtil.gotoPage(requireContext(), ResultantServiceProviders.class);
+            Intent intent = new Intent(requireContext(),SubCategories.class);
+            intent.putExtra("category_id",categoriesDataItems.get(position).getId());
+            startActivity(intent);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
-
     }
 
-    private void slider() {
+    private void slider(List<SliderDataItem> sliderDataItems) {
 
+//        sliderModel.add(new HomeSliderModel(
+//                "Fix the Broken Stuff by Asking for he Technicians.",
+//                R.drawable.ic_home_slider_car_illus,
+//                "#00A688"
+//        ));
+//
+//        sliderModel.add(new HomeSliderModel(
+//                "Assigning a Handyman At Work To Fix The Household.",
+//                R.drawable.ic_sliderr,
+//                "#ffa24a"
+//        ));
+//        sliderModel.add(new HomeSliderModel(
+//                "Add Hands To Fix Your Car.",
+//                R.drawable.ic_home_slider_car_illus,
+//                "#00A688"
+//        ));
 
-        List<HomeSliderModel> sliderModel = new ArrayList<>();
-        sliderModel.add(new HomeSliderModel(
-                "Fix the Broken Stuff by Asking for he Technicians.",
-                R.drawable.ic_home_slider_car_illus,
-                "#00A688"
-        ));
-
-        sliderModel.add(new HomeSliderModel(
-                "Assigning a Handyman At Work To Fix The Household.",
-                R.drawable.ic_sliderr,
-                "#ffa24a"
-        ));
-        sliderModel.add(new HomeSliderModel(
-                "Add Hands To Fix Your Car.",
-                R.drawable.ic_home_slider_car_illus,
-                "#00A688"
-        ));
-
-        HomeSliderAdapter sliderAdapter = new HomeSliderAdapter(requireContext(), sliderModel);
+        HomeSliderAdapter sliderAdapter = new HomeSliderAdapter(requireContext(), sliderDataItems);
         fragmentBinding.imageSlider.setSliderAdapter(sliderAdapter);
         fragmentBinding.imageSlider.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
         fragmentBinding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.THIN_WORM);
@@ -213,6 +275,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
     public void onDestroyView() {
         super.onDestroyView();
 
+
+        viewModel._category.removeObservers(this);
+        viewModel = null;
         Constants.isHome = false;
     }
 

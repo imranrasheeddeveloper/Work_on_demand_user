@@ -13,7 +13,6 @@ import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServiceProviderListBinding;
-import com.rizorsiumani.workondemanduser.ui.searched_sp.ResultantServiceProviders;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderAdapter;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;

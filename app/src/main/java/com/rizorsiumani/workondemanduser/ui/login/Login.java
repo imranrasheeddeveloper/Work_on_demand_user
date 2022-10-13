@@ -89,9 +89,11 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
         object.addProperty("email", email);
         object.addProperty("password", password);
 
-        if (viewModel._loginData.getValue() == null){
-            viewModel.login(object);
-        }
+        viewModel.login(object);
+
+//        if (viewModel._loginData.getValue() == null){
+//            viewModel.login(object);
+//        }
 
         viewModel._loginData.observe(this, response -> {
             if (response != null) {
@@ -115,4 +117,12 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+        viewModel._loginData.removeObservers(this);
+        viewModel = null;
+    }
 }

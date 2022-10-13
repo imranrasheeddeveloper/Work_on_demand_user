@@ -10,8 +10,7 @@ import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySearchServicesBinding;
-import com.rizorsiumani.workondemanduser.ui.searched_sp.ResultantServiceProviders;
-import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
+import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
 import java.util.ArrayList;
@@ -53,13 +52,13 @@ public class SearchServices extends BaseActivity<ActivitySearchServicesBinding> 
             public void afterTextChanged(Editable data) {
 
                 if (!data.toString().isEmpty()) {
-                    getSearchedData(data.toString());
+                    //getSearchedData(data.toString());
                 }
             }
         });
     }
 
-    private void getSearchedData(String toString) {
+   /* private void getSearchedData(String toString) {
 
         List<String> ser_categories = new ArrayList<>();
         ser_categories.add("Home Cleaning");
@@ -72,11 +71,11 @@ public class SearchServices extends BaseActivity<ActivitySearchServicesBinding> 
         activityBinding.searchDataList.setAdapter(adapter);
 
         adapter.setOnCategoryClickListener(position -> {
-            ActivityUtil.gotoPage(SearchServices.this, ResultantServiceProviders.class);
+            ActivityUtil.gotoPage(SearchServices.this, SubCategories.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
-    }
+    }*/
 
     private void clickListeners() {
         activityBinding.searchToolbar.back.setOnClickListener(view -> {

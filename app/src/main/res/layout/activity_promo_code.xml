@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.promo_code.PromoCode">
 
+
+    <include
+        layout="@layout/layout_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
     <include
         android:id="@+id/promo_toolbar"
         layout="@layout/toolbar_layout"

@@ -1,6 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -12,17 +13,23 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeSliderModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.SliderDataItem;
+import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
 import java.util.List;
 
 public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.SliderAdapterViewHolder> {
 
-    List<HomeSliderModel> images;
+    List<SliderDataItem> images;
+    Context context;
 
-    public HomeSliderAdapter(Context context, List<HomeSliderModel> images) {
+    public HomeSliderAdapter(Context context, List<SliderDataItem> images) {
+        this.context = context;
         this.images = images;
     }
 
@@ -35,16 +42,25 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
 
     @Override
     public void onBindViewHolder(SliderAdapterViewHolder viewHolder, final int position) {
-        HomeSliderModel item = images.get(position);
+        SliderDataItem item = images.get(position);
 
-        viewHolder.title.setText(item.getDesc());
-        viewHolder.illustrator.setImageResource(item.getImgID());
-        viewHolder.sliderBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(item.getColorCode())));
+        viewHolder.title.setText(item.getDescription());
+        Glide.with(context)
+                        .load(Constants.IMG_PATH + item.getImage())
+                                .into(viewHolder.illustrator);
+        viewHolder.sliderBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(item.getColor())));
+
+        viewHolder.sliderBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(context, SubCategories.class);
+            intent.putExtra("category_id",item.getId());
+            context.startActivity(intent);
+            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
 
         try {
 
             final int[] colors = new int[2];
-            colors[0] = Color.parseColor(item.getColorCode());
+            colors[0] = Color.parseColor(item.getColor());
             colors[1] = Color.parseColor("#fef4ea");
 
             GradientDrawable gd = new GradientDrawable(

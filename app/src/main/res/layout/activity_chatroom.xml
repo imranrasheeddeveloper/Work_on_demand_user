@@ -7,6 +7,12 @@
     tools:context=".ui.chat.Chatroom">
 
     <include
+        layout="@layout/layout_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <include
         android:id="@+id/chat_toolbar"
         layout="@layout/toolbar_layout"
         android:layout_width="match_parent"

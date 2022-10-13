@@ -7,7 +7,7 @@ import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoryModel;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.ServicesAdapter;
-import com.rizorsiumani.workondemanduser.ui.searched_sp.ResultantServiceProviders;
+import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class AllServices extends BaseActivity<com.rizorsiumani.workondemanduser.
         activityBinding.allServicesList.setAdapter(adapter);
 
         adapter.setOnServiceClickListener(position -> {
-            ActivityUtil.gotoPage(AllServices.this, ResultantServiceProviders.class);
+            ActivityUtil.gotoPage(AllServices.this, SubCategories.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 

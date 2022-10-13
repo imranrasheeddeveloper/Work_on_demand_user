@@ -1,22 +1,17 @@
 package com.rizorsiumani.workondemanduser.ui.category;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Bundle;
 
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.SerCategoryModel;
 import com.rizorsiumani.workondemanduser.databinding.ActivityCategoriesBinding;
-import com.rizorsiumani.workondemanduser.ui.fragment.home.CategoriesAdapter;
-import com.rizorsiumani.workondemanduser.ui.search.SearchServiceAdapter;
-import com.rizorsiumani.workondemanduser.ui.searched_sp.ResultantServiceProviders;
+import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
 import java.util.ArrayList;
@@ -50,21 +45,21 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
     }
 
     private void clickListeners() {
-        activityBinding.gridView.setOnClickListener(view -> {
-
-            activityBinding.gridView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#f4841f")));
-            activityBinding.linearView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#B8B8BC")));
-
-            GridLayoutManager layoutManager = new GridLayoutManager(App.applicationContext, 2);
-            activityBinding.categoriiesList.setLayoutManager(layoutManager);
-            CategoriesAdapter adapter = new CategoriesAdapter(Categories.this, service_categories);
-            activityBinding.categoriiesList.setAdapter(adapter);
-
-            adapter.setOnServiceClickListener(position -> {
-                ActivityUtil.gotoPage(Categories.this, ResultantServiceProviders.class);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            });
-        });
+//        activityBinding.gridView.setOnClickListener(view -> {
+//
+//            activityBinding.gridView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#f4841f")));
+//            activityBinding.linearView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#B8B8BC")));
+//
+//            GridLayoutManager layoutManager = new GridLayoutManager(App.applicationContext, 2);
+//            activityBinding.categoriiesList.setLayoutManager(layoutManager);
+//            CategoriesAdapter adapter = new CategoriesAdapter(Categories.this, service_categories);
+//            activityBinding.categoriiesList.setAdapter(adapter);
+//
+//            adapter.setOnServiceClickListener(position -> {
+//                ActivityUtil.gotoPage(Categories.this, ResultantServiceProviders.class);
+//                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//            });
+//        });
 
         activityBinding.linearView.setOnClickListener(view -> {
             activityBinding.gridView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#B8B8BC")));
@@ -81,7 +76,7 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
         activityBinding.categoriiesList.setAdapter(adapter);
 
         adapter.setOnServiceClickListener(position -> {
-            ActivityUtil.gotoPage(Categories.this, ResultantServiceProviders.class);
+            ActivityUtil.gotoPage(Categories.this, SubCategories.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }

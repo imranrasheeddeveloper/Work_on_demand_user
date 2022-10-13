@@ -8,10 +8,12 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewbinding.ViewBinding;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.rizorsiumani.workondemanduser.data.local.PreferenceRepository;
 import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
 
@@ -27,6 +29,7 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         fragmentBinding = getFragmentBinding();
 
         prefRepository = new PreferenceRepository();
@@ -37,5 +40,13 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
 
     public PreferenceRepository getPrefRepository() {
         return prefRepository;
+    }
+
+    protected void showSnackBarShort(String msg) {
+        Snackbar.make(fragmentBinding.getRoot(), msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    protected void showSnackBarShort(@StringRes int resID) {
+        Snackbar.make(fragmentBinding.getRoot(), resID, Snackbar.LENGTH_SHORT).show();
     }
 }

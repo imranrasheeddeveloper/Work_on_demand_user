@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".ui.booking_detail.BookingDetail">
+    <include
+        layout="@layout/layout_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
     <include
         android:id="@+id/booking_detail_toolbar"

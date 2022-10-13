@@ -3,11 +3,12 @@ package com.rizorsiumani.workondemanduser.data.remote;
 
 
 import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
-
-import java.util.List;
 
 import rx.Observable;
 
@@ -52,6 +53,30 @@ public class RemoteRepository {
 
         if (mService != null) {
             return mService.loginUser(object);
+        }
+        return null;
+    }
+
+    public Observable<CategoriesModel> getCategories(int page) {
+
+        if (mService != null) {
+            return mService.getCategories(page);
+        }
+        return null;
+    }
+
+    public Observable<SubCategoriesModel> getSubCategories(int id,int page) {
+
+        if (mService != null) {
+            return mService.getSubCategories(id,page);
+        }
+        return null;
+    }
+
+    public Observable<SliderModel> getSliderData() {
+
+        if (mService != null) {
+            return mService.getSliderData();
         }
         return null;
     }

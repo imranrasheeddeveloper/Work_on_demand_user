@@ -8,6 +8,12 @@
     tools:context=".ui.category.Categories">
 
     <include
+        layout="@layout/layout_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <include
         android:id="@+id/categories_toolbar"
         layout="@layout/toolbar_layout"
         android:layout_width="match_parent"
