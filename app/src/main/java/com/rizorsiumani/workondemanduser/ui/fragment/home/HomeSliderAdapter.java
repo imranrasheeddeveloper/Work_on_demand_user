@@ -49,6 +49,7 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
                         .load(Constants.IMG_PATH + item.getImage())
                                 .into(viewHolder.illustrator);
         viewHolder.sliderBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(item.getColor())));
+        viewHolder.sliderBtn.setText(item.getTitle());
 
         viewHolder.sliderBtn.setOnClickListener(view -> {
             Intent intent = new Intent(context, SubCategories.class);
