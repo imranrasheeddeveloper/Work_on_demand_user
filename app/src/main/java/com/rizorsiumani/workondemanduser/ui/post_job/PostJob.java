@@ -34,7 +34,6 @@ import com.paulrybitskyi.valuepicker.model.PickerItem;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityPostJobBinding;
-import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.skydoves.elasticviews.ElasticImageView;
 
 import java.io.File;
@@ -49,6 +48,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     List<String> imagesPath;
     AlertDialog.Builder dialogBuilder;
     AlertDialog alertDialog;
+    ArrayList<String> budgetUnitList;
 
     @Override
     protected ActivityPostJobBinding getActivityBinding() {
@@ -61,9 +61,27 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
 
         imagesPath = new ArrayList<>();
-
+//        activityBinding.spinner.setItems("Fixed", "Hourly", "Weekly", "Monthly");
+//        activityBinding.spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+//
+//            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+//                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
+//            }
+//        });
+//        budgetUnitList = getList();
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(PostJob.this, android.R.layout.simple_spinner_item, budgetUnitList);
+//        activityBinding.spinner.setAdapter(adapter);
         clickListeners();
 
+    }
+
+    private ArrayList<String> getList() {
+        ArrayList<String> budget_unit = new ArrayList<>();
+        budget_unit.add("Fixed");
+        budget_unit.add("Hourly");
+        budget_unit.add("Weekly");
+        budget_unit.add("Monthly");
+        return budget_unit;
     }
 
     private void clickListeners() {
@@ -79,11 +97,37 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
         activityBinding.tvCategory.setOnClickListener(view -> {
-            showCategoriesDialogue(activityBinding.selectedCategory);
+            List<String> categories = new ArrayList<>();
+            categories.add("Cleaning");
+            categories.add("Appliances");
+            categories.add("Electronic");
+            categories.add("Washing");
+            categories.add("Painting");
+            categories.add("Wood Working");
+            categories.add("Shifting");
+            showCategoriesDialogue(categories,activityBinding.selectedCategory);
         });
 
         activityBinding.tvSubcategory.setOnClickListener(view -> {
-            showCategoriesDialogue(activityBinding.selectedSubcategory);
+            List<String> categories = new ArrayList<>();
+            categories.add("Cleaning");
+            categories.add("Appliances");
+            categories.add("Electronic");
+            categories.add("Washing");
+            categories.add("Painting");
+            categories.add("Wood Working");
+            categories.add("Shifting");
+            showCategoriesDialogue(categories,activityBinding.selectedSubcategory);
+        });
+
+        activityBinding.budgetUnitLayout.setOnClickListener(view -> {
+
+            List<String> categories = new ArrayList<>();
+            categories.add("Fixed");
+            categories.add("Hourly");
+            categories.add("Weekly");
+            categories.add("Yearly");
+            showCategoriesDialogue(categories,activityBinding.selectedBudgetUnit);
         });
 
         activityBinding.deadlineDate.setOnClickListener(view -> {
@@ -93,9 +137,10 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
 
+
     }
 
-    private void showCategoriesDialogue(TextView textView) {
+    private void showCategoriesDialogue(List<String> categories, TextView textView) {
         dialogBuilder = new AlertDialog.Builder(PostJob.this);
         dialogBuilder.setCancelable(false);
         View layoutView = getLayoutInflater().inflate(R.layout.pick_category_dialogue, null);
@@ -106,9 +151,9 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             textView.setTag(item.getTitle());
         });
 
-        final List<Item> pickerItems = getPickerItems();
+        final List<Item> pickerItems = getPickerItems(categories);
 
-        valuePickerView.setItems(getPickerItems());
+        valuePickerView.setItems(getPickerItems(categories));
         valuePickerView.setSelectedItem(pickerItems.get(2));
 
         dialogBuilder.setView(layoutView);
@@ -127,18 +172,9 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
     }
 
-    private List<Item> getPickerItems() {
+    private List<Item> getPickerItems(List<String> categories) {
         final List<Item> pickerItems = new ArrayList<>();
 
-        List<String> categories = new ArrayList<>();
-        categories.add("Cleaning");
-        categories.add("Appliances");
-        categories.add("Electronic");
-        categories.add("Washing");
-        categories.add("Painting");
-        categories.add("Wood Working");
-        categories.add("Shifting");
-        
         for(int i = 0; i <= categories.size()-1; i++) {
             pickerItems.add(
                     new PickerItem(

@@ -28,6 +28,7 @@ public final class Constants {
     public static final String IMG_PATH = "http://18.212.61.242:4000";
 
     public static final String APP_PREFERENCES = "com.rizorsiumani.workondemanduser.preferences";
+    public static String FCM_TOKEN = "";
     public static boolean isHome = false;
     public static Constants constant = new Constants();
 

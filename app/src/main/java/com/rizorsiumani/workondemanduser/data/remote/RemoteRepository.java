@@ -3,6 +3,7 @@ package com.rizorsiumani.workondemanduser.data.remote;
 
 
 import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.common.CommonResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
@@ -77,6 +78,13 @@ public class RemoteRepository {
 
         if (mService != null) {
             return mService.getSliderData();
+        }
+        return null;
+    }
+
+    public Observable<CommonResponse> upload(JsonObject object){
+        if (mService != null){
+            return  mService.uploadImage(object);
         }
         return null;
     }

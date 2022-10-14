@@ -142,7 +142,7 @@
                 android:background="@drawable/button_round_bg"
                 android:textColor="@color/white"
                 style="@style/greenButtonStyle"
-                android:text="@string/confirm"
+                android:text="Update"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:textAllCaps="false"

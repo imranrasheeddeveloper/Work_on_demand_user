@@ -1,16 +1,28 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
@@ -22,12 +34,14 @@ import com.rizorsiumani.workondemanduser.data.businessModels.SliderDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.category.Categories;
+import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.filter.FilterSearch;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
+import com.skydoves.elasticviews.ElasticImageView;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -42,6 +56,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
     private SliderViewModel sliderViewModel;
     List<CategoriesDataItem> categoriesDataItems;
     List<SliderDataItem> sliderDataItems;
+    int count = 0;
 
     @Override
     protected FragmentHomeBinding getFragmentBinding() {
@@ -171,8 +186,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
 
 
         fragmentBinding.filter.setOnClickListener(view -> {
-            ActivityUtil.gotoPage(requireContext(), FilterSearch.class);
-            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            if (count == 0) {
+                count = 1;
+                expandFiltersSheet();
+            }
         });
 
         fragmentBinding.tvChooseAddress.setOnClickListener(view -> {
@@ -180,6 +197,57 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
+
+    private void expandFiltersSheet() {
+        final BottomSheetDialog bt = new BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme);
+        bt.setCanceledOnTouchOutside(false);
+        View view = LayoutInflater.from(requireContext()).inflate(R.layout.filters_bottom_sheet, null, false);
+        bt.getBehavior().addBottomSheetCallback(mBottomSheetBehaviorCallback);
+
+        TextView cancel = view.findViewById(R.id.tv_cancel);
+        TextView select = view.findViewById(R.id.tv_done);
+        RecyclerView list = view.findViewById(R.id.filtersList);
+
+        List<String> service_categories = new ArrayList<>();
+        service_categories.add("Cleaning");
+        service_categories.add("Shifting");
+        service_categories.add("Appliances");
+        service_categories.add("Painting");
+        service_categories.add("Electronic");
+        service_categories.add("Repairing");
+        service_categories.add("Cleaning");
+        service_categories.add("More");
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
+        list.setLayoutManager(layoutManager);
+        CategoryFilterAdapter adapter = new CategoryFilterAdapter(service_categories, requireContext());
+        list.setAdapter(adapter);
+
+        cancel.setOnClickListener(view1 -> {
+            count = 0;
+            bt.dismiss();
+        });
+
+        bt.setContentView(view);
+        bt.show();
+    }
+    private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
+
+        @Override
+        public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                count = 0;
+            } else {
+                count = 1;
+            }
+
+        }
+
+        @Override
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+        }
+    };
+
 
     private void getServices() {
 

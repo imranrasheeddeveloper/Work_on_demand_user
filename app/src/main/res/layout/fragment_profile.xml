@@ -43,7 +43,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                       
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -246,20 +246,6 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_notifications" />
 
 
-                    <!--Account setting-->
-                    <TextView
-                        android:id="@+id/tv_address"
-                        style="@style/profile_text_appearance"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="1dp"
-                        android:background="@drawable/ripple_bg_selector"
-                        android:text="Addresses"
-                        app:drawableEndCompat="@drawable/grey_forward_icon"
-                        app:drawableStartCompat="@drawable/emergency_call"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_invite" />
 
                     <TextView
                         android:id="@+id/account_setting"
@@ -271,7 +257,7 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_address" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_invite" />
 
                     <TextView
                         android:id="@+id/tv_personal_details"
@@ -378,45 +364,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_comments" />
 
-                    <!--payment-->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:text="Payment"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:textColor="@color/black"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_reach_us"
-                        android:padding="20dp"
-                        android:id="@+id/pay_setting"/>
-
-                    <TextView
-                        android:id="@+id/tv_my_wallet"
-                        style="@style/profile_text_appearance"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="My Wallet"
-                        android:layout_marginTop="1dp"
-                        android:background="@drawable/ripple_bg_selector"
-                        app:drawableEndCompat="@drawable/grey_forward_icon"
-                        app:drawableStartCompat="@drawable/ic_walle_icon"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/pay_setting" />
 
 
-                    <TextView
-                        android:id="@+id/tv_payment_method"
-                        style="@style/profile_text_appearance"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:text="Payment Method or Payment"
-                        android:layout_marginTop="1dp"
-                        android:background="@drawable/ripple_bg_selector"
-                        app:drawableEndCompat="@drawable/grey_forward_icon"
-                        app:drawableStartCompat="@drawable/payment"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_my_wallet" />
 
                     <TextView
                         android:id="@+id/tv_logout"
@@ -430,7 +379,7 @@
                         app:drawableEndCompat="@drawable/grey_forward_icon"
                         app:drawableStartCompat="@drawable/logout"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_payment_method" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_reach_us" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

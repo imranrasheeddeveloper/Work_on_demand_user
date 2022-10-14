@@ -4,4 +4,10 @@
         <item>1</item>
         <item>500</item>
     </array>
+    <string-array name="budget_unit" >
+        Fixed,
+        Hourly,
+        Weekly,
+        Monthly
+    </string-array>
 </resources>

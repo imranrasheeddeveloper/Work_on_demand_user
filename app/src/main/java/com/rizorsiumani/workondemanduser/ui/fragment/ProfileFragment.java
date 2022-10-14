@@ -37,10 +37,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     }
 
     private void clickListeners() {
-        fragmentBinding.tvAddress.setOnClickListener(view -> {
-            ActivityUtil.gotoPage(requireContext(), SavedAddresses.class);
-            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        });
+
 
         fragmentBinding.tvNotifications.setOnClickListener(view -> {
             ActivityUtil.gotoPage(requireContext(), Notification.class);
@@ -60,9 +57,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
             Dashboard.goToBooking();
         });
 
-        fragmentBinding.tvMyWallet.setOnClickListener(view -> {
-            Dashboard.goToWallet();
-        });
+
 
         fragmentBinding.booking.setOnClickListener(view -> {
             Dashboard.goToBooking();

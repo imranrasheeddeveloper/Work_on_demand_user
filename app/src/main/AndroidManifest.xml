@@ -32,6 +32,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RizorsiUmaniUser"
         android:usesCleartextTraffic="true">
+
+        <service
+            android:name=".common.FirebaseCloudMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service> <!-- Foreground services in Q+ require type. -->
+
         <activity
             android:name=".ui.Inbox"
             android:exported="false" />

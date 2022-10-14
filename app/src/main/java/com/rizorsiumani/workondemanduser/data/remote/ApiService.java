@@ -2,6 +2,7 @@ package com.rizorsiumani.workondemanduser.data.remote;
 
 
 import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.common.CommonResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
@@ -31,4 +32,7 @@ public interface ApiService {
 
     @GET("slider/getSlider")
     Observable<SliderModel> getSliderData();
+
+    @POST("users/uploadProfile")
+    Observable<CommonResponse> uploadImage(@Body JsonObject object);
 }

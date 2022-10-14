@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="12dp"
+    android:padding="8dp"
     android:background="@color/off_white"
     >
     <TextView
@@ -10,23 +10,12 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:text="Cleaner"
         android:textColor="@color/black"
         android:fontFamily="@font/poppins_medium"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:id="@+id/serviceName01"/>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/serviceName01"
-        android:text="3 Services"
-        android:textColor="@color/dark_gray"
-        android:fontFamily="@font/poppin_regular"
-        android:textSize="14sp"
-        android:id="@+id/serviceCount"/>
 
     <com.skydoves.elasticviews.ElasticImageView
         android:id="@+id/selectCat"
