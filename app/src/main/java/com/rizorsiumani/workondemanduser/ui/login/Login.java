@@ -17,6 +17,7 @@ import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.register.Register;
 import com.rizorsiumani.workondemanduser.ui.walkthrough.OnBoardingViewModel;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -88,6 +89,8 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
         JsonObject object = new JsonObject();
         object.addProperty("email", email);
         object.addProperty("password", password);
+        object.addProperty("fcm_token" , Constants.FCM_TOKEN);
+        object.addProperty("type","individual");
 
         viewModel.login(object);
 
@@ -105,6 +108,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
                     hideLoading();
+                    prefRepository.setString("token" , "Bearer "+response.getData().getData().getToken());
 
                     ActivityUtil.gotoPage(Login.this, Dashboard.class);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

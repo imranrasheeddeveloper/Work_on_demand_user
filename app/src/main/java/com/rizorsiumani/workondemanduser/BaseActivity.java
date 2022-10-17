@@ -10,6 +10,7 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.rizorsiumani.workondemanduser.data.local.PreferenceRepository;
 
@@ -21,6 +22,7 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
     protected abstract binding getActivityBinding();
 
     protected PreferenceRepository prefRepository = null;
+    private LottieAnimationView animationView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,9 +30,17 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
         activityBinding = getActivityBinding();
         setContentView(activityBinding.getRoot());
         progressBar = findViewById(R.id.progress);
+        animationView = findViewById(R.id.no_data_animation);
         prefRepository = new PreferenceRepository();
     }
 
+    protected void showNoDataAnimation() {
+        animationView.setVisibility(View.VISIBLE);
+    }
+
+    protected void hideNoDataAnimation() {
+        animationView.setVisibility(View.GONE);
+    }
     protected void showLoading() {
         progressBar.setVisibility(View.VISIBLE);
     }

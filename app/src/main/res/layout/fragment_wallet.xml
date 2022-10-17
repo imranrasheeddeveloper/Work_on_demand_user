@@ -6,6 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.wallet.WalletFragment">
 
+    <include
+        layout="@layout/layout_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
@@ -147,8 +153,8 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:fontFamily="@font/poppins_semibold"
-                            android:padding="8dp"
-                            android:textSize="15sp"
+                            android:padding="5dp"
+                            android:textSize="14sp"
                             android:text="Balance in wallet"
                             android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
@@ -162,6 +168,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_semibold"
                             android:text="0"
+                            android:paddingTop="@dimen/_5sdp"
                             android:gravity="center"
                             android:layout_marginEnd="@dimen/_5sdp"
                             android:textColor="@color/primary"
@@ -180,49 +187,6 @@
                             app:layout_constraintBottom_toBottomOf="@id/wallet_price"
                             app:layout_constraintEnd_toEndOf="parent"
                             android:src="@drawable/ic_dollar"/>
-                        <ImageView
-                            android:id="@+id/line"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/horizontal_line"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/wallet_price" />
-
-                        <TextView
-                            android:id="@+id/wallet_"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:drawableTop="@drawable/ic_walle_icon"
-                            android:drawablePadding="5dp"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:gravity="center"
-                            android:visibility="gone"
-                            android:padding="20dp"
-                            android:text="wallet"
-                            android:textColor="@color/black"
-                            android:textSize="11sp"
-                            app:layout_constraintEnd_toStartOf="@id/booking_"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/line" />
-
-                        <TextView
-                            android:id="@+id/booking_"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:drawableTop="@drawable/ic_booking_icon"
-                            android:drawablePadding="5dp"
-                            android:visibility="gone"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:gravity="center"
-                            android:padding="20dp"
-                            android:text="Booking"
-                            android:textColor="@color/black"
-                            android:textSize="11sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/wallet_"
-                            app:layout_constraintTop_toBottomOf="@id/line" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,9 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.rizorsiumani.workondemanduser.App;
@@ -36,10 +39,12 @@ import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.filter.FilterSearch;
+import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.rizorsiumani.workondemanduser.utils.AppBarStateChangeListener;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.skydoves.elasticviews.ElasticImageView;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -58,6 +63,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
     List<SliderDataItem> sliderDataItems;
     int count = 0;
 
+
+
     @Override
     protected FragmentHomeBinding getFragmentBinding() {
         return FragmentHomeBinding.inflate(getLayoutInflater());
@@ -66,6 +73,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
 
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         sliderViewModel = new ViewModelProvider(this).get(SliderViewModel.class);
@@ -82,6 +91,33 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
                 fragmentBinding.tvChooseAddress.setText(address);
             }
         }
+
+        fragmentBinding.appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if(state.equals(State.COLLAPSED)) {
+                    fragmentBinding.toolbar.setBackgroundResource(R.drawable.custom_toolbar);
+                    fragmentBinding.title.setTextColor(Color.parseColor("#081533"));
+                    Toast.makeText(requireContext(), "COLLAPSED", Toast.LENGTH_SHORT).show();
+                    fragmentBinding.view2.setVisibility(View.VISIBLE);
+                    fragmentBinding.view2.setBackgroundColor(Color.parseColor("#00000000"));
+                }
+                else if (state.equals(State.EXPANDED)) {
+                    fragmentBinding.view2.setVisibility(View.GONE);
+
+                    fragmentBinding.toolbar.setBackgroundResource(R.color.transparent);
+                    fragmentBinding.title.setTextColor(Color.parseColor("#FFFFFFFF"));
+                    Toast.makeText(requireContext(), "EXPANDED", Toast.LENGTH_SHORT).show();
+                }
+                else if ((state.equals(State.IDLE))){
+                    Toast.makeText(requireContext(), "IDLE", Toast.LENGTH_SHORT).show();
+                    fragmentBinding.toolbar.setBackgroundResource(R.color.transparent);
+                    fragmentBinding.title.setTextColor(Color.parseColor("#FFFFFFFF"));
+
+
+                }
+            }
+        });
 
         getServices();
         clickListeners();
@@ -176,6 +212,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
 
         fragmentBinding.searchIcon.setOnClickListener(view -> {
             ActivityUtil.gotoPage(requireContext(), SearchServices.class);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        fragmentBinding.notifications.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(requireContext(), Notification.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 

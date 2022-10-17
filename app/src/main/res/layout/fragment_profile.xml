@@ -6,6 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.ProfileFragment">
 
+    <include
+        layout="@layout/layout_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
@@ -22,6 +28,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBar1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/off_white"
@@ -36,26 +43,65 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="56dp"
+                        android:padding="@dimen/_20sdp"
                         android:background="@color/primary"
                         app:layout_collapseMode="parallax"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/user_image1"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:background="@color/transparent"
+                            android:src="@drawable/user"
+                            app:civ_border_color="@color/off_white"
+                            app:civ_border_width="1dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/username1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:text="Ahmed Raza"
+                            android:textColor="@color/off_white"
+                            android:textSize="18sp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            app:layout_constraintEnd_toEndOf="@id/user_image1"
+                            app:layout_constraintStart_toStartOf="@+id/user_image1"
+                            app:layout_constraintTop_toBottomOf="@+id/user_image1" />
+
+                        <TextView
+                            android:id="@+id/user_number1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppin_regular"
+                            android:text="+9238483479"
+                            android:textColor="@color/off_white"
+                            android:textSize="14sp"
+                            android:layout_marginTop="-5dp"
+                            app:layout_constraintEnd_toEndOf="@id/user_image1"
+                            app:layout_constraintStart_toStartOf="@+id/user_image1"
+                            app:layout_constraintTop_toBottomOf="@id/username1" />
+
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                     <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar_data"
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="70dp"
+                        android:visibility="gone"
                         android:background="@color/primary"
                         app:contentInsetStart="0dp"
                         app:layout_collapseMode="pin">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/user_name_layout"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:padding="10dp"
@@ -65,12 +111,13 @@
 
                             <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/user_image"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:background="@color/transparent"
                                 android:src="@drawable/user"
                                 app:civ_border_color="@color/off_white"
                                 app:civ_border_width="1dp"
+                                android:layout_marginStart="@dimen/_5sdp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -107,7 +154,6 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.appcompat.widget.Toolbar>
-
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
 

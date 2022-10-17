@@ -7,8 +7,11 @@ import com.rizorsiumani.workondemanduser.common.CommonResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.RegistrationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserData;
+import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
 
 import rx.Observable;
@@ -89,4 +92,17 @@ public class RemoteRepository {
         return null;
     }
 
+    public Observable<RegistrationModel> register(JsonObject object){
+        if (mService != null){
+            return  mService.registerUser(object);
+        }
+        return null;
+    }
+
+    public Observable<UpdateUserModel> updateUser(String token,JsonObject object){
+        if (mService != null){
+            return  mService.updateUser(token , object);
+        }
+        return null;
+    }
 }

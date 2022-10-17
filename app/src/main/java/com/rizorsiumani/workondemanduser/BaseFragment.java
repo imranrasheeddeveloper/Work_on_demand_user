@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewbinding.ViewBinding;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.rizorsiumani.workondemanduser.data.local.PreferenceRepository;
 import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
@@ -25,6 +26,7 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
     protected abstract binding getFragmentBinding();
 
     protected PreferenceRepository prefRepository = null;
+    LottieAnimationView animationView;
 
     @Nullable
     @Override
@@ -33,9 +35,28 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
         fragmentBinding = getFragmentBinding();
 
         prefRepository = new PreferenceRepository();
+        progressBar = getView().findViewById(R.id.progress);
+
+        animationView = getView().findViewById(R.id.no_data_animation);
 
         return fragmentBinding.getRoot();
 
+    }
+
+    protected void showNoDataAnimation() {
+        animationView.setVisibility(View.VISIBLE);
+    }
+
+    protected void hideNoDataAnimation() {
+        animationView.setVisibility(View.GONE);
+    }
+
+    protected void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    protected void hideLoading() {
+        progressBar.setVisibility(View.GONE);
     }
 
     public PreferenceRepository getPrefRepository() {

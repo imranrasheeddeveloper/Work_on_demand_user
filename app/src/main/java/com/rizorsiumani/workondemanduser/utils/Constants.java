@@ -33,13 +33,6 @@ public final class Constants {
     public static Constants constant = new Constants();
 
 
-    public void snackBar(View view, String data) {
-        Snackbar.make(view, data, Snackbar.LENGTH_SHORT)
-                .setBackgroundTint(Color.parseColor("#FFE6E2"))
-                .setTextColor(Color.parseColor("#FC573B"))
-                .show();
-    }
-
 
 
 
