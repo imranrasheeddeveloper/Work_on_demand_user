@@ -138,4 +138,13 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        viewModel._update.removeObservers(this);
+        viewModel._response.removeObservers(this);
+        viewModel = null;
+    }
+
 }

@@ -7,6 +7,12 @@
     tools:context=".ui.post_job.PostJob">
 
     <include
+        layout="@layout/layout_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <include
         android:id="@+id/post_job_toolbar"
         layout="@layout/post_toolbar_layout"
         android:layout_width="match_parent"
@@ -55,7 +61,7 @@
                 android:gravity="top|start"
                 android:hint="service .."
                 style="@style/normalText"
-                android:id="@+id/ed_service"/>
+                android:id="@+id/ed_title"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,7 +74,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/_8sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ed_service"
+                app:layout_constraintTop_toBottomOf="@id/ed_title"
                 android:id="@+id/tv_choose_category"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -320,52 +326,29 @@
                 android:id="@+id/tv_attach_photos"/>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:cardUseCompatPadding="true"
+                android:layout_marginStart="@dimen/_5sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_attach_photos"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/imagesLayout">
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/iv_add_image"
-                            android:id="@+id/attach_images_list"/>
 
                         <ImageView
                             android:id="@+id/iv_add_image"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
-                            android:scaleType="fitCenter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_margin="@dimen/_5sdp"
-                            android:layout_marginStart="@dimen/_8sdp"
-                            android:padding="@dimen/_25sdp"
+                            android:scaleType="fitXY"
                             android:background="@drawable/rect_bg"
-                            android:src="@drawable/add1"
+                            android:src="@drawable/ic_addd"
                             android:backgroundTint="@color/teal_200"
                             />
 
-                    </LinearLayout>
 
-                </HorizontalScrollView>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
 
 

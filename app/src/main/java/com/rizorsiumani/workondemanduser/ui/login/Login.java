@@ -34,7 +34,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
     protected void onStart() {
         super.onStart();
 
-        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        viewModel = new ViewModelProvider(Login.this).get(LoginViewModel.class);
 
 
 
@@ -98,7 +98,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
 //            viewModel.login(object);
 //        }
 
-        viewModel._loginData.observe(this, response -> {
+        viewModel._loginData.observe(Login.this, response -> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();

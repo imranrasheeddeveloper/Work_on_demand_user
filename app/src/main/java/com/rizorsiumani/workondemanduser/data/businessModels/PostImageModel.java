@@ -1,8 +1,8 @@
-package com.rizorsiumani.workondemanduser.common;
+package com.rizorsiumani.workondemanduser.data.businessModels;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CommonResponse{
+public class PostImageModel{
 
 	@SerializedName("success")
 	private boolean success;

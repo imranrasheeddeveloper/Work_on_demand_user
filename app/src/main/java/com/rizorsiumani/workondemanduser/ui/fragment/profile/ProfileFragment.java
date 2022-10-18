@@ -1,4 +1,4 @@
-package com.rizorsiumani.workondemanduser.ui.fragment;
+package com.rizorsiumani.workondemanduser.ui.fragment.profile;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.FragmentProfileBinding;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
+import com.rizorsiumani.workondemanduser.ui.all_posted_jobs.AllPostedJobs;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
@@ -78,6 +79,10 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
             Dashboard.goToBooking();
         });
 
+        fragmentBinding.tvJobs.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(requireContext(), AllPostedJobs.class);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
 
 
         fragmentBinding.booking.setOnClickListener(view -> {

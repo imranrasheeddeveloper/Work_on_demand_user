@@ -1,24 +1,17 @@
-package com.rizorsiumani.workondemanduser.common;
+package com.rizorsiumani.workondemanduser.data.businessModels;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CommonResponse{
+public class UpdaeAddressModel{
 
 	@SerializedName("success")
 	private boolean success;
-
-	@SerializedName("filePATH")
-	private String filePATH;
 
 	@SerializedName("message")
 	private String message;
 
 	public boolean isSuccess(){
 		return success;
-	}
-
-	public String getFilePATH(){
-		return filePATH;
 	}
 
 	public String getMessage(){

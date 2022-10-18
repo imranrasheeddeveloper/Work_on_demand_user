@@ -1,8 +1,6 @@
 package com.rizorsiumani.workondemanduser.ui.address;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -10,9 +8,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
@@ -22,6 +22,7 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.addressDataItems;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySavedAddressesBinding;
 import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -36,6 +37,9 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
     ArrayList<PlaceModel> suggestionList;
     AutocompleteSessionToken token;
     LocationListAdapter adapter;
+    private GetAddressViewModel viewModel;
+    int homeID;
+    int workID;
 
     @Override
     protected ActivitySavedAddressesBinding getActivityBinding() {
@@ -46,11 +50,54 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
     protected void onStart() {
         super.onStart();
 
-      //  addressRv();
+        String token = prefRepository.getString("token");
+        viewModel = new ViewModelProvider(SavedAddresses.this).get(GetAddressViewModel.class);
+        viewModel.get(token);
+
+        viewModel._address.observe(SavedAddresses.this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (!response.getError().isEmpty()) {
+                    hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+                    hideLoading();
+
+                    if (response.getData().getData().size() > 0) {
+                        setAddresses(response.getData().getData());
+                    }
+
+                }
+            }
+        });
+
         initPlacesClient();
         clickListeners();
         textWatcher();
 
+    }
+
+    private void setAddresses(List<addressDataItems> data) {
+        for (int i = 0; i < data.size() - 1; i++) {
+            if (data.get(i).getTitle().equals("Home")) {
+                activityBinding.homeAddress.setVisibility(View.VISIBLE);
+                activityBinding.homeAddress.setText(data.get(i).getTitle());
+                activityBinding.add.setImageResource(R.drawable.ic_edit_blue);
+                activityBinding.add.setTag("edit");
+                homeID = data.get(i).getId();
+
+            } else if (data.get(i).getTitle().equals("Work")) {
+                activityBinding.workddress.setVisibility(View.VISIBLE);
+                activityBinding.workddress.setText(data.get(i).getTitle());
+                activityBinding.addWorkAddress.setImageResource(R.drawable.ic_edit_blue);
+                activityBinding.addWorkAddress.setTag("edit");
+                workID = data.get(i).getId();
+
+            } else {
+
+            }
+        }
     }
 
     private void initPlacesClient() {
@@ -72,8 +119,8 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-             activityBinding.loadingView.setVisibility(View.VISIBLE);
-             activityBinding.clearIcon.setVisibility(View.GONE);
+                activityBinding.loadingView.setVisibility(View.VISIBLE);
+                activityBinding.clearIcon.setVisibility(View.GONE);
             }
 
             @Override
@@ -117,7 +164,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
                     activityBinding.clearIcon.setVisibility(View.VISIBLE);
 
                     adapter.setAddressClickListener(position -> {
-                        prefRepository.setString("CURRENT_LOCATION",suggestionList.get(position).getAddress());
+                        prefRepository.setString("CURRENT_LOCATION", suggestionList.get(position).getAddress());
                         onBackPressed();
                         finish();
                         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
@@ -142,7 +189,14 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
     private void clickListeners() {
 
         activityBinding.add.setOnClickListener(view -> {
-            navToAddAddress();
+            String tag = activityBinding.add.getTag().toString();
+            if (tag.equals("edit")) {
+                if (homeID != 0) {
+                    navigateWithExtras("Home", homeID);
+                }
+            } else {
+                navToAddAddress();
+            }
         });
 
         activityBinding.addCurrentAddress.setOnClickListener(view -> {
@@ -150,7 +204,14 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
         });
 
         activityBinding.addWorkAddress.setOnClickListener(view -> {
-            navToAddAddress();
+            String tag = activityBinding.addWorkAddress.getTag().toString();
+            if (tag.equals("edit")) {
+                if (workID != 0) {
+                    navigateWithExtras("Work", workID);
+                }
+            } else {
+                navToAddAddress();
+            }
         });
 
         activityBinding.addMapLocation.setOnClickListener(view -> {
@@ -170,6 +231,15 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
 
     }
 
+    private void navigateWithExtras(String title, int id) {
+        Intent intent = new Intent(SavedAddresses.this, AddAddress.class);
+        intent.putExtra("address_title", title);
+        intent.putExtra("address_id", id);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+    }
+
     private void navToAddAddress() {
         ActivityUtil.gotoPage(SavedAddresses.this, AddAddress.class);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -186,5 +256,13 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
 //        AdressesAdapter adapter = new AdressesAdapter(transactions, App.applicationContext);
 //        activityBinding.addressList.setAdapter(adapter);
 //    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        viewModel._address.removeObservers(this);
+        viewModel = null;
+    }
 
 }

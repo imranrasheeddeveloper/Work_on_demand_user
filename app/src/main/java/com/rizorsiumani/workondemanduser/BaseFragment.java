@@ -35,29 +35,15 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
         fragmentBinding = getFragmentBinding();
 
         prefRepository = new PreferenceRepository();
-        progressBar = getView().findViewById(R.id.progress);
-
-        animationView = getView().findViewById(R.id.no_data_animation);
+//        progressBar = getView().findViewById(R.id.progress);
+//
+//        animationView = getView().findViewById(R.id.no_data_animation);
 
         return fragmentBinding.getRoot();
 
     }
 
-    protected void showNoDataAnimation() {
-        animationView.setVisibility(View.VISIBLE);
-    }
 
-    protected void hideNoDataAnimation() {
-        animationView.setVisibility(View.GONE);
-    }
-
-    protected void showLoading() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    protected void hideLoading() {
-        progressBar.setVisibility(View.GONE);
-    }
 
     public PreferenceRepository getPrefRepository() {
         return prefRepository;

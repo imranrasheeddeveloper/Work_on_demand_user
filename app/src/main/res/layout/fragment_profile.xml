@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragment.ProfileFragment">
+    tools:context=".ui.fragment.profile.ProfileFragment">
 
     <include
         layout="@layout/layout_progress_bar"
@@ -279,6 +279,20 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_bookings" />
 
                     <TextView
+                        android:id="@+id/tv_jobs"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Posted Jobs"
+                        android:layout_marginTop="1dp"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/notification_p"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_notifications" />
+
+
+                    <TextView
                         android:id="@+id/tv_invite"
                         style="@style/profile_text_appearance"
                         android:layout_width="match_parent"
@@ -289,7 +303,7 @@
                         app:drawableEndCompat="@drawable/grey_forward_icon"
                         app:drawableStartCompat="@drawable/email_p"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_notifications" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_jobs" />
 
 
 

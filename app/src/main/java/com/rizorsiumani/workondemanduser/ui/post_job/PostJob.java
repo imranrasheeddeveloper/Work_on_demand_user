@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -19,10 +20,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -33,7 +37,15 @@ import com.paulrybitskyi.valuepicker.model.Item;
 import com.paulrybitskyi.valuepicker.model.PickerItem;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.common.ImageUploadViewModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
 import com.rizorsiumani.workondemanduser.databinding.ActivityPostJobBinding;
+import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
+import com.rizorsiumani.workondemanduser.ui.fragment.home.HomeViewModel;
+import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategoryViewModel;
+import com.rizorsiumani.workondemanduser.utils.Constants;
+import com.rizorsiumani.workondemanduser.utils.GetRealPathFromUri;
 import com.skydoves.elasticviews.ElasticImageView;
 
 import java.io.File;
@@ -43,12 +55,29 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 public class PostJob extends BaseActivity<ActivityPostJobBinding> implements DatePickerDialog.OnDateSetListener {
 
-    List<String> imagesPath;
+    String imagesPath;
     AlertDialog.Builder dialogBuilder;
     AlertDialog alertDialog;
     ArrayList<String> budgetUnitList;
+    private HomeViewModel homeViewModel;
+    private SubCategoryViewModel subCategoryViewModel;
+    List<CategoriesDataItem> categoriesDataItems;
+    List<SubCategoryDataItem> subCategoryDataItems;
+
+    int selectedCatID = 0;
+    int selectedSubCatID;
+    String selectedBudgetUnit;
+    int tempID;
+
+    private PostJobViewModel postJobViewModel;
+
+
 
     @Override
     protected ActivityPostJobBinding getActivityBinding() {
@@ -59,18 +88,29 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     protected void onStart() {
         super.onStart();
 
+        homeViewModel = new ViewModelProvider(PostJob.this).get(HomeViewModel.class);
+        subCategoryViewModel = new ViewModelProvider(PostJob.this).get(SubCategoryViewModel.class);
+        postJobViewModel = new ViewModelProvider(PostJob.this).get(PostJobViewModel.class);
 
-        imagesPath = new ArrayList<>();
-//        activityBinding.spinner.setItems("Fixed", "Hourly", "Weekly", "Monthly");
-//        activityBinding.spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-//
-//            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-//                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
-//            }
-//        });
-//        budgetUnitList = getList();
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(PostJob.this, android.R.layout.simple_spinner_item, budgetUnitList);
-//        activityBinding.spinner.setAdapter(adapter);
+        if (homeViewModel._category.getValue() == null){
+            homeViewModel.categories(1);
+        }
+
+
+
+        homeViewModel._category.observe(PostJob.this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                } else if (!response.getError().isEmpty()) {
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+                    categoriesDataItems = new ArrayList<>();
+                    categoriesDataItems.addAll(response.getData().getData());
+                }
+            }
+        });
+
+
         clickListeners();
 
     }
@@ -97,37 +137,52 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
         activityBinding.tvCategory.setOnClickListener(view -> {
-            List<String> categories = new ArrayList<>();
-            categories.add("Cleaning");
-            categories.add("Appliances");
-            categories.add("Electronic");
-            categories.add("Washing");
-            categories.add("Painting");
-            categories.add("Wood Working");
-            categories.add("Shifting");
-            showCategoriesDialogue(categories,activityBinding.selectedCategory);
+            if (categoriesDataItems.size() > 0) {
+                int id = showCategoriesDialogue(0, activityBinding.selectedCategory);
+                if (id != 0){
+                    selectedCatID = id;
+                }
+            }
         });
 
         activityBinding.tvSubcategory.setOnClickListener(view -> {
-            List<String> categories = new ArrayList<>();
-            categories.add("Cleaning");
-            categories.add("Appliances");
-            categories.add("Electronic");
-            categories.add("Washing");
-            categories.add("Painting");
-            categories.add("Wood Working");
-            categories.add("Shifting");
-            showCategoriesDialogue(categories,activityBinding.selectedSubcategory);
+            if (selectedCatID != 0) {
+                if (subCategoryViewModel._subCategory.getValue() == null){
+                    subCategoryViewModel.subCategories(selectedCatID,1);
+                }
+
+                subCategoryViewModel._subCategory.observe(PostJob.this, response -> {
+                    if (response != null) {
+                        if (response.isLoading()) {
+                            showLoading();
+                        } else if (!response.getError().isEmpty()) {
+                            hideLoading();
+                            showSnackBarShort(response.getError());
+                        } else if (response.getData().getData() != null) {
+                            hideLoading();
+
+                            subCategoryDataItems = new ArrayList<>();
+                            subCategoryDataItems.addAll(response.getData().getData());
+                            if (subCategoryDataItems.size() > 0) {
+                                int id = showCategoriesDialogue(1, activityBinding.selectedSubcategory);
+                                if (id != 0){
+                                    selectedSubCatID = id;
+                                }
+                            }
+
+                        }
+                    }
+                });
+
+            }else {
+                showSnackBarShort("Category Required");
+            }
         });
 
         activityBinding.budgetUnitLayout.setOnClickListener(view -> {
 
-            List<String> categories = new ArrayList<>();
-            categories.add("Fixed");
-            categories.add("Hourly");
-            categories.add("Weekly");
-            categories.add("Yearly");
-            showCategoriesDialogue(categories,activityBinding.selectedBudgetUnit);
+
+            showCategoriesDialogue(2, activityBinding.selectedBudgetUnit);
         });
 
         activityBinding.deadlineDate.setOnClickListener(view -> {
@@ -136,11 +191,63 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             mDatePickerDialogFragment.show(getSupportFragmentManager(), "Select Date");
         });
 
+        activityBinding.btnPost.setOnClickListener(view -> {
+            String title = activityBinding.edTitle.getText().toString();
+            String description = activityBinding.edDescribe.getText().toString();
+            String budget = activityBinding.edBudget.getText().toString();
+            String date = activityBinding.deadlineDate.getText().toString();
+
+            if (TextUtils.isEmpty(title)){
+                showSnackBarShort("Title required");
+            }else if (TextUtils.isEmpty(budget)){
+                showSnackBarShort("Budget required");
+            }else if (selectedBudgetUnit.isEmpty()){
+                showSnackBarShort("Budget Unit required");
+            }else if (TextUtils.isEmpty(date)){
+                showSnackBarShort("Date required");
+            }else {
+                postJob(title,description,budget,selectedBudgetUnit,selectedCatID,selectedSubCatID,imagesPath,date);
+            }
+
+        });
 
 
     }
 
-    private void showCategoriesDialogue(List<String> categories, TextView textView) {
+    private void postJob(String title, String description, String budget, String selectedBudgetUnit,
+                         int selectedCatID, int selectedSubCatID, String imagesPath, String date) {
+
+        String token = prefRepository.getString("token");
+
+        JsonObject object = new JsonObject();
+        object.addProperty("title",title);
+        object.addProperty("description",description);
+        object.addProperty("category_id",selectedCatID);
+        object.addProperty("sub_category_id",selectedSubCatID);
+        object.addProperty("budget",budget);
+        object.addProperty("attachment",imagesPath);
+        object.addProperty("price_unit",selectedBudgetUnit);
+        object.addProperty("date",date);
+
+        postJobViewModel.post(token,object);
+        postJobViewModel._job.observe(PostJob.this,response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                } else if (!response.getError().isEmpty()) {
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+
+                    showSnackBarShort(response.getData().getMessage());
+
+                }
+            }
+        });
+
+    }
+
+
+    private int showCategoriesDialogue(int value, TextView textView) {
+
         dialogBuilder = new AlertDialog.Builder(PostJob.this);
         dialogBuilder.setCancelable(false);
         View layoutView = getLayoutInflater().inflate(R.layout.pick_category_dialogue, null);
@@ -151,10 +258,20 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             textView.setTag(item.getTitle());
         });
 
-        final List<Item> pickerItems = getPickerItems(categories);
+        List<Item> pickerItems = null;
+        if (value == 0) {
+            pickerItems = getCatPickerItems();
+            valuePickerView.setItems(getCatPickerItems());
+        }else if (value == 1){
+            pickerItems = getSubCatPickerItems();
+            valuePickerView.setItems(getSubCatPickerItems());
+        }else if (value == 2){
+            pickerItems = getBudgetPickerItems();
+            valuePickerView.setItems(getBudgetPickerItems());
+        }
 
-        valuePickerView.setItems(getPickerItems(categories));
-        valuePickerView.setSelectedItem(pickerItems.get(2));
+        //valuePickerView.setSelectedItem(pickerItems.get(2));
+
 
         dialogBuilder.setView(layoutView);
         alertDialog = dialogBuilder.create();
@@ -163,29 +280,73 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         alertDialog.show();
         cancel.setOnClickListener(view1 -> {
             alertDialog.dismiss();
+            tempID = 0;
         });
 
         select.setOnClickListener(view1 -> {
+            if (value == 2){
+                selectedBudgetUnit = valuePickerView.getSelectedItem().getTitle();
+            }
             textView.setText(valuePickerView.getSelectedItem().getTitle());
+            tempID = valuePickerView.getSelectedItem().getId();
             alertDialog.dismiss();
 
         });
+
+        return tempID;
     }
 
-    private List<Item> getPickerItems(List<String> categories) {
+    private List<Item> getCatPickerItems() {
         final List<Item> pickerItems = new ArrayList<>();
 
-        for(int i = 0; i <= categories.size()-1; i++) {
+        for (int i = 0; i <= categoriesDataItems.size() - 1; i++) {
             pickerItems.add(
                     new PickerItem(
-                            i,
-                            categories.get(i)
+                            categoriesDataItems.get(i).getId(),
+                            categoriesDataItems.get(i).getTitle()
                     )
             );
         }
 
         return pickerItems;
     }
+
+    private List<Item> getSubCatPickerItems() {
+        final List<Item> pickerItems = new ArrayList<>();
+
+        for (int i = 0; i <= subCategoryDataItems.size() - 1; i++) {
+            pickerItems.add(
+                    new PickerItem(
+                            subCategoryDataItems.get(i).getId(),
+                            subCategoryDataItems.get(i).getTitle()
+                    )
+            );
+        }
+
+        return pickerItems;
+    }
+
+    private List<Item> getBudgetPickerItems() {
+
+        List<String> budgetUnit = new ArrayList<>();
+        budgetUnit.add("Fixed");
+        budgetUnit.add("Hourly");
+        budgetUnit.add("Weekly");
+        budgetUnit.add("Yearly");
+        final List<Item> pickerItems = new ArrayList<>();
+
+        for (int i = 0; i <= budgetUnit.size() - 1; i++) {
+            pickerItems.add(
+                    new PickerItem(
+                            i,
+                            budgetUnit.get(i)
+                    )
+            );
+        }
+
+        return pickerItems;
+    }
+
 
     private void checkPermissions() {
         Dexter.withContext(PostJob.this)
@@ -194,38 +355,11 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
                         if (multiplePermissionsReport.areAllPermissionsGranted()) {
-                            final BottomSheetDialog bt = new BottomSheetDialog(PostJob.this, R.style.BottomSheetDialogTheme);
-                            View items = LayoutInflater.from(PostJob.this).inflate(R.layout.layout_item_chooser, null, false);
-                            ElasticImageView camera = items.findViewById(R.id.cameraIcon);
-                            ElasticImageView gallery = items.findViewById(R.id.galleryIcon);
-                            camera.setOnClickListener(view1 -> {
-                                Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                if (pictureIntent.resolveActivity(getPackageManager()) != null) {
-//
-                                    File file = new File(getExternalCacheDir(),
-                                            String.valueOf(System.currentTimeMillis()) + ".jpg");
+                            Intent intent = new Intent();
+                            intent.setType("image/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 13);
 
-                                    Uri fileProvider = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()),
-                                            "com.rizorsiumani.workondemanduser.provider", file);
-                                    pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-                                    startActivityForResult(pictureIntent, 11);
-                                }
-                                bt.cancel();
-                            });
-                            gallery.setOnClickListener(view -> {
-//                                Intent galleryIntent = new Intent(
-//                                        Intent.ACTION_PICK,
-//                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                                startActivityForResult(galleryIntent, 13);
-                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                                intent.setType("image/*");
-                                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 13);
-
-                                bt.cancel();
-                            });
-                            bt.setContentView(items);
-                            bt.show();
                         } else if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
                             //open app settings dialog
                             Toast.makeText(PostJob.this, "Denied Permanently !", Toast.LENGTH_SHORT).show();
@@ -242,90 +376,62 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 11) {
+        if (requestCode == 13) {
             if (resultCode == Activity.RESULT_OK) {
-                if (data != null && data.getExtras() != null) {
+                Uri uri = data.getData();
+                File file1 = new File(GetRealPathFromUri.getPathFromUri(PostJob.this, uri));
 
-                    try {
+                MultipartBody.Part multiPartProfile = MultipartBody.Part.createFormData("image",
+                        file1.getName(),
+                        RequestBody.create(
+                                file1,
+                                MediaType.parse("*/*")
+                        )
+                );
 
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                postJobViewModel.postImage(multiPartProfile);
 
-                        Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, filePathColumn, null, null, null);
-                        if (cursor == null)
-                            return;
-                        // find the file in the media area
-                        cursor.moveToLast();
-
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String filePath = "file:///" + cursor.getString(columnIndex);
-                        cursor.close();
-                        imagesPath.add(filePath);
-
-
-                    } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+                postJobViewModel._job_image.observe(this, response -> {
+                    if (response != null) {
+                        if (response.isLoading()) {
+                            showLoading();
+                        } else if (!response.getError().isEmpty()) {
+                            hideLoading();
+                            showSnackBarShort(response.getError());
+                        } else if (response.getData().getMessage() != null) {
+                            showSnackBarShort(response.getData().getMessage());
+                            imagesPath = response.getData().getFilePATH();
+                            Glide.with(PostJob.this).load(Constants.IMG_PATH + imagesPath).into(activityBinding.ivAddImage);
+                        }
                     }
-
-                }
+                });
             }
-        } else if (requestCode == 13) {
-            if(data.getClipData() != null) {
-                int count = data.getClipData().getItemCount();
-                for(int i = 0; i < count; i++) {
-                    Uri imageUri = data.getClipData().getItemAt(i).getUri();
-                    getImageFilePath(imageUri);
-
-//                    String path = Constants.constant.getRealPathFromURI(imageUri, PostJob.this);
-//                    imagesPath.add(path);
-                }
-                buildPhotosList(imagesPath);
-            }
-
-////            int count = data.getClipData().getItemCount();
-////
-////            for(int i = 0; i < count; i++){
-////                Uri imageUri = data.getClipData().getItemAt(i).getUri();
-////            }
-//            Uri imageUri = data.getData();
-//            String path = Constants.constant.getRealPathFromURI(imageUri, PostJob.this);
-//
-//            imagesPath.add(path);
-//            buildPhotosList(imagesPath);
-
         }
     }
 
-    public void getImageFilePath(Uri uri) {
-
-        File file = new File(uri.getPath());
-        String[] filePath = file.getPath().split(":");
-        String image_id = filePath[filePath.length - 1];
-
-        Cursor cursor = getContentResolver().query(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, MediaStore.Images.Media._ID + " = ? ", new String[]{image_id}, null);
-        if (cursor!=null) {
-            cursor.moveToFirst();
-            @SuppressLint("Range") String imagePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            imagesPath.add(imagePath);
-            cursor.close();
-        }
-    }
-
-    private void buildPhotosList(List<String> imagesPath) {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(PostJob.this, RecyclerView.HORIZONTAL, false);
-        activityBinding.attachImagesList.setLayoutManager(layoutManager);
-        PostJobImagesAdapter adapter = new PostJobImagesAdapter(imagesPath, PostJob.this);
-        activityBinding.attachImagesList.setAdapter(adapter);
-        activityBinding.attachImagesList.setVisibility(View.VISIBLE);
-    }
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-            Calendar mCalendar = Calendar.getInstance();
-            mCalendar.set(Calendar.YEAR, year);
-            mCalendar.set(Calendar.MONTH, month);
-            mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mCalendar.getTime());
-            activityBinding.deadlineDate.setText(selectedDate);
+        Calendar mCalendar = Calendar.getInstance();
+        mCalendar.set(Calendar.YEAR, year);
+        mCalendar.set(Calendar.MONTH, month);
+        mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mCalendar.getTime());
+        activityBinding.deadlineDate.setText(selectedDate);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        homeViewModel._category.removeObservers(this);
+        postJobViewModel._job.removeObservers(this);
+        subCategoryViewModel._subCategory.removeObservers(this);
+        postJobViewModel._job_image.removeObservers(this);
+
+        homeViewModel = null;
+        postJobViewModel = null;
+        subCategoryViewModel = null;
     }
 }

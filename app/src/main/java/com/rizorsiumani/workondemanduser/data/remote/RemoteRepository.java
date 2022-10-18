@@ -5,15 +5,21 @@ package com.rizorsiumani.workondemanduser.data.remote;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.common.CommonResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.PostJobModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.RegistrationModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.SaveAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserData;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
 
+import okhttp3.MultipartBody;
 import rx.Observable;
 
 /**
@@ -102,6 +108,42 @@ public class RemoteRepository {
     public Observable<UpdateUserModel> updateUser(String token,JsonObject object){
         if (mService != null){
             return  mService.updateUser(token , object);
+        }
+        return null;
+    }
+
+
+    public Observable<SaveAddressModel> saveAddress(String token, JsonObject object){
+        if (mService != null){
+            return  mService.saveAddress(token , object);
+        }
+        return null;
+    }
+
+    public Observable<UpdaeAddressModel> updateAddress(String token, JsonObject object){
+        if (mService != null){
+            return  mService.updateAddress(token , object);
+        }
+        return null;
+    }
+
+    public Observable<GetAddressesModel> getAddress(String token){
+        if (mService != null){
+            return  mService.getAddresses(token);
+        }
+        return null;
+    }
+
+    public Observable<PostJobModel> postJob(String token,JsonObject object){
+        if (mService != null){
+            return  mService.postNewJob(token,object);
+        }
+        return null;
+    }
+
+    public Observable<PostImageModel> uploadJobImage(MultipartBody.Part part){
+        if (mService != null){
+            return  mService.uploadJobImage(part);
         }
         return null;
     }

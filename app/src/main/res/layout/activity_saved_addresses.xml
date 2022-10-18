@@ -172,11 +172,14 @@
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
+                        android:tag="add"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:background="@drawable/ic_addd"
+                        android:src="@drawable/ic_add"
                         android:id="@+id/add"
+                        android:padding="@dimen/_4sdp"
+                        android:scaleType="fitCenter"
                         app:tint="@color/dark_gray" />
 
                     <TextView
@@ -236,7 +239,10 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:background="@drawable/ic_addd"
+                        android:src="@drawable/ic_add"
+                        android:tag="add"
+                        android:padding="@dimen/_4sdp"
+                        android:scaleType="fitCenter"
                         android:id="@+id/add_work_address"
                         app:tint="@color/dark_gray" />
 
