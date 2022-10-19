@@ -92,13 +92,13 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         subCategoryViewModel = new ViewModelProvider(PostJob.this).get(SubCategoryViewModel.class);
         postJobViewModel = new ViewModelProvider(PostJob.this).get(PostJobViewModel.class);
 
-        if (homeViewModel._category.getValue() == null){
-            homeViewModel.categories(1);
+        if (homeViewModel._ddCategory.getValue() == null){
+            homeViewModel.dropDownCategories();
         }
 
 
 
-        homeViewModel._category.observe(PostJob.this, response -> {
+        homeViewModel._ddCategory.observe(PostJob.this, response -> {
             if (response != null) {
                 if (response.isLoading()) {
                 } else if (!response.getError().isEmpty()) {
@@ -148,7 +148,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         activityBinding.tvSubcategory.setOnClickListener(view -> {
             if (selectedCatID != 0) {
                 if (subCategoryViewModel._subCategory.getValue() == null){
-                    subCategoryViewModel.subCategories(selectedCatID,1);
+                    subCategoryViewModel.dropDownSubCategories(selectedCatID);
                 }
 
                 subCategoryViewModel._subCategory.observe(PostJob.this, response -> {

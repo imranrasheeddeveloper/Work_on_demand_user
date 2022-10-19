@@ -55,5 +55,42 @@ public class SubCategoryViewModel extends ViewModel {
                 });
     }
 
+    public void dropDownSubCategories(int id) {
+
+        subCategory.setValue(
+                new ResponseWrapper<>(
+                        true, "", null
+                ));
+
+        RemoteRepository.getInstance()
+                .getDropDownSubCategories(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SubCategoriesModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        subCategory.setValue(new ResponseWrapper<>(
+                                false,
+                                e.getLocalizedMessage(),
+                                null
+                        ));
+                    }
+
+                    @Override
+                    public void onNext(SubCategoriesModel subCategoriesModel) {
+                        subCategory.setValue(new ResponseWrapper<>(
+                                false,
+                                "",
+                                subCategoriesModel
+                        ));
+                    }
+                });
+    }
+
 
 }

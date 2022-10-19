@@ -11,16 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 
 import java.util.List;
 
 public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAdapter.ViewHolder>{
 
-    private final List<String> categories;
+    private final List<CategoriesDataItem> categories;
     private Context context;
     private OnItemClickListener mListener;
 
-    public CategoryFilterAdapter(List<String> category, Context ctx) {
+    public CategoryFilterAdapter(List<CategoriesDataItem> category, Context ctx) {
         this.categories = category;
         this.context = ctx;
     }
@@ -40,9 +41,17 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        String current_category = categories.get(position);
-        holder.cat.setText(current_category);
-
+        CategoriesDataItem dataItem = categories.get(position);
+        holder.cat.setText(dataItem.getTitle());
+        holder.selector.setOnClickListener(view -> {
+            if (holder.selector.getTag().toString().equalsIgnoreCase("unselect")){
+                holder.selector.setImageResource(R.drawable.selected_value);
+                holder.selector.setTag("selected");
+            }else {
+                holder.selector.setImageResource(R.drawable.unselected_value);
+                holder.selector.setTag("unselect");
+            }
+        });
     }
 
 
@@ -59,7 +68,7 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView cat;
-        static ImageView selector;
+        ImageView selector;
 
         public ViewHolder(View itemView,OnItemClickListener listener) {
             super(itemView);
@@ -67,15 +76,7 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
             cat = (itemView).findViewById(R.id.serviceName01);
              selector = (itemView).findViewById(R.id.selectCat);
 
-             selector.setOnClickListener(view -> {
-                 if (ViewHolder.selector.getTag().toString().equalsIgnoreCase("unselect")){
-                     ViewHolder.selector.setImageResource(R.drawable.selected_value);
-                     ViewHolder.selector.setTag("selected");
-                 }else {
-                     ViewHolder.selector.setImageResource(R.drawable.unselected_value);
-                     ViewHolder.selector.setTag("unselect");
-                 }
-             });
+
 
             //setListener
             itemView.setOnClickListener(v -> {

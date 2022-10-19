@@ -10,6 +10,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostJobModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.RegistrationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SaveAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
@@ -147,4 +148,28 @@ public class RemoteRepository {
         }
         return null;
     }
+
+    public Observable<PostedJobsModel> getPostedJobs(String token){
+        if (mService != null){
+            return  mService.getAllPostedJobs(token);
+        }
+        return null;
+    }
+
+    public Observable<CategoriesModel> getDropDownCategories() {
+
+        if (mService != null) {
+            return mService.getDropDownCategories();
+        }
+        return null;
+    }
+
+    public Observable<SubCategoriesModel> getDropDownSubCategories(int id) {
+
+        if (mService != null) {
+            return mService.getDropDownSubCategories(id);
+        }
+        return null;
+    }
+
 }

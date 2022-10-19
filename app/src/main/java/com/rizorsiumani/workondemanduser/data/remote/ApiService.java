@@ -9,6 +9,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostJobModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.RegistrationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SaveAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
@@ -82,4 +83,10 @@ public interface ApiService {
 
     @GET("subcategories/getSubCategoriesDropdown/{category_id}")
     Observable<SubCategoriesModel> getDropDownSubCategories(@Path("category_id") int category_id);
+
+    @GET("users/get_posted_jobs")
+    Observable<PostedJobsModel> getAllPostedJobs(@Header("Authorization") String token);
+
+
+
 }

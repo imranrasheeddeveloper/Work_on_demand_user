@@ -40,6 +40,7 @@ import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.filter.FilterSearch;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
+import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
@@ -249,20 +250,25 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
         TextView select = view.findViewById(R.id.tv_done);
         RecyclerView list = view.findViewById(R.id.filtersList);
 
-        List<String> service_categories = new ArrayList<>();
-        service_categories.add("Cleaning");
-        service_categories.add("Shifting");
-        service_categories.add("Appliances");
-        service_categories.add("Painting");
-        service_categories.add("Electronic");
-        service_categories.add("Repairing");
-        service_categories.add("Cleaning");
-        service_categories.add("More");
+        if (viewModel._ddCategory.getValue() == null){
+            viewModel.dropDownCategories();
+        }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
-        list.setLayoutManager(layoutManager);
-        CategoryFilterAdapter adapter = new CategoryFilterAdapter(service_categories, requireContext());
-        list.setAdapter(adapter);
+        viewModel._ddCategory.observe(getViewLifecycleOwner(), response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                } else if (!response.getError().isEmpty()) {
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+                    categoriesDataItems = new ArrayList<>();
+                    categoriesDataItems.addAll(response.getData().getData());
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
+                    list.setLayoutManager(layoutManager);
+                    CategoryFilterAdapter adapter = new CategoryFilterAdapter(categoriesDataItems, requireContext());
+                    list.setAdapter(adapter);
+                }
+            }
+        });
 
         cancel.setOnClickListener(view1 -> {
             count = 0;

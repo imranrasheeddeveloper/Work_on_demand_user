@@ -17,6 +17,9 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<CategoriesModel>> category = new MutableLiveData<>();
     public LiveData<ResponseWrapper<CategoriesModel>> _category = category;
 
+    private final MutableLiveData<ResponseWrapper<CategoriesModel>> ddCategory = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<CategoriesModel>> _ddCategory = ddCategory;
+
     public void categories(int page) {
 
         category.setValue(
@@ -46,6 +49,43 @@ public class HomeViewModel extends ViewModel {
                     @Override
                     public void onNext(CategoriesModel categoriesModel) {
                         category.setValue(new ResponseWrapper<>(
+                                false,
+                                "",
+                                categoriesModel
+                        ));
+                    }
+                });
+    }
+
+    public void dropDownCategories() {
+
+        ddCategory.setValue(
+                new ResponseWrapper<>(
+                        true, "", null
+                ));
+
+        RemoteRepository.getInstance()
+                .getDropDownCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CategoriesModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ddCategory.setValue(new ResponseWrapper<>(
+                                false,
+                                e.getLocalizedMessage(),
+                                null
+                        ));
+                    }
+
+                    @Override
+                    public void onNext(CategoriesModel categoriesModel) {
+                        ddCategory.setValue(new ResponseWrapper<>(
                                 false,
                                 "",
                                 categoriesModel

@@ -11,16 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsDataItem;
 
 import java.util.List;
 
 public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHolder> {
 
-    private final List<String> list;
+    private final List<PostedJobsDataItem> list;
     private final Context ctx;
 
 
-    public JobsListAdapter(Context context,List<String> data) {
+    public JobsListAdapter(Context context, List<PostedJobsDataItem> data) {
         this.ctx = context;
         this.list = data;
     }
@@ -34,8 +35,11 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull JobsListAdapter.ViewHolder holder, int position) {
-        String user_name = list.get(position);
-        holder.name.setText(user_name);
+        PostedJobsDataItem dataItem = list.get(position);
+        holder.name.setText(dataItem.getTitle());
+        holder.description.setText(dataItem.getDescription());
+        holder.name.setText(dataItem.getBudget());
+
     }
 
     @Override
@@ -44,12 +48,15 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
+        public TextView name,description,budget;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.service_title);
+            description = itemView.findViewById(R.id.ser_detail);
+            budget = itemView.findViewById(R.id.service_rate);
+
         }
     }
 }
