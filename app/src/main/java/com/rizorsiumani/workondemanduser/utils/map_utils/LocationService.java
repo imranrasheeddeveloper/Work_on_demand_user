@@ -17,7 +17,7 @@ public class LocationService {
     boolean flag = Boolean.parseBoolean(null);
     public static LocationService service = new LocationService();
 
-    public boolean requestLocationPermission(Context context) {
+    public  boolean requestLocationPermission(Context context) {
         Dexter.withContext(context)
                 .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION)

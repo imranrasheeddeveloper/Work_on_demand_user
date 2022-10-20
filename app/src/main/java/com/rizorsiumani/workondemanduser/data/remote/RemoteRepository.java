@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.common.CommonResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
@@ -168,6 +169,14 @@ public class RemoteRepository {
 
         if (mService != null) {
             return mService.getDropDownSubCategories(id);
+        }
+        return null;
+    }
+
+    public Observable<HomeContentModel> getHomeContent(JsonObject object) {
+
+        if (mService != null) {
+            return mService.getContent(object);
         }
         return null;
     }

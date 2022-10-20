@@ -59,6 +59,7 @@ import java.util.List;
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements PromotionalAdapter.OnPromotionAdapterClick {
 
     private HomeViewModel viewModel;
+    private HomeContentViewModel homeContentViewModel;
     private SliderViewModel sliderViewModel;
     List<CategoriesDataItem> categoriesDataItems;
     List<SliderDataItem> sliderDataItems;
@@ -79,6 +80,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
 
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         sliderViewModel = new ViewModelProvider(this).get(SliderViewModel.class);
+        homeContentViewModel = new ViewModelProvider(this).get(HomeContentViewModel.class);
+
+        setHomeContent();
         setSlider();
 
 
@@ -154,6 +158,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
 
 
         populateCarServices();
+
+    }
+
+    private void setHomeContent() {
 
     }
 

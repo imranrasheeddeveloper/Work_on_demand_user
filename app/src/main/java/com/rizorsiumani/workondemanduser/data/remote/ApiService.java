@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.common.CommonResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
@@ -87,6 +88,8 @@ public interface ApiService {
     @GET("users/get_posted_jobs")
     Observable<PostedJobsModel> getAllPostedJobs(@Header("Authorization") String token);
 
+    @POST("serviceProvider/get_home_content")
+    Observable<HomeContentModel> getContent(@Body JsonObject object);
 
 
 }

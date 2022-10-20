@@ -14,10 +14,10 @@ import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
+import com.google.android.datatransport.BuildConfig;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.material.snackbar.Snackbar;
-import com.rizorsiumani.workondemanduser.BuildConfig;
 import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
 
 import java.io.ByteArrayOutputStream;
@@ -31,9 +31,8 @@ public final class Constants {
     public static String FCM_TOKEN = "";
     public static boolean isHome = false;
     public static Constants constant = new Constants();
-
-
-
+    public static double latitude;
+    public static double longitude;
 
 
     public BitmapDescriptor BitmapFromVector(Context context, int vectorResId) {
