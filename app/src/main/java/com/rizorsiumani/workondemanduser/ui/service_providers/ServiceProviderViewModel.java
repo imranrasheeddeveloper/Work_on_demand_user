@@ -1,35 +1,37 @@
-package com.rizorsiumani.workondemanduser.ui.fragment.home;
-
-import com.google.gson.JsonObject;
-import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
-import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
-import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
+package com.rizorsiumani.workondemanduser.ui.service_providers;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
+import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
+import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
+
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class HomeContentViewModel extends ViewModel {
+public class ServiceProviderViewModel extends ViewModel {
 
-    private final MutableLiveData<ResponseWrapper<HomeContentModel>> home_content = new MutableLiveData<>();
-    public LiveData<ResponseWrapper<HomeContentModel>> _home_content = home_content;
 
-    public void getHomeContent(String token ,JsonObject object) {
+    private final MutableLiveData<ResponseWrapper<ServiceProvidersModel>> provider = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<ServiceProvidersModel>> _provider = provider;
 
-        home_content.setValue(
+    public void serviceProviders(int page , String token ,JsonObject object) {
+
+        provider.setValue(
                 new ResponseWrapper<>(
                         true, "", null
                 ));
 
         RemoteRepository.getInstance()
-                .getHomeContent(token,object)
+                .getProviders(page,token,object)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<HomeContentModel>() {
+                .subscribe(new Observer<ServiceProvidersModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -37,7 +39,7 @@ public class HomeContentViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        home_content.setValue(new ResponseWrapper<>(
+                        provider.setValue(new ResponseWrapper<>(
                                 false,
                                 e.getLocalizedMessage(),
                                 null
@@ -45,11 +47,11 @@ public class HomeContentViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onNext(HomeContentModel model) {
-                        home_content.setValue(new ResponseWrapper<>(
+                    public void onNext(ServiceProvidersModel serviceProvidersModel) {
+                        provider.setValue(new ResponseWrapper<>(
                                 false,
                                 "",
-                                model
+                                serviceProvidersModel
                         ));
                     }
                 });

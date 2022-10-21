@@ -95,7 +95,7 @@ public class OnboardingActivity extends BaseActivity<ActivityOnboardingBinding> 
 
         activityBinding.slideViewpager.addOnPageChangeListener(viewListener);
 
-        activityBinding.btnNext.setOnClickListener(this);
+        activityBinding.btnNext1.setOnClickListener(this);
         activityBinding.btnPrevious.setOnClickListener(this);
 
     }
@@ -133,23 +133,23 @@ public class OnboardingActivity extends BaseActivity<ActivityOnboardingBinding> 
             mCurrentPage = position;
 
             if (position == 0) {//we are on first page
-                activityBinding.btnNext.setEnabled(true);
+                activityBinding.btnNext1.setEnabled(true);
                 activityBinding.btnPrevious.setEnabled(true);
 
-                activityBinding.btnNext.setText("Next");
+                activityBinding.btnNext1.setText("Next");
                 activityBinding.btnPrevious.setText("Skip");
 
             } else if (position == mDots.length - 1) { //last page
-                activityBinding.btnNext.setEnabled(true);
+                activityBinding.btnNext1.setEnabled(true);
                 activityBinding.btnPrevious.setEnabled(true);
 
-                activityBinding.btnNext.setText("Get Started");
+                activityBinding.btnNext1.setText("Get Started");
                 activityBinding.btnPrevious.setText("Skip");
             } else { //neither on first nor on last page
-                activityBinding.btnNext.setEnabled(true);
+                activityBinding.btnNext1.setEnabled(true);
                 activityBinding.btnPrevious.setEnabled(true);
 
-                activityBinding.btnNext.setText("Next");
+                activityBinding.btnNext1.setText("Next");
                 activityBinding.btnPrevious.setText("Skip");
             }
 
@@ -164,7 +164,7 @@ public class OnboardingActivity extends BaseActivity<ActivityOnboardingBinding> 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_next:
+            case R.id.btn_next1:
                 ActivityUtil.gotoPage(OnboardingActivity.this, WelcomeUser.class);
 
 //                if (activityBinding.btnNext.getText().toString().equalsIgnoreCase("next")) {

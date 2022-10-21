@@ -13,8 +13,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvider;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySpProfileBinding;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -23,6 +25,7 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
 
     NavController mNavController;
     int count = 0;
+    ServiceProvider provider;
 
 
     @Override
@@ -33,6 +36,10 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
     @Override
     protected void onStart() {
         super.onStart();
+
+        String data = getIntent().getStringExtra("sp_data");
+        Gson gson = new Gson();
+        provider = gson.fromJson(data,ServiceProvider.class);
 
         if (prefRepository.getString("cart").equalsIgnoreCase("true")){
             activityBinding.cartItem.setVisibility(View.VISIBLE);

@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.DataItem;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ServiceProviderProfile;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
@@ -19,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProviderAdapter.ViewHolder> {
 
-    private final List<String> list;
+    private final List<DataItem> list;
     private final Context ctx;
     onItemClickListener itemClickListener;
 
@@ -27,7 +31,7 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
         this.itemClickListener = itemClickListener;
     }
 
-    public ServiceProviderAdapter(List<String> data, Context context) {
+    public ServiceProviderAdapter(List<DataItem> data, Context context) {
         this.list = data;
         this.ctx = context;
     }
@@ -41,13 +45,11 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
 
     @Override
     public void onBindViewHolder(@NonNull ServiceProviderAdapter.ViewHolder holder, int position) {
-        String name = list.get(position);
-        holder.name.setText(name);
+        DataItem dataItem = list.get(position);
+        holder.name.setText(dataItem.getFirstName() +" "+ dataItem.getLastName());
+        Glide.with(ctx).load(Constants.IMG_PATH + dataItem.getProfilePhoto()).into(holder.imageView);
+       // holder.price.setText(dataItem.g);
 
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(ctx, SpProfile.class);
-            ctx.startActivity(intent);
-        });
     }
 
     @Override
@@ -60,12 +62,16 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
+        public TextView name, service, price;
+        ImageView imageView;
 
         public ViewHolder(@NonNull View itemView, onItemClickListener itemClickListener) {
             super(itemView);
 
             name = itemView.findViewById(R.id.sp_name);
+            service = itemView.findViewById(R.id.sp_service);
+            price = itemView.findViewById(R.id.sp_rate);
+            imageView = itemView.findViewById(R.id.sp_image);
 
             itemView.setOnClickListener(view -> {
                 if (itemClickListener!= null){

@@ -245,10 +245,35 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_categories" />
 
+                <aglibs.loading.skeleton.layout.SkeletonLinearLayout
+                    android:id="@+id/skeletonLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_categories"
+                    app:clipToText="false">
+
+                    <include
+                        layout="@layout/place_holder_categories"/>
+
+                    <include
+                        layout="@layout/place_holder_categories"/>
+
+                    <include
+                        layout="@layout/place_holder_categories"/>
+
+
+                </aglibs.loading.skeleton.layout.SkeletonLinearLayout>
+
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoriesList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_categories" />
@@ -260,7 +285,7 @@
                     android:paddingTop="@dimen/_8sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/categoriesList">
+                    app:layout_constraintTop_toBottomOf="@id/skeletonLayout">
 
                     <TextView
                         android:id="@+id/tv_recomended"
@@ -289,10 +314,34 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tv_recomended" />
 
+                    <aglibs.loading.skeleton.layout.SkeletonLinearLayout
+                        android:id="@+id/skeletonLayout1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_recomended"
+                        app:clipToText="false">
+
+                        <include
+                            layout="@layout/place_holder_home_sp"/>
+
+                        <include
+                            layout="@layout/place_holder_home_sp"/>
+
+                        <include
+                            layout="@layout/place_holder_home_sp"/>
+
+
+                    </aglibs.loading.skeleton.layout.SkeletonLinearLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recomendedList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_recomended" />
@@ -300,9 +349,11 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/all_service"
                         android:layout_width="match_parent"
+                        android:visibility="visible"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintTop_toBottomOf="@+id/recomendedList" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

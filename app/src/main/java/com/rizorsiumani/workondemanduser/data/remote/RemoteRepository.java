@@ -14,6 +14,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.PostJobModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.RegistrationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SaveAddressModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
@@ -173,10 +174,18 @@ public class RemoteRepository {
         return null;
     }
 
-    public Observable<HomeContentModel> getHomeContent(JsonObject object) {
+    public Observable<HomeContentModel> getHomeContent(String token ,JsonObject object) {
 
         if (mService != null) {
-            return mService.getContent(object);
+            return mService.getContent(token,object);
+        }
+        return null;
+    }
+
+    public Observable<ServiceProvidersModel> getProviders(int page,String token , JsonObject object) {
+
+        if (mService != null) {
+            return mService.getServiceProviders(token,page,object);
         }
         return null;
     }

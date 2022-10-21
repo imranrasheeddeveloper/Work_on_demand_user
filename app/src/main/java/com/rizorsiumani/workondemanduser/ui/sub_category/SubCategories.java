@@ -1,5 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.sub_category;
 
+import android.content.Intent;
+
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -97,7 +99,9 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
         activityBinding.searchDataList.setAdapter(adapter);
 
         adapter.setOnCategoryClickListener(position -> {
-            ActivityUtil.gotoPage(SubCategories.this, Serviceproviders.class);
+            Intent intent = new Intent(SubCategories.this, Serviceproviders.class);
+            intent.putExtra("sub_cat_id",dataItems.get(position).getCategoryId());
+            startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 

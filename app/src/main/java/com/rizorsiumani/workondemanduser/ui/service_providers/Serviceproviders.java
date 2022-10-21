@@ -2,25 +2,76 @@ package com.rizorsiumani.workondemanduser.ui.service_providers;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.DataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderServicesItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
 import com.rizorsiumani.workondemanduser.databinding.ActivityServiceprovidersBinding;
+import com.rizorsiumani.workondemanduser.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBinding> {
 
 
     NavController mNavController;
+    private ServiceProviderViewModel viewModel;
+    String subCatID;
+    ServiceProvidersModel model;
 
 
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        try {
+            subCatID = getIntent().getStringExtra("sub_cat_id");
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+
+        viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
+        JsonObject object = new JsonObject();
+        object.addProperty("lat", Constants.latitude);
+        object.addProperty("long", Constants.longitude);
+        object.addProperty("sub_category_id", subCatID);
+
+        viewModel.serviceProviders(1,Constants.ACCESS_TOKEN,object);
+        viewModel._provider.observe(this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (!response.getError().isEmpty()) {
+                    hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().isSuccess()) {
+                    hideLoading();
+
+                    if (response.getData().getData().size() > 0){
+                        model = response.getData();
+                    }
+                }
+            }
+        });
+
+
+
+
+
+
 
         activityBinding.serviceToolbar.title.setText("Service Providers");
 
@@ -56,10 +107,16 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
             public void onTabSelected(TabLayout.Tab tab) {
                 tab.view.setBackground(getResources().getDrawable(R.drawable.rect_bg));
                 tab.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+
+                Gson gson = new Gson();
+                String service_providers = gson.toJson(model, ServiceProvidersModel.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("service_providers", service_providers);
+
                 if (tab.getId() == 1) {
-                    mNavController.navigate(R.id.serviceProviderList);
+                    mNavController.navigate(R.id.serviceProviderList,bundle);
                 } else {
-                    mNavController.navigate(R.id.serviceProviderMaps);
+                    mNavController.navigate(R.id.serviceProviderMaps,bundle);
                 }
             }
 

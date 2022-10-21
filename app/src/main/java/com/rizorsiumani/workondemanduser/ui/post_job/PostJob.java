@@ -222,8 +222,8 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         JsonObject object = new JsonObject();
         object.addProperty("title",title);
         object.addProperty("description",description);
-        object.addProperty("category_id",selectedCatID);
-        object.addProperty("sub_category_id",selectedSubCatID);
+        object.addProperty("category_id",String.valueOf(selectedCatID));
+        object.addProperty("sub_category_id",String.valueOf(selectedSubCatID));
         object.addProperty("budget",budget);
         object.addProperty("attachment",imagesPath);
         object.addProperty("price_unit",selectedBudgetUnit);

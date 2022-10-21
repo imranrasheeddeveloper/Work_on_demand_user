@@ -80,20 +80,20 @@ public class FilterSearch extends BaseActivity<ActivityFilterSearchBinding> {
     }
 
     private void getCategories() {
-        List<String> service_categories = new ArrayList<>();
-        service_categories.add("Cleaning");
-        service_categories.add("Shifting");
-        service_categories.add("Appliances");
-        service_categories.add("Painting");
-        service_categories.add("Electronic");
-        service_categories.add("Repairing");
-        service_categories.add("Cleaning");
-        service_categories.add("More");
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(FilterSearch.this, RecyclerView.VERTICAL, false);
-        activityBinding.categoryList.setLayoutManager(layoutManager);
-        CategoryFilterAdapter adapter = new CategoryFilterAdapter(service_categories, FilterSearch.this);
-        activityBinding.categoryList.setAdapter(adapter);
+//        List<String> service_categories = new ArrayList<>();
+//        service_categories.add("Cleaning");
+//        service_categories.add("Shifting");
+//        service_categories.add("Appliances");
+//        service_categories.add("Painting");
+//        service_categories.add("Electronic");
+//        service_categories.add("Repairing");
+//        service_categories.add("Cleaning");
+//        service_categories.add("More");
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(FilterSearch.this, RecyclerView.VERTICAL, false);
+//        activityBinding.categoryList.setLayoutManager(layoutManager);
+//        CategoryFilterAdapter adapter = new CategoryFilterAdapter(service_categories, FilterSearch.this);
+//        activityBinding.categoryList.setAdapter(adapter);
 
     }
 

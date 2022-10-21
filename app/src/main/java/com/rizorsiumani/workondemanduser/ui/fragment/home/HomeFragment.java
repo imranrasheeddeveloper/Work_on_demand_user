@@ -1,53 +1,47 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
-import com.rizorsiumani.workondemanduser.data.businessModels.HomeSliderModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.RecommendedServicesModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
-import com.rizorsiumani.workondemanduser.ui.filter.FilterSearch;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
-import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
-import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
+import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
+import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
+import com.rizorsiumani.workondemanduser.ui.walkthrough.OnboardingActivity;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.AppBarStateChangeListener;
 import com.rizorsiumani.workondemanduser.utils.Constants;
-import com.skydoves.elasticviews.ElasticImageView;
+import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
+import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
+import com.rizorsiumani.workondemanduser.utils.map_utils.OnLocationUpdateListener;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -56,15 +50,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements PromotionalAdapter.OnPromotionAdapterClick {
+public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  OnLocationUpdateListener {
 
     private HomeViewModel viewModel;
     private HomeContentViewModel homeContentViewModel;
     private SliderViewModel sliderViewModel;
     List<CategoriesDataItem> categoriesDataItems;
     List<SliderDataItem> sliderDataItems;
+    List<HomeContentDataItem> contentDataItems;
     int count = 0;
-
+    boolean isLocationPermissionGranted;
 
 
     @Override
@@ -76,18 +71,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
+        isLocationPermissionGranted =  LocationService.service.requestLocationPermission(requireContext());
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         sliderViewModel = new ViewModelProvider(this).get(SliderViewModel.class);
         homeContentViewModel = new ViewModelProvider(this).get(HomeContentViewModel.class);
+        if (isLocationPermissionGranted) {
+            locationHandler();
+        } else {
+            isLocationPermissionGranted =  LocationService.service.requestLocationPermission(requireContext());
+        }
 
-        setHomeContent();
-        setSlider();
-
-
+        fragmentBinding.skeletonLayout.startLoading();
+        fragmentBinding.skeletonLayout1.startLoading();
         Constants.isHome = true;
-
         if (prefRepository.getString("CURRENT_LOCATION") != null) {
             String address = prefRepository.getString("CURRENT_LOCATION");
             if (address.equalsIgnoreCase("nil")) {
@@ -96,25 +92,22 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
                 fragmentBinding.tvChooseAddress.setText(address);
             }
         }
-
         fragmentBinding.appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                if(state.equals(State.COLLAPSED)) {
+                if (state.equals(State.COLLAPSED)) {
                     fragmentBinding.toolbar.setBackgroundResource(R.drawable.custom_toolbar);
                     fragmentBinding.title.setTextColor(Color.parseColor("#081533"));
                     Toast.makeText(requireContext(), "COLLAPSED", Toast.LENGTH_SHORT).show();
                     fragmentBinding.view2.setVisibility(View.VISIBLE);
                     fragmentBinding.view2.setBackgroundColor(Color.parseColor("#00000000"));
-                }
-                else if (state.equals(State.EXPANDED)) {
+                } else if (state.equals(State.EXPANDED)) {
                     fragmentBinding.view2.setVisibility(View.GONE);
 
                     fragmentBinding.toolbar.setBackgroundResource(R.color.transparent);
                     fragmentBinding.title.setTextColor(Color.parseColor("#FFFFFFFF"));
                     Toast.makeText(requireContext(), "EXPANDED", Toast.LENGTH_SHORT).show();
-                }
-                else if ((state.equals(State.IDLE))){
+                } else if ((state.equals(State.IDLE))) {
                     Toast.makeText(requireContext(), "IDLE", Toast.LENGTH_SHORT).show();
                     fragmentBinding.toolbar.setBackgroundResource(R.color.transparent);
                     fragmentBinding.title.setTextColor(Color.parseColor("#FFFFFFFF"));
@@ -125,61 +118,59 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
         });
 
         getServices();
+        setHomeContent();
+        setSlider();
         clickListeners();
-
-        ArrayList<RecommendedServicesModel> names = new ArrayList<>();
-        names.add(new RecommendedServicesModel(
-                "Jermy Either",
-                29.99,
-                R.drawable.ic_car_one
-        ));
-        names.add(new RecommendedServicesModel(
-                "Mr White",
-                45.99,
-                R.drawable.ic_car_two
-        ));
-        names.add(new RecommendedServicesModel(
-                "Santiago Don",
-                9.99,
-                R.drawable.ic_car_three
-        ));
-
-        ArrayList<ServiceModel> serviceModels = new ArrayList<>();
-        serviceModels.add(new ServiceModel("Car Service",names));
-        serviceModels.add(new ServiceModel("Cleaning Service",names));
-        serviceModels.add(new ServiceModel("Shifting Service",names));
-
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
-        fragmentBinding.allService.setLayoutManager(layoutManager1);
-        AllSerAdapter adapter1 = new AllSerAdapter(serviceModels);
-        fragmentBinding.allService.setAdapter(adapter1);
-
-//        adapter1.setOnCellClickListener(this);
-
-
-        populateCarServices();
 
     }
 
     private void setHomeContent() {
 
+        JsonObject object = new JsonObject();
+        object.addProperty("lat", String.valueOf(Constants.latitude));
+        object.addProperty("long",  String.valueOf(Constants.longitude));
+        String token = prefRepository.getString("token");
+        homeContentViewModel.getHomeContent(token, object);
+
+        homeContentViewModel._home_content.observe(getViewLifecycleOwner(), response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                } else if (!response.getError().isEmpty()) {
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+                    if (response.getData().getData().size() > 0) {
+                        contentDataItems = new ArrayList<>();
+                        contentDataItems.addAll(response.getData().getData());
+                        setHomeContentRv(contentDataItems);
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void setHomeContentRv(List<HomeContentDataItem> contentDataItems) {
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
+        fragmentBinding.allService.setLayoutManager(layoutManager1);
+        AllSerAdapter adapter1 = new AllSerAdapter(requireContext(),contentDataItems);
+        fragmentBinding.allService.setAdapter(adapter1);
+
+       fragmentBinding.skeletonLayout1.stopLoading();
+        fragmentBinding.allService.setVisibility(View.VISIBLE);
+        fragmentBinding.skeletonLayout1.setVisibility(View.GONE);
     }
 
     private void setSlider() {
-        if (sliderViewModel._slider.getValue() == null){
+        if (sliderViewModel._slider.getValue() == null) {
             sliderViewModel.getSliderInfo();
         }
 
         sliderViewModel._slider.observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
                 if (response.isLoading()) {
-                    //showLoading();
                 } else if (!response.getError().isEmpty()) {
-                   // hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getSliderData() != null) {
-                   // hideLoading();
-
                     sliderDataItems = new ArrayList<>();
                     sliderDataItems.addAll(response.getData().getSliderData());
                     slider(sliderDataItems);
@@ -188,33 +179,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
             }
         });
 
-    }
-
-    private void populateCarServices() {
-
-        ArrayList<RecommendedServicesModel> names = new ArrayList<>();
-        names.add(new RecommendedServicesModel(
-                "Marsha Williams",
-                39.99,
-                R.drawable.ic_one
-        ));
-        names.add(new RecommendedServicesModel(
-                "Marco Piera",
-                49.99,
-                R.drawable.ic_two
-        ));
-        names.add(new RecommendedServicesModel(
-                "Gordon Ramsy",
-                79.99,
-                R.drawable.ic_three
-        ));
-
-
-
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false);
-        fragmentBinding.recomendedList.setLayoutManager(layoutManager1);
-        PromotionalAdapter adapter1 = new PromotionalAdapter(names);
-        fragmentBinding.recomendedList.setAdapter(adapter1);
     }
 
     private void clickListeners() {
@@ -258,7 +222,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
         TextView select = view.findViewById(R.id.tv_done);
         RecyclerView list = view.findViewById(R.id.filtersList);
 
-        if (viewModel._ddCategory.getValue() == null){
+        if (viewModel._ddCategory.getValue() == null) {
             viewModel.dropDownCategories();
         }
 
@@ -286,6 +250,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
         bt.setContentView(view);
         bt.show();
     }
+
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
 
         @Override
@@ -303,25 +268,22 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
         }
     };
 
-
     private void getServices() {
 
-        if (viewModel._category.getValue() == null){
-            viewModel.categories(1);
-        }
+        viewModel.categories(1);
 
         viewModel._category.observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
                 if (response.isLoading()) {
-                  //  showLoading();
+                    //  showLoading();
                 } else if (!response.getError().isEmpty()) {
-                   // hideLoading();
+                    // hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
-                   // hideLoading();
+                    // hideLoading();
                     categoriesDataItems = new ArrayList<>();
                     categoriesDataItems.addAll(response.getData().getData());
-                    if (categoriesDataItems.size() > 0){
+                    if (categoriesDataItems.size() > 0) {
                         buildCategoryRv(categoriesDataItems);
                     }
 
@@ -341,8 +303,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
 //        service_categories.add(new SerCategoryModel("Shifting", R.drawable.ic_shiftinng, "#eb5657"));
 
 
-
-
     }
 
     private void buildCategoryRv(List<CategoriesDataItem> categoriesDataItems) {
@@ -351,33 +311,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
         CategoriesAdapter adapter = new CategoriesAdapter(requireContext(), categoriesDataItems);
         fragmentBinding.categoriesList.setAdapter(adapter);
 
+        fragmentBinding.categoriesList.setVisibility(View.VISIBLE);
+        fragmentBinding.skeletonLayout.setVisibility(View.INVISIBLE);
+
 
         adapter.setOnServiceClickListener(position -> {
-            Intent intent = new Intent(requireContext(),SubCategories.class);
-            intent.putExtra("category_id",categoriesDataItems.get(position).getId());
+            Intent intent = new Intent(requireContext(), SubCategories.class);
+            intent.putExtra("category_id", categoriesDataItems.get(position).getId());
             startActivity(intent);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
 
     private void slider(List<SliderDataItem> sliderDataItems) {
-
-//        sliderModel.add(new HomeSliderModel(
-//                "Fix the Broken Stuff by Asking for he Technicians.",
-//                R.drawable.ic_home_slider_car_illus,
-//                "#00A688"
-//        ));
-//
-//        sliderModel.add(new HomeSliderModel(
-//                "Assigning a Handyman At Work To Fix The Household.",
-//                R.drawable.ic_sliderr,
-//                "#ffa24a"
-//        ));
-//        sliderModel.add(new HomeSliderModel(
-//                "Add Hands To Fix Your Car.",
-//                R.drawable.ic_home_slider_car_illus,
-//                "#00A688"
-//        ));
 
         HomeSliderAdapter sliderAdapter = new HomeSliderAdapter(requireContext(), sliderDataItems);
         fragmentBinding.imageSlider.setSliderAdapter(sliderAdapter);
@@ -404,8 +350,23 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements P
         Constants.isHome = false;
     }
 
-    @Override
-    public void onCellClick(int pos) {
-        startActivity(new Intent(requireContext(), SpProfile.class));
+
+    private void locationHandler() {
+        LocationUpdateService locationUpdateService = new LocationUpdateService();
+        locationUpdateService.LocationHandler(requireActivity(), this);
     }
+
+    @Override
+    public void onLocationChange(Location location) {
+        Constants.latitude = location.getLatitude();
+        Constants.longitude = location.getLongitude();
+
+    }
+
+    @Override
+    public void onError(String error) {
+
+    }
+
+
 }

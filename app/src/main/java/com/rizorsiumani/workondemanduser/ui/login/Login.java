@@ -78,7 +78,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
 
             String email = activityBinding.edEmail.getText().toString().trim();
             String password = activityBinding.edPassword.getText().toString().trim();
-            loginApi(email,password);
+            loginApi("asima@gmail.com","asi123");
 
         });
 
@@ -103,22 +103,18 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
                 if (response.isLoading()) {
                     showLoading();
                 } else if (!response.getError().isEmpty()) {
-                    //we have error to show
                     hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
                     hideLoading();
-                    prefRepository.setString("token" , "Bearer "+response.getData().getData().getToken());
+                    prefRepository.setString("token" , "Bearer "+response.getData().getToken());
+                    Constants.ACCESS_TOKEN = "Bearer "+response.getData().getToken();
 
                     ActivityUtil.gotoPage(Login.this, Dashboard.class);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
             }
         });
-
-
-
-
     }
 
     @Override

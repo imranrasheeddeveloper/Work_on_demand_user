@@ -7,7 +7,7 @@
     <color name="teal_700">#8fd7cc</color>
     <color name="black">#FF000000</color>
     <color name="semi_black">#081533</color>
-
+    <color name="placeholder_bg">#d5d5d5</color>
     <color name="white">#FFFFFFFF</color>
 
     <color name="disabled_effect">#587c74</color>

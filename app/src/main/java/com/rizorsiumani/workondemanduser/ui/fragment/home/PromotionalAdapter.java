@@ -1,5 +1,6 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,21 +8,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.RecommendedServicesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderCategoriesItem;
+import com.rizorsiumani.workondemanduser.utils.Constants;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.List;
 
 public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.ViewHolder> {
 
-    private final List<RecommendedServicesModel> data;
+    private final List<ServiceProviderCategoriesItem> data;
     private OnPromotionAdapterClick mListener;
 
-    public PromotionalAdapter(List<RecommendedServicesModel> list) {
+    public PromotionalAdapter(List<ServiceProviderCategoriesItem> list) {
         this.data = list;
     }
 
@@ -38,16 +48,30 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        RecommendedServicesModel item = data.get(position);
+        ServiceProviderCategoriesItem item = data.get(position);
 
-        String rate = item.getServicePrice() + "$";
+        String rate = item.getPrice() + "$";
         holder.textView.setText(rate);
 
-        holder.sp_name.setText(item.getServiceProviderName());
+        holder.sp_name.setText(item.getServiceProvider().getFirstName());
 
         Glide.with(holder.sp_image.getContext())
-                .load(item.getImgSource())
+                .load(Constants.IMG_PATH + item.getServiceProvider().getProfilePhoto())
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        holder.loading.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+                })
                 .into(holder.sp_image);
+
+
 
     }
 
@@ -60,7 +84,7 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
         public TextView textView;
         public TextView sp_name;
         public ImageView sp_image;
-        public ConstraintLayout item_view;
+        AVLoadingIndicatorView loading;
 
         public ViewHolder(@NonNull View itemView, OnPromotionAdapterClick listener) {
             super(itemView);
@@ -68,13 +92,14 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
             textView = itemView.findViewById(R.id.startFrom);
             sp_name = itemView.findViewById(R.id.sp_name);
             sp_image = itemView.findViewById(R.id.sp_image);
-          //  item_view = itemView.findViewById(R.id.item_view);
+            loading = itemView.findViewById(R.id.avi);
 
-//            item_view.setOnClickListener(v -> {
-//                if (listener != null) {
-//                    listener.onCellClick(getAdapterPosition());
-//                }
-//            });
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onCellClick(getAdapterPosition());
+                }
+            });
 
         }
     }

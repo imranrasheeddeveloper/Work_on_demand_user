@@ -1,6 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -14,21 +15,29 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.RecommendedServicesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SerCategoryModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvider;
+import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
+import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AllSerAdapter extends RecyclerView.Adapter<AllSerAdapter.ViewHolder> {
 
-    private final List<ServiceModel> data;
+    private final List<HomeContentDataItem> data;
     OnItemClickListener itemClickListener;
+    Context ctx;
 
-    public AllSerAdapter(List<ServiceModel> serviceModels) {
+
+    public AllSerAdapter(Context context, List<HomeContentDataItem> serviceModels) {
+        this.ctx = context;
         this.data = serviceModels;
     }
 
@@ -48,14 +57,27 @@ public class AllSerAdapter extends RecyclerView.Adapter<AllSerAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull AllSerAdapter.ViewHolder holder, int position) {
 
-        ServiceModel model = data.get(position);
-        holder.name.setText(model.getServiceName());
+        HomeContentDataItem model = data.get(position);
+        holder.name.setText(model.getTitle());
 
 
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false);
         holder.recyclerView.setLayoutManager(layoutManager1);
-        PromotionalAdapter adapter1 = new PromotionalAdapter(model.getModel());
+        PromotionalAdapter adapter1 = new PromotionalAdapter(model.getServiceProviderCategories());
         holder.recyclerView.setAdapter(adapter1);
+
+        adapter1.setOnCellClickListener(pos -> {
+            Gson gson = new Gson();
+            String data = gson.toJson(model.getServiceProviderCategories().get(pos).getServiceProvider(), ServiceProvider.class);
+
+            Intent intent = new Intent(ctx, SpProfile.class);
+            intent.putExtra("sp_data" , data);
+            ctx.startActivity(intent);
+
+        });
+
+
+
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.PostJobModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.RegistrationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SaveAddressModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
@@ -89,7 +90,12 @@ public interface ApiService {
     Observable<PostedJobsModel> getAllPostedJobs(@Header("Authorization") String token);
 
     @POST("serviceProvider/get_home_content")
-    Observable<HomeContentModel> getContent(@Body JsonObject object);
+    Observable<HomeContentModel> getContent(@Header("Authorization") String token,
+                                            @Body JsonObject object);
 
+    @POST("serviceProvider/get_service_providers/{page_no}")
+    Observable<ServiceProvidersModel> getServiceProviders(@Header("Authorization") String token,
+                                                          @Path("page_no") int page_no,
+                                                          @Body JsonObject object);
 
 }

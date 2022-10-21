@@ -17,6 +17,8 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySplashBinding;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
+import com.rizorsiumani.workondemanduser.ui.login.Login;
 import com.rizorsiumani.workondemanduser.ui.walkthrough.OnboardingActivity;
 import com.rizorsiumani.workondemanduser.ui.welcome_user.WelcomeUser;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -41,16 +43,14 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
     @Override
     protected void onStart() {
         super.onStart();
+        isLocationPermissionGranted =  LocationService.service.requestLocationPermission(SplashActivity.this);
 
-        new Handler().postDelayed(() -> {
-            ActivityUtil.gotoPage(SplashActivity.this, OnboardingActivity.class);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        }, 3000);
+
 
         if (isLocationPermissionGranted) {
             locationHandler();
         } else {
-            LocationService.service.requestLocationPermission(SplashActivity.this);
+            isLocationPermissionGranted =  LocationService.service.requestLocationPermission(SplashActivity.this);
         }
     }
 
@@ -64,7 +64,14 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
     public void onLocationChange(Location location) {
         Constants.latitude = location.getLatitude();
         Constants.longitude = location.getLongitude();
-
+        String token = prefRepository.getString("token");
+        if (token.isEmpty()) {
+            ActivityUtil.gotoPage(SplashActivity.this, Login.class);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        } else {
+            ActivityUtil.gotoPage(SplashActivity.this, Dashboard.class);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        }
     }
 
     @Override

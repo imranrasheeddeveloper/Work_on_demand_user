@@ -31,9 +31,12 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.DataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServiceProviderMapsBinding;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ServiceProviderProfile;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
@@ -56,7 +59,8 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
     private Marker selectedMarker = null;
     LinearLayoutManager layoutManager;
 
-    List<LatLng> names;
+    List<LatLng> providersLatLng;
+    ServiceProvidersModel serviceProvidersModel;
 
 
     @Override
@@ -68,9 +72,10 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getData();
         markers = new ArrayList<>();
         layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        names = new ArrayList<>();
+        providersLatLng = new ArrayList<>();
         initMap();
         clickListeners();
         buildRv();
@@ -86,8 +91,8 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
                     final Marker marker = markers.get(layoutManager.findFirstVisibleItemPosition());
                     final LatLng markerPosition = marker.getPosition();
-                    for (int i = 0; i < names.size()-1; i++) {
-                        if (markerPosition.latitude == names.get(i).longitude && markerPosition.longitude == names.get(i).longitude) {
+                    for (int i = 0; i < providersLatLng.size()-1; i++) {
+                        if (markerPosition.latitude == providersLatLng.get(i).longitude && markerPosition.longitude == providersLatLng.get(i).longitude) {
                         }
                     }
                     CameraPosition cameraPosition = new CameraPosition.Builder().target(markerPosition).zoom(12).build();
@@ -105,6 +110,22 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
             }
         });
 
+    }
+
+    private void getData() {
+        try {
+
+            if (getArguments() != null) {
+                if (getArguments().getString("service_providers") != null) {
+                    String data = getArguments().getString("service_providers");
+                    Gson gson = new Gson();
+                    serviceProvidersModel = gson.fromJson(data,ServiceProvidersModel.class);
+                }
+            }
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -130,7 +151,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
         if (isLocationPermissionGranted) {
             LocationUpdateService locationUpdateService = new LocationUpdateService();
             locationUpdateService.LocationHandler(getActivity(), this);
-            addmarkers();
+            addMarkers();
 
             mMap.setOnMarkerClickListener(this);
 
@@ -153,8 +174,11 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
     private void buildRv() {
 
-        names.add(new LatLng(31.561920, 74.348080));
-        names.add(new LatLng(31.562340, 74.348630));
+        for (int i = 0; i < serviceProvidersModel.getData().size()-1; i++) {
+            DataItem dataItem = serviceProvidersModel.getData().get(i);
+            providersLatLng.add(new LatLng(Double.parseDouble(dataItem.getLat())
+                    ,Double.parseDouble(dataItem.getLongitude())));
+        }
 
         fragmentBinding.markersLocationList.setOnFlingListener(null);
         fragmentBinding.markersLocationList.setHasFixedSize(true);
@@ -162,7 +186,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
         fragmentBinding.markersLocationList.setLayoutManager(layoutManager);
         snapHelper.attachToRecyclerView(fragmentBinding.markersLocationList);
         fragmentBinding.markersLocationList.setItemAnimator(new DefaultItemAnimator());
-        adapter = new SpMapAdapter(names, App.applicationContext);
+        adapter = new SpMapAdapter(providersLatLng, requireContext());
         fragmentBinding.markersLocationList.setAdapter(adapter);
         fragmentBinding.markersLocationList.setVisibility(View.VISIBLE);
 
@@ -182,16 +206,13 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
     }
 
-    private void addmarkers() {
-        LatLng current_location = new LatLng(31.561920, 74.348080);
-        Marker marker = mMap.addMarker(new MarkerOptions().position(current_location).icon(bitmapDescriptorFromVector(requireActivity(), R.drawable.map_stop_position)));
-        marker.setTag("Gullberg 3");
-        markers.add(marker);
+    private void addMarkers() {
 
-        LatLng barket = new LatLng(31.562340, 74.348630);
-        Marker marker1 = mMap.addMarker(new MarkerOptions().position(barket).icon(bitmapDescriptorFromVector(requireActivity(), R.drawable.map_stop_position)));
-        marker1.setTag("Barkat Market");
-        markers.add(marker1);
+        for (int i = 0; i < providersLatLng.size()-1; i++) {
+            LatLng current_location = providersLatLng.get(i);
+            Marker marker = mMap.addMarker(new MarkerOptions().position(current_location).icon(bitmapDescriptorFromVector(requireActivity(), R.drawable.map_stop_position)));
+            markers.add(marker);
+        }
     }
 
 
@@ -221,8 +242,8 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
         final LatLng markerPosition = marker.getPosition();
         int selected_marker = -1;
-        for (int i = 0; i <= names.size()-1; i++) {
-            if (markerPosition.latitude == names.get(i).latitude && markerPosition.longitude == names.get(i).longitude) {
+        for (int i = 0; i <= providersLatLng.size()-1; i++) {
+            if (markerPosition.latitude == providersLatLng.get(i).latitude && markerPosition.longitude == providersLatLng.get(i).longitude) {
                 selected_marker = i;
             }
         }
