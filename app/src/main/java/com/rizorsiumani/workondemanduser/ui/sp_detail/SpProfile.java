@@ -3,6 +3,7 @@ package com.rizorsiumani.workondemanduser.ui.sp_detail;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -109,7 +110,11 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
             public void onTabSelected(TabLayout.Tab tab) {
                 tab.view.setBackground(getResources().getDrawable(R.drawable.rect_bg));
                 tab.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+
+
+
                 if (tab.getId() == 0) {
+
                     mNavController.navigate(R.id.services);
                 } else if (tab.getId() == 1) {
                     mNavController.navigate(R.id.gallery2);

@@ -19,10 +19,12 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.common.Response;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderDataItem;
@@ -32,10 +34,7 @@ import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
-import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
-import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
-import com.rizorsiumani.workondemanduser.ui.walkthrough.OnboardingActivity;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.AppBarStateChangeListener;
 import com.rizorsiumani.workondemanduser.utils.Constants;
@@ -45,6 +44,8 @@ import com.rizorsiumani.workondemanduser.utils.map_utils.OnLocationUpdateListene
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
     private HomeContentViewModel homeContentViewModel;
     private SliderViewModel sliderViewModel;
     List<CategoriesDataItem> categoriesDataItems;
+    List<Integer> selectedFilter;
+
     List<SliderDataItem> sliderDataItems;
     List<HomeContentDataItem> contentDataItems;
     int count = 0;
@@ -71,6 +74,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        selectedFilter = new ArrayList<>();
         isLocationPermissionGranted =  LocationService.service.requestLocationPermission(requireContext());
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         sliderViewModel = new ViewModelProvider(this).get(SliderViewModel.class);
@@ -118,17 +122,25 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
         });
 
         getServices();
-        setHomeContent();
+        setHomeContent(null);
         setSlider();
         clickListeners();
 
     }
 
-    private void setHomeContent() {
+    private void setHomeContent(List<Integer> selectedFilter) {
 
         JsonObject object = new JsonObject();
-        object.addProperty("lat", String.valueOf(Constants.latitude));
-        object.addProperty("long",  String.valueOf(Constants.longitude));
+
+        if (selectedFilter == null){
+            object.addProperty("lat", String.valueOf(Constants.latitude));
+            object.addProperty("long",  String.valueOf(Constants.longitude));
+        }else {
+            object.addProperty("lat", String.valueOf(Constants.latitude));
+            object.addProperty("long", String.valueOf(Constants.longitude));
+            Gson gson = new Gson();
+            object.add("categoriesFillter" , gson.toJsonTree(selectedFilter));
+        }
         String token = prefRepository.getString("token");
         homeContentViewModel.getHomeContent(token, object);
 
@@ -238,6 +250,22 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
                     list.setLayoutManager(layoutManager);
                     CategoryFilterAdapter adapter = new CategoryFilterAdapter(categoriesDataItems, requireContext());
                     list.setAdapter(adapter);
+
+                    adapter.setOnItemClickListener(new CategoryFilterAdapter.OnItemClickListener() {
+                        @Override
+                        public void onSelect(int position) {
+                            selectedFilter.add(categoriesDataItems.get(position).getId());
+                        }
+
+                        @Override
+                        public void onUnselect(int position) {
+                            for (int i = 0; i < selectedFilter.size()-1; i++) {
+                                if (selectedFilter.get(i).equals(categoriesDataItems.get(position).getId())){
+                                    selectedFilter.remove(i);
+                                }
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -245,6 +273,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
         cancel.setOnClickListener(view1 -> {
             count = 0;
             bt.dismiss();
+        });
+
+        select.setOnClickListener(view1 -> {
+            bt.dismiss();
+            setHomeContent(selectedFilter);
         });
 
         bt.setContentView(view);
@@ -317,7 +350,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
 
         adapter.setOnServiceClickListener(position -> {
             Intent intent = new Intent(requireContext(), SubCategories.class);
-            intent.putExtra("category_id", categoriesDataItems.get(position).getId());
+;            intent.putExtra("category_id", categoriesDataItems.get(position).getId());
             startActivity(intent);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });

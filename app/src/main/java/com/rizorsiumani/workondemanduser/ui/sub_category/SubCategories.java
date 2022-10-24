@@ -100,7 +100,7 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
 
         adapter.setOnCategoryClickListener(position -> {
             Intent intent = new Intent(SubCategories.this, Serviceproviders.class);
-            intent.putExtra("sub_cat_id",dataItems.get(position).getCategoryId());
+            intent.putExtra("sub_cat_id",String.valueOf(dataItems.get(position).getId()));
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });

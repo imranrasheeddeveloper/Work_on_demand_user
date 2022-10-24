@@ -60,7 +60,6 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
         }else {
             createPassword(first_name,last_name,email,number);
         }
-
     }
 
     private void createPassword(String first_name, String last_name, String email, String number) {

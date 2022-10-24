@@ -47,9 +47,11 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
     public void onBindViewHolder(@NonNull ServiceProviderAdapter.ViewHolder holder, int position) {
         DataItem dataItem = list.get(position);
         holder.name.setText(dataItem.getFirstName() +" "+ dataItem.getLastName());
-        Glide.with(ctx).load(Constants.IMG_PATH + dataItem.getProfilePhoto()).into(holder.imageView);
-       // holder.price.setText(dataItem.g);
-
+       // Glide.with(ctx).load(Constants.IMG_PATH + dataItem.getProfilePhoto()).into(holder.imageView);
+//        if (dataItem.getServiceProviderServices() != null) {
+//            holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
+//            holder.price.setText(dataItem.getServiceProviderServices().get(0).getPrice());
+//        }
     }
 
     @Override
@@ -68,7 +70,7 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
         public ViewHolder(@NonNull View itemView, onItemClickListener itemClickListener) {
             super(itemView);
 
-            name = itemView.findViewById(R.id.sp_name);
+            name = itemView.findViewById(R.id.sp_name11);
             service = itemView.findViewById(R.id.sp_service);
             price = itemView.findViewById(R.id.sp_rate);
             imageView = itemView.findViewById(R.id.sp_image);

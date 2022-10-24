@@ -43,15 +43,15 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
 
         CategoriesDataItem dataItem = categories.get(position);
         holder.cat.setText(dataItem.getTitle());
-        holder.selector.setOnClickListener(view -> {
-            if (holder.selector.getTag().toString().equalsIgnoreCase("unselect")){
-                holder.selector.setImageResource(R.drawable.selected_value);
-                holder.selector.setTag("selected");
-            }else {
-                holder.selector.setImageResource(R.drawable.unselected_value);
-                holder.selector.setTag("unselect");
-            }
-        });
+//        holder.selector.setOnClickListener(view -> {
+//            if (holder.selector.getTag().toString().equalsIgnoreCase("unselect")){
+//                holder.selector.setImageResource(R.drawable.selected_value);
+//                holder.selector.setTag("selected");
+//            }else {
+//                holder.selector.setImageResource(R.drawable.unselected_value);
+//                holder.selector.setTag("unselect");
+//            }
+//        });
     }
 
 
@@ -62,7 +62,8 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
 
     //listener interface
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onSelect(int position);
+        void onUnselect(int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -74,19 +75,28 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
             super(itemView);
 
             cat = (itemView).findViewById(R.id.serviceName01);
-             selector = (itemView).findViewById(R.id.selectCat);
+            selector = (itemView).findViewById(R.id.selectCat);
 
+            selector.setOnClickListener(view -> {
+                 if (selector.getTag().toString().equalsIgnoreCase("unselect")){
+                     selector.setImageResource(R.drawable.selected_value);
+                     selector.setTag("selected");
+                     listener.onSelect(getAdapterPosition());
 
-
-            //setListener
-            itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(position);
-                    }
-                }
+                 }else {
+                     selector.setImageResource(R.drawable.unselected_value);
+                     selector.setTag("unselect");
+                     listener.onUnselect(getAdapterPosition());
+                 }
             });
+
+
+//            //setListener
+//            itemView.setOnClickListener(v -> {
+//                if (listener != null) {
+//                        listener.onItemClick(getAdapterPosition());
+//                }
+//            });
 
         }
 

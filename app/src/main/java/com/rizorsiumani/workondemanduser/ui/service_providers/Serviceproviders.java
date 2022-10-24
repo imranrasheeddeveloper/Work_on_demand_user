@@ -26,50 +26,12 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
 
 
     NavController mNavController;
-    private ServiceProviderViewModel viewModel;
-    String subCatID;
-    ServiceProvidersModel model;
 
 
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        try {
-            subCatID = getIntent().getStringExtra("sub_cat_id");
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-
-
-        viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
-        JsonObject object = new JsonObject();
-        object.addProperty("lat", Constants.latitude);
-        object.addProperty("long", Constants.longitude);
-        object.addProperty("sub_category_id", subCatID);
-
-        viewModel.serviceProviders(1,Constants.ACCESS_TOKEN,object);
-        viewModel._provider.observe(this, response -> {
-            if (response != null) {
-                if (response.isLoading()) {
-                    showLoading();
-                } else if (!response.getError().isEmpty()) {
-                    hideLoading();
-                    showSnackBarShort(response.getError());
-                } else if (response.getData().isSuccess()) {
-                    hideLoading();
-
-                    if (response.getData().getData().size() > 0){
-                        model = response.getData();
-                    }
-                }
-            }
-        });
-
-
-
-
 
 
 
@@ -108,15 +70,12 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
                 tab.view.setBackground(getResources().getDrawable(R.drawable.rect_bg));
                 tab.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
 
-                Gson gson = new Gson();
-                String service_providers = gson.toJson(model, ServiceProvidersModel.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("service_providers", service_providers);
+
 
                 if (tab.getId() == 1) {
-                    mNavController.navigate(R.id.serviceProviderList,bundle);
+                    mNavController.navigate(R.id.serviceProviderList);
                 } else {
-                    mNavController.navigate(R.id.serviceProviderMaps,bundle);
+                    mNavController.navigate(R.id.serviceProviderMaps);
                 }
             }
 

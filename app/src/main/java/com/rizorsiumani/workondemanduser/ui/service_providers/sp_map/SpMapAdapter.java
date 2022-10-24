@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.DataItem;
 
 import java.util.List;
 
 public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> {
 
-    private final List<LatLng> list;
+    private final List<DataItem> list;
     private final Context ctx;
     ItemClickListener listener;
 
@@ -25,7 +26,7 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
         this.listener = listener;
     }
 
-    public SpMapAdapter(List<LatLng> data, Context context) {
+    public SpMapAdapter(List<DataItem> data, Context context) {
         this.list = data;
         this.ctx = context;
     }
@@ -39,8 +40,13 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull SpMapAdapter.ViewHolder holder, int position) {
-        LatLng name = list.get(position);
-        holder.name.setText(String.valueOf(name));
+        DataItem dataItem = list.get(position);
+        holder.name.setText(dataItem.getFirstName() + " " + dataItem.getLastName());
+        if (dataItem.getServiceProviderServices() != null) {
+            holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
+            holder.budget.setText(dataItem.getServiceProviderServices().get(0).getPrice());
+        }
+
     }
 
     @Override
@@ -54,7 +60,7 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
+        public TextView name,service,budget;
         public Button profile;
 
         public ViewHolder(@NonNull View itemView, ItemClickListener listener) {
@@ -62,6 +68,8 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
 
             name = itemView.findViewById(R.id.tv_sp_name);
             profile = itemView.findViewById(R.id.profile);
+            service = itemView.findViewById(R.id.sp_service);
+            budget = itemView.findViewById(R.id.sp_rate);
 
             profile.setOnClickListener(view -> {
                 if (listener != null){

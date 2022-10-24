@@ -69,7 +69,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
             ActivityUtil.gotoPage(SplashActivity.this, Login.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         } else {
-            ActivityUtil.gotoPage(SplashActivity.this, Dashboard.class);
+            ActivityUtil.gotoPage(SplashActivity.this, Login.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
     }
