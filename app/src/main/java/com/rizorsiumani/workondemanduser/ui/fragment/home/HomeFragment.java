@@ -102,7 +102,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
                 if (state.equals(State.COLLAPSED)) {
                     fragmentBinding.toolbar.setBackgroundResource(R.drawable.custom_toolbar);
                     fragmentBinding.title.setTextColor(Color.parseColor("#081533"));
-                    Toast.makeText(requireContext(), "COLLAPSED", Toast.LENGTH_SHORT).show();
+                   
                     fragmentBinding.view2.setVisibility(View.VISIBLE);
                     fragmentBinding.view2.setBackgroundColor(Color.parseColor("#00000000"));
                 } else if (state.equals(State.EXPANDED)) {
@@ -110,9 +110,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
 
                     fragmentBinding.toolbar.setBackgroundResource(R.color.transparent);
                     fragmentBinding.title.setTextColor(Color.parseColor("#FFFFFFFF"));
-                    Toast.makeText(requireContext(), "EXPANDED", Toast.LENGTH_SHORT).show();
+                    
                 } else if ((state.equals(State.IDLE))) {
-                    Toast.makeText(requireContext(), "IDLE", Toast.LENGTH_SHORT).show();
+
                     fragmentBinding.toolbar.setBackgroundResource(R.color.transparent);
                     fragmentBinding.title.setTextColor(Color.parseColor("#FFFFFFFF"));
 
@@ -133,11 +133,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
         JsonObject object = new JsonObject();
 
         if (selectedFilter == null){
-            object.addProperty("lat", String.valueOf(Constants.latitude));
-            object.addProperty("long",  String.valueOf(Constants.longitude));
+            object.addProperty("latitude", String.valueOf(Constants.latitude));
+            object.addProperty("longitude",  String.valueOf(Constants.longitude));
         }else {
-            object.addProperty("lat", String.valueOf(Constants.latitude));
-            object.addProperty("long", String.valueOf(Constants.longitude));
+            object.addProperty("latitude", String.valueOf(Constants.latitude));
+            object.addProperty("longitude", String.valueOf(Constants.longitude));
             Gson gson = new Gson();
             object.add("categoriesFillter" , gson.toJsonTree(selectedFilter));
         }
@@ -350,7 +350,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
 
         adapter.setOnServiceClickListener(position -> {
             Intent intent = new Intent(requireContext(), SubCategories.class);
-;            intent.putExtra("category_id", categoriesDataItems.get(position).getId());
+            intent.putExtra("category_id", categoriesDataItems.get(position).getId());
             startActivity(intent);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });

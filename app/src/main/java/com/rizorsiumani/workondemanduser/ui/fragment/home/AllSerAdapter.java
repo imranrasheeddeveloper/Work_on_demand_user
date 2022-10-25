@@ -66,15 +66,15 @@ public class AllSerAdapter extends RecyclerView.Adapter<AllSerAdapter.ViewHolder
         PromotionalAdapter adapter1 = new PromotionalAdapter(model.getServiceProviderCategories());
         holder.recyclerView.setAdapter(adapter1);
 
-        adapter1.setOnCellClickListener(pos -> {
-            Gson gson = new Gson();
-            String data = gson.toJson(model.getServiceProviderCategories().get(pos).getServiceProvider(), ServiceProvider.class);
-
-            Intent intent = new Intent(ctx, SpProfile.class);
-            intent.putExtra("sp_data" , data);
-            ctx.startActivity(intent);
-
-        });
+//        adapter1.setOnCellClickListener(pos -> {
+//            Gson gson = new Gson();
+//            String data = gson.toJson(model.getServiceProviderCategories().get(pos).getServiceProvider(), ServiceProvider.class);
+//
+//            Intent intent = new Intent(ctx, SpProfile.class);
+//            intent.putExtra("sp_data" , data);
+//            ctx.startActivity(intent);
+//
+//        });
 
 
 

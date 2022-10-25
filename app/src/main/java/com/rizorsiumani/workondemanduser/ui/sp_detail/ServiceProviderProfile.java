@@ -1,23 +1,17 @@
 package com.rizorsiumani.workondemanduser.ui.sp_detail;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityServiceProviderProfileBinding;
-import com.rizorsiumani.workondemanduser.ui.address.AdressesAdapter;
+import com.rizorsiumani.workondemanduser.ui.sp_detail.reviews.ReviewsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.rizorsiumani.workondemanduser.ui.sp_detail.fragment;
+package com.rizorsiumani.workondemanduser.ui.sp_detail.gallery;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,15 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.GalleryDataItem;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
 
-    private final List<Integer> list;
+    private final List<GalleryDataItem> list;
     private final Context ctx;
 
-    public GalleryAdapter(Context context, List<Integer> data) {
+    public GalleryAdapter(Context context, List<GalleryDataItem> data) {
         this.ctx = context;
         this.list = data;
     }
@@ -33,9 +35,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull GalleryAdapter.ViewHolder holder, int position) {
-        Integer name = list.get(position);
+        GalleryDataItem galleryDataItem = list.get(position);
         Glide.with(holder.imageView.getContext())
-                .load(name)
+                .load(Constants.IMG_PATH + galleryDataItem.getImage())
                 .into(holder.imageView);
 //        holder.imageView.setImageResource(name);
     }

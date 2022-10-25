@@ -2,25 +2,14 @@ package com.rizorsiumani.workondemanduser.ui.service_providers;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Bundle;
 
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.data.businessModels.DataItem;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderServicesItem;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
 import com.rizorsiumani.workondemanduser.databinding.ActivityServiceprovidersBinding;
-import com.rizorsiumani.workondemanduser.utils.Constants;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBinding> {
 

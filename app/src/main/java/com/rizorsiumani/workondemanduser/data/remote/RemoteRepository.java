@@ -12,13 +12,16 @@ import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostJobModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ProviderAvailabilityModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ProviderGalleryModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ProviderServicesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.RegistrationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SaveAddressModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderProfileModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserData;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
 
@@ -182,10 +185,42 @@ public class RemoteRepository {
         return null;
     }
 
-    public Observable<ServiceProvidersModel> getProviders(int page,String token , JsonObject object) {
+    public Observable<ServiceProvidersModel> getProviders(int page, String token , JsonObject object) {
 
         if (mService != null) {
             return mService.getServiceProviders(token,page,object);
+        }
+        return null;
+    }
+
+    public Observable<ProviderGalleryModel> getGallery(int id) {
+
+        if (mService != null) {
+            return mService.getGallery(id);
+        }
+        return null;
+    }
+
+    public Observable<ProviderServicesModel> getServices(int id) {
+
+        if (mService != null) {
+            return mService.getServices(id);
+        }
+        return null;
+    }
+
+    public Observable<ProviderAvailabilityModel> getAvailability(int id) {
+
+        if (mService != null) {
+            return mService.getProviderAvailability(id);
+        }
+        return null;
+    }
+
+    public Observable<ServiceProviderProfileModel> getProfile(int id) {
+
+        if (mService != null) {
+            return mService.getProviderProfile(id);
         }
         return null;
     }

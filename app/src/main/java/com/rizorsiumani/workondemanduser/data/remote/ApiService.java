@@ -11,17 +11,19 @@ import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostJobModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ProviderAvailabilityModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ProviderGalleryModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ProviderServicesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.RegistrationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SaveAddressModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderProfileModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserData;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 
 import okhttp3.MultipartBody;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -98,4 +100,15 @@ public interface ApiService {
                                                           @Path("page_no") int page_no,
                                                           @Body JsonObject object);
 
+    @GET("serviceProvider/get_service_providers_gallery/{id}")
+    Observable<ProviderGalleryModel> getGallery (@Path("id") int id);
+
+    @GET("serviceProvider/get_service_providers_services/{id}")
+    Observable<ProviderServicesModel> getServices(@Path("id") int id);
+
+    @GET("serviceProvider/get_service_providers_availbility/{id}")
+    Observable<ProviderAvailabilityModel> getProviderAvailability(@Path("id") int id);
+
+    @GET("serviceProvider/get_service_provider_by_id/{id}")
+    Observable<ServiceProviderProfileModel> getProviderProfile(@Path("id") int id);
 }

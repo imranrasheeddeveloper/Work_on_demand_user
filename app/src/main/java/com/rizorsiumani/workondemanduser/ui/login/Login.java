@@ -78,7 +78,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
 
             String email = activityBinding.edEmail.getText().toString().trim();
             String password = activityBinding.edPassword.getText().toString().trim();
-            loginApi("asima@gmail.com","asi123");
+            loginApi("test@outlook.com","test");
 
         });
 
@@ -108,7 +108,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     prefRepository.setString("token" , "Bearer "+response.getData().getToken());
-                    Constants.ACCESS_TOKEN = "Bearer "+response.getData().getToken();
+                    //Constants.ACCESS_TOKEN = "Bearer "+response.getData().getToken();
 
                     ActivityUtil.gotoPage(Login.this, Dashboard.class);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

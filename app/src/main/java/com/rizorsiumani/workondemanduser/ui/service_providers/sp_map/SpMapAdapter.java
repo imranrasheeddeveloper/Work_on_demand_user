@@ -10,15 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.maps.model.LatLng;
+import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.data.businessModels.DataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> {
 
-    private final List<DataItem> list;
+    private final List<ServiceProviderDataItem> list;
     private final Context ctx;
     ItemClickListener listener;
 
@@ -26,7 +29,7 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
         this.listener = listener;
     }
 
-    public SpMapAdapter(List<DataItem> data, Context context) {
+    public SpMapAdapter(List<ServiceProviderDataItem> data, Context context) {
         this.list = data;
         this.ctx = context;
     }
@@ -40,8 +43,9 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull SpMapAdapter.ViewHolder holder, int position) {
-        DataItem dataItem = list.get(position);
+        ServiceProviderDataItem dataItem = list.get(position);
         holder.name.setText(dataItem.getFirstName() + " " + dataItem.getLastName());
+        Glide.with(ctx).load(Constants.IMG_PATH + dataItem.getProfilePhoto()).into(holder.imageView);
         if (dataItem.getServiceProviderServices() != null) {
             holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
             holder.budget.setText(dataItem.getServiceProviderServices().get(0).getPrice());
@@ -62,6 +66,7 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name,service,budget;
         public Button profile;
+        public CircleImageView imageView;
 
         public ViewHolder(@NonNull View itemView, ItemClickListener listener) {
             super(itemView);
@@ -70,6 +75,7 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
             profile = itemView.findViewById(R.id.profile);
             service = itemView.findViewById(R.id.sp_service);
             budget = itemView.findViewById(R.id.sp_rate);
+            imageView = itemView.findViewById(R.id.iv_sp);
 
             profile.setOnClickListener(view -> {
                 if (listener != null){

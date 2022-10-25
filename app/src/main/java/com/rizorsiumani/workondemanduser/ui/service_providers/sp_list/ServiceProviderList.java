@@ -1,6 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.service_providers.sp_list;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,20 +9,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
-import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.data.businessModels.DataItem;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServiceProviderListBinding;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderAdapter;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderViewModel;
-import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
-import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
@@ -30,7 +23,7 @@ import java.util.List;
 
 public class ServiceProviderList extends BaseFragment<FragmentServiceProviderListBinding> {
 
-    ServiceProvidersModel serviceProvidersModel;
+    List<ServiceProviderDataItem> serviceProviders;
     private ServiceProviderViewModel viewModel;
     String subCatID;
 
@@ -51,11 +44,11 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
 
         viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
         JsonObject object = new JsonObject();
-        object.addProperty("lat", String.valueOf(Constants.latitude));
-        object.addProperty("long", String.valueOf(Constants.longitude));
+        object.addProperty("latitude", String.valueOf(Constants.latitude));
+        object.addProperty("longitude", String.valueOf(Constants.longitude));
         object.addProperty("sub_category_id", subCatID);
-
-        viewModel.serviceProviders(1, Constants.ACCESS_TOKEN, object);
+        String token = prefRepository.getString("token");
+        viewModel.serviceProviders(1, token, object);
         viewModel._provider.observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
                 if (response.isLoading()) {
@@ -66,17 +59,14 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
                 } else if (response.getData().isSuccess()) {
 
                     if (response.getData().getData().size() > 0) {
-                        serviceProvidersModel = response.getData();
-                        if (serviceProvidersModel.getData().size() > 0) {
-                            LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
-                            fragmentBinding.serviceProvidersList.setLayoutManager(layoutManager);
-                            ServiceProviderAdapter adapter = new ServiceProviderAdapter(serviceProvidersModel.getData(), requireContext());
-                            fragmentBinding.serviceProvidersList.setAdapter(adapter);
-                        } else {
-                            showSnackBarShort("Data not Available");
-                        }
+                        serviceProviders = new ArrayList<>();
+                        serviceProviders.addAll(response.getData().getData());
+                        buildRv(serviceProviders);
+                    } else {
+                        showSnackBarShort("Data not Available");
                     }
                 }
+
             }
         });
 //
@@ -95,6 +85,12 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
 //            }
     }
 
+    private void buildRv(List<ServiceProviderDataItem> serviceProviders) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
+        fragmentBinding.serviceProvidersList.setLayoutManager(layoutManager);
+        ServiceProviderAdapter adapter = new ServiceProviderAdapter(serviceProviders, requireContext());
+        fragmentBinding.serviceProvidersList.setAdapter(adapter);
+    }
 
 
 //    private void servicesProvidersRv(List<DataItem> data) {

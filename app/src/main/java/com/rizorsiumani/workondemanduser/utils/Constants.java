@@ -24,8 +24,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public final class Constants {
-    public static final String BASE_URL = "http://18.212.61.242:4000/";
-    public static final String IMG_PATH = "http://18.212.61.242:4000";
+    public static final String BASE_URL = "http://34.203.72.68:4000/";
+    public static final String IMG_PATH = "http://34.203.72.68:4000";
 
     public static final String APP_PREFERENCES = "com.rizorsiumani.workondemanduser.preferences";
     public static String ACCESS_TOKEN = "";

@@ -81,8 +81,8 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
         String token = prefRepository.getString("token");
         JsonObject object = new JsonObject();
         object.addProperty("title", title);
-        object.addProperty("lat", latitude);
-        object.addProperty("long", longitude);
+        object.addProperty("latitude", latitude);
+        object.addProperty("longiutude", longitude);
         object.addProperty("address", address);
         object.addProperty("address_id", addressID);
 
@@ -111,8 +111,8 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
         String token = prefRepository.getString("token");
         JsonObject object = new JsonObject();
         object.addProperty("title", title);
-        object.addProperty("lat", latitude);
-        object.addProperty("long", longitude);
+        object.addProperty("latitude", latitude);
+        object.addProperty("longitude", longitude);
         object.addProperty("address", address);
 
 

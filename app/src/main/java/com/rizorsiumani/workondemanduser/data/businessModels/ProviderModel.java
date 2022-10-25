@@ -3,7 +3,7 @@ package com.rizorsiumani.workondemanduser.data.businessModels;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class ServiceProvidersModel{
+public class ProviderModel{
 
 	@SerializedName("pages")
 	private int pages;

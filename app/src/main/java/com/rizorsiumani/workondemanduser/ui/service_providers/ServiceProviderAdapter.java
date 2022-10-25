@@ -1,7 +1,6 @@
 package com.rizorsiumani.workondemanduser.ui.service_providers;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.data.businessModels.DataItem;
-import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
-import com.rizorsiumani.workondemanduser.ui.sp_detail.ServiceProviderProfile;
-import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
@@ -23,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProviderAdapter.ViewHolder> {
 
-    private final List<DataItem> list;
+    private final List<ServiceProviderDataItem> list;
     private final Context ctx;
     onItemClickListener itemClickListener;
 
@@ -31,7 +27,7 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
         this.itemClickListener = itemClickListener;
     }
 
-    public ServiceProviderAdapter(List<DataItem> data, Context context) {
+    public ServiceProviderAdapter(List<ServiceProviderDataItem> data, Context context) {
         this.list = data;
         this.ctx = context;
     }
@@ -45,13 +41,13 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
 
     @Override
     public void onBindViewHolder(@NonNull ServiceProviderAdapter.ViewHolder holder, int position) {
-        DataItem dataItem = list.get(position);
+        ServiceProviderDataItem dataItem = list.get(position);
         holder.name.setText(dataItem.getFirstName() +" "+ dataItem.getLastName());
-       // Glide.with(ctx).load(Constants.IMG_PATH + dataItem.getProfilePhoto()).into(holder.imageView);
-//        if (dataItem.getServiceProviderServices() != null) {
-//            holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
-//            holder.price.setText(dataItem.getServiceProviderServices().get(0).getPrice());
-//        }
+        Glide.with(ctx).load(Constants.IMG_PATH + dataItem.getProfilePhoto()).into(holder.imageView);
+        if (dataItem.getServiceProviderServices() != null) {
+            holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
+            holder.price.setText(dataItem.getServiceProviderServices().get(0).getPrice());
+        }
     }
 
     @Override

@@ -65,11 +65,11 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
         Constants.latitude = location.getLatitude();
         Constants.longitude = location.getLongitude();
         String token = prefRepository.getString("token");
-        if (token.isEmpty()) {
+        if (token.equals("Bearer ") || token.equals("nil")) {
             ActivityUtil.gotoPage(SplashActivity.this, Login.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         } else {
-            ActivityUtil.gotoPage(SplashActivity.this, Login.class);
+            ActivityUtil.gotoPage(SplashActivity.this, Dashboard.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
     }

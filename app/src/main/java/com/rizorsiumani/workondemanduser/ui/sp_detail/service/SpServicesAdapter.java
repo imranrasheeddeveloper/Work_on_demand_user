@@ -1,4 +1,4 @@
-package com.rizorsiumani.workondemanduser.ui.sp_detail.fragment;
+package com.rizorsiumani.workondemanduser.ui.sp_detail.service;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServicesDataItem;
 import com.rizorsiumani.workondemanduser.ui.booking.BookService;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
@@ -18,10 +18,10 @@ import java.util.List;
 
 public class SpServicesAdapter extends RecyclerView.Adapter<SpServicesAdapter.ViewHolder> {
 
-    private final List<String> list;
+    private final List<ServicesDataItem> list;
     private final Context ctx;
 
-    public SpServicesAdapter(List<String> data, Context context) {
+    public SpServicesAdapter(List<ServicesDataItem> data, Context context) {
         this.list = data;
         this.ctx = context;
     }
@@ -35,8 +35,11 @@ public class SpServicesAdapter extends RecyclerView.Adapter<SpServicesAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull SpServicesAdapter.ViewHolder holder, int position) {
-        String name = list.get(position);
-        holder.name.setText(name);
+        ServicesDataItem dataItem = list.get(position);
+        holder.name.setText(dataItem.getTitle());
+        holder.description.setText(dataItem.getDescription());
+        holder.budget.setText(dataItem.getPrice());
+        holder.budgetUnit.setText("(" + dataItem.getPriceUnit() +")");
 
         holder.book.setOnClickListener(view -> {
             ActivityUtil.gotoPage(ctx, BookService.class);
@@ -49,12 +52,15 @@ public class SpServicesAdapter extends RecyclerView.Adapter<SpServicesAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name,book;
+        public TextView name,description, budget,book,budgetUnit;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.sName);
+            description = itemView.findViewById(R.id.sDetail);
+            budget = itemView.findViewById(R.id.sPerHour);
+            budgetUnit = itemView.findViewById(R.id.sHours);
             book = itemView.findViewById(R.id.sBook);
         }
     }

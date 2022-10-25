@@ -3,30 +3,32 @@ package com.rizorsiumani.workondemanduser.ui.sp_detail;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvider;
+import com.rizorsiumani.workondemanduser.data.businessModels.SProfileData;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySpProfileBinding;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
 
     NavController mNavController;
-    int count = 0;
-    ServiceProvider provider;
+    ProviderDetailViewModel viewModel;
+    String id;
 
 
     @Override
@@ -38,13 +40,42 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
     protected void onStart() {
         super.onStart();
 
-        String data = getIntent().getStringExtra("sp_data");
-        Gson gson = new Gson();
-        provider = gson.fromJson(data,ServiceProvider.class);
+        try {
 
-        if (prefRepository.getString("cart").equalsIgnoreCase("true")){
+        id = getIntent().getStringExtra("service_provider_id");
+
+        viewModel = new ViewModelProvider(this).get(ProviderDetailViewModel.class);
+        if (viewModel._profile.getValue() == null){
+            viewModel.getProfile(Integer.parseInt(id));
+        }
+
+        viewModel._profile.observe(this , response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    //showLoading();
+                } else if (!response.getError().isEmpty()) {
+                   // hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().isSuccess()) {
+                   // hideLoading();
+                    if (response.getData().getData() != null){
+                        SProfileData data = response.getData().getData();
+                        Glide.with(SpProfile.this)
+                                .load(Constants.IMG_PATH + data.getProfilePhoto())
+                                .into(activityBinding.ivSp);
+                        activityBinding.tvSpName.setText(data.getFirstName() + " " + data.getLastName());
+                    }
+                }
+            }
+        });
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+        if (prefRepository.getString("cart").equalsIgnoreCase("true")) {
             activityBinding.cartItem.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             activityBinding.cartItem.setVisibility(View.GONE);
         }
 
@@ -78,18 +109,17 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
     }
 
     private void showProfileDetail() {
-        if (count == 0) {
-            count = 1;
-            final BottomSheetDialog bt = new BottomSheetDialog(SpProfile.this, R.style.BottomSheetDialogTheme);
-            bt.setCanceledOnTouchOutside(false);
-            View profileView = LayoutInflater.from(SpProfile.this).inflate(R.layout.sp_profile_detail_bottomsheet, null, false);
+        final BottomSheetDialog bt = new BottomSheetDialog(SpProfile.this, R.style.BottomSheetDialogTheme);
+        bt.setCanceledOnTouchOutside(false);
+        View profileView = LayoutInflater.from(SpProfile.this).inflate(R.layout.sp_profile_detail_bottomsheet, null, false);
 
-            bt.getBehavior().addBottomSheetCallback(mBottomSheetBehaviorCallback);
+        bt.getBehavior().addBottomSheetCallback(mBottomSheetBehaviorCallback);
 
 
-            bt.setContentView(profileView);
-            bt.show();
-        }
+
+        bt.setContentView(profileView);
+        bt.show();
+
     }
 
 
@@ -99,6 +129,7 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
             activityBinding.tabLayout.addTab(activityBinding.tabLayout.newTab().setText("Services").setId(0));
             activityBinding.tabLayout.addTab(activityBinding.tabLayout.newTab().setText("Gallery").setId(1));
             activityBinding.tabLayout.addTab(activityBinding.tabLayout.newTab().setText("Review").setId(2));
+            activityBinding.tabLayout.addTab(activityBinding.tabLayout.newTab().setText("Available").setId(3));
         }
 
         activityBinding.tabLayout.getTabAt(0).view.setBackground(getResources().getDrawable(R.drawable.rect_bg));
@@ -112,12 +143,13 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
                 tab.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
 
 
-
                 if (tab.getId() == 0) {
 
                     mNavController.navigate(R.id.services);
                 } else if (tab.getId() == 1) {
                     mNavController.navigate(R.id.gallery2);
+                } else if (tab.getId() == 3) {
+                    mNavController.navigate(R.id.availability2);
                 } else {
                     mNavController.navigate(R.id.reviews);
                 }
@@ -143,11 +175,10 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
         @Override
         public void onStateChanged(@NonNull View bottomSheet, int newState) {
             if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                count = 0;
+                //count = 0;
             } else {
-                count = 1;
+                //count = 1;
             }
-
         }
 
         @Override
@@ -155,4 +186,11 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
         }
     };
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        viewModel._profile.removeObservers(this);
+        viewModel = null;
+    }
 }

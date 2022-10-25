@@ -1,15 +1,11 @@
 package com.rizorsiumani.workondemanduser.data.businessModels;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class ServiceProvidersModel{
-
-	@SerializedName("pages")
-	private int pages;
+public class ServiceProviderProfileModel{
 
 	@SerializedName("data")
-	private List<ServiceProviderDataItem> data;
+	private SProfileData data;
 
 	@SerializedName("success")
 	private boolean success;
@@ -17,11 +13,7 @@ public class ServiceProvidersModel{
 	@SerializedName("message")
 	private String message;
 
-	public int getPages(){
-		return pages;
-	}
-
-	public List<ServiceProviderDataItem> getData(){
+	public SProfileData getData(){
 		return data;
 	}
 

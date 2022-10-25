@@ -22,7 +22,7 @@ public class AddressData {
 	@SerializedName("lat")
 	private String lat;
 
-	@SerializedName("long")
+	@SerializedName("longitude")
 	private String jsonMemberLong;
 
 	@SerializedName("updatedAt")

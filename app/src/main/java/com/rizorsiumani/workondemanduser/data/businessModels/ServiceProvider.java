@@ -19,7 +19,7 @@ public class ServiceProvider{
 	@SerializedName("national_id_photo")
 	private String nationalIdPhoto;
 
-	@SerializedName("long")
+	@SerializedName("longitude")
 	private String jsonMemberLong;
 
 	@SerializedName("createdAt")

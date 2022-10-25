@@ -89,7 +89,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center_horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_wed" />
+                app:layout_constraintTop_toBottomOf="@id/rating" />
 
             <TextView
                 android:id="@+id/sp_about"
@@ -105,94 +105,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_about" />
-
-            <TextView
-                android:id="@+id/tv_availability"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_semibold"
-                android:gravity="center_horizontal"
-                android:text="Availability"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rating"/>
-
-            <TextView
-                android:id="@+id/tv_mon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppin_regular"
-                android:text="Monday  "
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:layout_marginTop="@dimen/_3sdp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_availability" />
-
-            <TextView
-                android:id="@+id/tv_tue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppin_regular"
-                android:text="Tuesday  "
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:layout_marginTop="@dimen/_2sdp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_mon" />
-
-            <TextView
-                android:id="@+id/tv_wed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppin_regular"
-                android:text="Wednesday  "
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:layout_marginTop="@dimen/_2sdp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_tue" />
-
-            <TextView
-                android:id="@+id/mon_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppin_regular"
-                android:text="(1 pm to 6pm)"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:layout_marginStart="@dimen/_100sdp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_mon"
-                app:layout_constraintBottom_toBottomOf="@id/tv_mon"/>
-
-            <TextView
-                android:id="@+id/tue_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppin_regular"
-                android:text="(12 am to 6am)"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/_100sdp"
-                app:layout_constraintTop_toTopOf="@id/tv_tue"
-                app:layout_constraintBottom_toBottomOf="@id/tv_tue" />
-
-            <TextView
-                android:id="@+id/wed_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppin_regular"
-                android:text="(1am to 1 pm) "
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/_100sdp"
-                app:layout_constraintTop_toTopOf="@id/tv_wed"
-                app:layout_constraintBottom_toBottomOf="@id/tv_wed"/>
 
 
 

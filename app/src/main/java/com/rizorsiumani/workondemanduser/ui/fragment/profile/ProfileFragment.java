@@ -44,15 +44,15 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if(state.equals(State.COLLAPSED)) {
-                    Toast.makeText(requireContext(), "COLLAPSED", Toast.LENGTH_SHORT).show();
+                   
                     fragmentBinding.toolbarData.setVisibility(View.VISIBLE);
                 }
                 else if (state.equals(State.EXPANDED)) {
                     fragmentBinding.toolbarData.setVisibility(View.GONE);
-                    Toast.makeText(requireContext(), "EXPANDED", Toast.LENGTH_SHORT).show();
+                    
                 }
                 else if ((state.equals(State.IDLE))){
-                    Toast.makeText(requireContext(), "IDLE", Toast.LENGTH_SHORT).show();
+                    
                 }
             }
         });

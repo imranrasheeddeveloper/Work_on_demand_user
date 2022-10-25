@@ -60,6 +60,8 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        holder.loading.setVisibility(View.GONE);
+
                         return false;
                     }
 
@@ -68,6 +70,8 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
                         holder.loading.setVisibility(View.VISIBLE);
                         return false;
                     }
+
+
                 })
                 .into(holder.sp_image);
 

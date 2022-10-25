@@ -7,17 +7,22 @@
 
     <fragment
         android:id="@+id/services"
-        android:name="com.rizorsiumani.workondemanduser.ui.sp_detail.fragment.Services"
+        android:name="com.rizorsiumani.workondemanduser.ui.sp_detail.service.Services"
         android:label="fragment_services"
         tools:layout="@layout/fragment_services" />
     <fragment
         android:id="@+id/gallery2"
-        android:name="com.rizorsiumani.workondemanduser.ui.sp_detail.fragment.Gallery"
+        android:name="com.rizorsiumani.workondemanduser.ui.sp_detail.gallery.Gallery"
         android:label="fragment_gallery"
         tools:layout="@layout/fragment_gallery" />
     <fragment
         android:id="@+id/reviews"
-        android:name="com.rizorsiumani.workondemanduser.ui.sp_detail.fragment.Reviews"
+        android:name="com.rizorsiumani.workondemanduser.ui.sp_detail.reviews.Reviews"
         android:label="fragment_reviews"
         tools:layout="@layout/fragment_reviews" />
+    <fragment
+        android:id="@+id/availability2"
+        android:name="com.rizorsiumani.workondemanduser.ui.sp_detail.availability.Availability"
+        android:label="fragment_availability"
+        tools:layout="@layout/fragment_availability" />
 </navigation>

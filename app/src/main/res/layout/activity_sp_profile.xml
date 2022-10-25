@@ -62,7 +62,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
-                            android:layout_marginTop="-3dp"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:fontFamily="@font/poppins_semibold"
                             android:text="Ahmed Raza"
                             android:textColor="@color/off_white"
@@ -84,6 +84,7 @@
                         <TextView
                             android:id="@+id/availability"
                             style="@style/normalText"
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_6sdp"
@@ -93,7 +94,7 @@
                             android:paddingTop="@dimen/_4sdp"
                             android:paddingEnd="@dimen/_5sdp"
                             android:paddingBottom="@dimen/_4sdp"
-                            android:text="View Availability"
+                            android:text="View Profile"
                             android:textColor="@color/white"
                             app:layout_constraintStart_toStartOf="@id/tv_sp_name"
                             app:layout_constraintTop_toBottomOf="@id/arting" />
@@ -129,7 +130,6 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
-                                android:id="@+id/username"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_semibold"
@@ -162,9 +162,9 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_12sdp"
                     android:layout_marginTop="-25dp"
-                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
                     android:background="@drawable/rating_bg"
                     android:padding="@dimen/_5sdp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -184,7 +184,7 @@
                         app:tabIndicatorHeight="0dp"
                         app:tabInlineLabel="true"
                         app:tabSelectedTextColor="@color/white"
-                        app:tabTextAppearance="@style/mediumText"
+                        app:tabTextAppearance="@style/tabText"
                         app:tabTextColor="@color/black">
 
                     </com.google.android.material.tabs.TabLayout>

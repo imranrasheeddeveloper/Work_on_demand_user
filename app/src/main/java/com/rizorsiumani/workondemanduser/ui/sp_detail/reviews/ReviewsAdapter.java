@@ -1,4 +1,4 @@
-package com.rizorsiumani.workondemanduser.ui.sp_detail;
+package com.rizorsiumani.workondemanduser.ui.sp_detail.reviews;
 
 import android.content.Context;
 import android.view.LayoutInflater;

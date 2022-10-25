@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/_10sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.sp_detail.fragment.Services">
+    tools:context=".ui.sp_detail.service.Services">
 
 
     <androidx.recyclerview.widget.RecyclerView

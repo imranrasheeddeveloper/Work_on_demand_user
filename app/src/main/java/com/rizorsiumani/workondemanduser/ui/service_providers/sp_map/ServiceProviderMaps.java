@@ -3,6 +3,7 @@ package com.rizorsiumani.workondemanduser.ui.service_providers.sp_map;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -36,12 +37,10 @@ import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.data.businessModels.DataItem;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServiceProviderMapsBinding;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderViewModel;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
-import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
@@ -61,7 +60,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
     private Marker selectedMarker = null;
     LinearLayoutManager layoutManager;
     List<LatLng> providersLatLng;
-    ServiceProvidersModel serviceProvidersModel;
+    List<ServiceProviderDataItem> serviceProviders;
     private ServiceProviderViewModel viewModel;
     String subCatID;
 
@@ -96,6 +95,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
                         final LatLng markerPosition = marker.getPosition();
                         for (int i = 0; i < providersLatLng.size(); i++) {
                             if (markerPosition.latitude == providersLatLng.get(i).longitude && markerPosition.longitude == providersLatLng.get(i).longitude) {
+
                             }
                         }
 
@@ -129,11 +129,12 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
             viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
             JsonObject object = new JsonObject();
-            object.addProperty("lat", String.valueOf(Constants.latitude));
-            object.addProperty("long", String.valueOf(Constants.longitude));
+            object.addProperty("latitude", String.valueOf(Constants.latitude));
+            object.addProperty("longitude", String.valueOf(Constants.longitude));
             object.addProperty("sub_category_id", subCatID);
 
-            viewModel.serviceProviders(1, Constants.ACCESS_TOKEN, object);
+            String token = prefRepository.getString("token");
+            viewModel.serviceProviders(1, token, object);
             viewModel._provider.observe(getViewLifecycleOwner(), response -> {
                 if (response != null) {
                     if (response.isLoading()) {
@@ -144,15 +145,15 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
                     } else if (response.getData().isSuccess()) {
 
                         if (response.getData().getData().size() > 0) {
-                            serviceProvidersModel = response.getData();
-                            if (serviceProvidersModel.getData().size() > 0) {
-                                buildRv();
+                            serviceProviders = new ArrayList<>();
+                            serviceProviders.addAll(response.getData().getData());
+                                buildRv(serviceProviders);
                             } else {
                                 showSnackBarShort("Data not Available");
                             }
                         }
                     }
-                }
+
             });
 
 //
@@ -217,14 +218,13 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
     public void onError(String error) {
     }
 
-    private void buildRv() {
+    private void buildRv(List<ServiceProviderDataItem> serviceProviders) {
 
-        for (int i = 0; i <= serviceProvidersModel.getData().size() - 1; i++) {
-            DataItem dataItem = serviceProvidersModel.getData().get(i);
-            providersLatLng.add(new LatLng(Double.parseDouble(dataItem.getLat())
-                    , Double.parseDouble(dataItem.getLongitude())));
+        for (int i = 0; i <= serviceProviders.size() - 1; i++) {
+            ServiceProviderDataItem dataItem = serviceProviders.get(i);
+            providersLatLng.add(new LatLng(dataItem.getLatitude(),dataItem.getLongitude()));
 
-            LatLng loc = new LatLng(Double.parseDouble(dataItem.getLat()), Double.parseDouble(dataItem.getLongitude()));
+            LatLng loc = new LatLng(dataItem.getLatitude(), dataItem.getLongitude());
             Marker marker = mMap.addMarker(new MarkerOptions().position(loc).icon(bitmapDescriptorFromVector(requireActivity(), R.drawable.map_stop_position)));
             markers.add(marker);
 
@@ -236,7 +236,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
         fragmentBinding.markersLocationList.setLayoutManager(layoutManager);
         snapHelper.attachToRecyclerView(fragmentBinding.markersLocationList);
         fragmentBinding.markersLocationList.setItemAnimator(new DefaultItemAnimator());
-        adapter = new SpMapAdapter(serviceProvidersModel.getData(), requireContext());
+        adapter = new SpMapAdapter(serviceProviders, requireContext());
         fragmentBinding.markersLocationList.setAdapter(adapter);
         fragmentBinding.markersLocationList.setVisibility(View.VISIBLE);
 
@@ -248,7 +248,9 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
             @Override
             public void onProfileClick(int position) {
-                ActivityUtil.gotoPage(requireContext(), SpProfile.class);
+                Intent intent = new Intent(requireContext(),SpProfile.class);
+                intent.putExtra("service_provider_id",String.valueOf(serviceProviders.get(position).getId()));
+                startActivity(intent);
                 requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
