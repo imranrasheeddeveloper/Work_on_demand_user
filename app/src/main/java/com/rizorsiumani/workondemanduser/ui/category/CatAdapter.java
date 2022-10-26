@@ -13,15 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SerCategoryModel;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.CategoriesAdapter;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
 public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
 
-    private final List<SerCategoryModel> data;
+    private final List<CategoriesDataItem> data;
     private final Context context;
     OnItemClickListener itemClickListener;
 
@@ -31,7 +34,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
     }
 
 
-    public CatAdapter(List<SerCategoryModel> list, Context appContext) {
+    public CatAdapter(List<CategoriesDataItem> list, Context appContext) {
         this.context = appContext;
         this.data = list;
     }
@@ -46,13 +49,13 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CatAdapter.ViewHolder holder, int position) {
 
-        SerCategoryModel model = data.get(position);
-        holder.icon.setImageResource(model.getIcon());
+        CategoriesDataItem model = data.get(position);
+        Glide.with(context).load(Constants.IMG_PATH + model.getImage()).into(holder.icon);
 
         try {
             final int[] colors = new int[2];
             colors[0] = Color.parseColor("#fef4ea");
-            colors[1] = Color.parseColor(model.getColorCode());
+            colors[1] = Color.parseColor(model.getColor());
             GradientDrawable gd = new GradientDrawable(
                     GradientDrawable.Orientation.LEFT_RIGHT,
                     colors

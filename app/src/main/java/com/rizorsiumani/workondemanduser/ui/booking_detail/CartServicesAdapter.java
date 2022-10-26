@@ -10,16 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 
 import java.util.List;
 
 public class CartServicesAdapter extends RecyclerView.Adapter<CartServicesAdapter.ViewHolder> {
 
-    private final List<String> list;
+    private final List<MyCartItems> list;
     private final Context ctx;
 
 
-    public CartServicesAdapter(List<String> data, Context context) {
+    public CartServicesAdapter(List<MyCartItems> data, Context context) {
         this.list = data;
         this.ctx = context;
     }
@@ -33,8 +34,9 @@ public class CartServicesAdapter extends RecyclerView.Adapter<CartServicesAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CartServicesAdapter.ViewHolder holder, int position) {
-        String name = list.get(position);
-        holder.name.setText(name);
+        MyCartItems cartItems = list.get(position);
+        holder.name.setText(cartItems.getData().getTitle());
+        holder.price.setText(cartItems.getData().getPrice());
     }
 
     @Override
@@ -43,12 +45,13 @@ public class CartServicesAdapter extends RecyclerView.Adapter<CartServicesAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
+        public TextView name, price;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.sName);
+            price = itemView.findViewById(R.id.sRate);
 
         }
     }

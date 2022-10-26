@@ -1,8 +1,12 @@
 package com.rizorsiumani.workondemanduser.ui.dashboard;
 
+import static com.rizorsiumani.workondemanduser.utils.map_utils.GeoCoders.GetProperLocationAddress;
+
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -11,18 +15,27 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityDashboardBinding;
+import com.rizorsiumani.workondemanduser.ui.login.Login;
+import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
+import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
+import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
+import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
+import com.rizorsiumani.workondemanduser.utils.map_utils.OnLocationUpdateListener;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends AppCompatActivity implements OnLocationUpdateListener {
 
     public static NavController mNavController;
     boolean isHome = false;
     public static NavOptions options;
 
     public static ActivityDashboardBinding binding;
+    boolean isLocationPermissionGranted;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +47,21 @@ public class Dashboard extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        isLocationPermissionGranted = LocationService.service.requestLocationPermission(App.applicationContext);
+        if (!isLocationPermissionGranted){
+            binding.servicesSuspendLayout.setVisibility(View.VISIBLE);
+        }else {
+            locationHandler();
+        }
+
+        binding.turnOnLocationService.setOnClickListener(view -> {
+            isLocationPermissionGranted =  LocationService.service.requestLocationPermission(Dashboard.this);
+            if (isLocationPermissionGranted){
+                binding.servicesSuspendLayout.setVisibility(View.GONE);
+            }
+        });
+
 
 
 
@@ -65,6 +93,7 @@ public class Dashboard extends AppCompatActivity {
         }
 
     }
+
 
     private void clickListeners(NavOptions options) {
         binding.navigation.bookingFragment.setOnClickListener(view -> {
@@ -161,5 +190,24 @@ public class Dashboard extends AppCompatActivity {
         binding.navigation.bookingFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
 
         mNavController.navigate(R.id.bookingFragment,null, options);
+    }
+
+    private void locationHandler() {
+        LocationUpdateService locationUpdateService = new LocationUpdateService();
+        locationUpdateService.LocationHandler(Dashboard.this, this);
+    }
+
+    @Override
+    public void onLocationChange(Location location) {
+        Constants.latitude = location.getLatitude();
+        Constants.longitude = location.getLongitude();
+        String address = GetProperLocationAddress(location.getLatitude(), location.getLongitude(), Dashboard.this);
+        TinyDbManager.saveCurrentAddress(address);
+
+    }
+
+    @Override
+    public void onError(String error) {
+
     }
 }

@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentProfileBinding;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.all_posted_jobs.AllPostedJobs;
@@ -38,6 +41,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setProfileInfo();
         clickListeners();
 
         fragmentBinding.appBar1.addOnOffsetChangedListener(new AppBarStateChangeListener() {
@@ -56,6 +60,29 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
                 }
             }
         });
+    }
+
+    private void setProfileInfo() {
+        try {
+
+            if (TinyDbManager.getUserInformation() != null){
+                UserData userData = TinyDbManager.getUserInformation();
+                fragmentBinding.username1.setText(userData.getFirstName() + " " + userData.getLastName());
+                fragmentBinding.username.setText(userData.getFirstName() + " " + userData.getLastName());
+                fragmentBinding.userNumber.setText(userData.getPhoneNumber());
+                fragmentBinding.userNumber1.setText(userData.getPhoneNumber());
+                Glide.with(requireContext())
+                        .load(Constants.IMG_PATH + userData.getImage())
+                        .into(fragmentBinding.userImage);
+                Glide.with(requireContext())
+                        .load(Constants.IMG_PATH + userData.getImage())
+                        .into(fragmentBinding.userImage1);
+            }
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
     }
 
     private void clickListeners() {

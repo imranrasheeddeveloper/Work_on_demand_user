@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class LoginModel{
 
 	@SerializedName("data")
-	private SProfileData data;
+	private UserData data;
 
 	@SerializedName("success")
 	private boolean success;
@@ -16,7 +16,7 @@ public class LoginModel{
 	@SerializedName("token")
 	private String token;
 
-	public SProfileData getData(){
+	public UserData getData(){
 		return data;
 	}
 

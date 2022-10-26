@@ -9,6 +9,7 @@
     tools:context=".ui.address.SavedAddresses">
 
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
@@ -16,6 +17,8 @@
         android:padding="@dimen/_5sdp"
         android:background="@color/primary"
         >
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -116,6 +119,12 @@
             android:layout_height="wrap_content"
             android:background="@color/off_white"
             >
+
+            <include
+                layout="@layout/layout_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"

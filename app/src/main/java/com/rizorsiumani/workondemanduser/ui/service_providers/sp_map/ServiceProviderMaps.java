@@ -74,11 +74,10 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getData();
+        initMap();
         markers = new ArrayList<>();
         layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         providersLatLng = new ArrayList<>();
-        initMap();
         clickListeners();
 
 
@@ -199,6 +198,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
         boolean isLocationPermissionGranted = LocationService.service.requestLocationPermission(App.applicationContext);
         if (isLocationPermissionGranted) {
+            getData();
             LocationUpdateService locationUpdateService = new LocationUpdateService();
             locationUpdateService.LocationHandler(getActivity(), this);
         }

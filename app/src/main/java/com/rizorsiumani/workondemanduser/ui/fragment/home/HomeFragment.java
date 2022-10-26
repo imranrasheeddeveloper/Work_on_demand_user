@@ -1,5 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
+import static com.rizorsiumani.workondemanduser.utils.map_utils.GeoCoders.GetProperLocationAddress;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -7,7 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,21 +20,21 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.common.Response;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderDataItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
+import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.AppBarStateChangeListener;
@@ -45,13 +46,11 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  OnLocationUpdateListener {
+public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements OnLocationUpdateListener {
 
     private HomeViewModel viewModel;
     private HomeContentViewModel homeContentViewModel;
@@ -75,48 +74,58 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
         super.onViewCreated(view, savedInstanceState);
 
         selectedFilter = new ArrayList<>();
-        isLocationPermissionGranted =  LocationService.service.requestLocationPermission(requireContext());
+        isLocationPermissionGranted = LocationService.service.requestLocationPermission(requireContext());
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         sliderViewModel = new ViewModelProvider(this).get(SliderViewModel.class);
         homeContentViewModel = new ViewModelProvider(this).get(HomeContentViewModel.class);
+//        if (isLocationPermissionGranted) {
+//            locationHandler();
+//        } else {
+//            fragmentBinding.view2.setVisibility(View.GONE);
+//            fragmentBinding.toolbar.setBackgroundResource(R.color.transparent);
+//            fragmentBinding.title.setTextColor(Color.parseColor("#00000000"));
+//            fragmentBinding.imageSlider.setVisibility(View.GONE);
+//
+//            fragmentBinding.appBar.setLiftableOverrideEnabled(false);
+//            fragmentBinding.homeContent.setVisibility(View.GONE);
+//            fragmentBinding.permissionMissing.setVisibility(View.VISIBLE);
+//           // isLocationPermissionGranted = LocationService.service.requestLocationPermission(requireContext());
+//        }
+
         if (isLocationPermissionGranted) {
             locationHandler();
-        } else {
-            isLocationPermissionGranted =  LocationService.service.requestLocationPermission(requireContext());
+        }else {
+            isLocationPermissionGranted = LocationService.service.requestLocationPermission(requireContext());
         }
 
         fragmentBinding.skeletonLayout.startLoading();
         fragmentBinding.skeletonLayout1.startLoading();
         Constants.isHome = true;
-        if (prefRepository.getString("CURRENT_LOCATION") != null) {
-            String address = prefRepository.getString("CURRENT_LOCATION");
-            if (address.equalsIgnoreCase("nil")) {
-                fragmentBinding.tvChooseAddress.setText("Please set your location");
-            } else {
-                fragmentBinding.tvChooseAddress.setText(address);
-            }
+
+        if (TinyDbManager.getCurrentAddress() != null) {
+            fragmentBinding.tvChooseAddress.setText(TinyDbManager.getCurrentAddress());
+        } else {
+            fragmentBinding.tvChooseAddress.setText("Please set your location");
         }
+
         fragmentBinding.appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state.equals(State.COLLAPSED)) {
                     fragmentBinding.toolbar.setBackgroundResource(R.drawable.custom_toolbar);
                     fragmentBinding.title.setTextColor(Color.parseColor("#081533"));
-                   
+
                     fragmentBinding.view2.setVisibility(View.VISIBLE);
                     fragmentBinding.view2.setBackgroundColor(Color.parseColor("#00000000"));
                 } else if (state.equals(State.EXPANDED)) {
                     fragmentBinding.view2.setVisibility(View.GONE);
 
                     fragmentBinding.toolbar.setBackgroundResource(R.color.transparent);
-                    fragmentBinding.title.setTextColor(Color.parseColor("#FFFFFFFF"));
-                    
+                    fragmentBinding.title.setTextColor(Color.parseColor("#00000000"));
+
                 } else if ((state.equals(State.IDLE))) {
-
                     fragmentBinding.toolbar.setBackgroundResource(R.color.transparent);
-                    fragmentBinding.title.setTextColor(Color.parseColor("#FFFFFFFF"));
-
-
+                    fragmentBinding.title.setTextColor(Color.parseColor("#00000000"));
                 }
             }
         });
@@ -132,14 +141,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
 
         JsonObject object = new JsonObject();
 
-        if (selectedFilter == null){
+        if (selectedFilter == null) {
             object.addProperty("latitude", String.valueOf(Constants.latitude));
-            object.addProperty("longitude",  String.valueOf(Constants.longitude));
-        }else {
+            object.addProperty("longitude", String.valueOf(Constants.longitude));
+        } else {
             object.addProperty("latitude", String.valueOf(Constants.latitude));
             object.addProperty("longitude", String.valueOf(Constants.longitude));
             Gson gson = new Gson();
-            object.add("categoriesFillter" , gson.toJsonTree(selectedFilter));
+            object.add("categoriesFillter", gson.toJsonTree(selectedFilter));
         }
         String token = prefRepository.getString("token");
         homeContentViewModel.getHomeContent(token, object);
@@ -152,7 +161,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
                 } else if (response.getData().getData() != null) {
                     if (response.getData().getData().size() > 0) {
                         contentDataItems = new ArrayList<>();
-                        contentDataItems.addAll(response.getData().getData());
+                        for (int i = 0; i < response.getData().getData().size()-1; i++) {
+                            if (response.getData().getData().get(i).getServiceProviderCategories() != null
+                            && response.getData().getData().get(i).getServiceProviderCategories().size() > 0){
+                                contentDataItems.add(response.getData().getData().get(i));
+                            }
+                        }
                         setHomeContentRv(contentDataItems);
                     }
                 }
@@ -164,10 +178,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
     private void setHomeContentRv(List<HomeContentDataItem> contentDataItems) {
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
         fragmentBinding.allService.setLayoutManager(layoutManager1);
-        AllSerAdapter adapter1 = new AllSerAdapter(requireContext(),contentDataItems);
+        AllSerAdapter adapter1 = new AllSerAdapter(requireContext(), contentDataItems);
         fragmentBinding.allService.setAdapter(adapter1);
 
-       fragmentBinding.skeletonLayout1.stopLoading();
+        fragmentBinding.skeletonLayout1.stopLoading();
         fragmentBinding.allService.setVisibility(View.VISIBLE);
         fragmentBinding.skeletonLayout1.setVisibility(View.GONE);
     }
@@ -259,8 +273,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
 
                         @Override
                         public void onUnselect(int position) {
-                            for (int i = 0; i < selectedFilter.size()-1; i++) {
-                                if (selectedFilter.get(i).equals(categoriesDataItems.get(position).getId())){
+                            for (int i = 0; i < selectedFilter.size() - 1; i++) {
+                                if (selectedFilter.get(i).equals(categoriesDataItems.get(position).getId())) {
                                     selectedFilter.remove(i);
                                 }
                             }
@@ -393,7 +407,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements  
     public void onLocationChange(Location location) {
         Constants.latitude = location.getLatitude();
         Constants.longitude = location.getLongitude();
-
+        String address = GetProperLocationAddress(location.getLatitude(), location.getLongitude(),requireContext());
+        TinyDbManager.saveCurrentAddress(address);
+        fragmentBinding.tvChooseAddress.setText(address);
     }
 
     @Override

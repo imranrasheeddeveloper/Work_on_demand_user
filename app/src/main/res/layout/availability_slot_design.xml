@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Monday  "
-            android:padding="10sp"
+            android:padding="@dimen/_5sdp"
             android:gravity="start"
             style="@style/mediumText"
             android:textColor="@color/black"

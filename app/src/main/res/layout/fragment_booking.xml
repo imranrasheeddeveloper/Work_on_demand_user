@@ -39,7 +39,7 @@
                 <LinearLayout
                     android:id="@+id/swOnOff"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="52dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="20dp"

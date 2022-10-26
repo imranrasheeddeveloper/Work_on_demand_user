@@ -41,4 +41,81 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nav_host_fragment" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/black"
+        android:alpha="0.8"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/services_suspend_layout">
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/noConnectionView1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/_100sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/permission" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/noConnectionView1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Services has been suspended"
+            style="@style/mediumText"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:id="@+id/web_service"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/web_service"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/turn_on"
+            android:textColor="@color/white"
+            android:paddingStart="46dp"
+            android:paddingEnd="46dp"
+            android:gravity="center"
+            android:fontFamily="@font/poppin_regular"
+            android:layout_marginTop="10dp"
+            android:id="@+id/turn_on"/>
+
+
+        <TextView
+            android:id="@+id/turn_on_location_service"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/turn_on"
+            android:background="@drawable/button_round_bg"
+            android:padding="16dp"
+            android:backgroundTint="#0075F6"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:text="Turn On Location"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppins_semibold"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

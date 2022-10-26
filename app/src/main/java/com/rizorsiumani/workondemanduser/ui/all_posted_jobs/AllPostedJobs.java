@@ -52,6 +52,8 @@ public class AllPostedJobs extends BaseActivity<ActivityAllPostedJobsBinding> {
                         dataItems = new ArrayList<>();
                         dataItems.addAll(response.getData().getData());
                         setRv(dataItems);
+                    }else {
+                        showNoDataAnimation();
                     }
 
                 }

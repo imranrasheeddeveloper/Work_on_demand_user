@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
         <fragment
             android:id="@+id/setLocationMap"
             android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -42,6 +44,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="10dp"
             android:id="@+id/mapIcon"/>
+
+        <include
+            layout="@layout/layout_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

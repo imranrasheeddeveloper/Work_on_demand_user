@@ -20,6 +20,11 @@ public class SpServicesAdapter extends RecyclerView.Adapter<SpServicesAdapter.Vi
 
     private final List<ServicesDataItem> list;
     private final Context ctx;
+    OnItemClickListener itemClickListener;
+
+    public void setOnClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
 
     public SpServicesAdapter(List<ServicesDataItem> data, Context context) {
         this.list = data;
@@ -30,7 +35,7 @@ public class SpServicesAdapter extends RecyclerView.Adapter<SpServicesAdapter.Vi
     @Override
     public SpServicesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.services_list_design, parent, false);
-        return new SpServicesAdapter.ViewHolder(view);
+        return new SpServicesAdapter.ViewHolder(view,itemClickListener);
     }
 
     @Override
@@ -41,9 +46,6 @@ public class SpServicesAdapter extends RecyclerView.Adapter<SpServicesAdapter.Vi
         holder.budget.setText(dataItem.getPrice());
         holder.budgetUnit.setText("(" + dataItem.getPriceUnit() +")");
 
-        holder.book.setOnClickListener(view -> {
-            ActivityUtil.gotoPage(ctx, BookService.class);
-        });
     }
 
     @Override
@@ -51,10 +53,15 @@ public class SpServicesAdapter extends RecyclerView.Adapter<SpServicesAdapter.Vi
         return list.size();
     }
 
+
+    public interface OnItemClickListener{
+        void onBookClick(int position);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name,description, budget,book,budgetUnit;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
 
             name = itemView.findViewById(R.id.sName);
@@ -62,6 +69,14 @@ public class SpServicesAdapter extends RecyclerView.Adapter<SpServicesAdapter.Vi
             budget = itemView.findViewById(R.id.sPerHour);
             budgetUnit = itemView.findViewById(R.id.sHours);
             book = itemView.findViewById(R.id.sBook);
+
+            book.setOnClickListener(view -> {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION){
+                    if (listener != null){
+                        listener.onBookClick(getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 }

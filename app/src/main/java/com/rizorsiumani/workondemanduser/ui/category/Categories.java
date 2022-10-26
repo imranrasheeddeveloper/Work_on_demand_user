@@ -1,5 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.category;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,8 +11,11 @@ import android.graphics.Color;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SerCategoryModel;
 import com.rizorsiumani.workondemanduser.databinding.ActivityCategoriesBinding;
+import com.rizorsiumani.workondemanduser.ui.fragment.home.CategoriesAdapter;
+import com.rizorsiumani.workondemanduser.ui.fragment.home.HomeViewModel;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
@@ -20,6 +25,9 @@ import java.util.List;
 public class Categories extends BaseActivity<ActivityCategoriesBinding> {
 
     List<SerCategoryModel> service_categories;
+    private HomeViewModel viewModel;
+    List<CategoriesDataItem> categoriesDataItems;
+
 
     @Override
     protected ActivityCategoriesBinding getActivityBinding() {
@@ -30,49 +38,44 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
     protected void onStart() {
         super.onStart();
 
-        service_categories = new ArrayList<>();
-        service_categories.add(new SerCategoryModel("Cleaning", R.drawable.ic_cleaning, "#eb5657"));
-        service_categories.add(new SerCategoryModel("Appliances", R.drawable.ic_electric_appliance, "#0ebdde"));
-        service_categories.add(new SerCategoryModel("Electronic", R.drawable.ic_electrician, "#1aa882"));
-        service_categories.add(new SerCategoryModel("Washing", R.drawable.ic_laundry_machine, "#5824c4"));
-        service_categories.add(new SerCategoryModel("Painting", R.drawable.ic_paint_roller, "#fda145"));
-        service_categories.add(new SerCategoryModel("Wood Working", R.drawable.ic_woodworking, "#0ebdde"));
-        service_categories.add(new SerCategoryModel("Shifting", R.drawable.ic_shiftinng, "#eb5657"));
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        viewModel.categories(1);
 
-
-        Rv();
+        viewModel._category.observe(this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                      showLoading();
+                } else if (!response.getError().isEmpty()) {
+                     hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+                     hideLoading();
+                    categoriesDataItems = new ArrayList<>();
+                    categoriesDataItems.addAll(response.getData().getData());
+                    if (categoriesDataItems.size() > 0) {
+                        buildCategoryRv(categoriesDataItems);
+                    }
+                }
+            }
+        });
+//        service_categories = new ArrayList<>();
+//        service_categories.add(new SerCategoryModel("Cleaning", R.drawable.ic_cleaning, "#eb5657"));
+//        service_categories.add(new SerCategoryModel("Appliances", R.drawable.ic_electric_appliance, "#0ebdde"));
+//        service_categories.add(new SerCategoryModel("Electronic", R.drawable.ic_electrician, "#1aa882"));
+//        service_categories.add(new SerCategoryModel("Washing", R.drawable.ic_laundry_machine, "#5824c4"));
+//        service_categories.add(new SerCategoryModel("Painting", R.drawable.ic_paint_roller, "#fda145"));
+//        service_categories.add(new SerCategoryModel("Wood Working", R.drawable.ic_woodworking, "#0ebdde"));
+//        service_categories.add(new SerCategoryModel("Shifting", R.drawable.ic_shiftinng, "#eb5657"));
+//
+//
+//        Rv();
         clickListeners();
     }
 
-    private void clickListeners() {
-//        activityBinding.gridView.setOnClickListener(view -> {
-//
-//            activityBinding.gridView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#f4841f")));
-//            activityBinding.linearView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#B8B8BC")));
-//
-//            GridLayoutManager layoutManager = new GridLayoutManager(App.applicationContext, 2);
-//            activityBinding.categoriiesList.setLayoutManager(layoutManager);
-//            CategoriesAdapter adapter = new CategoriesAdapter(Categories.this, service_categories);
-//            activityBinding.categoriiesList.setAdapter(adapter);
-//
-//            adapter.setOnServiceClickListener(position -> {
-//                ActivityUtil.gotoPage(Categories.this, ResultantServiceProviders.class);
-//                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-//            });
-//        });
-
-        activityBinding.linearView.setOnClickListener(view -> {
-            activityBinding.gridView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#B8B8BC")));
-            activityBinding.linearView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#f4841f")));
-            Rv();
-        });
-    }
-
-    private void Rv() {
-
+    private void buildCategoryRv(List<CategoriesDataItem> categoriesDataItems) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
         activityBinding.categoriiesList.setLayoutManager(layoutManager);
-        CatAdapter adapter = new CatAdapter(service_categories, App.applicationContext);
+        CatAdapter adapter = new CatAdapter(categoriesDataItems, Categories.this);
         activityBinding.categoriiesList.setAdapter(adapter);
 
         adapter.setOnServiceClickListener(position -> {
@@ -80,4 +83,36 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
+
+    private void clickListeners() {
+        activityBinding.gridView.setOnClickListener(view -> {
+
+            activityBinding.gridView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#f4841f")));
+            activityBinding.linearView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#B8B8BC")));
+
+            GridLayoutManager layoutManager = new GridLayoutManager(App.applicationContext, 2);
+            activityBinding.categoriiesList.setLayoutManager(layoutManager);
+            CategoriesAdapter adapter = new CategoriesAdapter(Categories.this, categoriesDataItems);
+            activityBinding.categoriiesList.setAdapter(adapter);
+
+//            adapter.setOnServiceClickListener(position -> {
+//                ActivityUtil.gotoPage(Categories.this, ResultantServiceProviders.class);
+//                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//            });
+        });
+
+        activityBinding.linearView.setOnClickListener(view -> {
+            activityBinding.gridView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#B8B8BC")));
+            activityBinding.linearView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#f4841f")));
+            buildCategoryRv(categoriesDataItems);
+        });
+
+        activityBinding.categoriesToolbar.back.setOnClickListener(view -> {
+            onBackPressed();
+            finish();
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        });
+    }
+
+
 }

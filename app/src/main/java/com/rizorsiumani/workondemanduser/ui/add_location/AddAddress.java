@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityAddAddressBinding;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
@@ -183,6 +184,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
         String centerAddress = GetProperLocationAddress(centre.latitude, centre.longitude, AddAddress.this);
         if (!centerAddress.isEmpty()) {
             activityBinding.locationAddress.setText(centerAddress);
+            TinyDbManager.saveCurrentAddress(centerAddress);
             address = centerAddress;
         }
     }

@@ -12,13 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentWalletBinding;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.filter.FilterSearch;
 import com.rizorsiumani.workondemanduser.ui.fragment.wallet.TransactionsAdapter;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +40,26 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setProfileInfo();
         transactionsRv();
+
+    }
+
+    private void setProfileInfo() {
+        try {
+
+            if (TinyDbManager.getUserInformation() != null){
+                UserData userData = TinyDbManager.getUserInformation();
+                fragmentBinding.username.setText(userData.getFirstName() + " " + userData.getLastName());
+                fragmentBinding.userNumber.setText(userData.getPhoneNumber());
+                Glide.with(requireContext())
+                        .load(Constants.IMG_PATH + userData.getImage())
+                        .into(fragmentBinding.userImage);
+            }
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
 
     }
 

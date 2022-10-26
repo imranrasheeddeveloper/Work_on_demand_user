@@ -19,7 +19,9 @@ import com.google.android.material.tabs.TabLayout;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.SProfileData;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySpProfileBinding;
+import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
@@ -69,15 +71,24 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
             }
         });
 
+        if (TinyDbManager.getCartData().size() > 0){
+            activityBinding.cartItem.setVisibility(View.VISIBLE);
+            int total = 0;
+            for (int i = 0; i < TinyDbManager.getCartData().size()-1; i++) {
+                MyCartItems cartItems = TinyDbManager.getCartData().get(i);
+                int price = Integer.parseInt(cartItems.getData().getPrice());
+                total = total + price;
+            }
+            activityBinding.tvTotal.setText(String.valueOf(total));
+        } else {
+            activityBinding.cartItem.setVisibility(View.GONE);
+        }
+
         }catch (NullPointerException e){
             e.printStackTrace();
         }
 
-        if (prefRepository.getString("cart").equalsIgnoreCase("true")) {
-            activityBinding.cartItem.setVisibility(View.VISIBLE);
-        } else {
-            activityBinding.cartItem.setVisibility(View.GONE);
-        }
+
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.sp_nav_host_fragment);
         if (navHostFragment != null) {
@@ -144,7 +155,6 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
 
 
                 if (tab.getId() == 0) {
-
                     mNavController.navigate(R.id.services);
                 } else if (tab.getId() == 1) {
                     mNavController.navigate(R.id.gallery2);

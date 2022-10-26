@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityLoginBinding;
 import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
@@ -108,7 +109,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     prefRepository.setString("token" , "Bearer "+response.getData().getToken());
-                    //Constants.ACCESS_TOKEN = "Bearer "+response.getData().getToken();
+                    TinyDbManager.saveUserData(response.getData().getData());
 
                     ActivityUtil.gotoPage(Login.this, Dashboard.class);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

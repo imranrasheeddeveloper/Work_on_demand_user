@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +32,9 @@ import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.CustomerIdResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.EphemeralKeyResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.PaymentIntentResponse;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookingDetailBinding;
+import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.promo_code.PromoCode;
@@ -62,7 +65,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     CustomerIdResponse idResponse;
     EphemeralKeyResponse ephemeralKeyResponse;
     PaymentIntentResponse intentResponse;
-
+    int total;
 
     @Override
     protected ActivityBookingDetailBinding getActivityBinding() {
@@ -73,6 +76,22 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     protected void onStart() {
         super.onStart();
 
+        if (TinyDbManager.getCartData() != null){
+            if (TinyDbManager.getCartData().size() > 0){
+                for (int i = 0; i < TinyDbManager.getCartData().size()-1; i++) {
+                    MyCartItems cartItems = TinyDbManager.getCartData().get(i);
+                    total = total + Integer.parseInt(cartItems.getData().getPrice());
+                }
+                activityBinding.btnPayNow.setText(String.valueOf(total));
+                getCartServices(TinyDbManager.getCartData());
+            }
+        }
+
+        if (TinyDbManager.getCurrentAddress() != null) {
+            activityBinding.tvAddress.setText("Please set your location");
+        } else {
+            activityBinding.tvAddress.setText(TinyDbManager.getCurrentAddress());
+        }
 
         PaymentConfiguration.init(BookingDetail.this, publish_key);
         paymentSheet = new PaymentSheet(this, this::onPaymentResult);
@@ -117,7 +136,6 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
         activityBinding.bookingDetailToolbar.title.setText("Booking Details");
         clickListeners();
-        getCartServices();
     }
 
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
@@ -265,15 +283,11 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     }
 
 
-    private void getCartServices() {
-        name = new ArrayList<>();
-        name.add("1 hour Pet Sitting");
-        name.add("2 Hour Cleaning service");
-
+    private void getCartServices(List<MyCartItems> cartData) {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
         activityBinding.cartServicesList.setLayoutManager(layoutManager);
-        adapter = new CartServicesAdapter(name, App.applicationContext);
+        adapter = new CartServicesAdapter(cartData, App.applicationContext);
         activityBinding.cartServicesList.setAdapter(adapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);

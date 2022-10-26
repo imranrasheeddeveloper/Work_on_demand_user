@@ -13,11 +13,12 @@ import androidx.viewbinding.ViewBinding;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.rizorsiumani.workondemanduser.data.local.PreferenceRepository;
+import com.wang.avi.AVLoadingIndicatorView;
 
 public abstract class BaseActivity<binding extends ViewBinding> extends AppCompatActivity {
 
     protected binding activityBinding;
-    private ProgressBar progressBar;
+    private AVLoadingIndicatorView progressBar;
 
     protected abstract binding getActivityBinding();
 

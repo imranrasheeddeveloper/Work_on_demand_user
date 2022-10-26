@@ -130,7 +130,7 @@
                     style="@style/normalText"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:textColor="@color/light_gray"
-                    android:text="Minimum Hours"
+                    android:text="Budget Unit"
                     android:id="@+id/tvMinimumHour"/>
 
                 <TextView

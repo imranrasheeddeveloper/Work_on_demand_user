@@ -63,6 +63,8 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
                     dataItems.addAll(response.getData().getData());
                     if (dataItems.size() > 0) {
                         buildRv(dataItems);
+                    }else {
+                        showNoDataAnimation();
                     }
 
                 }

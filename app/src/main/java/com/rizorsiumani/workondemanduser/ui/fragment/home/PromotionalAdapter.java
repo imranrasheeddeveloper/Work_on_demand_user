@@ -31,6 +31,7 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
     private final List<ServiceProviderCategoriesItem> data;
     private OnPromotionAdapterClick mListener;
 
+
     public PromotionalAdapter(List<ServiceProviderCategoriesItem> list) {
         this.data = list;
     }
@@ -60,14 +61,14 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        holder.loading.setVisibility(View.GONE);
+                       // holder.loading.setVisibility(View.GONE);
 
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        holder.loading.setVisibility(View.VISIBLE);
+                     //   holder.loading.setVisibility(View.VISIBLE);
                         return false;
                     }
 
@@ -88,7 +89,7 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
         public TextView textView;
         public TextView sp_name;
         public ImageView sp_image;
-        AVLoadingIndicatorView loading;
+        //AVLoadingIndicatorView loading;
 
         public ViewHolder(@NonNull View itemView, OnPromotionAdapterClick listener) {
             super(itemView);
@@ -96,7 +97,7 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
             textView = itemView.findViewById(R.id.startFrom);
             sp_name = itemView.findViewById(R.id.sp_name);
             sp_image = itemView.findViewById(R.id.sp_image);
-            loading = itemView.findViewById(R.id.avi);
+          //  loading = itemView.findViewById(R.id.avi);
 
 
             itemView.setOnClickListener(v -> {
