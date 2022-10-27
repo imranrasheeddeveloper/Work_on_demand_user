@@ -10,6 +10,8 @@ import com.rizorsiumani.workondemanduser.databinding.ActivityChatroomBinding;
 
 public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
 
+    String id , name;
+
     @Override
     protected ActivityChatroomBinding getActivityBinding() {
         return ActivityChatroomBinding.inflate(getLayoutInflater());
@@ -19,7 +21,25 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
     protected void onStart() {
         super.onStart();
 
+        try {
+            id = getIntent().getStringExtra("service_provider_id");
+            name = getIntent().getStringExtra("service_provider_name");
 
+            activityBinding.chatToolbar.title.setText(name);
 
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+        clickListener();
+
+    }
+
+    private void clickListener() {
+        activityBinding.chatToolbar.back.setOnClickListener(view -> {
+            onBackPressed();
+            finish();
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        });
     }
 }

@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/navigation"/>
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"/>
 
 
 <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
@@ -31,11 +31,24 @@
 
 <!--    </com.google.android.material.bottomnavigation.BottomNavigationView>-->
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/off_white"
+        app:tabIndicatorHeight="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nav_host_fragment"
+    />
+
     <include
         android:id="@+id/navigation"
         layout="@layout/bottom_navigation_design"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

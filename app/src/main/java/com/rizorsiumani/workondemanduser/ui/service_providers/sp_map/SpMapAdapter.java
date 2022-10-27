@@ -65,7 +65,7 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name,service,budget;
-        public Button profile;
+        public Button profile , message;
         public CircleImageView imageView;
 
         public ViewHolder(@NonNull View itemView, ItemClickListener listener) {
@@ -76,11 +76,20 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
             service = itemView.findViewById(R.id.sp_service);
             budget = itemView.findViewById(R.id.sp_rate);
             imageView = itemView.findViewById(R.id.iv_sp);
+            message = itemView.findViewById(R.id.message_btn);
 
             profile.setOnClickListener(view -> {
                 if (listener != null){
                     if (getAdapterPosition() != RecyclerView.NO_POSITION) {
                         listener.onProfileClick(getAdapterPosition());
+                    }
+                }
+            });
+
+            message.setOnClickListener(view -> {
+                if (listener != null){
+                    if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                        listener.onMessageClick(getAdapterPosition());
                     }
                 }
             });

@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
@@ -20,6 +21,7 @@ import com.rizorsiumani.workondemanduser.ui.walkthrough.OnBoardingViewModel;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class Login extends BaseActivity<ActivityLoginBinding> {
@@ -110,6 +112,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
                     hideLoading();
                     prefRepository.setString("token" , "Bearer "+response.getData().getToken());
                     TinyDbManager.saveUserData(response.getData().getData());
+
 
                     ActivityUtil.gotoPage(Login.this, Dashboard.class);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

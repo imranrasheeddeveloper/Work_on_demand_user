@@ -6,10 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
@@ -32,6 +34,7 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
         super.onViewCreated(view, savedInstanceState);
 
 
+        callStatus();
         fragmentBinding.bookingToolbar.title.setText("Bookings");
         fragmentBinding.bookingToolbar.back.setVisibility(View.INVISIBLE);
 
@@ -45,6 +48,22 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
 
         getBookings();
 
+    }
+    private void callStatus() {
+        List<String> status = new ArrayList<>();
+        status.add("In Progress");
+        status.add("Pending");
+        status.add("Failed");
+        status.add("Done");
+
+        LinearLayoutManager llm = new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false);
+        fragmentBinding.statusList.setLayoutManager(llm);
+        BookingStatusAdapter adapter = new BookingStatusAdapter(requireContext(), status);
+        fragmentBinding.statusList.setAdapter(adapter);
+
+        adapter.setOnStatusSelectListener(position -> {
+            Toast.makeText(requireContext(), status.get(position), Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void getBookings() {

@@ -1,16 +1,14 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.profile;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
@@ -19,7 +17,6 @@ import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentProfileBinding;
-import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.all_posted_jobs.AllPostedJobs;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
@@ -31,6 +28,8 @@ import com.rizorsiumani.workondemanduser.utils.Constants;
 
 public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
 
+    AlertDialog.Builder dialogBuilder;
+    AlertDialog alertDialog;
 
     @Override
     protected FragmentProfileBinding getFragmentBinding() {
@@ -47,16 +46,14 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         fragmentBinding.appBar1.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                if(state.equals(State.COLLAPSED)) {
-                   
+                if (state.equals(State.COLLAPSED)) {
+
                     fragmentBinding.toolbarData.setVisibility(View.VISIBLE);
-                }
-                else if (state.equals(State.EXPANDED)) {
+                } else if (state.equals(State.EXPANDED)) {
                     fragmentBinding.toolbarData.setVisibility(View.GONE);
-                    
-                }
-                else if ((state.equals(State.IDLE))){
-                    
+
+                } else if ((state.equals(State.IDLE))) {
+
                 }
             }
         });
@@ -65,7 +62,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     private void setProfileInfo() {
         try {
 
-            if (TinyDbManager.getUserInformation() != null){
+            if (TinyDbManager.getUserInformation() != null) {
                 UserData userData = TinyDbManager.getUserInformation();
                 fragmentBinding.username1.setText(userData.getFirstName() + " " + userData.getLastName());
                 fragmentBinding.username.setText(userData.getFirstName() + " " + userData.getLastName());
@@ -79,7 +76,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
                         .into(fragmentBinding.userImage1);
             }
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -119,5 +116,27 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         fragmentBinding.wallet.setOnClickListener(view -> {
             Dashboard.goToWallet();
         });
+
+        fragmentBinding.tvLogout.setOnClickListener(view -> {
+            showLogoutDialogue();
+        });
+    }
+
+    private void showLogoutDialogue() {
+        dialogBuilder = new AlertDialog.Builder(requireContext());
+        View layoutView = getLayoutInflater().inflate(R.layout.logout_confirmation_dialogue, null);
+        TextView cancel = (TextView) layoutView.findViewById(R.id.cancel_logout);
+        TextView logout = (TextView) layoutView.findViewById(R.id.confirm_logout);
+
+        dialogBuilder.setView(layoutView);
+        alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimations;
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+        cancel.setOnClickListener(view -> alertDialog.dismiss());
+        logout.setOnClickListener(view -> {
+            alertDialog.dismiss();
+        });
+
     }
 }

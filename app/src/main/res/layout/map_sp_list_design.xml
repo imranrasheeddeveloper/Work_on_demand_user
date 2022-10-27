@@ -86,7 +86,7 @@
         style="@style/lightGreenButtonStyle"
         android:text="Message"
         android:padding="@dimen/_6sdp"
-        android:id="@+id/message"/>
+        android:id="@+id/message_btn"/>
 
     <Button
         android:layout_width="0dp"
@@ -94,7 +94,7 @@
         android:layout_marginStart="@dimen/_5sdp"
         android:background="@drawable/button_round_bg"
         app:layout_constraintTop_toBottomOf="@id/sp_rate"
-        app:layout_constraintStart_toEndOf="@id/message"
+        app:layout_constraintStart_toEndOf="@id/message_btn"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/_5sdp"
         style="@style/greenButtonStyle"

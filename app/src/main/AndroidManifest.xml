@@ -32,6 +32,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RizorsiUmaniUser"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.inbox.Inbox"
+            android:exported="false" />
 
         <service
             android:name=".common.FirebaseCloudMessagingService"
@@ -40,10 +43,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service> <!-- Foreground services in Q+ require type. -->
-
-        <activity
-            android:name=".ui.Inbox"
-            android:exported="false" />
         <activity
             android:name=".ui.chat.Chatroom"
             android:exported="false" />
@@ -110,10 +109,11 @@
         <activity
             android:name=".ui.dashboard.Dashboard"
             android:exported="true">
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".ui.register.OtpVerification"
@@ -126,7 +126,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.login.Login"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".ui.welcome_user.WelcomeUser"
             android:exported="false" />
@@ -138,6 +138,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

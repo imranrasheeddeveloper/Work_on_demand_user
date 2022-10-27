@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
@@ -39,6 +41,7 @@ import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.promo_code.PromoCode;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.skydoves.elasticviews.ElasticImageView;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
@@ -314,6 +317,22 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         activityBinding.btnPayLater.setOnClickListener(view -> {
             ActivityUtil.gotoPage(BookingDetail.this, BookingDateTime.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        activityBinding.addPaymentMethod.setOnClickListener(view -> {
+            final BottomSheetDialog bt = new BottomSheetDialog(BookingDetail.this, R.style.BottomSheetDialogTheme);
+            View items = LayoutInflater.from(BookingDetail.this).inflate(R.layout.layout_item_chooser, null, false);
+            ElasticImageView cash = items.findViewById(R.id.cashIcon);
+            ElasticImageView card = items.findViewById(R.id.cardIcon);
+            cash.setOnClickListener(view1 -> {
+                bt.cancel();
+            });
+            card.setOnClickListener(view1 -> {
+                activityBinding.btnPayNow.performClick();
+                bt.cancel();
+            });
+            bt.setContentView(items);
+            bt.show();
         });
 
     }

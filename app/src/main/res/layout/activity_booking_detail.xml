@@ -8,9 +8,10 @@
     tools:context=".ui.booking_detail.BookingDetail">
 
     <include
-        layout="@layout/layout_progress_bar"
+                    layout="@layout/layout_progress_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
     <include
         android:id="@+id/booking_detail_toolbar"
@@ -99,6 +100,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
                 <TextView
                     android:id="@+id/tv_services"
                     style="@style/mediumText"
@@ -169,6 +171,57 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/payment_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/white"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/promo_card">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:padding="@dimen/_8sdp">
+
+                        <TextView
+                            android:id="@+id/tv_payment_method"
+                            style="@style/mediumText1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Payment Method"
+                            android:drawableTint="@color/primary"
+                            android:drawablePadding="@dimen/_5sdp"
+                            android:drawableStart="@drawable/ic_wallet"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/add_payment_method"
+                            style="@style/normalText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add Payment Method"
+                            android:layout_marginStart="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:drawableTint="@color/primary"
+                            android:drawablePadding="@dimen/_5sdp"
+                            android:drawableStart="@drawable/ic_add"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_payment_method" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
                 <TextView
                     android:id="@+id/tv_charges"
                     style="@style/mediumText"
@@ -179,7 +232,7 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/promo_card" />
+                    app:layout_constraintTop_toBottomOf="@id/payment_card" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/totalCard"

@@ -7,9 +7,10 @@
     tools:context=".ui.fragment.booking.BookingFragment">
 
     <include
-        layout="@layout/layout_progress_bar"
+                    layout="@layout/layout_progress_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         />
 
         <include
@@ -35,11 +36,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/statusList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_8sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
                 <LinearLayout
                     android:id="@+id/swOnOff"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
+                    android:visibility="gone"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="20dp"
@@ -120,7 +133,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/swOnOff" />
+                    app:layout_constraintTop_toBottomOf="@+id/statusList" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

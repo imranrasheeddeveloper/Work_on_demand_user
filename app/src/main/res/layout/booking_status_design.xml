@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_110sdp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/_8sdp"
+    app:cardUseCompatPadding="true">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/mediumText"
+        android:text="In Progress"
+        android:textColor="@color/black"
+        android:padding="@dimen/_10sdp"
+        android:gravity="center"
+        android:id="@+id/status"/>
+
+
+
+</androidx.cardview.widget.CardView>

@@ -39,6 +39,7 @@ import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServiceProviderMapsBinding;
+import com.rizorsiumani.workondemanduser.ui.chat.Chatroom;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderViewModel;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 import com.rizorsiumani.workondemanduser.utils.Constants;
@@ -227,7 +228,6 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
             LatLng loc = new LatLng(dataItem.getLatitude(), dataItem.getLongitude());
             Marker marker = mMap.addMarker(new MarkerOptions().position(loc).icon(bitmapDescriptorFromVector(requireActivity(), R.drawable.map_stop_position)));
             markers.add(marker);
-
         }
 
         fragmentBinding.markersLocationList.setOnFlingListener(null);
@@ -243,7 +243,11 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
         adapter.setOnProviderClickListener(new SpMapAdapter.ItemClickListener() {
             @Override
             public void onMessageClick(int position) {
-
+                Intent intent = new Intent(requireContext(), Chatroom.class);
+                intent.putExtra("service_provider_id",String.valueOf(serviceProviders.get(position).getId()));
+                intent.putExtra("service_provider_name",serviceProviders.get(position).getFirstName() + " " + serviceProviders.get(position).getLastName());
+                startActivity(intent);
+                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
 
             @Override

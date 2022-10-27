@@ -38,6 +38,8 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
     protected void onStart() {
         super.onStart();
 
+        activityBinding.categoriesToolbar.title.setText("All Services");
+
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         viewModel.categories(1);
 

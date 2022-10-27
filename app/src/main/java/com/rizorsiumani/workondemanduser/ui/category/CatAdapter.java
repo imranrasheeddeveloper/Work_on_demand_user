@@ -51,6 +51,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
 
         CategoriesDataItem model = data.get(position);
         Glide.with(context).load(Constants.IMG_PATH + model.getImage()).into(holder.icon);
+        holder.query.setText(model.getTitle());
 
         try {
             final int[] colors = new int[2];
