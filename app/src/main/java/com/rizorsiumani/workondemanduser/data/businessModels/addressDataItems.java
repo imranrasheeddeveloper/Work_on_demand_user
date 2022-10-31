@@ -13,8 +13,11 @@ public class addressDataItems {
 	@SerializedName("title")
 	private String title;
 
-	@SerializedName("lat")
+	@SerializedName("latitude")
 	private String lat;
+
+	@SerializedName("address")
+	private String address;
 
 	@SerializedName("longitude")
 	private String jsonMemberLong;
@@ -44,5 +47,9 @@ public class addressDataItems {
 
 	public String getUpdatedAt(){
 		return updatedAt;
+	}
+
+	public String getAddress() {
+		return address;
 	}
 }

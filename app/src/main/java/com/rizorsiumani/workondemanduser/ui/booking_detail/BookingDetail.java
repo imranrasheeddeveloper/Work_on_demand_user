@@ -348,9 +348,6 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                             }
                         }
                     });
-
-
-
 //            ElasticImageView cash = items.findViewById(R.id.cashIcon);
 //            ElasticImageView card = items.findViewById(R.id.cardIcon);
 //            cash.setOnClickListener(view1 -> {

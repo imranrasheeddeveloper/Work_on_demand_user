@@ -80,17 +80,17 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
     }
 
     private void setAddresses(List<addressDataItems> data) {
-        for (int i = 0; i < data.size() - 1; i++) {
+        for (int i = 0; i < data.size(); i++) {
             if (data.get(i).getTitle().equals("Home")) {
                 activityBinding.homeAddress.setVisibility(View.VISIBLE);
-                activityBinding.homeAddress.setText(data.get(i).getTitle());
+                activityBinding.homeAddress.setText(data.get(i).getAddress());
                 activityBinding.add.setImageResource(R.drawable.ic_edit_blue);
                 activityBinding.add.setTag("edit");
                 homeID = data.get(i).getId();
 
             } else if (data.get(i).getTitle().equals("Work")) {
                 activityBinding.workddress.setVisibility(View.VISIBLE);
-                activityBinding.workddress.setText(data.get(i).getTitle());
+                activityBinding.workddress.setText(data.get(i).getAddress());
                 activityBinding.addWorkAddress.setImageResource(R.drawable.ic_edit_blue);
                 activityBinding.addWorkAddress.setTag("edit");
                 workID = data.get(i).getId();
@@ -197,7 +197,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
                     navigateWithExtras("Home", homeID);
                 }
             } else {
-                navToAddAddress();
+                navigateWithExtras("Home", 0);
             }
         });
 
@@ -212,7 +212,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
                     navigateWithExtras("Work", workID);
                 }
             } else {
-                navToAddAddress();
+                navigateWithExtras("Work", 0);
             }
         });
 

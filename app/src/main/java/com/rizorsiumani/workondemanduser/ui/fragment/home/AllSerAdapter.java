@@ -68,13 +68,10 @@ public class AllSerAdapter extends RecyclerView.Adapter<AllSerAdapter.ViewHolder
         holder.recyclerView.setAdapter(adapter1);
 
         adapter1.setOnCellClickListener(pos -> {
-            Gson gson = new Gson();
-            String data = gson.toJson(model.getServiceProviderCategories().get(pos).getServiceProvider(), ServiceProvider.class);
-
-            Intent intent = new Intent(ctx, SpProfile.class);
-            intent.putExtra("sp_data" , data);
+            Intent intent = new Intent(ctx,SpProfile.class);
+            intent.putExtra("service_provider_id",String.valueOf(model.getServiceProviderCategories().get(position).getId()));
             ctx.startActivity(intent);
-
+            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
 

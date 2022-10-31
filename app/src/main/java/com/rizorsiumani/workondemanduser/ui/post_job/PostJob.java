@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -77,6 +78,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     int tempID;
 
     private PostJobViewModel postJobViewModel;
+    Uri imageUri;
 
 
     @Override
@@ -138,10 +140,10 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
         activityBinding.tvCategory.setOnClickListener(view -> {
             if (categoriesDataItems.size() > 0) {
-                int id = showCategoriesDialogue(0, activityBinding.selectedCategory);
-                if (id != 0) {
-                    selectedCatID = id;
-                }
+                showCategoriesDialogue(0, activityBinding.selectedCategory);
+//                if (id != 0) {
+//                    selectedCatID = id;
+//                }
             }
         });
 
@@ -164,10 +166,10 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                             subCategoryDataItems = new ArrayList<>();
                             subCategoryDataItems.addAll(response.getData().getData());
                             if (subCategoryDataItems.size() > 0) {
-                                int id = showCategoriesDialogue(1, activityBinding.selectedSubcategory);
-                                if (id != 0) {
-                                    selectedSubCatID = id;
-                                }
+                                showCategoriesDialogue(1, activityBinding.selectedSubcategory);
+//                                if (id != 0) {
+//                                    selectedSubCatID = id;
+//                                }
                             }
 
                         }
@@ -180,9 +182,13 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
         activityBinding.budgetUnitLayout.setOnClickListener(view -> {
-
-
             showCategoriesDialogue(2, activityBinding.selectedBudgetUnit);
+        });
+
+        activityBinding.deleteImage.setOnClickListener(view -> {
+            activityBinding.ivAddImage.setImageResource(R.drawable.ic_addd);
+            activityBinding.ivAddImage.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#c7e9e6")));
+            activityBinding.deleteImage.setVisibility(View.GONE);
         });
 
         activityBinding.deadlineDate.setOnClickListener(view -> {
@@ -192,21 +198,8 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
         activityBinding.btnPost.setOnClickListener(view -> {
-            String title = activityBinding.edTitle.getText().toString();
-            String description = activityBinding.edDescribe.getText().toString();
-            String budget = activityBinding.edBudget.getText().toString();
-            String date = activityBinding.deadlineDate.getText().toString();
-
-            if (TextUtils.isEmpty(title)) {
-                showSnackBarShort("Title required");
-            } else if (TextUtils.isEmpty(budget)) {
-                showSnackBarShort("Budget required");
-            } else if (selectedBudgetUnit.isEmpty()) {
-                showSnackBarShort("Budget Unit required");
-            } else if (TextUtils.isEmpty(date)) {
-                showSnackBarShort("Date required");
-            } else {
-                postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, imagesPath, date);
+            if (imageUri != null){
+                uploadImage();
             }
 
         });
@@ -246,7 +239,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     }
 
 
-    private int showCategoriesDialogue(int value, TextView textView) {
+    private void showCategoriesDialogue(int value, TextView textView) {
 
         dialogBuilder = new AlertDialog.Builder(PostJob.this);
         dialogBuilder.setCancelable(false);
@@ -286,14 +279,17 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         select.setOnClickListener(view1 -> {
             if (value == 2) {
                 selectedBudgetUnit = valuePickerView.getSelectedItem().getTitle();
+            }else if (value == 0){
+                selectedCatID = valuePickerView.getSelectedItem().getId();
+            }else if (value == 1){
+                selectedSubCatID = valuePickerView.getSelectedItem().getId();
             }
             textView.setText(valuePickerView.getSelectedItem().getTitle());
-            tempID = valuePickerView.getSelectedItem().getId();
+//            sele = valuePickerView.getSelectedItem().getId();
             alertDialog.dismiss();
 
         });
 
-        return tempID;
     }
 
     private List<Item> getCatPickerItems() {
@@ -324,6 +320,55 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         }
 
         return pickerItems;
+    }
+
+    private void uploadImage(){
+        File file1 = new File(GetRealPathFromUri.getPathFromUri(PostJob.this, imageUri));
+
+        MultipartBody.Part multiPartProfile = MultipartBody.Part.createFormData("image",
+                file1.getName(),
+                RequestBody.create(
+                        file1,
+                        MediaType.parse("*/*")
+                )
+        );
+
+        postJobViewModel.postImage(multiPartProfile);
+
+        postJobViewModel._job_image.observe(this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (!response.getError().isEmpty()) {
+                    hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getMessage() != null) {
+                    showSnackBarShort(response.getData().getMessage());
+                    imagesPath = response.getData().getFilePATH();
+                    uploadJob(imagesPath);
+                }
+            }
+        });
+    }
+
+    private void uploadJob(String imagesPath) {
+        String title = activityBinding.edTitle.getText().toString();
+        String description = activityBinding.edDescribe.getText().toString();
+        String budget = activityBinding.edBudget.getText().toString();
+        String date = activityBinding.deadlineDate.getText().toString();
+
+        if (TextUtils.isEmpty(title)) {
+            showSnackBarShort("Title required");
+        } else if (TextUtils.isEmpty(budget)) {
+            showSnackBarShort("Budget required");
+        } else if (selectedBudgetUnit.isEmpty()) {
+            showSnackBarShort("Budget Unit required");
+        } else if (TextUtils.isEmpty(date)) {
+            showSnackBarShort("Date required");
+        } else {
+            postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, imagesPath, date);
+        }
+
     }
 
     private List<Item> getBudgetPickerItems() {
@@ -378,33 +423,11 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 13) {
             if (resultCode == Activity.RESULT_OK) {
-                Uri uri = data.getData();
-                File file1 = new File(GetRealPathFromUri.getPathFromUri(PostJob.this, uri));
-
-                MultipartBody.Part multiPartProfile = MultipartBody.Part.createFormData("image",
-                        file1.getName(),
-                        RequestBody.create(
-                                file1,
-                                MediaType.parse("*/*")
-                        )
-                );
-
-                postJobViewModel.postImage(multiPartProfile);
-
-                postJobViewModel._job_image.observe(this, response -> {
-                    if (response != null) {
-                        if (response.isLoading()) {
-                            showLoading();
-                        } else if (!response.getError().isEmpty()) {
-                            hideLoading();
-                            showSnackBarShort(response.getError());
-                        } else if (response.getData().getMessage() != null) {
-                            showSnackBarShort(response.getData().getMessage());
-                            imagesPath = response.getData().getFilePATH();
-                            Glide.with(PostJob.this).load(Constants.IMG_PATH + imagesPath).into(activityBinding.ivAddImage);
-                        }
-                    }
-                });
+                imageUri = data.getData();
+                activityBinding.ivAddImage.setImageResource(0);
+                activityBinding.ivAddImage.setImageURI(imageUri);
+                activityBinding.ivAddImage.setBackgroundResource(R.drawable.rect_bg);
+                activityBinding.deleteImage.setVisibility(View.VISIBLE);
             }
         }
     }

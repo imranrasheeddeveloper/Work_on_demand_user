@@ -64,7 +64,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
 
         activityBinding.confirmLocation.setOnClickListener(view -> {
             String address = activityBinding.locationAddress.getText().toString();
-            prefRepository.setString("CURRENT_LOCATION", address);
+            TinyDbManager.saveCurrentAddress(address);
 
             if (latitude == 0.0 || longitude == 0.0) {
                 showSnackBarShort("Select Location First");
@@ -83,7 +83,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
         JsonObject object = new JsonObject();
         object.addProperty("title", title);
         object.addProperty("latitude", latitude);
-        object.addProperty("longiutude", longitude);
+        object.addProperty("longitude", longitude);
         object.addProperty("address", address);
         object.addProperty("address_id", addressID);
 

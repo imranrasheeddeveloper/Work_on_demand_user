@@ -8,10 +8,9 @@
     tools:context=".ui.booking_detail.BookingDetail">
 
     <include
-                    layout="@layout/layout_progress_bar"
+        layout="@layout/layout_progress_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
     <include
         android:id="@+id/booking_detail_toolbar"
@@ -22,16 +21,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/off_white"
-        android:padding="@dimen/_10sdp"
+        android:fillViewport="true"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/booking_detail_toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp">
+
+
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_sp"
@@ -59,7 +64,7 @@
             app:layout_constraintTop_toTopOf="@+id/iv_sp" />
 
         <RatingBar
-            android:id="@+id/arting"
+            android:id="@+id/rating"
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,26 +74,13 @@
             app:layout_constraintTop_toBottomOf="@id/tv_sp_name" />
 
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            android:scrollbars="none"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_sp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_address"
                     style="@style/normalText"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:drawablePadding="@dimen/_5sdp"
                     android:gravity="center|start"
                     android:paddingTop="@dimen/_8sdp"
@@ -96,9 +88,22 @@
                     android:text="Please choose your address"
                     android:textColor="@color/semi_black"
                     app:drawableStartCompat="@drawable/ic_location_icon"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/editAddress"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/iv_sp" />
+
+                <ImageView
+                    android:id="@+id/editAddress"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:padding="@dimen/_4sdp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_edit_blue"
+                    android:tag="add"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_address"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_address"
+                    app:tint="@color/black" />
 
 
                 <TextView
@@ -194,10 +199,10 @@
                             style="@style/mediumText1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Payment Method"
-                            android:drawableTint="@color/primary"
-                            android:drawablePadding="@dimen/_5sdp"
                             android:drawableStart="@drawable/ic_wallet"
+                            android:drawablePadding="@dimen/_5sdp"
+                            android:drawableTint="@color/primary"
+                            android:text="Payment Method"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -207,12 +212,12 @@
                             style="@style/normalText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Add Payment Method"
                             android:layout_marginStart="@dimen/_20sdp"
                             android:layout_marginTop="@dimen/_5sdp"
-                            android:drawableTint="@color/primary"
-                            android:drawablePadding="@dimen/_5sdp"
                             android:drawableStart="@drawable/ic_add"
+                            android:drawablePadding="@dimen/_5sdp"
+                            android:drawableTint="@color/primary"
+                            android:text="Add Payment Method"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_payment_method" />
 
@@ -417,6 +422,5 @@
 
         </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

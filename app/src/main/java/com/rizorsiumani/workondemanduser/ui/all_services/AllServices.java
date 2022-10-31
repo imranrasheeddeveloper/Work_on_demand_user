@@ -1,11 +1,14 @@
 package com.rizorsiumani.workondemanduser.ui.all_services;
 
+import android.content.Intent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoryModel;
+import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.ServicesAdapter;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -49,8 +52,10 @@ public class AllServices extends BaseActivity<com.rizorsiumani.workondemanduser.
         activityBinding.allServicesList.setAdapter(adapter);
 
         adapter.setOnServiceClickListener(position -> {
-            ActivityUtil.gotoPage(AllServices.this, SubCategories.class);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//            Intent intent = new Intent(AllServices.this, SubCategories.class);
+//            intent.putExtra("category_id", categories.get(position).get());
+//            startActivity(intent);
+//            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
     }

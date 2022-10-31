@@ -103,6 +103,11 @@ public interface ApiService {
                                                           @Path("page_no") int page_no,
                                                           @Body JsonObject object);
 
+    @POST("serviceProvider/viewAll_home_content_category/{page_no}")
+    Observable<ServiceProvidersModel> getServiceProvidersByCat(@Header("Authorization") String token,
+                                                          @Path("page_no") int page_no,
+                                                          @Body JsonObject object);
+
     @GET("serviceProvider/get_service_providers_gallery/{id}")
     Observable<ProviderGalleryModel> getGallery (@Path("id") int id);
 

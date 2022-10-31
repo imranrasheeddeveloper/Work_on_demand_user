@@ -2,14 +2,17 @@ package com.rizorsiumani.workondemanduser.ui.dashboard;
 
 import static com.rizorsiumani.workondemanduser.utils.map_utils.GeoCoders.GetProperLocationAddress;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,21 +68,26 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
 
 
-        isLocationPermissionGranted = LocationService.service.requestLocationPermission(App.applicationContext);
-        if (!isLocationPermissionGranted){
+       // isLocationPermissionGranted = LocationService.service.requestLocationPermission(App.applicationContext);
+        if (!Constants.isLocationPermissionGranted){
             binding.servicesSuspendLayout.setVisibility(View.VISIBLE);
         }else {
             locationHandler();
         }
 
         binding.turnOnLocationService.setOnClickListener(view -> {
-            isLocationPermissionGranted =  LocationService.service.requestLocationPermission(Dashboard.this);
-            if (isLocationPermissionGranted){
-                binding.servicesSuspendLayout.setVisibility(View.GONE);
-            }
+           // if (Constants.isLocationPermissionGranted){
+                LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+                boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                if (statusOfGPS){
+                    binding.servicesSuspendLayout.setVisibility(View.GONE);
+                }else {
+                    Toast.makeText(this, "Enable GPS", Toast.LENGTH_SHORT).show();
+                }
+            //}else {
+            //    LocationService.service.requestLocationPermission(Dashboard.this);
+           // }
         });
-
-
 
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);

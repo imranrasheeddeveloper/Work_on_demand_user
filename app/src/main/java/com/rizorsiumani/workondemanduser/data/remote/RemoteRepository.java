@@ -196,6 +196,14 @@ public class RemoteRepository {
         return null;
     }
 
+    public Observable<ServiceProvidersModel> getProvidersByCat(int page, String token , JsonObject object) {
+
+        if (mService != null) {
+            return mService.getServiceProvidersByCat(token,page,object);
+        }
+        return null;
+    }
+
     public Observable<ProviderGalleryModel> getGallery(int id) {
 
         if (mService != null) {

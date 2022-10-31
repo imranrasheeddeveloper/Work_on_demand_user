@@ -50,16 +50,18 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
                 .into(holder.imageView);
 
         try {
+            String color = item.getColorCode();
+            if (color.startsWith("#")) {
+                final int[] colors = new int[2];
+                colors[0] = Color.parseColor(color);
+                colors[1] = Color.parseColor("#fef4ea");
 
-            final int[] colors = new int[2];
-            colors[0] = Color.parseColor(item.getColorCode());
-            colors[1] = Color.parseColor("#fef4ea");
-
-            GradientDrawable gd = new GradientDrawable(
-                    GradientDrawable.Orientation.RIGHT_LEFT,
-                    colors
-            );
-            holder.cardView.setBackground(gd);
+                GradientDrawable gd = new GradientDrawable(
+                        GradientDrawable.Orientation.LEFT_RIGHT,
+                        colors
+                );
+                holder.cardView.setBackground(gd);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

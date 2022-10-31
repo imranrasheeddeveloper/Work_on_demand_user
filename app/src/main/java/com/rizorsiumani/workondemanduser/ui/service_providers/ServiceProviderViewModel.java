@@ -19,6 +19,9 @@ public class ServiceProviderViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<ServiceProvidersModel>> provider = new MutableLiveData<>();
     public LiveData<ResponseWrapper<ServiceProvidersModel>> _provider = provider;
 
+    private final MutableLiveData<ResponseWrapper<ServiceProvidersModel>> by_cat_provider = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<ServiceProvidersModel>> _by_cat_provider = by_cat_provider;
+
     public void serviceProviders(int page , String token ,JsonObject object) {
 
         provider.setValue(
@@ -48,6 +51,43 @@ public class ServiceProviderViewModel extends ViewModel {
                     @Override
                     public void onNext(ServiceProvidersModel serviceProvidersModel) {
                         provider.setValue(new ResponseWrapper<>(
+                                false,
+                                "",
+                                serviceProvidersModel
+                        ));
+                    }
+                });
+    }
+
+    public void catServiceProviders(int page , String token ,JsonObject object) {
+
+        by_cat_provider.setValue(
+                new ResponseWrapper<>(
+                        true, "", null
+                ));
+
+        RemoteRepository.getInstance()
+                .getProvidersByCat(page,token,object)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ServiceProvidersModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        by_cat_provider.setValue(new ResponseWrapper<>(
+                                false,
+                                e.getLocalizedMessage(),
+                                null
+                        ));
+                    }
+
+                    @Override
+                    public void onNext(ServiceProvidersModel serviceProvidersModel) {
+                        by_cat_provider.setValue(new ResponseWrapper<>(
                                 false,
                                 "",
                                 serviceProvidersModel

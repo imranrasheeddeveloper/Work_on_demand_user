@@ -2,6 +2,7 @@ package com.rizorsiumani.workondemanduser.ui.service_providers;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -56,6 +57,7 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
         activityBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                tab.getIcon().setColorFilter(Color.parseColor("#FFFFFFFF"), PorterDuff.Mode.SRC_IN);
                 tab.view.setBackground(getResources().getDrawable(R.drawable.rect_bg));
                 tab.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
 

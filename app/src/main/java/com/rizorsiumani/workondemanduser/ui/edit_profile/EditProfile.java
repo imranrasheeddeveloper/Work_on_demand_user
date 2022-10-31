@@ -13,13 +13,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseActivity;
-import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.common.ImageUploadViewModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityEditProfileBinding;
-import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
-import com.rizorsiumani.workondemanduser.ui.register.CreatePassword;
-import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
 public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
@@ -35,9 +32,30 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
     @Override
     protected void onStart() {
         super.onStart();
+
+        try {
+
+            if (TinyDbManager.getUserInformation() != null) {
+                UserData userData = TinyDbManager.getUserInformation();
+                setData(userData);
+            }
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
         viewModel = new ViewModelProvider(this).get(ImageUploadViewModel.class);
         activityBinding.editProfileToolbar.title.setText("Edit Profile");
+
         clickListeners();
+    }
+
+    private void setData(UserData userData) {
+        Glide.with(EditProfile.this).load(Constants.IMG_PATH + userData.getImage()).into(activityBinding.userImage);
+        activityBinding.edFirstname.setText(userData.getFirstName());
+        activityBinding.edLastname.setText(userData.getLastName());
+        activityBinding.edEmail.setText(userData.getEmail());
+        activityBinding.edNumber.setText(userData.getPhoneNumber());
     }
 
     private void clickListeners() {
@@ -59,39 +77,35 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
             String last_name = activityBinding.edLastname.getText().toString().trim();
             String email = activityBinding.edEmail.getText().toString().trim();
             String number = activityBinding.edNumber.getText().toString().trim();
-            String pass = activityBinding.edPass.getText().toString().trim();
 
-            if (TextUtils.isEmpty(first_name)){
+            if (TextUtils.isEmpty(first_name)) {
                 showSnackBarShort("First Name Required");
-            }else if (TextUtils.isEmpty(last_name)){
+            } else if (TextUtils.isEmpty(last_name)) {
                 showSnackBarShort("Last Name Required");
-            }else if (TextUtils.isEmpty(email)){
+            } else if (TextUtils.isEmpty(email)) {
                 showSnackBarShort("Email Required");
-            }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 showSnackBarShort("Valid Email Required");
-            }else if (TextUtils.isEmpty(number)){
+            } else if (TextUtils.isEmpty(number)) {
                 showSnackBarShort("Phone Number Required");
             } else if (!Patterns.PHONE.matcher(number).matches()) {
                 showSnackBarShort("Valid Number Required");
-            }else if (TextUtils.isEmpty(pass)){
-                showSnackBarShort("Password Required");
-            }else {
-                updateData(first_name,last_name,email,number,pass);
+            } else {
+                updateData(first_name, last_name, email, number);
             }
         });
     }
 
-    private void updateData(String first_name, String last_name, String email, String number, String pass) {
+    private void updateData(String first_name, String last_name, String email, String number) {
         JsonObject object = new JsonObject();
-        object.addProperty("firstName",first_name);
-        object.addProperty("lastName",last_name);
-        object.addProperty("email",email);
-        object.addProperty("phoneNumber",number);
-        object.addProperty("password",pass);
+        object.addProperty("firstName", first_name);
+        object.addProperty("lastName", last_name);
+        object.addProperty("email", email);
+        object.addProperty("phoneNumber", number);
         object.addProperty("image", "");
         String token = prefRepository.getString("token");
 
-        viewModel.update(token,object);
+        viewModel.update(token, object);
 
         viewModel._update.observe(this, response -> {
             if (response != null) {

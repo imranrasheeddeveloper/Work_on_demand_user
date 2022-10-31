@@ -7,7 +7,7 @@
     tools:context=".ui.post_job.PostJob">
 
     <include
-                    layout="@layout/layout_progress_bar"
+        layout="@layout/layout_progress_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
@@ -36,181 +36,183 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/off_white"
-            >
+            android:padding="@dimen/_8sdp">
 
             <TextView
+                android:id="@+id/tv_ask_service"
+                style="@style/normalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Job Title"
-                style="@style/normalText"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:padding="@dimen/_10sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/tv_ask_service"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
+                android:id="@+id/ed_title"
+                style="@style/normalText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_ask_service"
-                android:background="@color/white"
-                android:padding="@dimen/_10sdp"
+                android:background="@drawable/rect_bg"
                 android:gravity="top|start"
                 android:hint="service .."
-                style="@style/normalText"
-                android:id="@+id/ed_title"/>
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ask_service" />
 
             <TextView
+                android:id="@+id/tv_choose_category"
+                style="@style/normalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose a category"
-                style="@style/normalText"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_5sdp"                android:text="Choose a category"
                 android:textColor="@color/black"
-                android:padding="@dimen/_10sdp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginTop="@dimen/_8sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ed_title"
-                android:id="@+id/tv_choose_category"/>
+                app:layout_constraintTop_toBottomOf="@id/ed_title" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/categoryLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/tv_choose_category"
-                android:layout_marginTop="@dimen/_5sdp"
-                >
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_choose_category">
 
                 <TextView
                     android:id="@+id/tv_category"
-                    android:layout_width="wrap_content"
+                    style="@style/normalText"
+                    android:background="@drawable/rect_bg"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     android:text="Category"
-                    android:padding="@dimen/_8sdp"
                     android:textColor="@color/black"
-                    style="@style/normalText"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <TextView
                     android:id="@+id/selected_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/tv_category"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Select Category"
+                    android:textColor="@color/primary"
                     app:layout_constraintBottom_toBottomOf="@id/tv_category"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="-"
-                    android:layout_marginEnd="@dimen/_6sdp"
-                    android:textColor="@color/primary"
-                    android:fontFamily="@font/inter_medium"
-                    />
+                    app:layout_constraintTop_toTopOf="@id/tv_category" />
 
 
                 <View
+                    android:id="@+id/view1"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="2dp"
                     android:background="@color/off_white"
-                    app:layout_constraintTop_toBottomOf="@id/tv_category"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:id="@+id/view1"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_category" />
 
                 <TextView
                     android:id="@+id/tv_subcategory"
-                    android:layout_width="wrap_content"
+                    style="@style/normalText"
+                    android:background="@drawable/rect_bg"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/view1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     android:text="Subcategory"
-                    android:padding="@dimen/_8sdp"
                     android:textColor="@color/black"
-                    style="@style/normalText"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view1" />
 
 
                 <TextView
                     android:id="@+id/selected_subcategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/tv_subcategory"                   app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_subcategory"
-                    android:text="-"
-                    android:fontFamily="@font/inter_medium"
                     android:layout_marginEnd="@dimen/_6sdp"
-                    android:textColor="@color/primary" />
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Select Subcategory"
+                    android:textColor="@color/primary"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_subcategory"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_subcategory" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <TextView
+                android:id="@+id/tv_budget"
+                style="@style/normalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="What is your budget?"
-                style="@style/normalText"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_5sdp"                android:text="What is your budget?"
                 android:textColor="@color/black"
-                android:padding="@dimen/_10sdp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginTop="@dimen/_8sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/categoryLayout"
-                android:id="@+id/tv_budget"/>
+                app:layout_constraintTop_toBottomOf="@id/categoryLayout" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/budgetLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:background="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/tv_budget"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:padding="@dimen/_10sdp">
+                android:background="@drawable/rect_bg"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_budget">
 
                 <TextView
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:text="Budget"
                     android:textColor="@color/black"
-                    style="@style/mediumText"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <TextView
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/ed_budget"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="$"
-                    android:textSize="16sp"
                     android:layout_marginEnd="@dimen/_6sdp"
+                    android:text="$"
                     android:textColor="@color/black"
-                    style="@style/mediumText"/>
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/ed_budget"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
+                    android:id="@+id/ed_budget"
+                    style="@style/mediumText"
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:background="@drawable/edit_text_bg1"
-                    android:padding="@dimen/_5sdp"
                     android:gravity="center"
-                    android:hint="Min 10"
-                    style="@style/mediumText"
-                    android:id="@+id/ed_budget"/>
+                    android:hint="0"
+                    android:padding="@dimen/_5sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -219,187 +221,187 @@
                 android:id="@+id/budgetUnitLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:background="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/budgetLayout"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:padding="@dimen/_10sdp">
+                android:background="@drawable/rect_bg"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/budgetLayout">
 
                 <TextView
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:text="Budget Unit"
                     android:textColor="@color/black"
-                    style="@style/mediumText"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/selected_budgetUnit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Select Budget Unit"
+                    android:textColor="@color/primary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="-"
-                    android:layout_marginEnd="@dimen/_6sdp"
-                    android:textColor="@color/primary"
-                    android:fontFamily="@font/inter_medium"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
+                <!--                <com.google.android.material.textfield.TextInputLayout-->
+                <!--                    android:id="@+id/customerSpinnerLayout"-->
+                <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+                <!--                    android:layout_width="@dimen/_90sdp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    android:hint="Fixed">-->
 
-<!--                <com.google.android.material.textfield.TextInputLayout-->
-<!--                    android:id="@+id/customerSpinnerLayout"-->
-<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-<!--                    android:layout_width="@dimen/_90sdp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    android:hint="Fixed">-->
-
-<!--                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
-<!--                        android:id="@+id/customerTextView"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:clickable="true"-->
-<!--                        tools:ignore="KeyboardInaccessibleWidget" />-->
-<!--                </com.google.android.material.textfield.TextInputLayout>-->
-
+                <!--                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
+                <!--                        android:id="@+id/customerTextView"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:clickable="true"-->
+                <!--                        tools:ignore="KeyboardInaccessibleWidget" />-->
+                <!--                </com.google.android.material.textfield.TextInputLayout>-->
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--            <com.google.android.material.slider.RangeSlider-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/tv_budget"-->
-<!--                android:id="@+id/budget_range_slider"-->
-<!--                app:values="@array/initial_slider_values"-->
-<!--                android:valueFrom="1"-->
-<!--                android:valueTo="500" />-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/tv_budget"-->
+            <!--                android:id="@+id/budget_range_slider"-->
+            <!--                app:values="@array/initial_slider_values"-->
+            <!--                android:valueFrom="1"-->
+            <!--                android:valueTo="500" />-->
 
             <TextView
+                android:id="@+id/tv_deadline"
+                style="@style/normalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_5sdp"
                 android:text="Time"
-                style="@style/normalText"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:padding="@dimen/_10sdp"
                 android:textStyle="bold"
-                android:layout_marginTop="@dimen/_4sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/budgetUnitLayout"
-                android:id="@+id/tv_deadline"/>
+                app:layout_constraintTop_toBottomOf="@id/budgetUnitLayout" />
 
             <TextView
+                android:id="@+id/deadline_date"
+                style="@style/normalText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_deadline"
-                android:padding="@dimen/_10sdp"
-                android:background="@color/white"
+                android:background="@drawable/rect_bg"
                 android:drawableStart="@drawable/ic_calender"
                 android:drawablePadding="@dimen/_8sdp"
+                android:padding="@dimen/_10sdp"
                 android:text="2/22/22"
-                style="@style/normalText"
-                android:id="@+id/deadline_date"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_deadline" />
 
             <TextView
+                android:id="@+id/tv_attach_photos"
+                style="@style/normalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_10sdp"
                 android:text="Attach Photos"
-                style="@style/normalText"
                 android:textColor="@color/black"
-                android:padding="@dimen/_10sdp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginTop="@dimen/_6sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/deadline_date"
-                android:id="@+id/tv_attach_photos"/>
+                app:layout_constraintTop_toBottomOf="@id/deadline_date" />
 
 
-            <androidx.cardview.widget.CardView
+            <ImageView
+                android:id="@+id/iv_add_image"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
-                app:cardCornerRadius="@dimen/_8sdp"
-                app:cardUseCompatPadding="true"
-                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@drawable/rect_bg"
+                android:backgroundTint="@color/teal_200"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_addd"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_attach_photos"
-                android:id="@+id/imagesLayout">
-
-                        <ImageView
-                            android:id="@+id/iv_add_image"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/_5sdp"
-                            android:scaleType="fitXY"
-                            android:background="@drawable/rect_bg"
-                            android:src="@drawable/ic_addd"
-                            android:backgroundTint="@color/teal_200"
-                            />
+                app:layout_constraintTop_toBottomOf="@id/tv_attach_photos" />
 
 
-            </androidx.cardview.widget.CardView>
-
-
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:background="@drawable/round_bg"
+                android:backgroundTint="@color/red"
+                android:paddingTop="@dimen/_4sdp"
+                android:visibility="gone"
+                android:paddingBottom="@dimen/_4sdp"
+                android:paddingStart="@dimen/_6sdp"
+                android:paddingEnd="@dimen/_6sdp"
+                android:layout_marginTop="-5dp"
+                android:src="@drawable/ic_delete"
+                app:layout_constraintEnd_toEndOf="@id/iv_add_image"
+                app:layout_constraintTop_toTopOf="@id/iv_add_image"
+                android:id="@+id/delete_image"/>
 
 
             <TextView
+                android:id="@+id/tv_describe"
+                style="@style/normalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_5sdp"
                 android:text="Add description"
-                style="@style/normalText"
                 android:textColor="@color/black"
-                android:padding="@dimen/_10sdp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginTop="@dimen/_4sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imagesLayout"
-                android:id="@+id/tv_describe"/>
+                app:layout_constraintTop_toBottomOf="@id/iv_add_image" />
 
 
             <EditText
+                android:id="@+id/ed_describe"
+                style="@style/normalText"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_90sdp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_describe"
                 android:background="@color/white"
-                android:padding="@dimen/_10sdp"
-                android:hint="ex.  I have water leaks in the bathroom"
-                android:gravity="start|top"
-                android:maxLines="5"
                 android:ellipsize="end"
-                style="@style/normalText"
-                android:id="@+id/ed_describe"/>
+                android:gravity="start|top"
+                android:hint="ex.  I have water leaks in the bathroom"
+                android:maxLines="5"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_describe" />
 
             <Button
                 android:id="@+id/btn_post"
+                style="@style/greenButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_round_bg"
-                android:textColor="@color/white"
-                style="@style/greenButtonStyle"
-                android:text="Post"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:textAllCaps="false"
                 android:layout_marginTop="@dimen/_10sdp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="@drawable/button_round_bg"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:text="Post"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ed_describe"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ed_describe" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

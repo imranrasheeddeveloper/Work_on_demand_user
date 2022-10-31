@@ -15,7 +15,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.data.businessModels.HomeSliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderDataItem;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.utils.Constants;
@@ -46,29 +45,48 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
 
         viewHolder.title.setText(item.getDescription());
         Glide.with(context)
-                        .load(Constants.IMG_PATH + item.getImage())
-                                .into(viewHolder.illustrator);
-        viewHolder.sliderBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(item.getColor())));
+                .load(Constants.IMG_PATH + item.getImage())
+                .into(viewHolder.illustrator);
+        String color1 = item.getColor();
+        if (!color1.startsWith("#")){
+            color1 = "#" + color1;
+            viewHolder.sliderBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color1)));
+        }else {
+            viewHolder.sliderBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color1)));
+        }
         viewHolder.sliderBtn.setText(item.getTitle());
 
         viewHolder.sliderBtn.setOnClickListener(view -> {
             Intent intent = new Intent(context, SubCategories.class);
-            intent.putExtra("category_id",item.getId());
+            intent.putExtra("category_id", item.getId());
             context.startActivity(intent);
             //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         try {
+            String color = item.getColor();
+            if (!color.startsWith("#")) {
+                color = "#" + color;
+                final int[] colors = new int[2];
+                colors[0] = Color.parseColor(color);
+                colors[1] = Color.parseColor("#fef4ea");
 
-            final int[] colors = new int[2];
-            colors[0] = Color.parseColor(item.getColor());
-            colors[1] = Color.parseColor("#fef4ea");
+                GradientDrawable gd = new GradientDrawable(
+                        GradientDrawable.Orientation.LEFT_RIGHT,
+                        colors
+                );
+                viewHolder.rootView.setBackground(gd);
+            }else {
+                final int[] colors = new int[2];
+                colors[0] = Color.parseColor(color);
+                colors[1] = Color.parseColor("#fef4ea");
 
-            GradientDrawable gd = new GradientDrawable(
-                    GradientDrawable.Orientation.LEFT_RIGHT,
-                    colors
-            );
-            viewHolder.rootView.setBackground(gd);
+                GradientDrawable gd = new GradientDrawable(
+                        GradientDrawable.Orientation.LEFT_RIGHT,
+                        colors
+                );
+                viewHolder.rootView.setBackground(gd);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

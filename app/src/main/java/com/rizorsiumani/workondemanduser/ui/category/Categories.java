@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 
@@ -81,7 +82,9 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
         activityBinding.categoriiesList.setAdapter(adapter);
 
         adapter.setOnServiceClickListener(position -> {
-            ActivityUtil.gotoPage(Categories.this, SubCategories.class);
+            Intent intent = new Intent(Categories.this, SubCategories.class);
+            intent.putExtra("category_id", categoriesDataItems.get(position).getId());
+            startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }

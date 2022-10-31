@@ -8,12 +8,12 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
 public class LocationService {
 
-    private boolean isLocationPermissionGranted;
     boolean flag = Boolean.parseBoolean(null);
     public static LocationService service = new LocationService();
 
@@ -24,8 +24,8 @@ public class LocationService {
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        isLocationPermissionGranted = multiplePermissionsReport.areAllPermissionsGranted();
-                        if (isLocationPermissionGranted) {
+                        Constants.isLocationPermissionGranted = multiplePermissionsReport.areAllPermissionsGranted();
+                        if (Constants.isLocationPermissionGranted) {
                             flag = true;
                         } else {
                             flag = false;

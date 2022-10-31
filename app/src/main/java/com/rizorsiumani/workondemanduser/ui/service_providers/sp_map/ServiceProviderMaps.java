@@ -63,7 +63,8 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
     List<LatLng> providersLatLng;
     List<ServiceProviderDataItem> serviceProviders;
     private ServiceProviderViewModel viewModel;
-    String subCatID;
+    String subCatID = "";
+    String catID = "";
 
 
     @Override
@@ -120,42 +121,72 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
     private void getData() {
         try {
-            try {
-                subCatID = getActivity().getIntent().getStringExtra("sub_cat_id");
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
+            subCatID = getActivity().getIntent().getStringExtra("sub_cat_id");
+            catID = getActivity().getIntent().getStringExtra("cat_id");
 
+            if (subCatID == null){
+                if (!catID.isEmpty()){
+                    viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
+                    JsonObject object = new JsonObject();
+                    object.addProperty("latitude", String.valueOf(Constants.latitude));
+                    object.addProperty("longitude", String.valueOf(Constants.longitude));
+                    object.addProperty("category_id", catID);
+                    String token = prefRepository.getString("token");
+                    viewModel.catServiceProviders(1, token, object);
+                    viewModel._by_cat_provider.observe(getViewLifecycleOwner(), response -> {
+                        if (response != null) {
+                            if (response.isLoading()) {
+                                // showLoading();
+                            } else if (!response.getError().isEmpty()) {
+                                // hideLoading();
+                                showSnackBarShort(response.getError());
+                            } else if (response.getData().isSuccess()) {
 
-            viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
-            JsonObject object = new JsonObject();
-            object.addProperty("latitude", String.valueOf(Constants.latitude));
-            object.addProperty("longitude", String.valueOf(Constants.longitude));
-            object.addProperty("sub_category_id", subCatID);
+                                if (response.getData().getData().size() > 0) {
+                                    serviceProviders = new ArrayList<>();
+                                    serviceProviders.addAll(response.getData().getData());
+                                    buildRv(serviceProviders);
+                                } else {
+                                    showSnackBarShort("Data not Available");
+                                }
+                            }
 
-            String token = prefRepository.getString("token");
-            viewModel.serviceProviders(1, token, object);
-            viewModel._provider.observe(getViewLifecycleOwner(), response -> {
-                if (response != null) {
-                    if (response.isLoading()) {
-                        // showLoading();
-                    } else if (!response.getError().isEmpty()) {
-                        // hideLoading();
-                        showSnackBarShort(response.getError());
-                    } else if (response.getData().isSuccess()) {
+                        }
+                    });
+                }
+            }else {
+                viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
+                JsonObject object = new JsonObject();
+                object.addProperty("latitude", String.valueOf(Constants.latitude));
+                object.addProperty("longitude", String.valueOf(Constants.longitude));
+                object.addProperty("sub_category_id", subCatID);
+                String token = prefRepository.getString("token");
+                viewModel.serviceProviders(1, token, object);
+                viewModel._provider.observe(getViewLifecycleOwner(), response -> {
+                    if (response != null) {
+                        if (response.isLoading()) {
+                            // showLoading();
+                        } else if (!response.getError().isEmpty()) {
+                            // hideLoading();
+                            showSnackBarShort(response.getError());
+                        } else if (response.getData().isSuccess()) {
 
-                        if (response.getData().getData().size() > 0) {
-                            serviceProviders = new ArrayList<>();
-                            serviceProviders.addAll(response.getData().getData());
+                            if (response.getData().getData().size() > 0) {
+                                serviceProviders = new ArrayList<>();
+                                serviceProviders.addAll(response.getData().getData());
                                 buildRv(serviceProviders);
                             } else {
                                 showSnackBarShort("Data not Available");
                             }
                         }
+
                     }
+                });
+            }
 
-            });
-
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 //
 //
 //            if (getArguments() != null) {
@@ -171,9 +202,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 //                }
 //            }
 
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+
     }
 
 

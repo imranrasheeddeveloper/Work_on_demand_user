@@ -62,7 +62,7 @@
                         app:sliderIndicatorPadding="5dp"
                         app:sliderIndicatorRadius="1.8dp"
                         app:sliderIndicatorSelectedColor="@color/white"
-                        app:sliderScrollTimeInSec="1" />
+                        app:sliderScrollTimeInSec="5" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
