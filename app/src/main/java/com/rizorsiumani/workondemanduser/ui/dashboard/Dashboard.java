@@ -160,63 +160,63 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
     }
 
 
-    private void clickListeners(NavOptions options) {
-        binding.navigation.bookingFragment.setOnClickListener(view -> {
-            changeIconColor( binding.navigation.bookingFragment,
-                    binding.navigation.walletFragment,
-                    binding.navigation.profileFragment,
-                    binding.navigation.homeFragment
-            );
-            binding.navigation.bookingFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
-
-            mNavController.navigate(R.id.bookingFragment,null, options);
-        });
-
-        binding.navigation.walletFragment.setOnClickListener(view -> {
-            changeIconColor( binding.navigation.walletFragment,
-                    binding.navigation.bookingFragment,
-                    binding.navigation.profileFragment,
-                    binding.navigation.homeFragment
-            );
-            mNavController.navigate(R.id.walletFragment,null, options);
-
-        });
-
-        binding.navigation.profileFragment.setOnClickListener(view -> {
-            changeIconColor( binding.navigation.profileFragment,
-                    binding.navigation.walletFragment,
-                    binding.navigation.bookingFragment,
-                    binding.navigation.homeFragment
-            );
-            mNavController.navigate(R.id.profileFragment,null,options);
-
-        });
-
-        binding.navigation.homeFragment.setOnClickListener(view -> {
-            changeIconColor( binding.navigation.homeFragment,
-                    binding.navigation.walletFragment,
-                    binding.navigation.profileFragment,
-                    binding.navigation.bookingFragment
-            );
-            mNavController.navigate(R.id.homeFragment,null, options);
-
-        });
-
-        binding.navigation.postJob.setOnClickListener(view -> {
-            NavOptions.Builder builder = new NavOptions.Builder()
-                    .setLaunchSingleTop(true)
-                    .setEnterAnim(R.anim.slide_up)
-                    .setExitAnim(R.anim.stationary)
-                    .setPopEnterAnim(R.anim.slide_down)
-                    .setPopExitAnim(R.anim.stationary);
-
-            NavOptions options1 = builder.build();
-            mNavController.navigate(R.id.postJob,null, options1);
-
-        });
-
-
-    }
+//    private void clickListeners(NavOptions options) {
+//        binding.navigation.bookingFragment.setOnClickListener(view -> {
+//            changeIconColor( binding.navigation.bookingFragment,
+//                    binding.navigation.walletFragment,
+//                    binding.navigation.profileFragment,
+//                    binding.navigation.homeFragment
+//            );
+//            binding.navigation.bookingFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+//
+//            mNavController.navigate(R.id.bookingFragment,null, options);
+//        });
+//
+//        binding.navigation.walletFragment.setOnClickListener(view -> {
+//            changeIconColor( binding.navigation.walletFragment,
+//                    binding.navigation.bookingFragment,
+//                    binding.navigation.profileFragment,
+//                    binding.navigation.homeFragment
+//            );
+//            mNavController.navigate(R.id.walletFragment,null, options);
+//
+//        });
+//
+//        binding.navigation.profileFragment.setOnClickListener(view -> {
+//            changeIconColor( binding.navigation.profileFragment,
+//                    binding.navigation.walletFragment,
+//                    binding.navigation.bookingFragment,
+//                    binding.navigation.homeFragment
+//            );
+//            mNavController.navigate(R.id.profileFragment,null,options);
+//
+//        });
+//
+//        binding.navigation.homeFragment.setOnClickListener(view -> {
+//            changeIconColor( binding.navigation.homeFragment,
+//                    binding.navigation.walletFragment,
+//                    binding.navigation.profileFragment,
+//                    binding.navigation.bookingFragment
+//            );
+//            mNavController.navigate(R.id.homeFragment,null, options);
+//
+//        });
+//
+//        binding.navigation.postJob.setOnClickListener(view -> {
+//            NavOptions.Builder builder = new NavOptions.Builder()
+//                    .setLaunchSingleTop(true)
+//                    .setEnterAnim(R.anim.slide_up)
+//                    .setExitAnim(R.anim.stationary)
+//                    .setPopEnterAnim(R.anim.slide_down)
+//                    .setPopExitAnim(R.anim.stationary);
+//
+//            NavOptions options1 = builder.build();
+//            mNavController.navigate(R.id.postJob,null, options1);
+//
+//        });
+//
+//
+//    }
 
     public static void changeIconColor(ImageView selectedTab, ImageView unselectedTab1, ImageView unselectedTab2, ImageView unselectedTab3) {
         selectedTab.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));

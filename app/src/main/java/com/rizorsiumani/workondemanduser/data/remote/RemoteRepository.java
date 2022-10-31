@@ -9,9 +9,12 @@ import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.PaymentGatewayModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostJobModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.PromoActivationModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.PromotionModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderAvailabilityModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderGalleryModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderServicesModel;
@@ -221,6 +224,30 @@ public class RemoteRepository {
 
         if (mService != null) {
             return mService.getProviderProfile(id);
+        }
+        return null;
+    }
+
+    public Observable<PaymentGatewayModel> getPaymentMethod() {
+
+        if (mService != null) {
+            return mService.getPaymentMethods();
+        }
+        return null;
+    }
+
+    public Observable<PromotionModel> getPromocodes() {
+
+        if (mService != null) {
+            return mService.getPromotions();
+        }
+        return null;
+    }
+
+    public Observable<PromoActivationModel> activateCode(String code) {
+
+        if (mService != null) {
+            return mService.activate(code);
         }
         return null;
     }

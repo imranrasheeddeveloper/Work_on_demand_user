@@ -61,20 +61,21 @@ public class AllSerAdapter extends RecyclerView.Adapter<AllSerAdapter.ViewHolder
         holder.name.setText(model.getTitle());
 
 
+
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false);
         holder.recyclerView.setLayoutManager(layoutManager1);
         PromotionalAdapter adapter1 = new PromotionalAdapter(model.getServiceProviderCategories());
         holder.recyclerView.setAdapter(adapter1);
 
-//        adapter1.setOnCellClickListener(pos -> {
-//            Gson gson = new Gson();
-//            String data = gson.toJson(model.getServiceProviderCategories().get(pos).getServiceProvider(), ServiceProvider.class);
-//
-//            Intent intent = new Intent(ctx, SpProfile.class);
-//            intent.putExtra("sp_data" , data);
-//            ctx.startActivity(intent);
-//
-//        });
+        adapter1.setOnCellClickListener(pos -> {
+            Gson gson = new Gson();
+            String data = gson.toJson(model.getServiceProviderCategories().get(pos).getServiceProvider(), ServiceProvider.class);
+
+            Intent intent = new Intent(ctx, SpProfile.class);
+            intent.putExtra("sp_data" , data);
+            ctx.startActivity(intent);
+
+        });
 
 
 
@@ -92,22 +93,23 @@ public class AllSerAdapter extends RecyclerView.Adapter<AllSerAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public RecyclerView recyclerView;
-        public TextView name;
+        public TextView name , viewAll;
 
         public ViewHolder(@NonNull View itemView, AllSerAdapter.OnItemClickListener itemClickListener) {
             super(itemView);
             //find views
             name = itemView.findViewById(R.id.tv_name);
             recyclerView = itemView.findViewById(R.id.list);
+            viewAll = itemView.findViewById(R.id.tv_viewAll1);
 
-//            layout.setOnClickListener(view -> {
-//                if (itemClickListener != null) {
-//                    int position = getAdapterPosition();
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        itemClickListener.onServiceSelect(position);
-//                    }
-//                }
-//            });
+            viewAll.setOnClickListener(view -> {
+                if (itemClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        itemClickListener.onServiceSelect(position);
+                    }
+                }
+            });
 
         }
     }

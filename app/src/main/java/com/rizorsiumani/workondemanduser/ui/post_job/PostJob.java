@@ -41,6 +41,7 @@ import com.rizorsiumani.workondemanduser.common.ImageUploadViewModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
 import com.rizorsiumani.workondemanduser.databinding.ActivityPostJobBinding;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.HomeViewModel;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategoryViewModel;
@@ -78,7 +79,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     private PostJobViewModel postJobViewModel;
 
 
-
     @Override
     protected ActivityPostJobBinding getActivityBinding() {
         return ActivityPostJobBinding.inflate(getLayoutInflater());
@@ -92,10 +92,9 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         subCategoryViewModel = new ViewModelProvider(PostJob.this).get(SubCategoryViewModel.class);
         postJobViewModel = new ViewModelProvider(PostJob.this).get(PostJobViewModel.class);
 
-        if (homeViewModel._ddCategory.getValue() == null){
+        if (homeViewModel._ddCategory.getValue() == null) {
             homeViewModel.dropDownCategories();
         }
-
 
 
         homeViewModel._ddCategory.observe(PostJob.this, response -> {
@@ -131,7 +130,8 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
         activityBinding.postJobToolbar.back.setOnClickListener(view -> {
-            onBackPressed();
+            Intent intent = new Intent(PostJob.this, Dashboard.class);
+            startActivity(intent);
             finish();
             overridePendingTransition(R.anim.stationary, R.anim.slide_down);
         });
@@ -139,7 +139,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         activityBinding.tvCategory.setOnClickListener(view -> {
             if (categoriesDataItems.size() > 0) {
                 int id = showCategoriesDialogue(0, activityBinding.selectedCategory);
-                if (id != 0){
+                if (id != 0) {
                     selectedCatID = id;
                 }
             }
@@ -147,7 +147,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
         activityBinding.tvSubcategory.setOnClickListener(view -> {
             if (selectedCatID != 0) {
-                if (subCategoryViewModel._subCategory.getValue() == null){
+                if (subCategoryViewModel._subCategory.getValue() == null) {
                     subCategoryViewModel.dropDownSubCategories(selectedCatID);
                 }
 
@@ -165,7 +165,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                             subCategoryDataItems.addAll(response.getData().getData());
                             if (subCategoryDataItems.size() > 0) {
                                 int id = showCategoriesDialogue(1, activityBinding.selectedSubcategory);
-                                if (id != 0){
+                                if (id != 0) {
                                     selectedSubCatID = id;
                                 }
                             }
@@ -174,7 +174,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                     }
                 });
 
-            }else {
+            } else {
                 showSnackBarShort("Category Required");
             }
         });
@@ -197,16 +197,16 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             String budget = activityBinding.edBudget.getText().toString();
             String date = activityBinding.deadlineDate.getText().toString();
 
-            if (TextUtils.isEmpty(title)){
+            if (TextUtils.isEmpty(title)) {
                 showSnackBarShort("Title required");
-            }else if (TextUtils.isEmpty(budget)){
+            } else if (TextUtils.isEmpty(budget)) {
                 showSnackBarShort("Budget required");
-            }else if (selectedBudgetUnit.isEmpty()){
+            } else if (selectedBudgetUnit.isEmpty()) {
                 showSnackBarShort("Budget Unit required");
-            }else if (TextUtils.isEmpty(date)){
+            } else if (TextUtils.isEmpty(date)) {
                 showSnackBarShort("Date required");
-            }else {
-                postJob(title,description,budget,selectedBudgetUnit,selectedCatID,selectedSubCatID,imagesPath,date);
+            } else {
+                postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, imagesPath, date);
             }
 
         });
@@ -220,17 +220,17 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         String token = prefRepository.getString("token");
 
         JsonObject object = new JsonObject();
-        object.addProperty("title",title);
-        object.addProperty("description",description);
-        object.addProperty("category_id",String.valueOf(selectedCatID));
-        object.addProperty("sub_category_id",String.valueOf(selectedSubCatID));
-        object.addProperty("budget",budget);
-        object.addProperty("attachment",imagesPath);
-        object.addProperty("price_unit",selectedBudgetUnit);
-        object.addProperty("date",date);
+        object.addProperty("title", title);
+        object.addProperty("description", description);
+        object.addProperty("category_id", String.valueOf(selectedCatID));
+        object.addProperty("sub_category_id", String.valueOf(selectedSubCatID));
+        object.addProperty("budget", budget);
+        object.addProperty("attachment", imagesPath);
+        object.addProperty("price_unit", selectedBudgetUnit);
+        object.addProperty("date", date);
 
-        postJobViewModel.post(token,object);
-        postJobViewModel._job.observe(PostJob.this,response -> {
+        postJobViewModel.post(token, object);
+        postJobViewModel._job.observe(PostJob.this, response -> {
             if (response != null) {
                 if (response.isLoading()) {
                 } else if (!response.getError().isEmpty()) {
@@ -262,10 +262,10 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         if (value == 0) {
             pickerItems = getCatPickerItems();
             valuePickerView.setItems(getCatPickerItems());
-        }else if (value == 1){
+        } else if (value == 1) {
             pickerItems = getSubCatPickerItems();
             valuePickerView.setItems(getSubCatPickerItems());
-        }else if (value == 2){
+        } else if (value == 2) {
             pickerItems = getBudgetPickerItems();
             valuePickerView.setItems(getBudgetPickerItems());
         }
@@ -284,7 +284,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
         select.setOnClickListener(view1 -> {
-            if (value == 2){
+            if (value == 2) {
                 selectedBudgetUnit = valuePickerView.getSelectedItem().getTitle();
             }
             textView.setText(valuePickerView.getSelectedItem().getTitle());

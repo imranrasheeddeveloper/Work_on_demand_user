@@ -14,6 +14,8 @@ public class TinyDbManager {
     public static final String KEY_CART = "key_cart";
     public static final String KEY_ADDRESS = "key_address";
     public static final String KEY_USER = "key_user";
+    public static final String KEY_FIRST_VISIT = "key_first_visit";
+
 
 
     public static void saveCartData(MyCartItems data) {
@@ -70,5 +72,15 @@ public class TinyDbManager {
     public static UserData getUserInformation(){
         TinyDB tinyDB = new TinyDB(App.applicationContext);
         return tinyDB.getObject(KEY_USER,UserData.class);
+    }
+
+    public static void saveVisit(boolean status) {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        tinyDB.putBoolean(KEY_FIRST_VISIT, status);
+    }
+
+    public static boolean getVisit(){
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        return tinyDB.getBoolean(KEY_FIRST_VISIT);
     }
 }

@@ -10,12 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.PromoDataItem;
 
 import java.util.List;
 
 public class PromoCodeAdapter extends RecyclerView.Adapter<PromoCodeAdapter.ViewHolder>{
 
-    private final List<String> list;
+    private final List<PromoDataItem> list;
     private Context context;
     private ItemClickListener mListener;
 
@@ -24,7 +25,7 @@ public class PromoCodeAdapter extends RecyclerView.Adapter<PromoCodeAdapter.View
     }
 
 
-    public PromoCodeAdapter(List<String> code, Context ctx) {
+    public PromoCodeAdapter(List<PromoDataItem> code, Context ctx) {
         this.list = code;
         this.context = ctx;
     }
@@ -41,10 +42,10 @@ public class PromoCodeAdapter extends RecyclerView.Adapter<PromoCodeAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        String item = list.get(position);
-//
-//        holder.discount.setText("Use and deduct "+item.getDiscount()+ "% of your amount");
-//        holder.codeNo.setText(item.getPromoCode());
+        PromoDataItem item = list.get(position);
+
+        holder.discount.setText(String.valueOf(item.getDiscount()));
+        holder.codeNo.setText(item.getCode());
 
     }
 

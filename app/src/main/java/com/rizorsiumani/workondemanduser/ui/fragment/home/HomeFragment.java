@@ -34,6 +34,7 @@ import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
+import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
 import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -180,6 +181,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         fragmentBinding.allService.setLayoutManager(layoutManager1);
         AllSerAdapter adapter1 = new AllSerAdapter(requireContext(), contentDataItems);
         fragmentBinding.allService.setAdapter(adapter1);
+
+        adapter1.setOnServiceClickListener(position -> {
+            Intent intent = new Intent(requireContext(), Serviceproviders.class);
+            intent.putExtra("cat_id",String.valueOf(contentDataItems.get(position).getId()));
+            startActivity(intent);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+        });
 
         fragmentBinding.skeletonLayout1.stopLoading();
         fragmentBinding.allService.setVisibility(View.VISIBLE);
@@ -408,8 +417,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         Constants.latitude = location.getLatitude();
         Constants.longitude = location.getLongitude();
         String address = GetProperLocationAddress(location.getLatitude(), location.getLongitude(),requireContext());
-        TinyDbManager.saveCurrentAddress(address);
-        fragmentBinding.tvChooseAddress.setText(address);
+        //TinyDbManager.saveCurrentAddress(address);
+        //fragmentBinding.tvChooseAddress.setText(address);
     }
 
     @Override

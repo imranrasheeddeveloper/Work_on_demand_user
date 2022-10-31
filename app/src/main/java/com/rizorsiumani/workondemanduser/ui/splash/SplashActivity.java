@@ -49,16 +49,22 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
         super.onStart();
 
 
-        isLocationPermissionGranted =  LocationService.service.requestLocationPermission(SplashActivity.this);
+        isLocationPermissionGranted = LocationService.service.requestLocationPermission(SplashActivity.this);
         if (isLocationPermissionGranted) {
             locationHandler();
         } else {
-            isLocationPermissionGranted =  LocationService.service.requestLocationPermission(SplashActivity.this);
+            isLocationPermissionGranted = LocationService.service.requestLocationPermission(SplashActivity.this);
             new Handler().postDelayed(() -> {
                 String token = prefRepository.getString("token");
                 if (token.equals("Bearer ") || token.equals("nil")) {
-                    ActivityUtil.gotoPage(SplashActivity.this, Login.class);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    boolean firstVisit = TinyDbManager.getVisit();
+                    if (firstVisit) {
+                        ActivityUtil.gotoPage(SplashActivity.this, Login.class);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    } else {
+                        ActivityUtil.gotoPage(SplashActivity.this, OnboardingActivity.class);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    }
                 } else {
                     ActivityUtil.gotoPage(SplashActivity.this, Dashboard.class);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -66,7 +72,6 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
             }, 3000);
 
         }
-
 
 
     }
@@ -85,8 +90,15 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
         TinyDbManager.saveCurrentAddress(address);
         String token = prefRepository.getString("token");
         if (token.equals("Bearer ") || token.equals("nil")) {
-            ActivityUtil.gotoPage(SplashActivity.this, Login.class);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+            boolean firstVisit = TinyDbManager.getVisit();
+            if (firstVisit) {
+                ActivityUtil.gotoPage(SplashActivity.this, Login.class);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            } else {
+                ActivityUtil.gotoPage(SplashActivity.this, OnboardingActivity.class);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
         } else {
             ActivityUtil.gotoPage(SplashActivity.this, Dashboard.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

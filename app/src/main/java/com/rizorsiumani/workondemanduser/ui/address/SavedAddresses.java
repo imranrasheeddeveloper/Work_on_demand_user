@@ -23,6 +23,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.addressDataItems;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySavedAddressesBinding;
 import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -164,6 +165,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
                     activityBinding.clearIcon.setVisibility(View.VISIBLE);
 
                     adapter.setAddressClickListener(position -> {
+                        TinyDbManager.saveCurrentAddress(suggestionList.get(position).getAddress());
                         prefRepository.setString("CURRENT_LOCATION", suggestionList.get(position).getAddress());
                         onBackPressed();
                         finish();

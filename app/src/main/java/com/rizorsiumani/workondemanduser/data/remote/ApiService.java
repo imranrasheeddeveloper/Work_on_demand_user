@@ -8,9 +8,12 @@ import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.PaymentGatewayModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostJobModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.PromoActivationModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.PromotionModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderAvailabilityModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderGalleryModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderServicesModel;
@@ -111,4 +114,15 @@ public interface ApiService {
 
     @GET("serviceProvider/get_service_provider_by_id/{id}")
     Observable<ServiceProviderProfileModel> getProviderProfile(@Path("id") int id);
+
+    @GET("paymentgateway/get_payment_gateways")
+    Observable<PaymentGatewayModel> getPaymentMethods();
+
+    @GET("promotions/get_promotions")
+    Observable<PromotionModel> getPromotions();
+
+    @GET("promotions/validate_promo_code/{code}")
+    Observable<PromoActivationModel> activate(@Path("code") String code);
+
+
 }

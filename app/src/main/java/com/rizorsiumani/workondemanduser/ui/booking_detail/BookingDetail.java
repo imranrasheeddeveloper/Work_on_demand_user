@@ -36,6 +36,8 @@ import com.rizorsiumani.workondemanduser.data.businessModels.stripe.EphemeralKey
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.PaymentIntentResponse;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookingDetailBinding;
+import com.rizorsiumani.workondemanduser.ui.address.LocationListAdapter;
+import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
@@ -70,6 +72,8 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     PaymentIntentResponse intentResponse;
     int total;
 
+    BookingDetailViewModel viewModel;
+
     @Override
     protected ActivityBookingDetailBinding getActivityBinding() {
         return ActivityBookingDetailBinding.inflate(getLayoutInflater());
@@ -78,6 +82,8 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     @Override
     protected void onStart() {
         super.onStart();
+
+        viewModel = new ViewModelProvider(this).get(BookingDetailViewModel.class);
 
         if (TinyDbManager.getCartData() != null){
             if (TinyDbManager.getCartData().size() > 0){
@@ -322,15 +328,38 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         activityBinding.addPaymentMethod.setOnClickListener(view -> {
             final BottomSheetDialog bt = new BottomSheetDialog(BookingDetail.this, R.style.BottomSheetDialogTheme);
             View items = LayoutInflater.from(BookingDetail.this).inflate(R.layout.layout_item_chooser, null, false);
-            ElasticImageView cash = items.findViewById(R.id.cashIcon);
-            ElasticImageView card = items.findViewById(R.id.cardIcon);
-            cash.setOnClickListener(view1 -> {
-                bt.cancel();
-            });
-            card.setOnClickListener(view1 -> {
-                activityBinding.btnPayNow.performClick();
-                bt.cancel();
-            });
+            RecyclerView recyclerView = items.findViewById(R.id.paymentList);
+
+            viewModel.getPaymentMethods();
+            viewModel._payment.observe(this, response -> {
+                        if (response != null) {
+                            if (response.isLoading()) {
+                            } else if (!response.getError().isEmpty()) {
+                                showSnackBarShort(response.getError());
+                            } else if (response.getData().getData() != null) {
+                                recyclerView.setHasFixedSize(true);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false));
+                                PaymentMethodsAdapter adapter = new PaymentMethodsAdapter(response.getData().getData(), BookingDetail.this);
+                                recyclerView.setAdapter(adapter);
+
+                                adapter.setonClickListener(position -> {
+                                    activityBinding.btnPayNow.performClick();
+                                });
+                            }
+                        }
+                    });
+
+
+
+//            ElasticImageView cash = items.findViewById(R.id.cashIcon);
+//            ElasticImageView card = items.findViewById(R.id.cardIcon);
+//            cash.setOnClickListener(view1 -> {
+//                bt.cancel();
+//            });
+//            card.setOnClickListener(view1 -> {
+//                activityBinding.btnPayNow.performClick();
+//                bt.cancel();
+//            });
             bt.setContentView(items);
             bt.show();
         });

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardDataItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityOnboardingBinding;
 import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
 import com.rizorsiumani.workondemanduser.ui.welcome_user.WelcomeUser;
@@ -45,6 +46,8 @@ public class OnboardingActivity extends BaseActivity<ActivityOnboardingBinding> 
     @Override
     protected void onStart() {
         super.onStart();
+
+        TinyDbManager.saveVisit(true);
 
         viewModel = new ViewModelProvider(this).get(OnBoardingViewModel.class);
 
