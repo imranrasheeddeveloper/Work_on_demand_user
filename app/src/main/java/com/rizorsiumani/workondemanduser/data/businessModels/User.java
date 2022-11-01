@@ -4,11 +4,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class User{
 
-	@SerializedName("createdAt")
-	private String createdAt;
+	@SerializedName("firstName")
+	private String firstName;
 
-	@SerializedName("password")
-	private String password;
+	@SerializedName("lastName")
+	private String lastName;
+
+	@SerializedName("image")
+	private Object image;
+
+	@SerializedName("phoneNumber")
+	private String phoneNumber;
 
 	@SerializedName("id")
 	private int id;
@@ -16,15 +22,20 @@ public class User{
 	@SerializedName("email")
 	private String email;
 
-	@SerializedName("updatedAt")
-	private String updatedAt;
-
-	public String getCreatedAt(){
-		return createdAt;
+	public String getFirstName(){
+		return firstName;
 	}
 
-	public String getPassword(){
-		return password;
+	public String getLastName(){
+		return lastName;
+	}
+
+	public Object getImage(){
+		return image;
+	}
+
+	public String getPhoneNumber(){
+		return phoneNumber;
 	}
 
 	public int getId(){
@@ -33,9 +44,5 @@ public class User{
 
 	public String getEmail(){
 		return email;
-	}
-
-	public String getUpdatedAt(){
-		return updatedAt;
 	}
 }

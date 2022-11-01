@@ -257,6 +257,13 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
             LatLng loc = new LatLng(dataItem.getLatitude(), dataItem.getLongitude());
             Marker marker = mMap.addMarker(new MarkerOptions().position(loc).icon(bitmapDescriptorFromVector(requireActivity(), R.drawable.map_stop_position)));
             markers.add(marker);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,15.0f));
+            mMap.animateCamera(CameraUpdateFactory.zoomIn());
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f),20,null);
+            CameraPosition build= new CameraPosition.Builder().target(loc).zoom(15.0f)
+                    .bearing(15.0f).tilt(0.0f).build();
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(build));
         }
 
         fragmentBinding.markersLocationList.setOnFlingListener(null);

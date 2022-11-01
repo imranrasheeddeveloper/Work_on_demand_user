@@ -12,12 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityDataItem;
 
 import java.util.List;
 
 public class DayAndDateAdapter extends RecyclerView.Adapter<DayAndDateAdapter.ViewHolder> {
 
-    private final List<String> data;
+    private final List<AvailabilityDataItem> data;
     private final Context ctx;
     OnItemClickListener itemClickListener;
     public static int selectedPosition = -1;
@@ -28,7 +29,7 @@ public class DayAndDateAdapter extends RecyclerView.Adapter<DayAndDateAdapter.Vi
         this.itemClickListener = itemClickListener;
     }
 
-    public DayAndDateAdapter(Context context, List<String> list) {
+    public DayAndDateAdapter(Context context, List<AvailabilityDataItem> list) {
         this.data = list;
         this.ctx = context;
     }
@@ -42,9 +43,9 @@ public class DayAndDateAdapter extends RecyclerView.Adapter<DayAndDateAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull DayAndDateAdapter.ViewHolder holder, int position) {
-        String dd = data.get(position);
+        AvailabilityDataItem dataItem = data.get(position);
 
-        holder.date.setText(dd);
+        holder.day.setText(dataItem.getDay());
         if (position == selectedPosition){
             holder.selectedDay();
         }else {
@@ -63,14 +64,13 @@ public class DayAndDateAdapter extends RecyclerView.Adapter<DayAndDateAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView date,day;
+        public TextView day;
         public LinearLayout ll;
 
         public ViewHolder(@NonNull View itemView, DayAndDateAdapter.OnItemClickListener itemClickListener) {
             super(itemView);
 
             day = itemView.findViewById(R.id.tv_day);
-            date = itemView.findViewById(R.id.tv_date);
             ll = itemView.findViewById(R.id.ll);
 
             itemView.setOnClickListener(view -> {
@@ -96,13 +96,13 @@ public class DayAndDateAdapter extends RecyclerView.Adapter<DayAndDateAdapter.Vi
 
         public void selectedDay() {
             ll.setBackgroundColor(Color.parseColor("#00A688"));
-            date.setTextColor(Color.parseColor("#FFFFFFFF"));
+            //date.setTextColor(Color.parseColor("#FFFFFFFF"));
             day.setTextColor(Color.parseColor("#FFFFFFFF"));
         }
 
         public void unSelectedDay() {
             ll.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
-            date.setTextColor(Color.parseColor("#FF000000"));
+           // date.setTextColor(Color.parseColor("#FF000000"));
             day.setTextColor(Color.parseColor("#808080"));
         }
     }

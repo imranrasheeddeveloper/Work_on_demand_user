@@ -38,13 +38,13 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
         AvailabilityDataItem dataItem = list.get(position);
         holder.day.setText(dataItem.getDay());
 
-        if (dataItem.getServiceProviderAvailabilitiesHours() != null){
+        if (dataItem.getAvailabilityHours() != null){
 
-            if (dataItem.getServiceProviderAvailabilitiesHours().size() > 0){
+            if (dataItem.getAvailabilityHours().size() > 0){
 
                 LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
                 holder.timeSlots.setLayoutManager(layoutManager1);
-                AvailabilityHoursAdapter adapter1 = new AvailabilityHoursAdapter(ctx,dataItem.getServiceProviderAvailabilitiesHours());
+                AvailabilityHoursAdapter adapter1 = new AvailabilityHoursAdapter(ctx,dataItem.getAvailabilityHours());
                 holder.timeSlots.setAdapter(adapter1);
             }
         }

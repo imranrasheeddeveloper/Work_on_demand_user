@@ -3,8 +3,10 @@ package com.rizorsiumani.workondemanduser.data.remote;
 
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.common.CommonResponse;
+import com.rizorsiumani.workondemanduser.data.businessModels.BasicModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
@@ -25,6 +27,8 @@ import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
+
+import org.json.JSONObject;
 
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
@@ -129,5 +133,17 @@ public interface ApiService {
     @GET("promotions/validate_promo_code/{code}")
     Observable<PromoActivationModel> activate(@Path("code") String code);
 
+    @POST("booking/add_boookings")
+    Observable<JSONObject> addBooking(@Header("Authorization") String token,
+                                           @Body JsonObject object);
+
+    @GET("booking/get_bookings/{page_no}/{status}")
+    Observable<GetBookingsModel> getBooking(@Header("Authorization") String token,
+                                            @Path("page_no") int page_no,
+                                            @Path("status") String status);
+
+    @GET("booking/cancel_booking/{booking_id}")
+    Observable<BasicModel> cancelBooking(@Header("Authorization") String token,
+                                         @Path("booking_id") int booking_id);
 
 }

@@ -4,8 +4,10 @@ package com.rizorsiumani.workondemanduser.data.remote;
 
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.common.CommonResponse;
+import com.rizorsiumani.workondemanduser.data.businessModels.BasicModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
@@ -27,6 +29,8 @@ import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
+
+import org.json.JSONObject;
 
 import okhttp3.MultipartBody;
 import rx.Observable;
@@ -256,6 +260,30 @@ public class RemoteRepository {
 
         if (mService != null) {
             return mService.activate(code);
+        }
+        return null;
+    }
+
+    public Observable<JSONObject> booking(String token , JsonObject object) {
+
+        if (mService != null) {
+            return mService.addBooking(token,object);
+        }
+        return null;
+    }
+
+    public Observable<GetBookingsModel> getAllBooking(String token , int page , String status) {
+
+        if (mService != null) {
+            return mService.getBooking(token,page,status);
+        }
+        return null;
+    }
+
+    public Observable<BasicModel> cancelBooking(String token , int id) {
+
+        if (mService != null) {
+            return mService.cancelBooking(token,id);
         }
         return null;
     }

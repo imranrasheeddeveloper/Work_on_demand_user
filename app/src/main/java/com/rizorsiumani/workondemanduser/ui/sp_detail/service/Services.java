@@ -15,8 +15,11 @@ import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServicesDataItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServicesBinding;
 import com.rizorsiumani.workondemanduser.ui.booking.BookService;
+import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
+import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ProviderDetailViewModel;
 
 import java.util.ArrayList;
@@ -75,11 +78,13 @@ public class Services extends BaseFragment<FragmentServicesBinding> {
         fragmentBinding.servicesList.setAdapter(adapter);
 
         adapter.setOnClickListener(position -> {
+            MyCartItems cartItems = new MyCartItems(spID,servicesList.get(position));
+            TinyDbManager.saveCartData(cartItems);
             Gson gson = new Gson();
             String data = gson.toJson(servicesList.get(position), ServicesDataItem.class);
 
-            Intent intent = new Intent(requireContext(), BookService.class);
-            intent.putExtra("service_data",data);
+            Intent intent = new Intent(requireContext(), BookingDateTime.class);
+//            intent.putExtra("service_data",data);
             intent.putExtra("service_provider_id",spID);
             startActivity(intent);
 

@@ -74,7 +74,7 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
             imageView = (itemView).findViewById(R.id.cashIcon);
             title = (itemView).findViewById(R.id.p_name);
 
-            itemView.setOnClickListener(view -> {
+            imageView.setOnClickListener(view -> {
                 if (getAdapterPosition() != RecyclerView.NO_POSITION){
                     if (listener != null){
                         listener.onSelect(getAdapterPosition());

@@ -8,11 +8,8 @@ public class AvailabilityDataItem {
 	@SerializedName("createdAt")
 	private String createdAt;
 
-	@SerializedName("service_provider_availabilities_hours")
-	private List<ServiceProviderAvailabilitiesHoursItem> serviceProviderAvailabilitiesHours;
-
-	@SerializedName("service_provider_id")
-	private int serviceProviderId;
+	@SerializedName("availability_hours")
+	private List<AvailabilityHoursItem> availabilityHours;
 
 	@SerializedName("id")
 	private int id;
@@ -27,12 +24,8 @@ public class AvailabilityDataItem {
 		return createdAt;
 	}
 
-	public List<ServiceProviderAvailabilitiesHoursItem> getServiceProviderAvailabilitiesHours(){
-		return serviceProviderAvailabilitiesHours;
-	}
-
-	public int getServiceProviderId(){
-		return serviceProviderId;
+	public List<AvailabilityHoursItem> getAvailabilityHours(){
+		return availabilityHours;
 	}
 
 	public int getId(){

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/_90sdp"
-    android:layout_height="@dimen/_80sdp"
+    android:layout_width="@dimen/_120sdp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="@dimen/_8sdp"
     android:outlineAmbientShadowColor="@color/dark_gray"
@@ -20,20 +20,10 @@
             android:text="Mon"
             android:gravity="center"
             android:textAllCaps="true"
-            android:textSize="@dimen/_16sdp"
-            android:textColor="@color/dark_gray"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/black"
             style="@style/mediumText"
             android:id="@+id/tv_day"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="5 Oct"
-            android:gravity="center"
-            android:textSize="@dimen/_18sdp"
-            android:textColor="@color/black"
-            style="@style/headingText"
-            android:id="@+id/tv_date"/>
 
 
 

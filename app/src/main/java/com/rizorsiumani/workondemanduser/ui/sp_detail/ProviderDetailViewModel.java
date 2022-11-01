@@ -1,17 +1,13 @@
 package com.rizorsiumani.workondemanduser.ui.sp_detail;
 
-import android.view.View;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderAvailabilityModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderGalleryModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderServicesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderProfileModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
 

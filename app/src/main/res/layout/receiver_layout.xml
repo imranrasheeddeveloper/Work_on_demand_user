@@ -36,7 +36,6 @@
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_date"
                 tools:text="Receiver here... " />
 
         </LinearLayout>

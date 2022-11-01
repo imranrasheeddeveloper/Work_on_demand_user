@@ -12,13 +12,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityHoursItem;
 
 import java.util.Collection;
 import java.util.List;
 
 public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.ViewHolder> {
 
-    private final List<String> data;
+    private final List<AvailabilityHoursItem> data;
     private final Context ctx;
     OnItemClickListener itemClickListener;
     public static int selectedPosition = -1;
@@ -29,7 +30,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
         this.itemClickListener = itemClickListener;
     }
 
-    public TimeSlotsAdapter(Context context, List<String> list) {
+    public TimeSlotsAdapter(Context context, List<AvailabilityHoursItem> list) {
         this.data = list;
         this.ctx = context;
     }
@@ -43,9 +44,9 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull TimeSlotsAdapter.ViewHolder holder, int position) {
-        String time = data.get(position);
+        AvailabilityHoursItem hoursItem = data.get(position);
 
-        holder.time.setText(time);
+        holder.time.setText(hoursItem.getTime());
 
         if (position == selectedPosition) {
             holder.selectedTimeSlot();

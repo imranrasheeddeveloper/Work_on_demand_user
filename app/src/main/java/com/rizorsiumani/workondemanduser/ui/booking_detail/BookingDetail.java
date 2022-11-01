@@ -28,25 +28,29 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.common.AddBookingDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.CustomerIdResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.EphemeralKeyResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.PaymentIntentResponse;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookingDetailBinding;
-import com.rizorsiumani.workondemanduser.ui.address.LocationListAdapter;
-import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.promo_code.PromoCode;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
-import com.skydoves.elasticviews.ElasticImageView;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,6 +74,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     CustomerIdResponse idResponse;
     EphemeralKeyResponse ephemeralKeyResponse;
     PaymentIntentResponse intentResponse;
+    String service_provider_id;
     int total;
 
     BookingDetailViewModel viewModel;
@@ -83,6 +88,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     protected void onStart() {
         super.onStart();
 
+        service_provider_id = getIntent().getStringExtra("service_provider_id");
         viewModel = new ViewModelProvider(this).get(BookingDetailViewModel.class);
 
         if (TinyDbManager.getCartData() != null){
@@ -97,9 +103,9 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         }
 
         if (TinyDbManager.getCurrentAddress() != null) {
-            activityBinding.tvAddress.setText("Please set your location");
-        } else {
             activityBinding.tvAddress.setText(TinyDbManager.getCurrentAddress());
+        } else {
+            activityBinding.tvAddress.setText("Please set your location");
         }
 
         PaymentConfiguration.init(BookingDetail.this, publish_key);
@@ -317,7 +323,8 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         });
 
         activityBinding.btnPayNow.setOnClickListener(view -> {
-            paymentFlow();
+            addBooking();
+            //paymentFlow();
         });
 
         activityBinding.btnPayLater.setOnClickListener(view -> {
@@ -343,7 +350,9 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                                 recyclerView.setAdapter(adapter);
 
                                 adapter.setonClickListener(position -> {
-                                    activityBinding.btnPayNow.performClick();
+                                    Constants.payment_type_id = String.valueOf(response.getData().getData().get(position).getId());
+                                    bt.dismiss();
+                                    // activityBinding.btnPayNow.performClick();
                                 });
                             }
                         }
@@ -361,6 +370,53 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             bt.show();
         });
 
+    }
+
+    private void addBooking() {
+        int userID  = TinyDbManager.getUserInformation().getId();
+        int service_id = Integer.parseInt(TinyDbManager.getCartData().get(0).getId());
+        String token = prefRepository.getString("token");
+
+
+        List<AddBookingDataItem> list = new ArrayList<>();
+        list.add(new AddBookingDataItem(total,
+                TinyDbManager.getCurrentAddress(),
+                Integer.parseInt(service_provider_id),
+                Integer.parseInt(String.valueOf(userID)),
+                Constants.latitude,
+                "Booking Description here..",
+                Integer.parseInt(Constants.availability_id),
+                Constants.discount,
+                Constants.promotion_id,
+                total,
+                Integer.parseInt(Constants.payment_type_id),
+                Constants.longitude,
+                service_id
+                ));
+
+//        JSONArray array = new JSONArray();
+//        for(int i = 0; i < list.size(); i++) {
+//            array.put(list.get(i));
+//        }
+        Gson gson = new Gson();
+
+        JsonObject obj = new JsonObject();
+        obj.add("data", gson.toJsonTree(list));
+
+        viewModel.addBooking(token,obj);
+        viewModel._add_booking.observe(this , response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (!response.getError().isEmpty()) {
+                    hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData() != null) {
+                    hideLoading();
+                    showRequestedDialogue();
+                }
+            }
+        });
     }
 
 //    @Override

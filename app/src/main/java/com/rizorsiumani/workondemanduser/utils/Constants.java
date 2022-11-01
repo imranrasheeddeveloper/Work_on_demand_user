@@ -35,6 +35,12 @@ public final class Constants {
     public static Constants constant = new Constants();
     public static double latitude;
     public static double longitude;
+    public static String availability_id;
+    public static String payment_type_id;
+    public static String promotion_id;
+    public static String sub_total;
+    public static String discount;
+
 
 
     public BitmapDescriptor BitmapFromVector(Context context, int vectorResId) {

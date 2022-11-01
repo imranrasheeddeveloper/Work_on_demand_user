@@ -11,17 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.google.android.gms.common.api.Api;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.ui.requested_sevices.RequestServices;
-import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
-import com.skydoves.elasticviews.ElasticButton;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingDataItem;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHolder>{
 
-    private final List<String>  list;
+    private final List<GetBookingDataItem>  list;
     private Context context;
     private ItemClickListener mListener;
 
@@ -30,7 +29,7 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
     }
 
     // RecyclerView recyclerView;
-    public BookingAdopter(List<String> status, Context ctx) {
+    public BookingAdopter(List<GetBookingDataItem> status, Context ctx) {
         this.list = status;
         this.context = ctx;
     }
@@ -47,16 +46,15 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        String item = list.get(position);
+        GetBookingDataItem item = list.get(position);
 
-        holder.status.setText(item);
+        holder.status.setText(item.getStatus());
         holder.service.setHorizontallyScrolling(true);
         holder.service.setFocusable(true);
         holder.service.setSelected(true);
+        holder.service.setText(item.getService().getTitle());
+        holder.name.setText(item.getServiceProvider().getFirstName() + " " + item.getServiceProvider().getLastName());
 
-        holder.requested.setOnClickListener(view -> {
-            ActivityUtil.gotoPage(context, RequestServices.class);
-        });
 
 
     }
@@ -68,13 +66,15 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
     }
 
     public interface ItemClickListener{
-        void onBookingClick(int position);
+        void allRequestedBookings(int position);
+        void cancelBooking(int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView status, service, time,date,token;
-        Button requested;
+        TextView status, service, name,date,token;
+        Button requested,cancel;
+        CircleImageView circleImageView;
 
 
         public ViewHolder(View itemView, ItemClickListener mListener) {
@@ -83,8 +83,31 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
 
             status = itemView.findViewById(R.id.booking_status);
             service = itemView.findViewById(R.id.booking_service_title);
+            token = itemView.findViewById(R.id.booking_token);
+            name = itemView.findViewById(R.id.tv_sp_name);
+            circleImageView = itemView.findViewById(R.id.iv_sp);
+            token = itemView.findViewById(R.id.booking_token);
+            cancel = itemView.findViewById(R.id.cancel_booking);
+
             requested = itemView.findViewById(R.id.requested_booking);
 
+            cancel.setOnClickListener(view -> {
+                if (mListener!= null){
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        mListener.cancelBooking(position);
+                    }
+                }
+            });
+
+            requested.setOnClickListener(view -> {
+                if (mListener!= null){
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        mListener.allRequestedBookings(position);
+                    }
+                }
+            });
 
         }
     }

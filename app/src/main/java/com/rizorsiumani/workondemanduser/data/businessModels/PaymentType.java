@@ -2,7 +2,7 @@ package com.rizorsiumani.workondemanduser.data.businessModels;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ServiceProviderCategories{
+public class PaymentType{
 
 	@SerializedName("image")
 	private String image;

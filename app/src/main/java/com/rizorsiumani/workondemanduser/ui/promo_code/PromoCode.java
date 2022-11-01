@@ -24,6 +24,7 @@ import com.rizorsiumani.workondemanduser.ui.booking_detail.CartServicesAdapter;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.login.Login;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +80,7 @@ public class PromoCode extends BaseActivity<ActivityPromoCodeBinding> {
         adapter.setOnPromoCodesClickListener(position -> {
             activityBinding.etSelectedCode.setText(String.valueOf(promoDataItemList.get(position).getCode()));
             selected_code = String.valueOf(promoDataItemList.get(position).getCode());
+            Constants.discount = String.valueOf(promoDataItemList.get(position).getDiscount());
         });
 
     }

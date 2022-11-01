@@ -16,6 +16,7 @@ public class TinyDbManager {
     public static final String KEY_ADDRESS_STATUS = "key_address_status";
     public static final String KEY_USER = "key_user";
     public static final String KEY_FIRST_VISIT = "key_first_visit";
+    public static final String KEY_HOUR = "key_hour";
 
 
 
@@ -80,6 +81,7 @@ public class TinyDbManager {
         TinyDB tinyDB = new TinyDB(App.applicationContext);
         tinyDB.putBoolean(KEY_FIRST_VISIT, status);
     }
+
 
     public static boolean getVisit(){
         TinyDB tinyDB = new TinyDB(App.applicationContext);

@@ -10,16 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityHoursItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderAvailabilitiesHoursItem;
 
 import java.util.List;
 
 public class AvailabilityHoursAdapter extends RecyclerView.Adapter<AvailabilityHoursAdapter.ViewHolder> {
 
-    private final List<ServiceProviderAvailabilitiesHoursItem> list;
+    private final List<AvailabilityHoursItem> list;
     private final Context ctx;
 
-    public AvailabilityHoursAdapter(Context context, List<ServiceProviderAvailabilitiesHoursItem> data) {
+    public AvailabilityHoursAdapter(Context context, List<AvailabilityHoursItem> data) {
         this.ctx = context;
         this.list = data;
     }
@@ -33,7 +34,7 @@ public class AvailabilityHoursAdapter extends RecyclerView.Adapter<AvailabilityH
 
     @Override
     public void onBindViewHolder(@NonNull AvailabilityHoursAdapter.ViewHolder holder, int position) {
-        ServiceProviderAvailabilitiesHoursItem dataItem = list.get(position);
+        AvailabilityHoursItem dataItem = list.get(position);
         holder.hour.setText(dataItem.getTime());
 
     }

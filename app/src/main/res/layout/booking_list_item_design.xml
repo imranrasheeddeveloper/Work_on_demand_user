@@ -177,7 +177,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cancel_booking"
                 android:background="@drawable/outline_back"
                 android:gravity="center_horizontal"
-                android:text="View Requested Services"
+                android:text="Reschedule Booking"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:textAllCaps="false"
                 android:fontFamily="@font/poppin_regular"

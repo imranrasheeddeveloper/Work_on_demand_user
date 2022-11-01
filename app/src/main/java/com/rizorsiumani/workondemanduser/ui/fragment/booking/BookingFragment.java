@@ -1,21 +1,24 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.booking;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentBookingBinding;
+import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
+import com.rizorsiumani.workondemanduser.ui.requested_sevices.RequestServices;
+import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,8 @@ import java.util.List;
 
 public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
 
+    private BookingsViewModel viewModel;
+    List<GetBookingDataItem> dataItems;
 
     @Override
     protected FragmentBookingBinding getFragmentBinding() {
@@ -33,12 +38,12 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = new ViewModelProvider(this).get(BookingsViewModel.class);
 
-        callStatus();
         fragmentBinding.bookingToolbar.title.setText("Bookings");
         fragmentBinding.bookingToolbar.back.setVisibility(View.INVISIBLE);
 
-
+        callStatus();
         clickListeners();
 
         fragmentBinding.current.setBackgroundResource(R.drawable.selected_bg);
@@ -46,15 +51,17 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
         fragmentBinding.past.setBackgroundResource(R.drawable.selector_bg);
         fragmentBinding.past.setTextColor(getResources().getColor(R.color.black));
 
-        getBookings();
+        getBookings(1,"In Progress");
+
+
 
     }
     private void callStatus() {
         List<String> status = new ArrayList<>();
         status.add("In Progress");
         status.add("Pending");
-        status.add("Failed");
-        status.add("Done");
+        status.add("Canceled");
+        status.add("Completed");
 
         LinearLayoutManager llm = new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false);
         fragmentBinding.statusList.setLayoutManager(llm);
@@ -62,20 +69,66 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
         fragmentBinding.statusList.setAdapter(adapter);
 
         adapter.setOnStatusSelectListener(position -> {
-            Toast.makeText(requireContext(), status.get(position), Toast.LENGTH_SHORT).show();
+            getBookings(1,status.get(position));
         });
     }
 
-    private void getBookings() {
+    private void getBookings(int page, String status) {
 
-        List<String> bookingTag = new ArrayList<>();
-        bookingTag.add("Active");
-        bookingTag.add("Active");
+        String token = prefRepository.getString("token");
+        viewModel.getBookings(token,page,status);
+        viewModel._bookings.observe(getViewLifecycleOwner(), response -> {
+            if (response != null){
+                if (response.isLoading()) {
+                } else if (!response.getError().isEmpty()) {
+
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+
+                    dataItems = new ArrayList<>();
+                    dataItems.addAll(response.getData().getData());
+                    buildList(dataItems);
+                }
+            }
+        });
+
+    }
+
+    private void buildList(List<GetBookingDataItem> dataItems) {
 
         fragmentBinding.bookingList.setHasFixedSize(true);
         fragmentBinding.bookingList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        BookingAdopter bookingAdopter = new BookingAdopter(bookingTag, requireContext());
+        BookingAdopter bookingAdopter = new BookingAdopter(dataItems, requireContext());
         fragmentBinding.bookingList.setAdapter(bookingAdopter);
+
+        bookingAdopter.setOnBookingClickListener(new BookingAdopter.ItemClickListener() {
+            @Override
+            public void allRequestedBookings(int position) {
+               // ActivityUtil.gotoPage(requireContext(), RequestServices.class);
+                Intent intent = new Intent(requireContext(), BookingDateTime.class);
+                intent.putExtra("service_provider_id",dataItems.get(position).getServiceProvider().getId());
+                intent.putExtra("booking_id",dataItems.get(position).getId());
+                intent.putExtra("availability_id",dataItems.get(position).getBookingAvailability().getId());
+                startActivity(intent);
+            }
+
+            @Override
+            public void cancelBooking(int position) {
+                String token = prefRepository.getString("token");
+               viewModel.cancelBooking(token, dataItems.get(position).getId());
+               viewModel._cancel_booking.observe(getViewLifecycleOwner(), response -> {
+                   if (response != null) {
+                       if (response.isLoading()) {
+                       } else if (!response.getError().isEmpty()) {
+                           showSnackBarShort(response.getError());
+                       } else if (response.getData().isSuccess()) {
+                           showSnackBarShort(response.getData().getMessage());
+                           Navigation.findNavController(requireView()).navigate(R.id.bookingFragment);
+                       }
+                   }
+               });
+            }
+        });
     }
 
     private void clickListeners() {
