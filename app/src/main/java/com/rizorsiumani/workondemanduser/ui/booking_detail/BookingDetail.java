@@ -91,16 +91,19 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         service_provider_id = getIntent().getStringExtra("service_provider_id");
         viewModel = new ViewModelProvider(this).get(BookingDetailViewModel.class);
 
-        if (TinyDbManager.getCartData() != null){
-            if (TinyDbManager.getCartData().size() > 0){
-                for (int i = 0; i < TinyDbManager.getCartData().size()-1; i++) {
-                    MyCartItems cartItems = TinyDbManager.getCartData().get(i);
-                    total = total + Integer.parseInt(cartItems.getData().getPrice());
-                }
-                activityBinding.btnPayNow.setText(String.valueOf(total));
-                getCartServices(TinyDbManager.getCartData());
-            }
-        }
+        hideCartButton();
+        activityBinding.btnPayNow.setText(getCartTotal());
+
+//        if (TinyDbManager.getCartData() != null){
+//            if (TinyDbManager.getCartData().size() > 0){
+//                for (int i = 0; i < TinyDbManager.getCartData().size()-1; i++) {
+//                    MyCartItems cartItems = TinyDbManager.getCartData().get(i);
+//                    total = total + Integer.parseInt(cartItems.getData().getPrice());
+//                }
+//                activityBinding.btnPayNow.setText(String.valueOf(total));
+//                getCartServices(TinyDbManager.getCartData());
+//            }
+//        }
 
         if (TinyDbManager.getCurrentAddress() != null) {
             activityBinding.tvAddress.setText(TinyDbManager.getCurrentAddress());
@@ -307,6 +310,11 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(activityBinding.cartServicesList);
+
+        adapter.setOnCartListener(position -> {
+            TinyDbManager.removeCartItem(cartData.get(position));
+            adapter.update(position);
+        });
     }
 
     private void clickListeners() {

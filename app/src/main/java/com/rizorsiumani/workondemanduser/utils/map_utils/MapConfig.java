@@ -30,6 +30,7 @@ import com.akexorcist.googledirection.util.DirectionConverter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
@@ -69,13 +70,22 @@ public class MapConfig {
 
     public void moveCamera(LatLng latLng, GoogleMap mMap) {
         Log.d(TAG, "moveCamera: moving the camera to, lat: " + latLng.latitude + ", lng: " + latLng.longitude);
-        float DEFAULT_ZOOM = 14.5f;
-        mMap.moveCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                        latLng,
-                        DEFAULT_ZOOM)
-        );
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM), 2000, null);
+//        float DEFAULT_ZOOM = 14.5f;
+//        mMap.moveCamera(
+//                CameraUpdateFactory.newLatLngZoom(
+//                        latLng,
+//                        DEFAULT_ZOOM)
+//        );
+//        mMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM), 2000, null);
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15.0f));
+        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f),20,null);
+        CameraPosition build= new CameraPosition.Builder().target(latLng).zoom(15.0f)
+                .bearing(15.0f).tilt(0.0f).build();
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(build));
+
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
     }

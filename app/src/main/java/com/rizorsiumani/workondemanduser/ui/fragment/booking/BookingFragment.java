@@ -18,10 +18,12 @@ import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentBookingBinding;
 import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 import com.rizorsiumani.workondemanduser.ui.requested_sevices.RequestServices;
+import com.rizorsiumani.workondemanduser.ui.view_booking_information.BookingInformation;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
@@ -67,6 +69,8 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
         fragmentBinding.statusList.setLayoutManager(llm);
         BookingStatusAdapter adapter = new BookingStatusAdapter(requireContext(), status);
         fragmentBinding.statusList.setAdapter(adapter);
+        fragmentBinding.statusList.postDelayed(() -> Objects.requireNonNull(fragmentBinding.statusList.findViewHolderForAdapterPosition(0)).itemView.performClick(),100);
+
 
         adapter.setOnStatusSelectListener(position -> {
             getBookings(1,status.get(position));
@@ -106,9 +110,9 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
             public void allRequestedBookings(int position) {
                // ActivityUtil.gotoPage(requireContext(), RequestServices.class);
                 Intent intent = new Intent(requireContext(), BookingDateTime.class);
-                intent.putExtra("service_provider_id",dataItems.get(position).getServiceProvider().getId());
-                intent.putExtra("booking_id",dataItems.get(position).getId());
-                intent.putExtra("availability_id",dataItems.get(position).getBookingAvailability().getId());
+                intent.putExtra("service_provider_id",String.valueOf(dataItems.get(position).getServiceProvider().getId()));
+                intent.putExtra("booking_id",String.valueOf(dataItems.get(position).getId()));
+                intent.putExtra("availability_id",String.valueOf(dataItems.get(position).getBookingAvailability().getId()));
                 startActivity(intent);
             }
 
@@ -127,6 +131,13 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                        }
                    }
                });
+            }
+
+            @Override
+            public void bookingInformation(int position) {
+                Intent intent = new Intent(requireContext(), BookingInformation.class);
+                intent.putExtra("booking_id",String.valueOf(dataItems.get(position).getId()));
+                startActivity(intent);
             }
         });
     }

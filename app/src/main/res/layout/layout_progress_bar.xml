@@ -36,4 +36,48 @@
        app:lottie_loop="true"
        app:lottie_rawRes="@raw/no_data" />
 
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:id="@+id/cartButton"
+       android:layout_width="@dimen/_54sdp"
+       android:layout_height="@dimen/_54sdp"
+       android:layout_marginEnd="@dimen/_10sdp"
+       android:layout_marginBottom="@dimen/_10sdp"
+      app:layout_constraintEnd_toEndOf="parent"
+       android:background="@drawable/round_bg"
+       android:paddingStart="@dimen/_5sdp"
+       android:paddingEnd="@dimen/_6sdp"
+       android:paddingTop="@dimen/_5sdp"
+       android:backgroundTint="@color/primary"
+      app:layout_constraintBottom_toBottomOf="parent"
+      >
+
+
+      <ImageView
+          android:layout_width="@dimen/_26sdp"
+          android:layout_height="@dimen/_26sdp"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          android:layout_marginStart="@dimen/_5sdp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          android:src="@drawable/shopping_cart"
+          android:id="@+id/iv_cart"/>
+
+      <TextView
+          android:id="@+id/cartCount"
+          android:layout_width="@dimen/_18sdp"
+          android:layout_height="@dimen/_18sdp"
+          app:layout_constraintStart_toEndOf="@id/iv_cart"
+          android:background="@drawable/round_with_stroke"
+          android:layout_marginStart="-12dp"
+          android:text="-"
+          android:layout_marginBottom="-12dp"
+          android:textColor="@color/primary"
+          android:fontFamily="@font/poppin_regular"
+          android:textSize="@dimen/_8sdp"
+          android:gravity="center"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toTopOf="@id/iv_cart"/>
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

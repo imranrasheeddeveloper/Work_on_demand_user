@@ -1,10 +1,5 @@
 package com.rizorsiumani.workondemanduser.ui.booking_date;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,14 +9,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityHoursItem;
-import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookingDateTimeBinding;
-import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
+import com.rizorsiumani.workondemanduser.ui.booking.BookService;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ProviderDetailViewModel;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -29,6 +29,7 @@ import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding> {
 
@@ -41,7 +42,10 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
     List<AvailabilityHoursItem> hoursList;
     List<AvailabilityDataItem> list;
     List<String> daysList;
-    String bookingID, availabilityID,spID;
+    String bookingID, availabilityID, spID;
+    BookingScheduleViewModel scheduleViewModel;
+    String serviceData;
+    TimeSlotsAdapter timeSlotsAdapter;
 
     @Override
     protected ActivityBookingDateTimeBinding getActivityBinding() {
@@ -52,15 +56,20 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
     protected void onStart() {
         super.onStart();
 
+
         activityBinding.searchedToolbar.title.setText("Select Hours");
-         spID = getIntent().getStringExtra("service_provider_id");
-        if (getIntent().getStringExtra("booking_id") != null){
-             bookingID = getIntent().getStringExtra("booking_id");
-             availabilityID = getIntent().getStringExtra("availability_id");
+        spID = getIntent().getStringExtra("service_provider_id");
+        serviceData = getIntent().getStringExtra("service_data");
+
+        if (getIntent().getStringExtra("booking_id") != null) {
+            bookingID = getIntent().getStringExtra("booking_id");
+            availabilityID = getIntent().getStringExtra("availability_id");
         }
 
 
         viewModel = new ViewModelProvider(this).get(ProviderDetailViewModel.class);
+        scheduleViewModel = new ViewModelProvider(this).get(BookingScheduleViewModel.class);
+
         if (viewModel._available.getValue() == null) {
             viewModel.getAvailability(Integer.parseInt(spID));
         }
@@ -91,24 +100,60 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
 
     private void clickListeners() {
         activityBinding.btnContinue.setOnClickListener(view -> {
-            if (!selectedTime.isEmpty()){
+            try {
 
-                if (bookingID != null){
-                    //todo
-                    //reschedule api
-                }else {
-                    Intent intent = new Intent(BookingDateTime.this, BookingDetail.class);
+            if (!Constants.availability_id.isEmpty()) {
+
+                if (bookingID != null) {
+                    String token = prefRepository.getString("token");
+                    JsonObject object = new JsonObject();
+                    object.addProperty("id", bookingID);
+                    object.addProperty("availability_id", availabilityID);
+                    scheduleViewModel.get(token, object);
+                    scheduleViewModel._reschedule.observe(this, response -> {
+                        if (response != null) {
+                            if (response.isLoading()) {
+                                showLoading();
+                            } else if (!response.getError().isEmpty()) {
+                                hideLoading();
+                                showSnackBarShort(response.getError());
+                            } else if (response.getData().isSuccess()) {
+                                hideLoading();
+                                Toast.makeText(BookingDateTime.this, response.getData().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                onBackPressed();
+                                finish();
+                                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                            }
+                        }
+                    });
+                } else {
+//                    Intent intent = new Intent(BookingDateTime.this, BookingDetail.class);
+//                    intent.putExtra("service_provider_id", spID);
+//                    startActivity(intent);
+//                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                    Intent intent = new Intent(BookingDateTime.this, BookService.class);
+                    intent.putExtra("service_data",serviceData);
                     intent.putExtra("service_provider_id", spID);
                     startActivity(intent);
+                    finish();
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
+            }else {
+                showSnackBarShort("Select Service Hours");
+            }
+
+
+            }catch (NullPointerException e){
+                e.printStackTrace();
             }
         });
 
         activityBinding.searchedToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
     }
 
@@ -141,16 +186,21 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
     }
 
 
-
     private void daysRv(List<AvailabilityDataItem> list) {
 
         LinearLayoutManager llm = new LinearLayoutManager(BookingDateTime.this, RecyclerView.HORIZONTAL, false);
         activityBinding.daysList.setLayoutManager(llm);
-        DayAndDateAdapter adapter = new DayAndDateAdapter(BookingDateTime.this,list);
+        DayAndDateAdapter adapter = new DayAndDateAdapter(BookingDateTime.this, list);
         activityBinding.daysList.setAdapter(adapter);
+
+        activityBinding.daysList.postDelayed(() -> Objects.requireNonNull(activityBinding.daysList.findViewHolderForAdapterPosition(0)).itemView.performClick(),100);
+
 
         adapter.setOnDaySelectListener((position) -> {
             if (list.get(position).getAvailabilityHours().size() > 0) {
+                activityBinding.timeList.setVisibility(View.GONE);
+                showLoading();
+                timeSlotsAdapter.selectedPosition = -1;
                 hoursList = new ArrayList<>();
                 hoursList.addAll(list.get(position).getAvailabilityHours());
                 timeSlotsRv(hoursList);
@@ -188,14 +238,25 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
 //        slots.add("11PM - 12AM");
         GridLayoutManager layoutManager = new GridLayoutManager(App.applicationContext, 3);
         activityBinding.timeList.setLayoutManager(layoutManager);
-        TimeSlotsAdapter adapter = new TimeSlotsAdapter(BookingDateTime.this,hoursList);
-        activityBinding.timeList.setAdapter(adapter);
+        timeSlotsAdapter = new TimeSlotsAdapter(BookingDateTime.this, hoursList);
+        activityBinding.timeList.setAdapter(timeSlotsAdapter);
+        activityBinding.timeList.setVisibility(View.VISIBLE);
+        hideLoading();
 
-        adapter.setOnSlotClickListener(position -> {
+        timeSlotsAdapter.setOnSlotClickListener(position -> {
             Constants.availability_id = String.valueOf(hoursList.get(position).getId());
             //Toast.makeText(this, hoursList.get(position).getId(), Toast.LENGTH_SHORT).show();
-
-
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        viewModel._available.removeObservers(this);
+        scheduleViewModel._reschedule.removeObservers(this);
+
+        viewModel = null;
+        scheduleViewModel = null;
     }
 }

@@ -1,5 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.booking;
 
+import android.content.Intent;
+
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
@@ -7,6 +9,7 @@ import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServicesDataItem;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookServiceBinding;
+import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 
 public class BookService extends BaseActivity<ActivityBookServiceBinding> {
 
@@ -75,9 +78,32 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
     }
 
     private void insertDataInCart(ServicesDataItem servicesDataItem, String spID) {
-        MyCartItems cartItems = new MyCartItems(spID,servicesDataItem);
-        TinyDbManager.saveCartData(cartItems);
-        onBackPressed();
+        if (TinyDbManager.getCartData() != null){
+            boolean available = false;
+            for (int i = 0; i < TinyDbManager.getCartData().size(); i++) {
+                MyCartItems cartItems = TinyDbManager.getCartData().get(i);
+                if (cartItems.data.getId() == servicesDataItem.getId()){
+                    available = true;
+                    showSnackBarShort("This item already in Cart");
+                    Nav();
+
+                }
+            }
+            if (!available){
+                MyCartItems cartItems = new MyCartItems(spID,servicesDataItem);
+                TinyDbManager.saveCartData(cartItems);
+                Nav();
+
+            }
+        }
+
+
+    }
+
+    private void Nav() {
+        Intent intent = new Intent(BookService.this, SpProfile.class);
+        intent.putExtra("service_provider_id",String.valueOf(spID));
+        startActivity(intent);
         finish();
         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }

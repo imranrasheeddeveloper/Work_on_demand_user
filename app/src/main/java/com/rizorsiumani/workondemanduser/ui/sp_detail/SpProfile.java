@@ -71,17 +71,19 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
             }
         });
 
+
+
         if (TinyDbManager.getCartData().size() > 0){
-            activityBinding.cartItem.setVisibility(View.VISIBLE);
+            showCartButton();
             int total = 0;
             for (int i = 0; i < TinyDbManager.getCartData().size()-1; i++) {
                 MyCartItems cartItems = TinyDbManager.getCartData().get(i);
                 int price = Integer.parseInt(cartItems.getData().getPrice());
                 total = total + price;
             }
-            activityBinding.tvTotal.setText(String.valueOf(total));
+            setCartTotal(String.valueOf(total));
         } else {
-            activityBinding.cartItem.setVisibility(View.GONE);
+            hideCartButton();
         }
 
         }catch (NullPointerException e){

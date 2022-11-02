@@ -68,6 +68,7 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
     public interface ItemClickListener{
         void allRequestedBookings(int position);
         void cancelBooking(int position);
+        void bookingInformation(int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -109,6 +110,14 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
                 }
             });
 
+            itemView.setOnClickListener(view -> {
+                if (mListener!= null){
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        mListener.bookingInformation(position);
+                    }
+                }
+            });
         }
     }
 }

@@ -3,7 +3,9 @@ package com.rizorsiumani.workondemanduser.data.remote;
 
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.common.CommonResponse;
+import com.rizorsiumani.workondemanduser.data.businessModels.AddBookingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.BasicModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.BookingDetailModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
@@ -134,7 +136,7 @@ public interface ApiService {
     Observable<PromoActivationModel> activate(@Path("code") String code);
 
     @POST("booking/add_boookings")
-    Observable<JSONObject> addBooking(@Header("Authorization") String token,
+    Observable<AddBookingModel> addBooking(@Header("Authorization") String token,
                                            @Body JsonObject object);
 
     @GET("booking/get_bookings/{page_no}/{status}")
@@ -145,5 +147,13 @@ public interface ApiService {
     @GET("booking/cancel_booking/{booking_id}")
     Observable<BasicModel> cancelBooking(@Header("Authorization") String token,
                                          @Path("booking_id") int booking_id);
+
+    @POST("booking/reSechdule_booking")
+    Observable<BasicModel> reschedule(@Header("Authorization") String token,
+                                      @Body JsonObject object);
+
+    @GET("booking/booking_detail/{booking_id}")
+    Observable<BookingDetailModel> getBookingDetails(@Header("Authorization") String token,
+                                                     @Path("booking_id") int booking_id);
 
 }

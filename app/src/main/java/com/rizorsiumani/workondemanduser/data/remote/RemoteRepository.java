@@ -4,7 +4,10 @@ package com.rizorsiumani.workondemanduser.data.remote;
 
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.common.CommonResponse;
+import com.rizorsiumani.workondemanduser.data.businessModels.AddBookingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.BasicModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.BookingDetailData;
+import com.rizorsiumani.workondemanduser.data.businessModels.BookingDetailModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
@@ -264,7 +267,7 @@ public class RemoteRepository {
         return null;
     }
 
-    public Observable<JSONObject> booking(String token , JsonObject object) {
+    public Observable<AddBookingModel> booking(String token , JsonObject object) {
 
         if (mService != null) {
             return mService.addBooking(token,object);
@@ -287,5 +290,19 @@ public class RemoteRepository {
         }
         return null;
     }
+    public Observable<BasicModel> rescheduleBooking(String token , JsonObject object) {
 
+        if (mService != null) {
+            return mService.reschedule(token,object);
+        }
+        return null;
+    }
+
+    public Observable<BookingDetailModel> getDetails(String token , int id) {
+
+        if (mService != null) {
+            return mService.getBookingDetails(token,id);
+        }
+        return null;
+    }
 }

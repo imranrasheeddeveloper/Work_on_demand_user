@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class ServiceProvider{
 
 	@SerializedName("profile_photo")
-	private Object profilePhoto;
+	private String profilePhoto;
 
 	@SerializedName("last_name")
 	private String lastName;
@@ -25,7 +25,7 @@ public class ServiceProvider{
 	@SerializedName("email")
 	private String email;
 
-	public Object getProfilePhoto(){
+	public String getProfilePhoto(){
 		return profilePhoto;
 	}
 

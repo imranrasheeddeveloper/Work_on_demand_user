@@ -33,6 +33,9 @@
         android:theme="@style/Theme.RizorsiUmaniUser"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.view_booking_information.BookingInformation"
+            android:exported="false" />
+        <activity
             android:name=".ui.inbox.Inbox"
             android:exported="false" />
 

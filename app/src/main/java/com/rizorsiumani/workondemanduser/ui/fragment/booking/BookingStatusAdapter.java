@@ -44,9 +44,7 @@ public class BookingStatusAdapter extends RecyclerView.Adapter<BookingStatusAdap
         String status = data.get(position);
 
         holder.stats.setText(status);
-        if (position == 0) {
-            holder.itemView.performClick();
-        }
+
         if (position == selectedPosition){
             holder.selectedStatus();
         }else {
@@ -81,10 +79,8 @@ public class BookingStatusAdapter extends RecyclerView.Adapter<BookingStatusAdap
                         notifyItemChanged(lastSelectedPos);
                     }
 
-                    if (selectedPosition != 0) {
                         lastSelectedPos = selectedPosition;
                         notifyItemChanged(selectedPosition);
-                    }
 
                     if (selectedPosition != RecyclerView.NO_POSITION) {
                         itemClickListener.onSelect(selectedPosition);

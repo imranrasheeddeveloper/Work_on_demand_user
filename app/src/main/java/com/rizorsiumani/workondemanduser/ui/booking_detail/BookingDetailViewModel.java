@@ -21,8 +21,8 @@ public class BookingDetailViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<PaymentGatewayModel>> payment = new MutableLiveData<>();
     public LiveData<ResponseWrapper<PaymentGatewayModel>> _payment = payment;
 
-    private final MutableLiveData<ResponseWrapper<JSONObject>> add_booking = new MutableLiveData<>();
-    public LiveData<ResponseWrapper<JSONObject>> _add_booking = add_booking;
+    private final MutableLiveData<ResponseWrapper<AddBookingModel>> add_booking = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<AddBookingModel>> _add_booking = add_booking;
 
     public void getPaymentMethods() {
 
@@ -72,7 +72,7 @@ public class BookingDetailViewModel extends ViewModel {
                 .booking(token,object)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<JSONObject>() {
+                .subscribe(new Observer<AddBookingModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -88,7 +88,7 @@ public class BookingDetailViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onNext(JSONObject model) {
+                    public void onNext(AddBookingModel model) {
                         add_booking.setValue(new ResponseWrapper<>(
                                 false,
                                 "",

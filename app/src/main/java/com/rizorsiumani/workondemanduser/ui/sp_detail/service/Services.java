@@ -78,13 +78,13 @@ public class Services extends BaseFragment<FragmentServicesBinding> {
         fragmentBinding.servicesList.setAdapter(adapter);
 
         adapter.setOnClickListener(position -> {
-            MyCartItems cartItems = new MyCartItems(spID,servicesList.get(position));
-            TinyDbManager.saveCartData(cartItems);
+//            MyCartItems cartItems = new MyCartItems(spID,servicesList.get(position));
+//            TinyDbManager.saveCartData(cartItems);
             Gson gson = new Gson();
             String data = gson.toJson(servicesList.get(position), ServicesDataItem.class);
 
             Intent intent = new Intent(requireContext(), BookingDateTime.class);
-//            intent.putExtra("service_data",data);
+            intent.putExtra("service_data",data);
             intent.putExtra("service_provider_id",spID);
             startActivity(intent);
 
