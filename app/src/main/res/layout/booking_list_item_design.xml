@@ -95,8 +95,9 @@
                 android:id="@+id/booking_service_title"/>
 
 
+
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_sp"
+                android:id="@+id/booking_iv_sp"
                 android:layout_width="50dp"
                 android:layout_height="50sp"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -119,20 +120,40 @@
                 android:text="Ahmed Raza"
                 android:textColor="@color/semi_black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/iv_sp"
-                app:layout_constraintTop_toTopOf="@+id/iv_sp" />
+                app:layout_constraintStart_toEndOf="@+id/booking_iv_sp"
+                app:layout_constraintTop_toTopOf="@+id/booking_iv_sp" />
 
             <TextView
-                android:layout_width="@dimen/_100sdp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingEnd="@dimen/_30sdp"
+                android:maxLines="2"
+                android:ellipsize="end"
                 app:layout_constraintTop_toBottomOf="@id/tv_sp_name"
                 app:layout_constraintStart_toStartOf="@id/tv_sp_name"
-                android:text="2x Extras Inside Fridge"
+                android:text="-"
                 android:textSize="12sp"
                 android:fontFamily="@font/poppin_regular"
                 android:textColor="#404040"
                 android:alpha="0.5"
-                android:id="@+id/location"/>
+                android:id="@+id/description"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingEnd="@dimen/_30sdp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                app:layout_constraintTop_toBottomOf="@id/description"
+                app:layout_constraintStart_toStartOf="@id/description"
+                android:text="-"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppin_regular"
+                android:textColor="#404040"
+                android:alpha="0.5"
+                android:id="@+id/booking_total"/>
 
             <RatingBar
                 android:id="@+id/arting"
@@ -146,7 +167,7 @@
                 android:scaleX=".7"
                 android:scaleY=".7"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_sp" />
+                app:layout_constraintTop_toBottomOf="@id/booking_iv_sp" />
 
 
             <Button

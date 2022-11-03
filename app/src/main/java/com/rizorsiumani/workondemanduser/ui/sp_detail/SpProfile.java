@@ -1,6 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.sp_detail;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -54,12 +55,12 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
         viewModel._profile.observe(this , response -> {
             if (response != null) {
                 if (response.isLoading()) {
-                    //showLoading();
+                    showLoading();
                 } else if (!response.getError().isEmpty()) {
-                   // hideLoading();
+                    hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().isSuccess()) {
-                   // hideLoading();
+                    hideLoading();
                     if (response.getData().getData() != null){
                         SProfileData data = response.getData().getData();
                         Glide.with(SpProfile.this)
@@ -75,13 +76,6 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
 
         if (TinyDbManager.getCartData().size() > 0){
             showCartButton();
-            int total = 0;
-            for (int i = 0; i < TinyDbManager.getCartData().size()-1; i++) {
-                MyCartItems cartItems = TinyDbManager.getCartData().get(i);
-                int price = Integer.parseInt(cartItems.getData().getPrice());
-                total = total + price;
-            }
-            setCartTotal(String.valueOf(total));
         } else {
             hideCartButton();
         }
@@ -107,7 +101,7 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
         activityBinding.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
         activityBinding.availability.setOnClickListener(view -> {

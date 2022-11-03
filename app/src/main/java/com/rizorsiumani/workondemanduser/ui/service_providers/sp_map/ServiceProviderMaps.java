@@ -136,12 +136,12 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
                     viewModel._by_cat_provider.observe(getViewLifecycleOwner(), response -> {
                         if (response != null) {
                             if (response.isLoading()) {
-                                // showLoading();
+                                 showLoading();
                             } else if (!response.getError().isEmpty()) {
-                                // hideLoading();
+                                 hideLoading();
                                 showSnackBarShort(response.getError());
                             } else if (response.getData().isSuccess()) {
-
+                                  hideLoading();
                                 if (response.getData().getData().size() > 0) {
                                     serviceProviders = new ArrayList<>();
                                     serviceProviders.addAll(response.getData().getData());
@@ -165,12 +165,13 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
                 viewModel._provider.observe(getViewLifecycleOwner(), response -> {
                     if (response != null) {
                         if (response.isLoading()) {
-                            // showLoading();
+                             showLoading();
                         } else if (!response.getError().isEmpty()) {
-                            // hideLoading();
+                             hideLoading();
                             showSnackBarShort(response.getError());
                         } else if (response.getData().isSuccess()) {
 
+                            hideLoading();
                             if (response.getData().getData().size() > 0) {
                                 serviceProviders = new ArrayList<>();
                                 serviceProviders.addAll(response.getData().getData());
@@ -226,11 +227,13 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
         MapConfig.config.mapStyle(googleMap, App.applicationContext);
         mMap.setOnMarkerClickListener(this);
 
-        boolean isLocationPermissionGranted = LocationService.service.requestLocationPermission(App.applicationContext);
-        if (isLocationPermissionGranted) {
+      //  boolean isLocationPermissionGranted = LocationService.service.requestLocationPermission(App.applicationContext);
+        if (Constants.isLocationPermissionGranted) {
             getData();
             LocationUpdateService locationUpdateService = new LocationUpdateService();
             locationUpdateService.LocationHandler(getActivity(), this);
+        }else {
+            LocationService.service.requestLocationPermission(App.applicationContext);
         }
     }
 

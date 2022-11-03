@@ -26,10 +26,10 @@ public class AddBookingDataItem {
 	private int availability_id;
 
 	@SerializedName("discount")
-	private String discount;
+	private int discount;
 
 	@SerializedName("promotion_id")
-	private String promotion_id;
+	private int promotion_id;
 
 	@SerializedName("service_id")
 	private int service_id;
@@ -50,8 +50,8 @@ public class AddBookingDataItem {
                               double latitude,
                               String description,
                               int availabilityId,
-                              String discount,
-                              String promotionId,
+                              int discount,
+                              int promotionId,
                               int subTotal,
                               int paymentTypeId,
                               double longitude,

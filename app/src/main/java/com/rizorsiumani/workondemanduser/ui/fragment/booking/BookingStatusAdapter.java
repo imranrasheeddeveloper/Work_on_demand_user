@@ -45,6 +45,7 @@ public class BookingStatusAdapter extends RecyclerView.Adapter<BookingStatusAdap
 
         holder.stats.setText(status);
 
+
         if (position == selectedPosition){
             holder.selectedStatus();
         }else {

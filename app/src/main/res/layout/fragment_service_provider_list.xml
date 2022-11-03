@@ -25,6 +25,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <include
+                layout="@layout/layout_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

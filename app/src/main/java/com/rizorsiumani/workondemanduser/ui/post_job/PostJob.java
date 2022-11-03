@@ -102,9 +102,12 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         homeViewModel._ddCategory.observe(PostJob.this, response -> {
             if (response != null) {
                 if (response.isLoading()) {
+                    showLoading();
                 } else if (!response.getError().isEmpty()) {
+                    hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
+                    hideLoading();
                     categoriesDataItems = new ArrayList<>();
                     categoriesDataItems.addAll(response.getData().getData());
                 }
@@ -226,10 +229,12 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         postJobViewModel._job.observe(PostJob.this, response -> {
             if (response != null) {
                 if (response.isLoading()) {
+                    showLoading();
                 } else if (!response.getError().isEmpty()) {
+                    hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
-
+                    hideLoading();
                     showSnackBarShort(response.getData().getMessage());
 
                 }

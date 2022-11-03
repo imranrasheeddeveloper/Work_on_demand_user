@@ -99,12 +99,15 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
         public void selectedTimeSlot() {
             //card.setUseCompatPadding(false);
             time.setBackgroundColor(Color.parseColor("#00A688"));
+            time.setTextColor(Color.parseColor("#FFFFFFFF"));
+
             card.setEnabled(false);
         }
 
         public void unSelectedTimeSlot() {
            // card.setUseCompatPadding(true);
             time.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+            time.setTextColor(Color.parseColor("#FF000000"));
             card.setEnabled(true);
 
         }

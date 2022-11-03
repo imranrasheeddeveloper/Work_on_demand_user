@@ -19,6 +19,7 @@ import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityAddAddressBinding;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.MapConfig;
@@ -59,7 +60,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
         activityBinding.backSetLocation.setOnClickListener((View.OnClickListener) v -> {
             onBackPressed();
             finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
         activityBinding.confirmLocation.setOnClickListener(view -> {
@@ -101,7 +102,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
 
                     onBackPressed();
                     finish();
-                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
                 }
             }
@@ -111,6 +112,9 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
     private void saveAddress() {
         String token = prefRepository.getString("token");
         JsonObject object = new JsonObject();
+        if (title == null || title.isEmpty()){
+            title = "other";
+        }
         object.addProperty("title", title);
         object.addProperty("latitude", latitude);
         object.addProperty("longitude", longitude);
@@ -130,7 +134,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
 
                     onBackPressed();
                     finish();
-                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
 
                 }
@@ -152,8 +156,8 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         MapConfig.config.mapStyle(googleMap, AddAddress.this);
-        boolean isLocationPermissionGranted = LocationService.service.requestLocationPermission(AddAddress.this);
-        if (isLocationPermissionGranted) {
+        //boolean isLocationPermissionGranted = LocationService.service.requestLocationPermission(AddAddress.this);
+        if (Constants.isLocationPermissionGranted) {
             LocationUpdateService locationUpdateService = new LocationUpdateService();
             locationUpdateService.LocationHandler(AddAddress.this, this);
         }

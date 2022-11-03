@@ -169,7 +169,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
                         prefRepository.setString("CURRENT_LOCATION", suggestionList.get(position).getAddress());
                         onBackPressed();
                         finish();
-                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
                         // view.setText(suggestionList.get(position).getTitle());
                     });
@@ -222,7 +222,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
         activityBinding.cancel.setOnClickListener(view -> {
             onBackPressed();
             finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
         activityBinding.clearIcon.setOnClickListener(view -> {

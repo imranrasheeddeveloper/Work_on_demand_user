@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseActivity;
+import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.common.ImageUploadViewModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
@@ -62,7 +63,7 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
         activityBinding.editProfileToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
         activityBinding.editUserImage.setOnClickListener(view -> {

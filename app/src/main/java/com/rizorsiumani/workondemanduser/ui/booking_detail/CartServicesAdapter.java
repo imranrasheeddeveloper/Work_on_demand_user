@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class CartServicesAdapter extends RecyclerView.Adapter<CartServicesAdapte
     public void onBindViewHolder(@NonNull CartServicesAdapter.ViewHolder holder, int position) {
         MyCartItems cartItems = list.get(position);
         holder.name.setText(cartItems.getData().getTitle());
-        holder.price.setText(cartItems.getData().getPrice());
+        holder.price.setText(Constants.CURRENCY + cartItems.getData().getPrice());
     }
 
     @Override

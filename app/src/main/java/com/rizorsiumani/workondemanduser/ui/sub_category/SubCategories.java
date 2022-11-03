@@ -62,6 +62,7 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
                     dataItems = new ArrayList<>();
                     dataItems.addAll(response.getData().getData());
                     if (dataItems.size() > 0) {
+                        hideNoDataAnimation();
                         buildRv(dataItems);
                     }else {
                         showNoDataAnimation();
@@ -75,7 +76,7 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
         activityBinding.searchedToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
     }

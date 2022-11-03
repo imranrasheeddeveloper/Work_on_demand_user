@@ -84,19 +84,29 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
         viewModel._bookings.observe(getViewLifecycleOwner(), response -> {
             if (response != null){
                 if (response.isLoading()) {
+                    showLoading();
                 } else if (!response.getError().isEmpty()) {
-
+                    hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
+                    hideLoading();
+                    if (response.getData().getData().size() > 0){
+                        hideNoDataAnimation();
+                        fragmentBinding.bookingList.setVisibility(View.VISIBLE);
+                        dataItems = new ArrayList<>();
+                        dataItems.addAll(response.getData().getData());
+                        buildList(dataItems);
+                    }else {
+                        showNoDataAnimation();
+                        fragmentBinding.bookingList.setVisibility(View.GONE);
 
-                    dataItems = new ArrayList<>();
-                    dataItems.addAll(response.getData().getData());
-                    buildList(dataItems);
+                    }
                 }
             }
         });
-
     }
+
+
 
     private void buildList(List<GetBookingDataItem> dataItems) {
 

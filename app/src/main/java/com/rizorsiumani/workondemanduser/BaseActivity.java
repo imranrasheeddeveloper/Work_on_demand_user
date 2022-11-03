@@ -16,6 +16,8 @@ import androidx.viewbinding.ViewBinding;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.rizorsiumani.workondemanduser.data.local.PreferenceRepository;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
+import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
@@ -28,10 +30,11 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
 
     protected abstract binding getActivityBinding();
 
-    private ConstraintLayout cartView;
+    ConstraintLayout cartView;
     protected PreferenceRepository prefRepository = null;
     private LottieAnimationView animationView;
-    TextView cartTotal;
+    TextView cartItem;
+    String cartTotal;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,15 +44,37 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
         progressBar = findViewById(R.id.progress);
         cartView = findViewById(R.id.cartButton);
         animationView = findViewById(R.id.no_data_animation);
-        cartTotal = findViewById(R.id.cartCount);
+        cartItem = findViewById(R.id.cartCount);
         prefRepository = new PreferenceRepository();
+
+//        try {
+//
+//        }catch (NullPointerException | NumberFormatException |IllegalStateException e){
+//            e.printStackTrace();
+//        }
+
+        if (TinyDbManager.getCartData().size() > 0) {
+            cartView.setVisibility(View.VISIBLE);
+
+            int total = 0;
+            for (int i = 0; i < TinyDbManager.getCartData().size(); i++) {
+                MyCartItems cartItems = TinyDbManager.getCartData().get(i);
+                int price = Integer.parseInt(cartItems.getData().getPrice());
+                total = total + price;
+            }
+            cartTotal = String.valueOf(total);
+            cartItem.setText(String.valueOf(TinyDbManager.getCartData().size()));
+        }else {
+            cartView.setVisibility(View.GONE);
+        }
+
 
         cartView.setOnClickListener(view -> {
             Intent intent = new Intent(BaseActivity.this, BookingDetail.class);
             startActivity(intent);
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
+
 
     }
 
@@ -72,12 +97,10 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
         cartView.setVisibility(View.VISIBLE);
     }
 
-    protected void setCartTotal(String value) {
-        cartTotal.setText(value);
-    }
+
 
     protected String getCartTotal() {
-        return cartTotal.getText().toString();
+        return cartTotal;
     }
     protected void hideCartButton() {
         cartView.setVisibility(View.GONE);

@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.BaseActivity;
+import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServicesDataItem;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookServiceBinding;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 public class BookService extends BaseActivity<ActivityBookServiceBinding> {
 
@@ -51,9 +53,9 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
 
             activityBinding.sName.setText(servicesDataItem.getTitle());
             activityBinding.sDetail.setText(servicesDataItem.getDescription());
-            activityBinding.chargePerHour.setText(servicesDataItem.getPrice());
+            activityBinding.chargePerHour.setText(Constants.CURRENCY + servicesDataItem.getPrice());
             activityBinding.minimumHour.setText(servicesDataItem.getPriceUnit());
-            activityBinding.estimatedCharge.setText(servicesDataItem.getPrice());
+            activityBinding.estimatedCharge.setText(Constants.CURRENCY + servicesDataItem.getPrice());
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -66,13 +68,20 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
             prefRepository.setString("cart", String.valueOf(false));
             onBackPressed();
             finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
         activityBinding.btnAddItem.setOnClickListener(view -> {
-            if (servicesDataItem != null) {
-                insertDataInCart(servicesDataItem,spID);
+            String description = activityBinding.instructions.getText().toString();
+            if (description.isEmpty()){
+                showSnackBarShort("Add Detail for Provider");
+            }else {
+                Constants.description = description;
+                if (servicesDataItem != null) {
+                    insertDataInCart(servicesDataItem,spID);
+                }
             }
+
         });
 
     }
@@ -92,6 +101,7 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
             if (!available){
                 MyCartItems cartItems = new MyCartItems(spID,servicesDataItem);
                 TinyDbManager.saveCartData(cartItems);
+                TinyDbManager.saveServiceProviderID(spID);
                 Nav();
 
             }
@@ -105,6 +115,6 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
         intent.putExtra("service_provider_id",String.valueOf(spID));
         startActivity(intent);
         finish();
-        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

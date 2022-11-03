@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -33,11 +34,14 @@ import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.common.AddBookingDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.PaymentDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.PromoDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.CustomerIdResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.EphemeralKeyResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.PaymentIntentResponse;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookingDetailBinding;
+import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
@@ -47,10 +51,6 @@ import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,28 +88,18 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     protected void onStart() {
         super.onStart();
 
+        hideCartButton();
+
         service_provider_id = getIntent().getStringExtra("service_provider_id");
+        if (service_provider_id == null) {
+            service_provider_id = TinyDbManager.getServiceProviderID();
+        }
+
         viewModel = new ViewModelProvider(this).get(BookingDetailViewModel.class);
 
-        hideCartButton();
-        activityBinding.btnPayNow.setText(getCartTotal());
+        setData();
+        clickListeners();
 
-//        if (TinyDbManager.getCartData() != null){
-//            if (TinyDbManager.getCartData().size() > 0){
-//                for (int i = 0; i < TinyDbManager.getCartData().size()-1; i++) {
-//                    MyCartItems cartItems = TinyDbManager.getCartData().get(i);
-//                    total = total + Integer.parseInt(cartItems.getData().getPrice());
-//                }
-//                activityBinding.btnPayNow.setText(String.valueOf(total));
-//                getCartServices(TinyDbManager.getCartData());
-//            }
-//        }
-
-        if (TinyDbManager.getCurrentAddress() != null) {
-            activityBinding.tvAddress.setText(TinyDbManager.getCurrentAddress());
-        } else {
-            activityBinding.tvAddress.setText("Please set your location");
-        }
 
         PaymentConfiguration.init(BookingDetail.this, publish_key);
         paymentSheet = new PaymentSheet(this, this::onPaymentResult);
@@ -146,14 +136,58 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         RequestQueue requestQueue = Volley.newRequestQueue(BookingDetail.this);
         requestQueue.add(request);
 
-//        String request_status = prefRepository.getString("Complete");
-//        if (request_status.equalsIgnoreCase("true")){
-//            showRequestedDialogue();
-//        }
+
+    }
+
+    private void setData() {
+        try {
 
 
-        activityBinding.bookingDetailToolbar.title.setText("Booking Details");
-        clickListeners();
+            if (!TinyDbManager.getCurrentAddress().isEmpty()) {
+                activityBinding.tvAddress.setText(TinyDbManager.getCurrentAddress());
+            } else {
+                activityBinding.tvAddress.setText("Please set your location");
+            }
+
+            activityBinding.bookingDetailToolbar.title.setText("Booking Details");
+            activityBinding.btnPayNow.setText(Constants.CURRENCY + getCartTotal());
+
+            if (TinyDbManager.getCartData() != null) {
+                if (TinyDbManager.getCartData().size() > 0) {
+                    getCartServices(TinyDbManager.getCartData());
+                    activityBinding.totalCharges.setText(Constants.CURRENCY + getCartTotal());
+                    activityBinding.subTotal.setText(Constants.CURRENCY + getCartTotal());
+                }
+            }
+
+            try {
+
+                if (TinyDbManager.getPromo() != null) {
+                    PromoDataItem promoDataItem = TinyDbManager.getPromo();
+                    int amount_of_discount = (int) (Integer.parseInt(getCartTotal()) * Math.round(promoDataItem.getDiscount()) / 100);
+                    Constants.discount = String.valueOf(amount_of_discount);
+                    activityBinding.tvDiscount.setText(promoDataItem.getDiscount() + "% OFF (" + promoDataItem.getCode() + ")");
+                    activityBinding.discountPrice.setText("- " + amount_of_discount);
+                    int updatedValue = Integer.valueOf(getCartTotal()) - amount_of_discount;
+                    activityBinding.btnPayNow.setText(Constants.CURRENCY  + updatedValue);
+                    activityBinding.discountPrice.setVisibility(View.VISIBLE);
+                    activityBinding.tvDiscount.setVisibility(View.VISIBLE);
+                } else {
+                    activityBinding.discountPrice.setVisibility(View.GONE);
+                    activityBinding.tvDiscount.setVisibility(View.GONE);
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
@@ -265,7 +299,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                     configuration
             );
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -290,13 +324,13 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             Intent intent = new Intent(BookingDetail.this, Dashboard.class);
             intent.putExtra("Navigation", "Booking");
             startActivity(intent);
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
         });
 
         cancel.setOnClickListener(view -> {
             ActivityUtil.gotoPage(BookingDetail.this, Dashboard.class);
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
     }
 
@@ -314,6 +348,17 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         adapter.setOnCartListener(position -> {
             TinyDbManager.removeCartItem(cartData.get(position));
             adapter.update(position);
+            if (TinyDbManager.getCartData().size() == 0) {
+
+                TinyDbManager.savePromo(null);
+                TinyDbManager.saveServiceProviderID("null");
+//                TinyDbManager.saveCartData.(null);
+
+                onBackPressed();
+                finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
+            }
         });
     }
 
@@ -322,16 +367,22 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         activityBinding.bookingDetailToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
-        activityBinding.promoCard.setOnClickListener(view -> {
+        activityBinding.checkPromo.setOnClickListener(view -> {
             ActivityUtil.gotoPage(BookingDetail.this, PromoCode.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         activityBinding.btnPayNow.setOnClickListener(view -> {
-            addBooking();
+            if (Constants.payment_type_id == null || Constants.payment_type_id.isEmpty()) {
+                showSnackBarShort("Select Payment Method");
+            } else if (activityBinding.tvAddress.getText().toString().equalsIgnoreCase("Please set your location")) {
+                showSnackBarShort("Select Your Location");
+            } else {
+                addBooking();
+            }
             //paymentFlow();
         });
 
@@ -347,24 +398,37 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
             viewModel.getPaymentMethods();
             viewModel._payment.observe(this, response -> {
-                        if (response != null) {
-                            if (response.isLoading()) {
-                            } else if (!response.getError().isEmpty()) {
-                                showSnackBarShort(response.getError());
-                            } else if (response.getData().getData() != null) {
-                                recyclerView.setHasFixedSize(true);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false));
-                                PaymentMethodsAdapter adapter = new PaymentMethodsAdapter(response.getData().getData(), BookingDetail.this);
-                                recyclerView.setAdapter(adapter);
+                if (response != null) {
+                    if (response.isLoading()) {
+                        showLoading();
+                    } else if (!response.getError().isEmpty()) {
+                        hideLoading();
+                        showSnackBarShort(response.getError());
+                    } else if (response.getData().getData() != null) {
+                        hideLoading();
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false));
+                        PaymentMethodsAdapter adapter = new PaymentMethodsAdapter(response.getData().getData(), BookingDetail.this);
+                        recyclerView.setAdapter(adapter);
 
-                                adapter.setonClickListener(position -> {
-                                    Constants.payment_type_id = String.valueOf(response.getData().getData().get(position).getId());
-                                    bt.dismiss();
-                                    // activityBinding.btnPayNow.performClick();
-                                });
+                        adapter.setonClickListener(position -> {
+                            PaymentDataItem paymentDataItem = response.getData().getData().get(position);
+                            try {
+                                String selected_payment = String.valueOf(paymentDataItem.getTitle());
+                                activityBinding.addPaymentMethod.setText(selected_payment);
+                                Glide.with(BookingDetail.this).load(Constants.IMG_PATH + paymentDataItem.getImage()).into(activityBinding.paymentMethodIcon);
+
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
                             }
-                        }
-                    });
+
+                            Constants.payment_type_id = String.valueOf(paymentDataItem.getId());
+                            bt.dismiss();
+                            // activityBinding.btnPayNow.performClick();
+                        });
+                    }
+                }
+            });
 //            ElasticImageView cash = items.findViewById(R.id.cashIcon);
 //            ElasticImageView card = items.findViewById(R.id.cardIcon);
 //            cash.setOnClickListener(view1 -> {
@@ -378,53 +442,74 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             bt.show();
         });
 
+        activityBinding.editAddress.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(BookingDetail.this, AddAddress.class);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
     }
 
     private void addBooking() {
-        int userID  = TinyDbManager.getUserInformation().getId();
-        int service_id = Integer.parseInt(TinyDbManager.getCartData().get(0).getId());
-        String token = prefRepository.getString("token");
+        try {
+
+            int userID = TinyDbManager.getUserInformation().getId();
+            int service_id = Integer.parseInt(TinyDbManager.getCartData().get(0).getId());
+            String token = prefRepository.getString("token");
 
 
-        List<AddBookingDataItem> list = new ArrayList<>();
-        list.add(new AddBookingDataItem(total,
-                TinyDbManager.getCurrentAddress(),
-                Integer.parseInt(service_provider_id),
-                Integer.parseInt(String.valueOf(userID)),
-                Constants.latitude,
-                "Booking Description here..",
-                Integer.parseInt(Constants.availability_id),
-                Constants.discount,
-                Constants.promotion_id,
-                total,
-                Integer.parseInt(Constants.payment_type_id),
-                Constants.longitude,
-                service_id
-                ));
-
-//        JSONArray array = new JSONArray();
-//        for(int i = 0; i < list.size(); i++) {
-//            array.put(list.get(i));
-//        }
-        Gson gson = new Gson();
-
-        JsonObject obj = new JsonObject();
-        obj.add("data", gson.toJsonTree(list));
-
-        viewModel.addBooking(token,obj);
-        viewModel._add_booking.observe(this , response -> {
-            if (response != null) {
-                if (response.isLoading()) {
-                    showLoading();
-                } else if (!response.getError().isEmpty()) {
-                    hideLoading();
-                    showSnackBarShort(response.getError());
-                } else if (response.getData() != null) {
-                    hideLoading();
-                    showRequestedDialogue();
-                }
+            if (Constants.discount == null || Constants.discount.isEmpty()) {
+                Constants.discount = "0";
             }
-        });
+            if (Constants.promotion_id == null || Constants.promotion_id.isEmpty()) {
+                Constants.promotion_id = "0";
+            }
+
+
+            List<AddBookingDataItem> list = new ArrayList<>();
+            list.add(new AddBookingDataItem(total,
+                    TinyDbManager.getCurrentAddress(),
+                    Integer.parseInt(service_provider_id),
+                    Integer.parseInt(String.valueOf(userID)),
+                    Constants.latitude,
+                    Constants.description,
+                    Integer.parseInt(Constants.availability_id),
+                    Integer.parseInt(Constants.discount),
+                    Integer.parseInt(Constants.promotion_id),
+                    total,
+                    Integer.parseInt(Constants.payment_type_id),
+                    Constants.longitude,
+                    service_id
+            ));
+
+            Gson gson = new Gson();
+
+            JsonObject obj = new JsonObject();
+            obj.add("data", gson.toJsonTree(list));
+
+            viewModel.addBooking(token, obj);
+            viewModel._add_booking.observe(this, response -> {
+                if (response != null) {
+                    if (response.isLoading()) {
+                        showLoading();
+                    } else if (!response.getError().isEmpty()) {
+                        hideLoading();
+                        showSnackBarShort(response.getError());
+                    } else if (response.getData() != null) {
+                        hideLoading();
+                        TinyDbManager.savePromo(null);
+                        //TinyDbManager.saveCartData(null);
+                        TinyDbManager.saveServiceProviderID("null");
+                        TinyDbManager.clearCart();
+
+                        showRequestedDialogue();
+                    }
+                }
+            });
+
+
+        } catch (IllegalStateException | NumberFormatException | NullPointerException exception) {
+            exception.printStackTrace();
+            showSnackBarShort("Something Went Wrong");
+        }
     }
 
 //    @Override

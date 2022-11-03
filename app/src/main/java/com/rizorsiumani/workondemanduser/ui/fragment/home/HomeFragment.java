@@ -93,7 +93,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 //           // isLocationPermissionGranted = LocationService.service.requestLocationPermission(requireContext());
 //        }
 
-        if (isLocationPermissionGranted) {
+        if (Constants.isLocationPermissionGranted) {
             locationHandler();
         }else {
             isLocationPermissionGranted = LocationService.service.requestLocationPermission(requireContext());
@@ -103,7 +103,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         fragmentBinding.skeletonLayout1.startLoading();
         Constants.isHome = true;
 
-        if (TinyDbManager.getCurrentAddress() != null) {
+        if (!TinyDbManager.getCurrentAddress().isEmpty()) {
             fragmentBinding.tvChooseAddress.setText(TinyDbManager.getCurrentAddress());
         } else {
             fragmentBinding.tvChooseAddress.setText("Please set your location");
@@ -157,9 +157,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         homeContentViewModel._home_content.observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
                 if (response.isLoading()) {
+                    showLoading();
                 } else if (!response.getError().isEmpty()) {
+                    hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
+                    hideLoading();
                     if (response.getData().getData().size() > 0) {
                         contentDataItems = new ArrayList<>();
                         for (int i = 0; i < response.getData().getData().size()-1; i++) {
@@ -203,9 +206,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         sliderViewModel._slider.observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
                 if (response.isLoading()) {
+                    showLoading();
                 } else if (!response.getError().isEmpty()) {
+                    hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getSliderData() != null) {
+                    hideLoading();
                     sliderDataItems = new ArrayList<>();
                     sliderDataItems.addAll(response.getData().getSliderData());
                     slider(sliderDataItems);
@@ -264,9 +270,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         viewModel._ddCategory.observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
                 if (response.isLoading()) {
+                    showLoading();
                 } else if (!response.getError().isEmpty()) {
+                    hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
+                    hideLoading();
                     categoriesDataItems = new ArrayList<>();
                     categoriesDataItems.addAll(response.getData().getData());
                     LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
@@ -331,12 +340,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         viewModel._category.observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
                 if (response.isLoading()) {
-                    //  showLoading();
+                      showLoading();
                 } else if (!response.getError().isEmpty()) {
-                    // hideLoading();
+                     hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
-                    // hideLoading();
+                     hideLoading();
                     categoriesDataItems = new ArrayList<>();
                     categoriesDataItems.addAll(response.getData().getData());
                     if (categoriesDataItems.size() > 0) {

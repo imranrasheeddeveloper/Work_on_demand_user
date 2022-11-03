@@ -2,20 +2,28 @@ package com.rizorsiumani.workondemanduser.ui.dashboard;
 
 import static com.rizorsiumani.workondemanduser.utils.map_utils.GeoCoders.GetProperLocationAddress;
 
-import android.content.Context;
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
@@ -31,6 +39,7 @@ import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
 import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
+import com.rizorsiumani.workondemanduser.utils.GPSTracker;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.OnLocationUpdateListener;
@@ -43,6 +52,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
 
     public static ActivityDashboardBinding binding;
     boolean isLocationPermissionGranted;
+    GPSTracker gpsTracker;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,7 +78,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
 
 
-       // isLocationPermissionGranted = LocationService.service.requestLocationPermission(App.applicationContext);
+        isLocationPermissionGranted = LocationService.service.requestLocationPermission(Dashboard.this);
         if (!Constants.isLocationPermissionGranted){
             binding.servicesSuspendLayout.setVisibility(View.VISIBLE);
         }else {
@@ -76,17 +86,18 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         }
 
         binding.turnOnLocationService.setOnClickListener(view -> {
-           // if (Constants.isLocationPermissionGranted){
-                LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
-                boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                if (statusOfGPS){
-                    binding.servicesSuspendLayout.setVisibility(View.GONE);
-                }else {
-                    Toast.makeText(this, "Enable GPS", Toast.LENGTH_SHORT).show();
-                }
-            //}else {
-            //    LocationService.service.requestLocationPermission(Dashboard.this);
-           // }
+            checkRunTimePermission();
+//           // if (Constants.isLocationPermissionGranted){
+//                LocationManager manager = (LocationManager) getSystemService(Dashboard.this.LOCATION_SERVICE );
+//                boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//                if (statusOfGPS){
+//                    binding.servicesSuspendLayout.setVisibility(View.GONE);
+//                }else {
+//                    Toast.makeText(this, "Enable GPS", Toast.LENGTH_SHORT).show();
+//                }
+//            //}else {
+//            //    LocationService.service.requestLocationPermission(Dashboard.this);
+//           // }
         });
 
 
@@ -165,6 +176,90 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         });
 
 
+    }
+
+    public void checkRunTimePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                    ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED||
+                    ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                gpsTracker = new GPSTracker(Dashboard.this);
+                Constants.isLocationPermissionGranted = true;
+                locationHandler();
+
+                LocationManager manager = (LocationManager) getSystemService(Dashboard.this.LOCATION_SERVICE );
+                boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                if (statusOfGPS){
+                    Constants.isLocationPermissionGranted = true;
+                    binding.servicesSuspendLayout.setVisibility(View.GONE);
+                }else {
+                    Toast.makeText(this, "Enable GPS", Toast.LENGTH_SHORT).show();
+                }
+
+            } else {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                        10);
+            }
+        } else {
+            gpsTracker = new GPSTracker(Dashboard.this); //GPSTracker is class that is used for retrieve user current location
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 10) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                gpsTracker = new GPSTracker(Dashboard.this);
+                Constants.isLocationPermissionGranted = true;
+                locationHandler();
+
+            } else {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale( Dashboard.this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    // If User Checked 'Don't Show Again' checkbox for runtime permission, then navigate user to Settings
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(Dashboard.this);
+                    dialog.setTitle("Permission Required");
+                    dialog.setCancelable(false);
+                    dialog.setMessage("You have to Allow permission to access user location");
+                    dialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package",
+                                    Dashboard.this.getPackageName(), null));
+                            //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivityForResult(i, 1001);
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    alertDialog.show();
+                }
+                //code for deny
+            }
+        }
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        switch (requestCode) {
+            case 1001:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            || ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        gpsTracker = new GPSTracker(Dashboard.this);
+                        if (gpsTracker.canGetLocation()) {
+                            locationHandler();
+                        }
+                    } else {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_BACKGROUND_LOCATION},10);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
     }
 
 

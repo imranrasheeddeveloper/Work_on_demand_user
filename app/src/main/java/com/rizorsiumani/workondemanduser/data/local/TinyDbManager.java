@@ -3,6 +3,7 @@ package com.rizorsiumani.workondemanduser.data.local;
 import android.util.Log;
 
 import com.rizorsiumani.workondemanduser.App;
+import com.rizorsiumani.workondemanduser.data.businessModels.PromoDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 
@@ -17,6 +18,8 @@ public class TinyDbManager {
     public static final String KEY_USER = "key_user";
     public static final String KEY_FIRST_VISIT = "key_first_visit";
     public static final String KEY_HOUR = "key_hour";
+    public static final String KEY_PROMO = "key_promo";
+    public static final String KEY_SPID = "key_service_provider_id";
 
 
 
@@ -27,6 +30,8 @@ public class TinyDbManager {
         tinyDB.putListObject(KEY_CART, previousItems);
         Log.e("CART", "cart item saved !");
     }
+
+
 
     public static List<MyCartItems> getCartData() {
 
@@ -52,6 +57,15 @@ public class TinyDbManager {
         previousItems.remove(keyLocation + 1);
         tinyDB.putListObject(KEY_CART, previousItems);
         Log.e("CART", previousItems.size() + " cart item removed successfully !");
+
+    }
+
+    public static void clearCart() {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        ArrayList<Object> previousItems = tinyDB.getListObject(KEY_CART, MyCartItems.class);
+        previousItems.clear();
+        tinyDB.putListObject(KEY_CART, previousItems);
+        Log.e("CART", previousItems.size() + " cart cleared successfully !");
 
     }
 
@@ -86,5 +100,27 @@ public class TinyDbManager {
     public static boolean getVisit(){
         TinyDB tinyDB = new TinyDB(App.applicationContext);
         return tinyDB.getBoolean(KEY_FIRST_VISIT);
+    }
+
+    public static void savePromo(PromoDataItem promoDataItem){
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        tinyDB.putObject(KEY_PROMO, promoDataItem);
+        Log.e("PROMO CODE", "saved !");
+    }
+
+    public static PromoDataItem getPromo(){
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        return tinyDB.getObject(KEY_PROMO,PromoDataItem.class);
+    }
+
+    public static void saveServiceProviderID(String ID) {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        tinyDB.putString(KEY_SPID,ID);
+
+    }
+
+    public static String getServiceProviderID() {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        return tinyDB.getString(KEY_SPID);
     }
 }

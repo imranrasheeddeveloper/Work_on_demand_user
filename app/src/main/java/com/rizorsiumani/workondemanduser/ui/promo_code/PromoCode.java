@@ -37,6 +37,7 @@ public class PromoCode extends BaseActivity<ActivityPromoCodeBinding> {
     String selected_code;
     AlertDialog.Builder dialogBuilder;
     AlertDialog alertDialog;
+    PromoDataItem selectedPromo;
 
     @Override
     protected ActivityPromoCodeBinding getActivityBinding() {
@@ -79,8 +80,9 @@ public class PromoCode extends BaseActivity<ActivityPromoCodeBinding> {
 
         adapter.setOnPromoCodesClickListener(position -> {
             activityBinding.etSelectedCode.setText(String.valueOf(promoDataItemList.get(position).getCode()));
+            selectedPromo = promoDataItemList.get(position);
             selected_code = String.valueOf(promoDataItemList.get(position).getCode());
-            Constants.discount = String.valueOf(promoDataItemList.get(position).getDiscount());
+            //Constants.discount = String.valueOf(promoDataItemList.get(position).getDiscount());
         });
 
     }
@@ -89,17 +91,17 @@ public class PromoCode extends BaseActivity<ActivityPromoCodeBinding> {
         activityBinding.promoToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
         activityBinding.tvActivateCode.setOnClickListener(view -> {
-           if (!activityBinding.etSelectedCode.getText().toString().isEmpty()){
-               activateCode(activityBinding.etSelectedCode.getText().toString());
+           if (selectedPromo != null){
+               activateCode(activityBinding.etSelectedCode.getText().toString(), selectedPromo);
            }
         });
     }
 
-    private void activateCode(String code) {
+    private void activateCode(String code, PromoDataItem selectedPromo) {
         showLoading();
 //        dialogBuilder = new AlertDialog.Builder(PromoCode.this);
 //        View layoutView = getLayoutInflater().inflate(R.layout.activating_code_dialogue, null);
@@ -116,19 +118,25 @@ public class PromoCode extends BaseActivity<ActivityPromoCodeBinding> {
         viewModel._activate.observe(this, response -> {
             if (response != null) {
                 if (response.isLoading()) {
+                    showLoading();
                 } else if (!response.getError().isEmpty()) {
                     showSnackBarShort(response.getError());
                     hideLoading();
                  //   alertDialog.dismiss();
                 } else if (response.getData().isSuccess()) {
+                    saveValidCode(selectedPromo);
                     hideLoading();
                     onBackPressed();
                     finish();
-                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }
             }
         });
 
 
+    }
+
+    private void saveValidCode(PromoDataItem selectedPromo) {
+        TinyDbManager.savePromo(selectedPromo);
     }
 }

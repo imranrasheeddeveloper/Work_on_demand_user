@@ -48,6 +48,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
     protected void onStart() {
         super.onStart();
 
+        hideCartButton();
 
         isLocationPermissionGranted = LocationService.service.requestLocationPermission(SplashActivity.this);
         if (isLocationPermissionGranted) {

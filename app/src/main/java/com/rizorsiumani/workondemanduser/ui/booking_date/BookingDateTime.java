@@ -77,12 +77,12 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
         viewModel._available.observe(this, response -> {
             if (response != null) {
                 if (response.isLoading()) {
-                    //showLoading();
+                    showLoading();
                 } else if (!response.getError().isEmpty()) {
-                    // hideLoading();
+                     hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
-                    // hideLoading();
+                     hideLoading();
                     if (response.getData().getData().size() > 0) {
                         list = new ArrayList<>();
                         list.addAll(response.getData().getData());
@@ -123,7 +123,7 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
 
                                 onBackPressed();
                                 finish();
-                                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                             }
                         }
                     });
@@ -175,13 +175,13 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
             Intent intent = new Intent(BookingDateTime.this, Dashboard.class);
             intent.putExtra("Navigation", "Booking");
             startActivity(intent);
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
         });
 
         cancel.setOnClickListener(view -> {
             ActivityUtil.gotoPage(BookingDateTime.this, Dashboard.class);
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
     }
 

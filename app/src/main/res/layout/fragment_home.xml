@@ -6,12 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.home.HomeFragment">
 
-    <include
-                    layout="@layout/layout_progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
 
-        />
 
 
 
@@ -261,6 +256,9 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/homeContent"
                     android:layout_width="match_parent"
@@ -270,6 +268,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     >
+
 
                     <TextView
                         android:id="@+id/tv_choose_address"
@@ -429,8 +428,17 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintTop_toBottomOf="@+id/recomendedList" />
 
+                    <include
+                        layout="@layout/layout_progress_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

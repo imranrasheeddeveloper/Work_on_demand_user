@@ -64,7 +64,7 @@ public class AllServices extends BaseActivity<com.rizorsiumani.workondemanduser.
         activityBinding.servicesToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
     }
 }

@@ -70,9 +70,11 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
                 fragmentBinding.userNumber1.setText(userData.getPhoneNumber());
                 Glide.with(requireContext())
                         .load(Constants.IMG_PATH + userData.getImage())
+                        .placeholder(R.color.teal_700)
                         .into(fragmentBinding.userImage);
                 Glide.with(requireContext())
                         .load(Constants.IMG_PATH + userData.getImage())
+                        .placeholder(R.color.teal_700)
                         .into(fragmentBinding.userImage1);
             }
 

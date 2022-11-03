@@ -115,7 +115,7 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
         activityBinding.categoriesToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
     }
 

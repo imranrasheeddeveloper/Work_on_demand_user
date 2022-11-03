@@ -192,15 +192,9 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <TextView
-                    android:id="@+id/tv_place"
-                    style="@style/mediumText"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:padding="@dimen/_10sdp"
-                    android:text="Office"
-                    android:textColor="@color/black"
+                    android:layout_height="@dimen/_12sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_sp"
                     app:layout_constraintTop_toTopOf="@+id/iv_sp" />
@@ -237,7 +231,6 @@
                 layout="@layout/layout_progress_bar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 />
 
             <androidx.constraintlayout.widget.ConstraintLayout

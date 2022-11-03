@@ -31,6 +31,8 @@ public class Gallery extends BaseFragment<FragmentGalleryBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        hideCartButton();
+
         String spID = getActivity().getIntent().getStringExtra("service_provider_id");
 
 
@@ -39,16 +41,19 @@ public class Gallery extends BaseFragment<FragmentGalleryBinding> {
         viewModel._gallery.observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
                 if (response.isLoading()) {
-                    // showLoading();
+                     showLoading();
                 } else if (!response.getError().isEmpty()) {
-                    // hideLoading();
+                     hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
-
+                      hideLoading();
                     if (response.getData().getData().size() > 0){
+                        hideNoDataAnimation();
                          galleryDataItems = new ArrayList<>();
                          galleryDataItems.addAll(response.getData().getData());
                          buildRv(galleryDataItems);
+                    }else {
+                        showNoDataAnimation();
                     }
                 }
             }

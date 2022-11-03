@@ -56,12 +56,13 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
                     viewModel._by_cat_provider.observe(getViewLifecycleOwner(), response -> {
                         if (response != null) {
                             if (response.isLoading()) {
-                                // showLoading();
+                                 showLoading();
                             } else if (!response.getError().isEmpty()) {
-                                // hideLoading();
+                                 hideLoading();
                                 showSnackBarShort(response.getError());
                             } else if (response.getData().isSuccess()) {
 
+                                hideLoading();
                                 if (response.getData().getData().size() > 0) {
                                     serviceProviders = new ArrayList<>();
                                     serviceProviders.addAll(response.getData().getData());
@@ -85,18 +86,20 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
                 viewModel._provider.observe(getViewLifecycleOwner(), response -> {
                     if (response != null) {
                         if (response.isLoading()) {
-                            // showLoading();
+                             showLoading();
                         } else if (!response.getError().isEmpty()) {
-                            // hideLoading();
+                            hideLoading();
                             showSnackBarShort(response.getError());
                         } else if (response.getData().isSuccess()) {
 
+                            hideLoading();
                             if (response.getData().getData().size() > 0) {
+                                hideNoDataAnimation();
                                 serviceProviders = new ArrayList<>();
                                 serviceProviders.addAll(response.getData().getData());
                                 buildRv(serviceProviders);
                             } else {
-                                showSnackBarShort("Data not Available");
+                                showNoDataAnimation();
                             }
                         }
 

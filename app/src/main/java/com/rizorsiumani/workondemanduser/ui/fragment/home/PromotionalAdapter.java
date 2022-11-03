@@ -51,7 +51,7 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ServiceProviderCategoriesItem item = data.get(position);
 
-        String rate = item.getPrice() + "$";
+        String rate = item.getPrice() + Constants.CURRENCY;
         holder.textView.setText(rate);
 
         holder.sp_name.setText(item.getServiceProvider().getFirstName());

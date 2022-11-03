@@ -11,8 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvider;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
@@ -46,6 +49,8 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
+        try {
+
         GetBookingDataItem item = list.get(position);
 
         holder.status.setText(item.getStatus());
@@ -53,10 +58,21 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
         holder.service.setFocusable(true);
         holder.service.setSelected(true);
         holder.service.setText(item.getService().getTitle());
-        holder.name.setText(item.getServiceProvider().getFirstName() + " " + item.getServiceProvider().getLastName());
+        holder.description.setText(item.getDescription());
+        holder.total.setText(Constants.CURRENCY + item.getTotal());
+        if (item.getServiceProvider() != null){
+            ServiceProvider provider = item.getServiceProvider();
+            holder.name.setText(provider.getFirstName() + " " + provider.getLastName());
+            Glide.with(context).
+                    load(Constants.IMG_PATH + provider.getProfilePhoto())
+                    .placeholder(R.color.teal_700)
+                    .into(holder.circleImageView);
+        }
 
 
-
+        }catch (NullPointerException | IllegalStateException e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -73,7 +89,7 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView status, service, name,date,token;
+        TextView status, service, name,description,token,total;
         Button requested,cancel;
         CircleImageView circleImageView;
 
@@ -86,9 +102,11 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
             service = itemView.findViewById(R.id.booking_service_title);
             token = itemView.findViewById(R.id.booking_token);
             name = itemView.findViewById(R.id.tv_sp_name);
-            circleImageView = itemView.findViewById(R.id.iv_sp);
+            circleImageView = itemView.findViewById(R.id.booking_iv_sp);
             token = itemView.findViewById(R.id.booking_token);
             cancel = itemView.findViewById(R.id.cancel_booking);
+            description = itemView.findViewById(R.id.description);
+            total = itemView.findViewById(R.id.booking_total);
 
             requested = itemView.findViewById(R.id.requested_booking);
 

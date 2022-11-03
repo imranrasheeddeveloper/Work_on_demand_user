@@ -54,6 +54,7 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
                 fragmentBinding.userNumber.setText(userData.getPhoneNumber());
                 Glide.with(requireContext())
                         .load(Constants.IMG_PATH + userData.getImage())
+                        .placeholder(R.color.teal_700)
                         .into(fragmentBinding.userImage);
             }
 

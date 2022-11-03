@@ -40,6 +40,9 @@ public final class Constants {
     public static String promotion_id= "";
     public static String sub_total = "";
     public static String discount = "";
+    public static String description = "";
+
+    public static String CURRENCY = "$ ";
 
 
 
