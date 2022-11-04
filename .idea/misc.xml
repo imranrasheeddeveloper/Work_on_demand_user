@@ -3,6 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Work_on_demand_user/app/src/main/res/drawable/circular_cross1.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Work_on_demand_user/app/src/main/res/layout/activity_booking_detail.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Work_on_demand_user/app/src/main/res/layout/activity_saved_addresses.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Work_on_demand_user/app/src/main/res/layout/activity_search_provider.xml" value="0.12552083333333333" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Work_on_demand_user/app/src/main/res/layout/activity_search_services.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Work_on_demand_user/app/src/main/res/layout/booking_list_item_design.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Work_on_demand_user/app/src/main/res/layout/fragment_home.xml" value="0.12571428571428572" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Work_on_demand_user/app/src/main/res/layout/fragment_profile.xml" value="0.23006833712984054" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Work_on_demand_user/app/src/main/res/layout/layout_progress_bar.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Work_on_demand_user/app/src/main/res/layout/notification_item_design.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/Work_on_demand_user/app/src/main/res/layout/recomended_sp_design.xml" value="0.1" />
         <entry key="..\:/Users/Itrid Technologies/.gradle/caches/transforms-3/b81f33dbcd04336faceca20bc12407ed/transformed/appcompat-1.5.0/res/drawable/abc_ratingbar_small_material.xml" value="0.152" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable-v24/call_background_stroke.xml" value="0.1495" />
         <entry key="..\:/Users/Itrid Technologies/AndroidStudioProjects/RizorsiUmaniUser/app/src/main/res/drawable-v24/default_background_oval.xml" value="0.1" />

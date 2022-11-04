@@ -55,12 +55,12 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
         viewModel._profile.observe(this , response -> {
             if (response != null) {
                 if (response.isLoading()) {
-                    showLoading();
+                  //  showLoading();
                 } else if (!response.getError().isEmpty()) {
-                    hideLoading();
+                   // hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().isSuccess()) {
-                    hideLoading();
+                  //  hideLoading();
                     if (response.getData().getData() != null){
                         SProfileData data = response.getData().getData();
                         Glide.with(SpProfile.this)

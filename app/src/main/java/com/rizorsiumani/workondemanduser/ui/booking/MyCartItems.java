@@ -6,10 +6,14 @@ public class MyCartItems {
 
     String id;
     ServicesDataItem data;
+    String availability_id;
+    String description;
 
-    public MyCartItems(String id, ServicesDataItem data) {
+    public MyCartItems(String id, ServicesDataItem data,String hours, String des) {
         this.id = id;
         this.data = data;
+        this.availability_id = hours;
+        this.description = des;
     }
 
     public String getId() {
@@ -26,5 +30,13 @@ public class MyCartItems {
 
     public void setData(ServicesDataItem data) {
         this.data = data;
+    }
+
+    public String getAvailability_id() {
+        return availability_id;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

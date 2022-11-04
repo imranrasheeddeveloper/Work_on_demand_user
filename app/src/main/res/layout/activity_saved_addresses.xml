@@ -164,6 +164,7 @@
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/homeView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -212,7 +213,7 @@
                         app:layout_constraintStart_toStartOf="@id/tv_home"
                         app:layout_constraintEnd_toStartOf="@id/add"
                         app:layout_constraintTop_toBottomOf="@id/tv_home"
-                        android:text="Gulberg 23sdbksbckb"
+                        android:text=""
                         android:maxLines="2"
                         android:visibility="gone"
                         android:ellipsize="end"
@@ -227,6 +228,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                   android:id="@+id/workView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -276,7 +278,7 @@
                         app:layout_constraintStart_toStartOf="@id/tv_work"
                         app:layout_constraintEnd_toStartOf="@id/add_work_address"
                         app:layout_constraintTop_toBottomOf="@id/tv_work"
-                        android:text="Gulberg 23sdbksbckb"
+                        android:text=""
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         style="@style/normalText"

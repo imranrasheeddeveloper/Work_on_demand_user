@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,6 +47,7 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
     BookingScheduleViewModel scheduleViewModel;
     String serviceData;
     TimeSlotsAdapter timeSlotsAdapter;
+    private String selectedHours;
 
     @Override
     protected ActivityBookingDateTimeBinding getActivityBinding() {
@@ -102,13 +104,13 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
         activityBinding.btnContinue.setOnClickListener(view -> {
             try {
 
-            if (!Constants.availability_id.isEmpty()) {
+            if (!selectedHours.isEmpty()) {
 
                 if (bookingID != null) {
                     String token = prefRepository.getString("token");
                     JsonObject object = new JsonObject();
                     object.addProperty("id", bookingID);
-                    object.addProperty("availability_id", availabilityID);
+                    object.addProperty("availability_id", selectedHours);
                     scheduleViewModel.get(token, object);
                     scheduleViewModel._reschedule.observe(this, response -> {
                         if (response != null) {
@@ -121,10 +123,13 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
                                 hideLoading();
                                 Toast.makeText(BookingDateTime.this, response.getData().getMessage(), Toast.LENGTH_SHORT).show();
 
-                                onBackPressed();
-                                finish();
+                                Intent intent = new Intent(BookingDateTime.this, Dashboard.class);
+                                intent.putExtra("Navigation", "Booking");
+                                startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
                             }
+
                         }
                     });
                 } else {
@@ -136,6 +141,7 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
                     Intent intent = new Intent(BookingDateTime.this, BookService.class);
                     intent.putExtra("service_data",serviceData);
                     intent.putExtra("service_provider_id", spID);
+                    intent.putExtra("availabilityHour",selectedHours);
                     startActivity(intent);
                     finish();
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -244,7 +250,7 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
         hideLoading();
 
         timeSlotsAdapter.setOnSlotClickListener(position -> {
-            Constants.availability_id = String.valueOf(hoursList.get(position).getId());
+            selectedHours = String.valueOf(hoursList.get(position).getId());
             //Toast.makeText(this, hoursList.get(position).getId(), Toast.LENGTH_SHORT).show();
         });
     }

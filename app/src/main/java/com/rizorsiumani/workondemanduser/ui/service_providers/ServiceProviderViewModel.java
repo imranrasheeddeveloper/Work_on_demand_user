@@ -22,6 +22,10 @@ public class ServiceProviderViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<ServiceProvidersModel>> by_cat_provider = new MutableLiveData<>();
     public LiveData<ResponseWrapper<ServiceProvidersModel>> _by_cat_provider = by_cat_provider;
 
+    private final MutableLiveData<ResponseWrapper<ServiceProvidersModel>> search_provider = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<ServiceProvidersModel>> _search_provider = search_provider;
+
+
     public void serviceProviders(int page , String token ,JsonObject object) {
 
         provider.setValue(
@@ -95,6 +99,44 @@ public class ServiceProviderViewModel extends ViewModel {
                     }
                 });
     }
+
+    public void serviceProvidersSearch(int page , String token ,JsonObject object) {
+
+        search_provider.setValue(
+                new ResponseWrapper<>(
+                        true, "", null
+                ));
+
+        RemoteRepository.getInstance()
+                .searchProvider(token,page,object)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ServiceProvidersModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        search_provider.setValue(new ResponseWrapper<>(
+                                false,
+                                e.getLocalizedMessage(),
+                                null
+                        ));
+                    }
+
+                    @Override
+                    public void onNext(ServiceProvidersModel serviceProvidersModel) {
+                        search_provider.setValue(new ResponseWrapper<>(
+                                false,
+                                "",
+                                serviceProvidersModel
+                        ));
+                    }
+                });
+    }
+
 
 }
 

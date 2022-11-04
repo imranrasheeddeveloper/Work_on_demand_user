@@ -69,6 +69,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     String publish_key = "pk_test_51LqBTjGmaWwccsNaWNAb8x6B51zmMVMsI62gcxZTpC6lvhvGy7vdcw1CX1vkkrHYMkkN2C79mexjkPpuGeHW8Kg500CEi0L3Vm";
     PaymentSheet paymentSheet;
     String customerID;
+    int amount_of_discount;
     String ephemeralKey;
     String clientSecret;
     CustomerIdResponse idResponse;
@@ -164,12 +165,14 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
                 if (TinyDbManager.getPromo() != null) {
                     PromoDataItem promoDataItem = TinyDbManager.getPromo();
-                    int amount_of_discount = (int) (Integer.parseInt(getCartTotal()) * Math.round(promoDataItem.getDiscount()) / 100);
+                    amount_of_discount = (int) (Integer.parseInt(getCartTotal()) * Math.round(promoDataItem.getDiscount()) / 100);
                     Constants.discount = String.valueOf(amount_of_discount);
                     activityBinding.tvDiscount.setText(promoDataItem.getDiscount() + "% OFF (" + promoDataItem.getCode() + ")");
                     activityBinding.discountPrice.setText("- " + amount_of_discount);
-                    int updatedValue = Integer.valueOf(getCartTotal()) - amount_of_discount;
-                    activityBinding.btnPayNow.setText(Constants.CURRENCY  + updatedValue);
+                    int subTotal = Integer.valueOf(getCartTotal()) - amount_of_discount;
+                    activityBinding.btnPayNow.setText(Constants.CURRENCY  + subTotal);
+                    activityBinding.subTotal.setText(Constants.CURRENCY + subTotal);
+
                     activityBinding.discountPrice.setVisibility(View.VISIBLE);
                     activityBinding.tvDiscount.setVisibility(View.VISIBLE);
                 } else {
@@ -345,8 +348,11 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(activityBinding.cartServicesList);
 
+       // addToBookingList(cartData);
+
         adapter.setOnCartListener(position -> {
             TinyDbManager.removeCartItem(cartData.get(position));
+
             adapter.update(position);
             if (TinyDbManager.getCartData().size() == 0) {
 
@@ -358,8 +364,65 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                 finish();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
+            }else {
+                Intent intent = new Intent(BookingDetail.this, BookingDetail.class);
+                startActivity(intent);
+                finish();
             }
         });
+    }
+
+    private void addToBookingList() {
+
+        try {
+
+
+        for (int i = 0; i < TinyDbManager.getCartData().size(); i++) {
+            MyCartItems cartItems = TinyDbManager.getCartData().get(i);
+
+            int userID = TinyDbManager.getUserInformation().getId();
+            int service_id = cartItems.getData().getId();
+
+            if (Constants.discount == null || Constants.discount.isEmpty()) {
+                Constants.discount = "0";
+            }else {
+                int discount_per_cart = amount_of_discount /TinyDbManager.getCartData().size();
+                Constants.discount = String.valueOf(discount_per_cart);
+            }
+            if (Constants.promotion_id == null || Constants.promotion_id.isEmpty()) {
+                Constants.promotion_id = "0";
+            }
+
+            int cartSubTotal = Integer.parseInt(cartItems.getData().getPrice()) - Integer.parseInt(Constants.discount);
+
+            AddBookingDataItem bookingDataItem = new AddBookingDataItem(
+                    Integer.parseInt(cartItems.getData().getPrice()),
+                    TinyDbManager.getCurrentAddress(),
+                    Integer.parseInt(service_provider_id),
+                    Integer.parseInt(String.valueOf(userID)),
+                    Constants.latitude,
+                    cartItems.getDescription(),
+                    Integer.parseInt(cartItems.getAvailability_id()),
+                    Integer.parseInt(Constants.discount),
+                    Integer.parseInt(Constants.promotion_id),
+                    cartSubTotal,
+                    Integer.parseInt(Constants.payment_type_id),
+                    Constants.longitude,
+                    service_id
+            );
+
+            TinyDbManager.saveBookingList(bookingDataItem);
+        }
+
+        TinyDbManager.getBookingList();
+        if (TinyDbManager.getBookingList().size() > 0){
+            addBooking(TinyDbManager.getBookingList());
+        }
+
+        }catch (NullPointerException | IllegalStateException | NumberFormatException e){
+            e.printStackTrace();
+        }
+
     }
 
     private void clickListeners() {
@@ -381,7 +444,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             } else if (activityBinding.tvAddress.getText().toString().equalsIgnoreCase("Please set your location")) {
                 showSnackBarShort("Select Your Location");
             } else {
-                addBooking();
+                addToBookingList();
             }
             //paymentFlow();
         });
@@ -448,42 +511,42 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         });
     }
 
-    private void addBooking() {
+    private void addBooking(List<AddBookingDataItem> bookingList) {
         try {
 
-            int userID = TinyDbManager.getUserInformation().getId();
-            int service_id = Integer.parseInt(TinyDbManager.getCartData().get(0).getId());
+//            int userID = TinyDbManager.getUserInformation().getId();
+//            int service_id = Integer.parseInt(TinyDbManager.getCartData().get(0).getId());
             String token = prefRepository.getString("token");
-
-
-            if (Constants.discount == null || Constants.discount.isEmpty()) {
-                Constants.discount = "0";
-            }
-            if (Constants.promotion_id == null || Constants.promotion_id.isEmpty()) {
-                Constants.promotion_id = "0";
-            }
-
-
-            List<AddBookingDataItem> list = new ArrayList<>();
-            list.add(new AddBookingDataItem(total,
-                    TinyDbManager.getCurrentAddress(),
-                    Integer.parseInt(service_provider_id),
-                    Integer.parseInt(String.valueOf(userID)),
-                    Constants.latitude,
-                    Constants.description,
-                    Integer.parseInt(Constants.availability_id),
-                    Integer.parseInt(Constants.discount),
-                    Integer.parseInt(Constants.promotion_id),
-                    total,
-                    Integer.parseInt(Constants.payment_type_id),
-                    Constants.longitude,
-                    service_id
-            ));
-
+//
+//
+//            if (Constants.discount == null || Constants.discount.isEmpty()) {
+//                Constants.discount = "0";
+//            }
+//            if (Constants.promotion_id == null || Constants.promotion_id.isEmpty()) {
+//                Constants.promotion_id = "0";
+//            }
+//
+//
+//            List<AddBookingDataItem> list = new ArrayList<>();
+//
+//            list.add(new AddBookingDataItem(total,
+//                    TinyDbManager.getCurrentAddress(),
+//                    Integer.parseInt(service_provider_id),
+//                    Integer.parseInt(String.valueOf(userID)),
+//                    Constants.latitude,
+//                    Constants.description,
+//                    Integer.parseInt(Constants.availability_id),
+//                    Integer.parseInt(Constants.discount),
+//                    Integer.parseInt(Constants.promotion_id),
+//                    total,
+//                    Integer.parseInt(Constants.payment_type_id),
+//                    Constants.longitude,
+//                    service_id
+//            ));
             Gson gson = new Gson();
 
             JsonObject obj = new JsonObject();
-            obj.add("data", gson.toJsonTree(list));
+            obj.add("data", gson.toJsonTree(bookingList));
 
             viewModel.addBooking(token, obj);
             viewModel._add_booking.observe(this, response -> {

@@ -18,6 +18,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentProfileBinding;
 import com.rizorsiumani.workondemanduser.ui.all_posted_jobs.AllPostedJobs;
+import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
@@ -40,6 +41,14 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+        hideCartButton();
+        if (TinyDbManager.getCartData().size() > 0){
+            fragmentBinding.tvCart.setVisibility(View.VISIBLE);
+        }else {
+            fragmentBinding.tvCart.setVisibility(View.GONE);
+        }
+
         setProfileInfo();
         clickListeners();
 
@@ -51,7 +60,6 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
                     fragmentBinding.toolbarData.setVisibility(View.VISIBLE);
                 } else if (state.equals(State.EXPANDED)) {
                     fragmentBinding.toolbarData.setVisibility(View.GONE);
-
                 } else if ((state.equals(State.IDLE))) {
 
                 }
@@ -89,6 +97,11 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
 
         fragmentBinding.tvNotifications.setOnClickListener(view -> {
             ActivityUtil.gotoPage(requireContext(), Notification.class);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        fragmentBinding.tvCart.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(requireContext(), BookingDetail.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 

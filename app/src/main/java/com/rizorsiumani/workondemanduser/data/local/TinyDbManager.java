@@ -3,6 +3,7 @@ package com.rizorsiumani.workondemanduser.data.local;
 import android.util.Log;
 
 import com.rizorsiumani.workondemanduser.App;
+import com.rizorsiumani.workondemanduser.common.AddBookingDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.PromoDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
@@ -13,6 +14,8 @@ import java.util.List;
 public class TinyDbManager {
 
     public static final String KEY_CART = "key_cart";
+    public static final String KEY_ADD_BOOKING = "key_add_booking";
+
     public static final String KEY_ADDRESS = "key_address";
     public static final String KEY_ADDRESS_STATUS = "key_address_status";
     public static final String KEY_USER = "key_user";
@@ -31,6 +34,30 @@ public class TinyDbManager {
         Log.e("CART", "cart item saved !");
     }
 
+    public static void saveBookingList(AddBookingDataItem data) {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        ArrayList<Object> previousItems = tinyDB.getListObject(KEY_ADD_BOOKING, AddBookingDataItem.class);
+        previousItems.add(data);
+        tinyDB.putListObject(KEY_ADD_BOOKING, previousItems);
+        Log.e("ADD BOOKING", "booking item saved !");
+    }
+
+    public static List<AddBookingDataItem> getBookingList() {
+
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        ArrayList<Object> items = tinyDB.getListObject(KEY_ADD_BOOKING, AddBookingDataItem.class);
+        ArrayList<AddBookingDataItem> cartItems = new ArrayList<>();
+        ;
+
+        if (!items.isEmpty()) {
+            for (int i = 0; i < items.size(); i++) {
+
+                AddBookingDataItem item = (AddBookingDataItem) items.get(i);
+                cartItems.add(item);
+            }
+        }
+        return cartItems;
+    }
 
 
     public static List<MyCartItems> getCartData() {

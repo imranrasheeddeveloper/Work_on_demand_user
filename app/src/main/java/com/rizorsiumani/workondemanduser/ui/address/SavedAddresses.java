@@ -205,6 +205,20 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
             navToAddAddress();
         });
 
+        activityBinding.homeView.setOnClickListener(view -> {
+            String address = activityBinding.homeAddress.getText().toString();
+            if (!address.isEmpty()){
+                setCurrentAddress(address);
+            }
+        });
+
+        activityBinding.workView.setOnClickListener(view -> {
+            String address = activityBinding.workddress.getText().toString();
+            if (!address.isEmpty()){
+                setCurrentAddress(address);
+            }
+        });
+
         activityBinding.addWorkAddress.setOnClickListener(view -> {
             String tag = activityBinding.addWorkAddress.getTag().toString();
             if (tag.equals("edit")) {
@@ -231,6 +245,13 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
             activityBinding.favLocations.setVisibility(View.VISIBLE);
         });
 
+    }
+
+    private void setCurrentAddress(String address) {
+        TinyDbManager.saveCurrentAddress(address);
+        onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     private void navigateWithExtras(String title, int id) {

@@ -10,16 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.NotificationDataItem;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
-    private final List<String> list;
+    private final List<NotificationDataItem> list;
     private final Context ctx;
 
-    public NotificationAdapter(List<String> transactions, Context context) {
-        this.list = transactions;
+    public NotificationAdapter(List<NotificationDataItem> data, Context context) {
+        this.list = data;
         this.ctx = context;
     }
 
@@ -32,8 +34,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.ViewHolder holder, int position) {
-        String name = list.get(position);
-        holder.title.setText(name);
+
+        try {
+
+        NotificationDataItem dataItem = list.get(position);
+        holder.title.setText(dataItem.getTitle());
+        holder.message.setText(dataItem.getBody());
+        holder.date.setText(Constants.getDate(dataItem.getCreatedAt()));
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -42,12 +54,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView message , title;
+        public TextView message , title, date;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.notification_title);
+            message = itemView.findViewById(R.id.notification_message);
+            date = itemView.findViewById(R.id.notification_date);
+
         }
     }
 }

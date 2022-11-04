@@ -11,6 +11,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.NotificationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PaymentGatewayModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
@@ -68,7 +69,6 @@ public interface ApiService {
     Observable<PostImageModel> uploadJobImage(@Part MultipartBody.Part filePart);
 
 
-
     @POST("users/register_user")
     Observable<RegistrationModel> registerUser(@Body JsonObject object);
 
@@ -111,11 +111,11 @@ public interface ApiService {
 
     @POST("serviceProvider/viewAll_home_content_category/{page_no}")
     Observable<ServiceProvidersModel> getServiceProvidersByCat(@Header("Authorization") String token,
-                                                          @Path("page_no") int page_no,
-                                                          @Body JsonObject object);
+                                                               @Path("page_no") int page_no,
+                                                               @Body JsonObject object);
 
     @GET("serviceProvider/get_service_providers_gallery/{id}")
-    Observable<ProviderGalleryModel> getGallery (@Path("id") int id);
+    Observable<ProviderGalleryModel> getGallery(@Path("id") int id);
 
     @GET("serviceProvider/get_service_providers_services/{id}")
     Observable<ProviderServicesModel> getServices(@Path("id") int id);
@@ -155,5 +155,15 @@ public interface ApiService {
     @GET("booking/booking_detail/{booking_id}")
     Observable<BookingDetailModel> getBookingDetails(@Header("Authorization") String token,
                                                      @Path("booking_id") int booking_id);
+
+    @GET("users/getAllNotifications/{page_no}")
+    Observable<NotificationModel> getNotifications(@Header("Authorization") String token,
+                                                   @Path("page_no") int page_no);
+
+    @POST("serviceProvider/searchServices/{page_no}")
+    Observable<ServiceProvidersModel> getProviderBySearch(@Header("Authorization") String token,
+                                                          @Path("page_no") int page_no,
+                                                          @Body JsonObject object);
+
 
 }

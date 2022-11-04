@@ -10,6 +10,9 @@ public class GetBookingDataItem {
 	@SerializedName("latitude")
 	private double latitude;
 
+	@SerializedName("createdAt")
+	private String createdAt;
+
 	@SerializedName("description")
 	private String description;
 
@@ -107,5 +110,9 @@ public class GetBookingDataItem {
 
 	public Promotion getPromotion(){
 		return promotion;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
 	}
 }

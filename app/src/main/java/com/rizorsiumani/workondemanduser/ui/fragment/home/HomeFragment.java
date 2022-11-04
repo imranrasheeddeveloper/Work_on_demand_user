@@ -30,10 +30,12 @@ import com.rizorsiumani.workondemanduser.data.businessModels.SliderDataItem;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
+import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
+import com.rizorsiumani.workondemanduser.ui.search_provider.SearchProvider;
 import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
 import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
@@ -73,6 +75,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        hideCartButton();
+        if (TinyDbManager.getCartData().size() > 0){
+            fragmentBinding.homeCartButton.setVisibility(View.VISIBLE);
+            fragmentBinding.cartCount.setText(String.valueOf(TinyDbManager.getCartData().size()));
+        }else {
+            fragmentBinding.homeCartButton.setVisibility(View.GONE);
+        }
+
 
         selectedFilter = new ArrayList<>();
         isLocationPermissionGranted = LocationService.service.requestLocationPermission(requireContext());
@@ -229,8 +240,18 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
+        fragmentBinding.tvSearch.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(requireContext(), SearchProvider.class);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
         fragmentBinding.notifications.setOnClickListener(view -> {
             ActivityUtil.gotoPage(requireContext(), Notification.class);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        fragmentBinding.homeCartButton.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(requireContext(), BookingDetail.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 

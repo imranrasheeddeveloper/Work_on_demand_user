@@ -13,6 +13,7 @@ import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServicesDataItem;
 import com.rizorsiumani.workondemanduser.ui.booking.BookService;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class SpServicesAdapter extends RecyclerView.Adapter<SpServicesAdapter.Vi
         ServicesDataItem dataItem = list.get(position);
         holder.name.setText(dataItem.getTitle());
         holder.description.setText(dataItem.getDescription());
-        holder.budget.setText(dataItem.getPrice());
+        holder.budget.setText(Constants.CURRENCY + dataItem.getPrice());
         holder.budgetUnit.setText("(" + dataItem.getPriceUnit() +")");
 
     }

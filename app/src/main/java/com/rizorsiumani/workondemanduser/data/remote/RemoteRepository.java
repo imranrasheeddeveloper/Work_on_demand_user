@@ -13,6 +13,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.NotificationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PaymentGatewayModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
@@ -302,6 +303,22 @@ public class RemoteRepository {
 
         if (mService != null) {
             return mService.getBookingDetails(token,id);
+        }
+        return null;
+    }
+
+    public Observable<NotificationModel> notifications(String token , int page) {
+
+        if (mService != null) {
+            return mService.getNotifications(token,page);
+        }
+        return null;
+    }
+
+    public Observable<ServiceProvidersModel> searchProvider(String token , int page,JsonObject object) {
+
+        if (mService != null) {
+            return mService.getProviderBySearch(token,page,object);
         }
         return null;
     }

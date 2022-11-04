@@ -22,6 +22,9 @@ import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public final class Constants {
     public static final String BASE_URL = "http://34.203.72.68:4000/";
@@ -75,6 +78,41 @@ public final class Constants {
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), imageBitmap, "Title", null);
         return Uri.parse(path);
     }
+
+    public static String getDate(String data) {
+        String date;
+        String[] date_value = data.split("T");
+        date = date_value[0];
+        String formatted_date = formatDate(date);
+        formatted_date = formatted_date.replaceAll("-", " ");
+        return formatted_date;
+    }
+
+    public static String getTime(String data) {
+        String time;
+        String[] time_value = data.split("T");
+        time = time_value[1].substring(0, Math.min(time_value[1].length(), 5));
+        return time;
+    }
+
+    public static String formatDate(String earningPeriod) {
+        String inputPattern = "yyyy-MM-dd";
+        String outputPattern = "dd MMM yyyy";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date date = null;
+        String str = null;
+
+        try {
+            date = inputFormat.parse(earningPeriod);
+            str = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
 
     public String getRealPathFromURI(Uri tempUri, Activity activity) {
         String path = "";

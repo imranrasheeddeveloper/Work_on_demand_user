@@ -95,7 +95,7 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                         fragmentBinding.bookingList.setVisibility(View.VISIBLE);
                         dataItems = new ArrayList<>();
                         dataItems.addAll(response.getData().getData());
-                        buildList(dataItems);
+                        buildList(dataItems,status);
                     }else {
                         showNoDataAnimation();
                         fragmentBinding.bookingList.setVisibility(View.GONE);
@@ -108,11 +108,11 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
 
 
 
-    private void buildList(List<GetBookingDataItem> dataItems) {
+    private void buildList(List<GetBookingDataItem> dataItems, String status) {
 
         fragmentBinding.bookingList.setHasFixedSize(true);
         fragmentBinding.bookingList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        BookingAdopter bookingAdopter = new BookingAdopter(dataItems, requireContext());
+        BookingAdopter bookingAdopter = new BookingAdopter(dataItems,status, requireContext());
         fragmentBinding.bookingList.setAdapter(bookingAdopter);
 
         bookingAdopter.setOnBookingClickListener(new BookingAdopter.ItemClickListener() {

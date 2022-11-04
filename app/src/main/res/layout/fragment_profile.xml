@@ -235,6 +235,14 @@
                     android:background="@color/off_white"
                     >
 
+                    <include
+                        android:visibility="gone"
+                        layout="@layout/layout_progress_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+
+                        />
 
                     <!--general setting-->
 
@@ -291,6 +299,21 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_notifications" />
 
 
+
+                    <TextView
+                        android:id="@+id/tv_cart"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View Cart Details"
+                        android:layout_marginTop="1dp"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/notification_p"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_jobs" />
+
+
                     <TextView
                         android:id="@+id/tv_invite"
                         style="@style/profile_text_appearance"
@@ -302,7 +325,7 @@
                         app:drawableEndCompat="@drawable/grey_forward_icon"
                         app:drawableStartCompat="@drawable/email_p"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_jobs" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_cart" />
 
 
 
@@ -443,13 +466,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include
-                    layout="@layout/layout_progress_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-
-                    />
 
             </androidx.core.widget.NestedScrollView>
 

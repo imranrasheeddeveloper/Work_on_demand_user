@@ -21,19 +21,21 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHolder>{
+public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHolder> {
 
-    private final List<GetBookingDataItem>  list;
+    private final List<GetBookingDataItem> list;
     private Context context;
     private ItemClickListener mListener;
+    String current_status;
 
     public void setOnBookingClickListener(ItemClickListener listener) {
         mListener = listener;
     }
 
     // RecyclerView recyclerView;
-    public BookingAdopter(List<GetBookingDataItem> status, Context ctx) {
-        this.list = status;
+    public BookingAdopter(List<GetBookingDataItem> data, String status, Context ctx) {
+        this.list = data;
+        this.current_status = status;
         this.context = ctx;
     }
 
@@ -42,8 +44,8 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View car_list= layoutInflater.inflate(R.layout.booking_list_item_design, parent, false);
-        return new ViewHolder(car_list,mListener);
+        View car_list = layoutInflater.inflate(R.layout.booking_list_item_design, parent, false);
+        return new ViewHolder(car_list, mListener);
     }
 
     @Override
@@ -51,26 +53,39 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
 
         try {
 
-        GetBookingDataItem item = list.get(position);
+            if (current_status.equalsIgnoreCase("Pending")) {
+                holder.requested.setVisibility(View.VISIBLE);
+                holder.cancel.setVisibility(View.VISIBLE);
+            } else {
+                holder.requested.setVisibility(View.GONE);
+                holder.cancel.setVisibility(View.GONE);
+            }
 
-        holder.status.setText(item.getStatus());
-        holder.service.setHorizontallyScrolling(true);
-        holder.service.setFocusable(true);
-        holder.service.setSelected(true);
-        holder.service.setText(item.getService().getTitle());
-        holder.description.setText(item.getDescription());
-        holder.total.setText(Constants.CURRENCY + item.getTotal());
-        if (item.getServiceProvider() != null){
-            ServiceProvider provider = item.getServiceProvider();
-            holder.name.setText(provider.getFirstName() + " " + provider.getLastName());
-            Glide.with(context).
-                    load(Constants.IMG_PATH + provider.getProfilePhoto())
-                    .placeholder(R.color.teal_700)
-                    .into(holder.circleImageView);
-        }
+            GetBookingDataItem item = list.get(position);
+
+            holder.status.setText(item.getStatus());
+            holder.token.setText(String.valueOf(item.getId()));
+
+            holder.date.setText(Constants.getDate(item.getCreatedAt()));
+            holder.time.setText(Constants.getTime(item.getCreatedAt()));
+
+            holder.service.setHorizontallyScrolling(true);
+            holder.service.setFocusable(true);
+            holder.service.setSelected(true);
+            holder.service.setText(item.getService().getTitle());
+            holder.description.setText(item.getDescription());
+            holder.total.setText(Constants.CURRENCY + item.getTotal());
+            if (item.getServiceProvider() != null) {
+                ServiceProvider provider = item.getServiceProvider();
+                holder.name.setText(provider.getFirstName() + " " + provider.getLastName());
+                Glide.with(context).
+                        load(Constants.IMG_PATH + provider.getProfilePhoto())
+                        .placeholder(R.color.teal_700)
+                        .into(holder.circleImageView);
+            }
 
 
-        }catch (NullPointerException | IllegalStateException e){
+        } catch (NullPointerException | IllegalStateException e) {
             e.printStackTrace();
         }
     }
@@ -81,16 +96,18 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
         return list.size();
     }
 
-    public interface ItemClickListener{
+    public interface ItemClickListener {
         void allRequestedBookings(int position);
+
         void cancelBooking(int position);
+
         void bookingInformation(int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView status, service, name,description,token,total;
-        Button requested,cancel;
+        TextView status, service, name, description, token, total, date, time;
+        Button requested, cancel;
         CircleImageView circleImageView;
 
 
@@ -107,11 +124,13 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
             cancel = itemView.findViewById(R.id.cancel_booking);
             description = itemView.findViewById(R.id.description);
             total = itemView.findViewById(R.id.booking_total);
+            date = itemView.findViewById(R.id.booking_date);
+            time = itemView.findViewById(R.id.booking_time);
 
             requested = itemView.findViewById(R.id.requested_booking);
 
             cancel.setOnClickListener(view -> {
-                if (mListener!= null){
+                if (mListener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         mListener.cancelBooking(position);
@@ -120,7 +139,7 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
             });
 
             requested.setOnClickListener(view -> {
-                if (mListener!= null){
+                if (mListener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         mListener.allRequestedBookings(position);
@@ -129,7 +148,7 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
             });
 
             itemView.setOnClickListener(view -> {
-                if (mListener!= null){
+                if (mListener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         mListener.bookingInformation(position);

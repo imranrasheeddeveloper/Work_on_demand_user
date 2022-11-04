@@ -48,6 +48,8 @@ public class PromoCode extends BaseActivity<ActivityPromoCodeBinding> {
     protected void onStart() {
         super.onStart();
 
+        hideCartButton();
+
         viewModel = new ViewModelProvider(this).get(PromotionViewModel.class);
         viewModel.getCodes();
         viewModel._promotion.observe(this, response -> {

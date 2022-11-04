@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.home.HomeFragment">
 
-
-
-
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -88,6 +84,48 @@
                             android:text="Work On Demand"
                             android:textColor="@color/primary" />
 
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/homeCartButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_6sdp"
+                            app:layout_constraintTop_toTopOf="@id/notifications"
+                            app:layout_constraintEnd_toStartOf="@id/notifications"
+                            app:layout_constraintBottom_toBottomOf="@id/notifications"
+                            >
+
+
+                            <ImageView
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:src="@drawable/shopping_cart"
+                                android:id="@+id/iv_cart"
+                                app:tint="@color/dark_gray" />
+
+                            <TextView
+                                android:id="@+id/cartCount"
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                app:layout_constraintStart_toEndOf="@id/iv_cart"
+                                android:background="@drawable/round_with_stroke"
+                                android:backgroundTint="@color/primary"
+                                android:layout_marginStart="-12dp"
+                                android:text="-"
+                                android:layout_marginBottom="-12dp"
+                                android:textColor="@color/white"
+                                android:fontFamily="@font/poppin_regular"
+                                android:textSize="@dimen/_6sdp"
+                                android:gravity="center"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toTopOf="@id/iv_cart"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
                         <ImageView
                             android:id="@+id/notifications"
                             android:layout_width="wrap_content"
@@ -145,6 +183,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tv_search"
                         style="@style/normalText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

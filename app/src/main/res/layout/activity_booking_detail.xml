@@ -299,7 +299,7 @@
                         android:visibility="gone"
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/minimumHour" />
+                        app:layout_constraintTop_toBottomOf="@id/subTotal" />
 
 
                     <View
@@ -395,6 +395,7 @@
                 android:background="@drawable/button_round_bg"
                 android:fontFamily="@font/poppins_medium"
                 android:padding="@dimen/_6sdp"
+                android:visibility="gone"
                 android:text="Book Now,Pay Later"
                 android:textAllCaps="false"
                 android:textSize="16sp"
@@ -406,7 +407,7 @@
             <Button
                 android:id="@+id/btnPayNow"
                 style="@style/greenButtonStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:background="@drawable/button_round_bg"

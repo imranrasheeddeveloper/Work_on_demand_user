@@ -17,6 +17,7 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
 
     ServicesDataItem servicesDataItem;
     String spID;
+    String hours;
 
 
     @Override
@@ -33,6 +34,7 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
 
             spID = getIntent().getStringExtra("service_provider_id");
             String data = getIntent().getStringExtra("service_data");
+            hours = getIntent().getStringExtra("availabilityHour");
             if (data != null) {
                 Gson gson = new Gson();
                 servicesDataItem = gson.fromJson(data, ServicesDataItem.class);
@@ -78,7 +80,7 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
             }else {
                 Constants.description = description;
                 if (servicesDataItem != null) {
-                    insertDataInCart(servicesDataItem,spID);
+                    insertDataInCart(servicesDataItem,spID,description);
                 }
             }
 
@@ -86,7 +88,7 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
 
     }
 
-    private void insertDataInCart(ServicesDataItem servicesDataItem, String spID) {
+    private void insertDataInCart(ServicesDataItem servicesDataItem, String spID,String description) {
         if (TinyDbManager.getCartData() != null){
             boolean available = false;
             for (int i = 0; i < TinyDbManager.getCartData().size(); i++) {
@@ -99,7 +101,7 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
                 }
             }
             if (!available){
-                MyCartItems cartItems = new MyCartItems(spID,servicesDataItem);
+                MyCartItems cartItems = new MyCartItems(spID,servicesDataItem, hours , description);
                 TinyDbManager.saveCartData(cartItems);
                 TinyDbManager.saveServiceProviderID(spID);
                 Nav();
