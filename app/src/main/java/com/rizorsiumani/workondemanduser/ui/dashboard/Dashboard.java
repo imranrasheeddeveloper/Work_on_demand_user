@@ -350,14 +350,9 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
     }
 
     public static void goToBooking(){
-        changeIconColor( binding.navigation.bookingFragment,
-                binding.navigation.walletFragment,
-                binding.navigation.profileFragment,
-                binding.navigation.homeFragment
-        );
-        binding.navigation.bookingFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
 
-        mNavController.navigate(R.id.bookingFragment,null, options);
+        binding.bottomNavigation.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
+        mNavController.navigate(R.id.bookingFragment,null);
     }
 
     private void locationHandler() {

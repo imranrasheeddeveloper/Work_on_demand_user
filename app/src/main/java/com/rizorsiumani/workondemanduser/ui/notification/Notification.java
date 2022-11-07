@@ -45,8 +45,54 @@ public class Notification extends BaseActivity<ActivityNotificationBinding> {
         activityBinding.notificationToolbar.title.setText("Notifications");
 
         viewModel = new ViewModelProvider(this).get(NotificationViewModel.class);
+
+        getNotifications(nextPage);
+
+
+        clickListener();
+
+        activityBinding.notificationList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                recyclerViewState = activityBinding.notificationList.getLayoutManager().onSaveInstanceState(); // save recycleView state
+
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (flag_loading) {
+
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            flag_loading = false;
+                            nextPage++;
+
+                            if (nextPage > maxPageLimit) {
+                                Toast.makeText(Notification.this, "No more data!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                getNotifications(nextPage);
+                                showLoading();
+                            }
+
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void getNotifications(int nextPage) {
         String token = prefRepository.getString("token");
-        viewModel.getNotification(token, 1);
+        viewModel.getNotification(token, nextPage);
         viewModel._notification.observe(this, response -> {
             if (response != null) {
                 if (response.isLoading()) {
@@ -58,19 +104,21 @@ public class Notification extends BaseActivity<ActivityNotificationBinding> {
                     hideLoading();
                     if (response.getData().getData().size() > 0) {
                         hideNoDataAnimation();
+                        flag_loading = true;
+                        maxPageLimit = response.getData().getPage();
+
                         notificationDataItems = new ArrayList<>();
                         notificationDataItems.addAll(response.getData().getData());
                         buildRv(notificationDataItems);
                     }else {
                         showNoDataAnimation();
+                        flag_loading = false;
+
                     }
                 }
 
             }
         });
-
-        clickListener();
-
     }
 
     private void clickListener() {
@@ -87,6 +135,8 @@ public class Notification extends BaseActivity<ActivityNotificationBinding> {
         LinearLayoutManager layoutManager = new LinearLayoutManager(Notification.this, RecyclerView.VERTICAL, false);
         activityBinding.notificationList.setLayoutManager(layoutManager);
         NotificationAdapter adapter = new NotificationAdapter(list,Notification.this );
+        adapter.notifyDataSetChanged();
+        activityBinding.notificationList.getLayoutManager().onRestoreInstanceState(recyclerViewState);
         activityBinding.notificationList.setAdapter(adapter);
     }
 }
