@@ -92,7 +92,16 @@ public class TinyDbManager {
         ArrayList<Object> previousItems = tinyDB.getListObject(KEY_CART, MyCartItems.class);
         previousItems.clear();
         tinyDB.putListObject(KEY_CART, previousItems);
-        Log.e("CART", previousItems.size() + " cart cleared successfully !");
+        Log.e("CART", previousItems.size() + " cart cleared successfully!");
+
+    }
+
+    public static void clearBookingList() {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        ArrayList<Object> previousItems = tinyDB.getListObject(KEY_ADD_BOOKING, AddBookingDataItem.class);
+        previousItems.clear();
+        tinyDB.putListObject(KEY_ADD_BOOKING, previousItems);
+        Log.e("booking", previousItems.size() + " booking cleared successfully!");
 
     }
 

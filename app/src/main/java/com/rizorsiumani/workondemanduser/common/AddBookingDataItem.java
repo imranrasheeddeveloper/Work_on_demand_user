@@ -70,4 +70,56 @@ public class AddBookingDataItem {
 		this.longitude = longitude;
 		this.service_id = service_id;
 	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public int getService_provider_id() {
+		return service_provider_id;
+	}
+
+	public int getUser_id() {
+		return user_id;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public int getAvailability_id() {
+		return availability_id;
+	}
+
+	public int getDiscount() {
+		return discount;
+	}
+
+	public int getPromotion_id() {
+		return promotion_id;
+	}
+
+	public int getService_id() {
+		return service_id;
+	}
+
+	public int getSubTotal() {
+		return subTotal;
+	}
+
+	public int getPayment_type_id() {
+		return payment_type_id;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
 }

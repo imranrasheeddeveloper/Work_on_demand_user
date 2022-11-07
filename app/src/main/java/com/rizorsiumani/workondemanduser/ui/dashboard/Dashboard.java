@@ -79,7 +79,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
 
 
         isLocationPermissionGranted = LocationService.service.requestLocationPermission(Dashboard.this);
-        if (!Constants.isLocationPermissionGranted){
+        if (!Constants.constant.isLocationPermissionGranted){
             binding.servicesSuspendLayout.setVisibility(View.VISIBLE);
         }else {
             locationHandler();
@@ -184,13 +184,13 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
                     ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED||
                     ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 gpsTracker = new GPSTracker(Dashboard.this);
-                Constants.isLocationPermissionGranted = true;
+                Constants.constant.isLocationPermissionGranted = true;
                 locationHandler();
 
                 LocationManager manager = (LocationManager) getSystemService(Dashboard.this.LOCATION_SERVICE );
                 boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 if (statusOfGPS){
-                    Constants.isLocationPermissionGranted = true;
+                    Constants.constant.isLocationPermissionGranted = true;
                     binding.servicesSuspendLayout.setVisibility(View.GONE);
                 }else {
                     Toast.makeText(this, "Enable GPS", Toast.LENGTH_SHORT).show();
@@ -211,7 +211,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         if (requestCode == 10) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 gpsTracker = new GPSTracker(Dashboard.this);
-                Constants.isLocationPermissionGranted = true;
+                Constants.constant.isLocationPermissionGranted = true;
                 locationHandler();
 
             } else {
@@ -333,7 +333,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
     public void onBackPressed() {
         super.onBackPressed();
 
-        if (Constants.isHome){
+        if (Constants.constant.isHome){
             finishAffinity();
         }else {
             mNavController.navigate(R.id.homeFragment);
@@ -367,8 +367,8 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
 
     @Override
     public void onLocationChange(Location location) {
-        Constants.latitude = location.getLatitude();
-        Constants.longitude = location.getLongitude();
+        Constants.constant.latitude = location.getLatitude();
+        Constants.constant.longitude = location.getLongitude();
         String address = GetProperLocationAddress(location.getLatitude(), location.getLongitude(), Dashboard.this);
         TinyDbManager.saveCurrentAddress(address);
 
@@ -378,4 +378,5 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
     public void onError(String error) {
 
     }
+
 }

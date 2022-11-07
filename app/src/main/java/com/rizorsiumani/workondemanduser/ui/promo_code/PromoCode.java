@@ -84,7 +84,7 @@ public class PromoCode extends BaseActivity<ActivityPromoCodeBinding> {
             activityBinding.etSelectedCode.setText(String.valueOf(promoDataItemList.get(position).getCode()));
             selectedPromo = promoDataItemList.get(position);
             selected_code = String.valueOf(promoDataItemList.get(position).getCode());
-            //Constants.discount = String.valueOf(promoDataItemList.get(position).getDiscount());
+            //Constants.constant.discount = String.valueOf(promoDataItemList.get(position).getDiscount());
         });
 
     }

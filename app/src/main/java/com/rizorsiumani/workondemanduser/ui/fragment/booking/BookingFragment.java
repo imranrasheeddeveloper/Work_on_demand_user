@@ -10,7 +10,9 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.view.View;
+import android.widget.Toast;
 
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
@@ -30,6 +32,13 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
 
     private BookingsViewModel viewModel;
     List<GetBookingDataItem> dataItems;
+    Parcelable recyclerViewState;
+    private boolean flag_loading;
+    int nextPage = 1;
+    private int maxPageLimit;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    LinearLayoutManager mLayoutManager;
+    String current_status;
 
     @Override
     protected FragmentBookingBinding getFragmentBinding() {
@@ -41,6 +50,7 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(BookingsViewModel.class);
+        mLayoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
 
         fragmentBinding.bookingToolbar.title.setText("Bookings");
         fragmentBinding.bookingToolbar.back.setVisibility(View.INVISIBLE);
@@ -53,15 +63,53 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
         fragmentBinding.past.setBackgroundResource(R.drawable.selector_bg);
         fragmentBinding.past.setTextColor(getResources().getColor(R.color.black));
 
-        getBookings(1,"In Progress");
+        getBookings(nextPage,"Pending");
+        current_status = "Pending";
+
+        fragmentBinding.bookingList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                recyclerViewState = fragmentBinding.bookingList.getLayoutManager().onSaveInstanceState(); // save recycleView state
+
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (flag_loading) {
+
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            flag_loading = false;
+                            nextPage++;
+
+                            if (nextPage > maxPageLimit) {
+                                Toast.makeText(requireContext(), "No more data!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                getBookings(nextPage,current_status);
+                                showLoading();
+                            }
+
+                        }
+                    }
+                }
+            }
+        });
 
 
 
     }
     private void callStatus() {
         List<String> status = new ArrayList<>();
-        status.add("In Progress");
         status.add("Pending");
+        status.add("In Progress");
         status.add("Canceled");
         status.add("Completed");
 
@@ -74,6 +122,7 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
 
         adapter.setOnStatusSelectListener(position -> {
             getBookings(1,status.get(position));
+            current_status = status.get(position);
         });
     }
 
@@ -91,12 +140,16 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     if (response.getData().getData().size() > 0){
+                        flag_loading = true;
                         hideNoDataAnimation();
                         fragmentBinding.bookingList.setVisibility(View.VISIBLE);
+                        maxPageLimit = response.getData().getPage();
+
                         dataItems = new ArrayList<>();
                         dataItems.addAll(response.getData().getData());
                         buildList(dataItems,status);
                     }else {
+                        flag_loading = false;
                         showNoDataAnimation();
                         fragmentBinding.bookingList.setVisibility(View.GONE);
 
@@ -111,8 +164,10 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
     private void buildList(List<GetBookingDataItem> dataItems, String status) {
 
         fragmentBinding.bookingList.setHasFixedSize(true);
-        fragmentBinding.bookingList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        fragmentBinding.bookingList.setLayoutManager(mLayoutManager);
         BookingAdopter bookingAdopter = new BookingAdopter(dataItems,status, requireContext());
+        bookingAdopter.notifyDataSetChanged();
+        fragmentBinding.bookingList.getLayoutManager().onRestoreInstanceState(recyclerViewState);
         fragmentBinding.bookingList.setAdapter(bookingAdopter);
 
         bookingAdopter.setOnBookingClickListener(new BookingAdopter.ItemClickListener() {

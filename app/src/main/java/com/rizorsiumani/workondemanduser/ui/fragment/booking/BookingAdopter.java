@@ -64,17 +64,17 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
             GetBookingDataItem item = list.get(position);
 
             holder.status.setText(item.getStatus());
-            holder.token.setText(String.valueOf(item.getId()));
+            holder.token.setText("# "+ item.getId());
 
-            holder.date.setText(Constants.getDate(item.getCreatedAt()));
-            holder.time.setText(Constants.getTime(item.getCreatedAt()));
+            holder.date.setText(Constants.constant.getDate(item.getCreatedAt()));
+            holder.time.setText(Constants.constant.getTime(item.getCreatedAt()));
 
             holder.service.setHorizontallyScrolling(true);
             holder.service.setFocusable(true);
             holder.service.setSelected(true);
             holder.service.setText(item.getService().getTitle());
             holder.description.setText(item.getDescription());
-            holder.total.setText(Constants.CURRENCY + item.getTotal());
+            holder.total.setText(Constants.constant.CURRENCY + item.getTotal());
             if (item.getServiceProvider() != null) {
                 ServiceProvider provider = item.getServiceProvider();
                 holder.name.setText(provider.getFirstName() + " " + provider.getLastName());

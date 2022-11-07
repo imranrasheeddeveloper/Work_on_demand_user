@@ -43,7 +43,7 @@ public class CartServicesAdapter extends RecyclerView.Adapter<CartServicesAdapte
     public void onBindViewHolder(@NonNull CartServicesAdapter.ViewHolder holder, int position) {
         MyCartItems cartItems = list.get(position);
         holder.name.setText(cartItems.getData().getTitle());
-        holder.price.setText(Constants.CURRENCY + cartItems.getData().getPrice());
+        holder.price.setText(Constants.constant.CURRENCY + cartItems.getData().getPrice());
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.rizorsiumani.workondemanduser.ui.sp_detail.service;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServicesDataItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDB;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.ui.booking.BookService;
+import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
@@ -44,8 +49,24 @@ public class SpServicesAdapter extends RecyclerView.Adapter<SpServicesAdapter.Vi
         ServicesDataItem dataItem = list.get(position);
         holder.name.setText(dataItem.getTitle());
         holder.description.setText(dataItem.getDescription());
-        holder.budget.setText(Constants.CURRENCY + dataItem.getPrice());
+        holder.budget.setText(Constants.constant.CURRENCY + dataItem.getPrice());
         holder.budgetUnit.setText("(" + dataItem.getPriceUnit() +")");
+
+        if (TinyDbManager.getCartData().size() > 0){
+            for (int i = 0; i < TinyDbManager.getCartData().size(); i++) {
+                MyCartItems cartItems = TinyDbManager.getCartData().get(i);
+                if (cartItems.getData().getId() == dataItem.getId()){
+                    holder.book.setEnabled(false);
+                    holder.book.setText("Booked");
+                    holder.book.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d1001f")));
+                }else {
+                    holder.book.setEnabled(true);
+                    holder.book.setText("Book Now");
+                    holder.book.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+
+                }
+            }
+        }
 
     }
 

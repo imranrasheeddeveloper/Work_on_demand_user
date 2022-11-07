@@ -1,7 +1,6 @@
 package com.rizorsiumani.workondemanduser.data.local;
 
 
-import static com.rizorsiumani.workondemanduser.utils.Constants.APP_PREFERENCES;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,6 +8,7 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 
 import com.rizorsiumani.workondemanduser.App;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 public class PreferenceRepository {
 
@@ -18,7 +18,7 @@ public class PreferenceRepository {
         if (preferences == null) {
             return preferences
                     = App.applicationContext.
-                    getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+                    getSharedPreferences(Constants.constant.APP_PREFERENCES, Context.MODE_PRIVATE);
         } else {
             return preferences;
         }

@@ -92,7 +92,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
         JsonObject object = new JsonObject();
         object.addProperty("email", email);
         object.addProperty("password", password);
-        object.addProperty("fcm_token" , Constants.FCM_TOKEN);
+        object.addProperty("fcm_token" , Constants.constant.FCM_TOKEN);
         object.addProperty("type","individual");
 
         viewModel.login(object);

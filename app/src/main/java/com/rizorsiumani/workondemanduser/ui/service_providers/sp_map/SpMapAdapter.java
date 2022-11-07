@@ -48,7 +48,7 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
         Glide.with(ctx).load(Constants.IMG_PATH + dataItem.getProfilePhoto()).into(holder.imageView);
         if (dataItem.getServiceProviderServices() != null) {
             holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
-            holder.budget.setText(dataItem.getServiceProviderServices().get(0).getPrice());
+            holder.budget.setText(Constants.constant.CURRENCY + dataItem.getServiceProviderServices().get(0).getPrice());
         }
 
     }

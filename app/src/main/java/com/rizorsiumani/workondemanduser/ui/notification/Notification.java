@@ -1,11 +1,14 @@
 package com.rizorsiumani.workondemanduser.ui.notification;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.widget.Toast;
 
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
@@ -21,7 +24,12 @@ public class Notification extends BaseActivity<ActivityNotificationBinding> {
 
     NotificationViewModel viewModel;
     List<NotificationDataItem> notificationDataItems;
-
+    Parcelable recyclerViewState;
+    private boolean flag_loading;
+    int nextPage = 1;
+    private int maxPageLimit;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    LinearLayoutManager mLayoutManager;
 
     @Override
     protected ActivityNotificationBinding getActivityBinding() {
@@ -31,6 +39,8 @@ public class Notification extends BaseActivity<ActivityNotificationBinding> {
     @Override
     protected void onStart() {
         super.onStart();
+
+        mLayoutManager = new LinearLayoutManager(Notification.this, RecyclerView.VERTICAL, false);
 
         activityBinding.notificationToolbar.title.setText("Notifications");
 
@@ -60,6 +70,7 @@ public class Notification extends BaseActivity<ActivityNotificationBinding> {
         });
 
         clickListener();
+
     }
 
     private void clickListener() {

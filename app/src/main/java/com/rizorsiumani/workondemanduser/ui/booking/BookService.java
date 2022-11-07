@@ -55,9 +55,9 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
 
             activityBinding.sName.setText(servicesDataItem.getTitle());
             activityBinding.sDetail.setText(servicesDataItem.getDescription());
-            activityBinding.chargePerHour.setText(Constants.CURRENCY + servicesDataItem.getPrice());
+            activityBinding.chargePerHour.setText(Constants.constant.CURRENCY + servicesDataItem.getPrice());
             activityBinding.minimumHour.setText(servicesDataItem.getPriceUnit());
-            activityBinding.estimatedCharge.setText(Constants.CURRENCY + servicesDataItem.getPrice());
+            activityBinding.estimatedCharge.setText(Constants.constant.CURRENCY + servicesDataItem.getPrice());
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -78,12 +78,10 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
             if (description.isEmpty()){
                 showSnackBarShort("Add Detail for Provider");
             }else {
-                Constants.description = description;
                 if (servicesDataItem != null) {
                     insertDataInCart(servicesDataItem,spID,description);
                 }
             }
-
         });
 
     }

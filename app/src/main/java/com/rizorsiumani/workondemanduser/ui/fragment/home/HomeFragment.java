@@ -104,7 +104,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 //           // isLocationPermissionGranted = LocationService.service.requestLocationPermission(requireContext());
 //        }
 
-        if (Constants.isLocationPermissionGranted) {
+        if (Constants.constant.isLocationPermissionGranted) {
             locationHandler();
         }else {
             isLocationPermissionGranted = LocationService.service.requestLocationPermission(requireContext());
@@ -112,7 +112,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
         fragmentBinding.skeletonLayout.startLoading();
         fragmentBinding.skeletonLayout1.startLoading();
-        Constants.isHome = true;
+        Constants.constant.isHome = true;
 
         if (!TinyDbManager.getCurrentAddress().isEmpty()) {
             fragmentBinding.tvChooseAddress.setText(TinyDbManager.getCurrentAddress());
@@ -154,11 +154,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         JsonObject object = new JsonObject();
 
         if (selectedFilter == null) {
-            object.addProperty("latitude", String.valueOf(Constants.latitude));
-            object.addProperty("longitude", String.valueOf(Constants.longitude));
+            object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
+            object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
         } else {
-            object.addProperty("latitude", String.valueOf(Constants.latitude));
-            object.addProperty("longitude", String.valueOf(Constants.longitude));
+            object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
+            object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
             Gson gson = new Gson();
             object.add("categoriesFillter", gson.toJsonTree(selectedFilter));
         }
@@ -433,7 +433,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
         viewModel._category.removeObservers(this);
         viewModel = null;
-        Constants.isHome = false;
+        Constants.constant.isHome = false;
     }
 
 
@@ -444,8 +444,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
     @Override
     public void onLocationChange(Location location) {
-        Constants.latitude = location.getLatitude();
-        Constants.longitude = location.getLongitude();
+        Constants.constant.latitude = location.getLatitude();
+        Constants.constant.longitude = location.getLongitude();
         String address = GetProperLocationAddress(location.getLatitude(), location.getLongitude(),requireContext());
         //TinyDbManager.saveCurrentAddress(address);
         //fragmentBinding.tvChooseAddress.setText(address);

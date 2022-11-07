@@ -46,7 +46,7 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
         Glide.with(ctx).load(Constants.IMG_PATH + dataItem.getProfilePhoto()).into(holder.imageView);
         if (dataItem.getServiceProviderServices() != null) {
             holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
-            holder.price.setText(Constants.CURRENCY + dataItem.getServiceProviderServices().get(0).getPrice());
+            holder.price.setText(Constants.constant.CURRENCY + dataItem.getServiceProviderServices().get(0).getPrice());
         }
     }
 

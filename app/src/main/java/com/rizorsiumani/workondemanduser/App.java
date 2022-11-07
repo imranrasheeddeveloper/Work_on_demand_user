@@ -44,8 +44,8 @@ public class App extends Application {
                         return;
                     }
                     // Get new FCM registration token
-                    Constants.FCM_TOKEN = task.getResult();
-                    Log.e("FCM TOKEN", Constants.FCM_TOKEN);
+                    Constants.constant.FCM_TOKEN = task.getResult();
+                    Log.e("FCM TOKEN", Constants.constant.FCM_TOKEN);
                 });
     }
 

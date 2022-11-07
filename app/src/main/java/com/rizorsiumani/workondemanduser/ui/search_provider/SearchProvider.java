@@ -68,8 +68,8 @@ public class SearchProvider extends BaseActivity<ActivitySearchProviderBinding> 
 
     private void getSearchedData(String data) {
         JsonObject object = new JsonObject();
-        object.addProperty("latitude", String.valueOf(Constants.latitude));
-        object.addProperty("longitude", String.valueOf(Constants.longitude));
+        object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
+        object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
         object.addProperty("searchTerm", data);
         String token = prefRepository.getString("token");
         viewModel.serviceProvidersSearch(1, token, object);

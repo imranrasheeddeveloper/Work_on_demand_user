@@ -29,25 +29,26 @@ import java.util.Date;
 public final class Constants {
     public static final String BASE_URL = "http://34.203.72.68:4000/";
     public static final String IMG_PATH = "http://34.203.72.68:4000";
-    public static boolean isLocationPermissionGranted = false;
+    public  boolean isLocationPermissionGranted = false;
+    public  static Constants constant = new Constants();
+    public  final String APP_PREFERENCES = "com.rizorsiumani.workondemanduser.preferences";
+    public  String FCM_TOKEN = "";
+    public  boolean isHome = false;
 
-    public static final String APP_PREFERENCES = "com.rizorsiumani.workondemanduser.preferences";
-    public static String ACCESS_TOKEN = "";
-    public static String FCM_TOKEN = "";
-    public static boolean isHome = false;
-    public static Constants constant = new Constants();
-    public static double latitude;
-    public static double longitude;
-    public static String availability_id = "";
-    public static String payment_type_id = "";
-    public static String promotion_id= "";
-    public static String sub_total = "";
-    public static String discount = "";
-    public static String description = "";
+    public  double latitude;
+    public  double longitude;
+    public  String payment_type_id = "";
+    public  String promotion_id= "";
+    public  String discount = "";
 
-    public static String CURRENCY = "$ ";
+    public  String CURRENCY = "$ ";
 
 
+//    public Constants() {
+//        if(constant != null) {
+//            constant = new Constants();
+//        }
+//    }
 
     public BitmapDescriptor BitmapFromVector(Context context, int vectorResId) {
         // below line is use to generate a drawable.
@@ -79,7 +80,7 @@ public final class Constants {
         return Uri.parse(path);
     }
 
-    public static String getDate(String data) {
+    public  String getDate(String data) {
         String date;
         String[] date_value = data.split("T");
         date = date_value[0];
@@ -88,14 +89,14 @@ public final class Constants {
         return formatted_date;
     }
 
-    public static String getTime(String data) {
+    public  String getTime(String data) {
         String time;
         String[] time_value = data.split("T");
         time = time_value[1].substring(0, Math.min(time_value[1].length(), 5));
         return time;
     }
 
-    public static String formatDate(String earningPeriod) {
+    public String formatDate(String earningPeriod) {
         String inputPattern = "yyyy-MM-dd";
         String outputPattern = "dd MMM yyyy";
         SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);

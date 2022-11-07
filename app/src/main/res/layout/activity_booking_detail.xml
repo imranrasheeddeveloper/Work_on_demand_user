@@ -8,7 +8,6 @@
     tools:context=".ui.booking_detail.BookingDetail">
 
 
-
     <include
         android:id="@+id/booking_detail_toolbar"
         layout="@layout/toolbar_layout"

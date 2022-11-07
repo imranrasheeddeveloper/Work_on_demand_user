@@ -85,8 +85,8 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
 
     @Override
     public void onLocationChange(Location location) {
-        Constants.latitude = location.getLatitude();
-        Constants.longitude = location.getLongitude();
+        Constants.constant.latitude = location.getLatitude();
+        Constants.constant.longitude = location.getLongitude();
         String address = GetProperLocationAddress(location.getLatitude(), location.getLongitude(), SplashActivity.this);
         TinyDbManager.saveCurrentAddress(address);
         String token = prefRepository.getString("token");

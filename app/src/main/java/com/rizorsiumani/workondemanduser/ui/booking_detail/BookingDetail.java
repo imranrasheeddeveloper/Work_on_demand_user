@@ -39,9 +39,11 @@ import com.rizorsiumani.workondemanduser.data.businessModels.PromoDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.CustomerIdResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.EphemeralKeyResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.stripe.PaymentIntentResponse;
+import com.rizorsiumani.workondemanduser.data.local.TinyDB;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookingDetailBinding;
 import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
+import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
@@ -65,8 +67,10 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     List<String> name;
     AlertDialog.Builder dialogBuilder;
     AlertDialog alertDialog;
-    String secret_key = "sk_test_51LqBTjGmaWwccsNaRmfGGvK4TOL4j0rXloATiyVD7Nou0aCzqjttDMqrjJjf7sRt4mIHaFx8bivnmlzsazUI1Zie00ob2H1tvR";
-    String publish_key = "pk_test_51LqBTjGmaWwccsNaWNAb8x6B51zmMVMsI62gcxZTpC6lvhvGy7vdcw1CX1vkkrHYMkkN2C79mexjkPpuGeHW8Kg500CEi0L3Vm";
+    String publish_key = "pk_test_51LqBWECQ7dojez1jeJpRCqumuAAhzrtnllMzOLKBWRJi8YcSQCalUNElMinY3Jp2mz6NCNvNqE8Su2c8sCKFWOZR00gY2QVC9k";
+    String secret_key = "sk_test_51LqBWECQ7dojez1jHKh6u2A4sxsizRNO7ciTF1znIAeQD1Nu8yLoULZ7s5uqLByJ6q8RDw3AHxnhoF8vWtc0f3BJ001tFvbnv8";
+   // String secret_key = "sk_test_51LqBTjGmaWwccsNaRmfGGvK4TOL4j0rXloATiyVD7Nou0aCzqjttDMqrjJjf7sRt4mIHaFx8bivnmlzsazUI1Zie00ob2H1tvR";
+   // String publish_key = "pk_test_51LqBTjGmaWwccsNaWNAb8x6B51zmMVMsI62gcxZTpC6lvhvGy7vdcw1CX1vkkrHYMkkN2C79mexjkPpuGeHW8Kg500CEi0L3Vm";
     PaymentSheet paymentSheet;
     String customerID;
     int amount_of_discount;
@@ -151,13 +155,13 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             }
 
             activityBinding.bookingDetailToolbar.title.setText("Booking Details");
-            activityBinding.btnPayNow.setText(Constants.CURRENCY + getCartTotal());
+            activityBinding.btnPayNow.setText(Constants.constant.CURRENCY + getCartTotal());
 
             if (TinyDbManager.getCartData() != null) {
                 if (TinyDbManager.getCartData().size() > 0) {
                     getCartServices(TinyDbManager.getCartData());
-                    activityBinding.totalCharges.setText(Constants.CURRENCY + getCartTotal());
-                    activityBinding.subTotal.setText(Constants.CURRENCY + getCartTotal());
+                    activityBinding.totalCharges.setText(Constants.constant.CURRENCY + getCartTotal());
+                    activityBinding.subTotal.setText(Constants.constant.CURRENCY + getCartTotal());
                 }
             }
 
@@ -165,13 +169,14 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
                 if (TinyDbManager.getPromo() != null) {
                     PromoDataItem promoDataItem = TinyDbManager.getPromo();
+                    Constants.constant.promotion_id = String.valueOf(promoDataItem.getId());
                     amount_of_discount = (int) (Integer.parseInt(getCartTotal()) * Math.round(promoDataItem.getDiscount()) / 100);
-                    Constants.discount = String.valueOf(amount_of_discount);
+                    Constants.constant.discount = String.valueOf(amount_of_discount);
                     activityBinding.tvDiscount.setText(promoDataItem.getDiscount() + "% OFF (" + promoDataItem.getCode() + ")");
                     activityBinding.discountPrice.setText("- " + amount_of_discount);
                     int subTotal = Integer.valueOf(getCartTotal()) - amount_of_discount;
-                    activityBinding.btnPayNow.setText(Constants.CURRENCY  + subTotal);
-                    activityBinding.subTotal.setText(Constants.CURRENCY + subTotal);
+                    activityBinding.btnPayNow.setText(Constants.constant.CURRENCY  + subTotal);
+                    activityBinding.subTotal.setText(Constants.constant.CURRENCY + subTotal);
 
                     activityBinding.discountPrice.setVisibility(View.VISIBLE);
                     activityBinding.tvDiscount.setVisibility(View.VISIBLE);
@@ -196,8 +201,6 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
         if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
             Toast.makeText(BookingDetail.this, "Payment Success", Toast.LENGTH_SHORT).show();
-            ActivityUtil.gotoPage(BookingDetail.this, BookingDateTime.class);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
     }
 
@@ -273,7 +276,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<>();
                 param.put("customer", customerID);
-                param.put("amount", "1000" + "00");
+                param.put("amount", getCartTotal() + "00");
                 param.put("currency", "eur");
                 param.put("automatic_payment_methods[enabled]", "true");
 
@@ -345,10 +348,6 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         adapter = new CartServicesAdapter(cartData, App.applicationContext);
         activityBinding.cartServicesList.setAdapter(adapter);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(activityBinding.cartServicesList);
-
-       // addToBookingList(cartData);
 
         adapter.setOnCartListener(position -> {
             TinyDbManager.removeCartItem(cartData.get(position));
@@ -358,7 +357,6 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
                 TinyDbManager.savePromo(null);
                 TinyDbManager.saveServiceProviderID("null");
-//                TinyDbManager.saveCartData.(null);
 
                 onBackPressed();
                 finish();
@@ -383,31 +381,31 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             int userID = TinyDbManager.getUserInformation().getId();
             int service_id = cartItems.getData().getId();
 
-            if (Constants.discount == null || Constants.discount.isEmpty()) {
-                Constants.discount = "0";
+            if (Constants.constant.discount == null || Constants.constant.discount.isEmpty()) {
+                Constants.constant.discount = "0";
             }else {
                 int discount_per_cart = amount_of_discount /TinyDbManager.getCartData().size();
-                Constants.discount = String.valueOf(discount_per_cart);
+                Constants.constant.discount = String.valueOf(discount_per_cart);
             }
-            if (Constants.promotion_id == null || Constants.promotion_id.isEmpty()) {
-                Constants.promotion_id = "0";
+            if (Constants.constant.promotion_id == null || Constants.constant.promotion_id.isEmpty()) {
+                Constants.constant.promotion_id = "0";
             }
 
-            int cartSubTotal = Integer.parseInt(cartItems.getData().getPrice()) - Integer.parseInt(Constants.discount);
+            int cartSubTotal = Integer.parseInt(cartItems.getData().getPrice()) - Integer.parseInt(Constants.constant.discount);
 
             AddBookingDataItem bookingDataItem = new AddBookingDataItem(
                     Integer.parseInt(cartItems.getData().getPrice()),
                     TinyDbManager.getCurrentAddress(),
                     Integer.parseInt(service_provider_id),
                     Integer.parseInt(String.valueOf(userID)),
-                    Constants.latitude,
+                    Constants.constant.latitude,
                     cartItems.getDescription(),
                     Integer.parseInt(cartItems.getAvailability_id()),
-                    Integer.parseInt(Constants.discount),
-                    Integer.parseInt(Constants.promotion_id),
+                    Integer.parseInt(Constants.constant.discount),
+                    Integer.parseInt(Constants.constant.promotion_id),
                     cartSubTotal,
-                    Integer.parseInt(Constants.payment_type_id),
-                    Constants.longitude,
+                    Integer.parseInt(Constants.constant.payment_type_id),
+                    Constants.constant.longitude,
                     service_id
             );
 
@@ -439,7 +437,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         });
 
         activityBinding.btnPayNow.setOnClickListener(view -> {
-            if (Constants.payment_type_id == null || Constants.payment_type_id.isEmpty()) {
+            if (Constants.constant.payment_type_id == null || Constants.constant.payment_type_id.isEmpty()) {
                 showSnackBarShort("Select Payment Method");
             } else if (activityBinding.tvAddress.getText().toString().equalsIgnoreCase("Please set your location")) {
                 showSnackBarShort("Select Your Location");
@@ -485,7 +483,10 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                                 e.printStackTrace();
                             }
 
-                            Constants.payment_type_id = String.valueOf(paymentDataItem.getId());
+                            Constants.constant.payment_type_id = String.valueOf(paymentDataItem.getId());
+                            if (paymentDataItem.getTitle().equalsIgnoreCase("Card")){
+                                paymentFlow();
+                            }
                             bt.dismiss();
                             // activityBinding.btnPayNow.performClick();
                         });
@@ -506,7 +507,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         });
 
         activityBinding.editAddress.setOnClickListener(view -> {
-            ActivityUtil.gotoPage(BookingDetail.this, AddAddress.class);
+            ActivityUtil.gotoPage(BookingDetail.this, SavedAddresses.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
@@ -514,35 +515,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     private void addBooking(List<AddBookingDataItem> bookingList) {
         try {
 
-//            int userID = TinyDbManager.getUserInformation().getId();
-//            int service_id = Integer.parseInt(TinyDbManager.getCartData().get(0).getId());
             String token = prefRepository.getString("token");
-//
-//
-//            if (Constants.discount == null || Constants.discount.isEmpty()) {
-//                Constants.discount = "0";
-//            }
-//            if (Constants.promotion_id == null || Constants.promotion_id.isEmpty()) {
-//                Constants.promotion_id = "0";
-//            }
-//
-//
-//            List<AddBookingDataItem> list = new ArrayList<>();
-//
-//            list.add(new AddBookingDataItem(total,
-//                    TinyDbManager.getCurrentAddress(),
-//                    Integer.parseInt(service_provider_id),
-//                    Integer.parseInt(String.valueOf(userID)),
-//                    Constants.latitude,
-//                    Constants.description,
-//                    Integer.parseInt(Constants.availability_id),
-//                    Integer.parseInt(Constants.discount),
-//                    Integer.parseInt(Constants.promotion_id),
-//                    total,
-//                    Integer.parseInt(Constants.payment_type_id),
-//                    Constants.longitude,
-//                    service_id
-//            ));
             Gson gson = new Gson();
 
             JsonObject obj = new JsonObject();
@@ -562,6 +535,8 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                         //TinyDbManager.saveCartData(null);
                         TinyDbManager.saveServiceProviderID("null");
                         TinyDbManager.clearCart();
+                        TinyDbManager.clearBookingList();
+
 
                         showRequestedDialogue();
                     }
@@ -575,83 +550,6 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         }
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == BraintreePaymentActivity.RESULT_OK) {
-//            PaymentMethodNonce paymentMethodNonce = data.getParcelableExtra(BraintreePaymentActivity.EXTRA_PAYMENT_METHOD_NONCE);
-//
-//            RequestParams requestParams = new RequestParams();
-//            requestParams.put("payment_method_nonce", paymentMethodNonce.getNonce());
-//            requestParams.put("amount", "10.00");
-//
-//            client.post(SERVER_BASE + "/payment", requestParams, new TextHttpResponseHandler() {
-//                @Override
-//                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                    Toast.makeText(SDKActivity.this, responseString, Toast.LENGTH_LONG).show();
-//                }
-//
-//                @Override
-//                public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//                    Toast.makeText(SDKActivity.this, responseString, Toast.LENGTH_LONG).show();
-//                }
-//            });
-//        }
-//    }
-//
-//    private void getToken() {
-//        client.get(SERVER_BASE + "/token", new TextHttpResponseHandler() {
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                findViewById(R.id.btn_start).setEnabled(false);
-//            }
-//
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//                clientToken = responseString;
-//                findViewById(R.id.btn_start).setEnabled(true);
-//            }
-//        });
-//    }
-
-    ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
-            final int position = viewHolder.getAdapterPosition();
-
-            switch (direction) {
-                case ItemTouchHelper.LEFT:
-
-                    name.remove(position);
-                    adapter.notifyDataSetChanged();
-
-                    break;
-            }
-
-        }
-
-
-        @Override
-        public void onChildDraw(Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-
-            String toShow = "DELETE";
-            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addBackgroundColor(ContextCompat.getColor(BookingDetail.this, R.color.primary))
-                    .addSwipeLeftActionIcon(R.drawable._cross)
-                    .create()
-                    .decorate();
-
-
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-        }
-
-
-    };
 
 
 }

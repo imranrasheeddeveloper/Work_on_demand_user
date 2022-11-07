@@ -48,8 +48,8 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
                 if (!catID.isEmpty()){
                     viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
                     JsonObject object = new JsonObject();
-                    object.addProperty("latitude", String.valueOf(Constants.latitude));
-                    object.addProperty("longitude", String.valueOf(Constants.longitude));
+                    object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
+                    object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
                     object.addProperty("category_id", catID);
                     String token = prefRepository.getString("token");
                     viewModel.catServiceProviders(1, token, object);
@@ -78,8 +78,8 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
             }else {
                 viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
                 JsonObject object = new JsonObject();
-                object.addProperty("latitude", String.valueOf(Constants.latitude));
-                object.addProperty("longitude", String.valueOf(Constants.longitude));
+                object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
+                object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
                 object.addProperty("sub_category_id", subCatID);
                 String token = prefRepository.getString("token");
                 viewModel.serviceProviders(1, token, object);

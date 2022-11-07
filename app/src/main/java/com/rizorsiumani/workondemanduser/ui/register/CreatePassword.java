@@ -59,7 +59,7 @@ public class CreatePassword extends BaseActivity<ActivityCreatePasswordBinding> 
             object.addProperty("email",email_address);
             object.addProperty("phoneNumber",phone_number);
             object.addProperty("password",password);
-            object.addProperty("fcm_token", Constants.FCM_TOKEN);
+            object.addProperty("fcm_token", Constants.constant.FCM_TOKEN);
 
             viewModel.registerUser(object);
 

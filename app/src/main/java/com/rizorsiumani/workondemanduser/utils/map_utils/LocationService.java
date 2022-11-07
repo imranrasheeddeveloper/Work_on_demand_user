@@ -24,8 +24,8 @@ public class LocationService {
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        Constants.isLocationPermissionGranted = multiplePermissionsReport.areAllPermissionsGranted();
-                        if (Constants.isLocationPermissionGranted) {
+                        Constants.constant.isLocationPermissionGranted = multiplePermissionsReport.areAllPermissionsGranted();
+                        if (Constants.constant.isLocationPermissionGranted) {
                             flag = true;
                         } else {
                             flag = false;

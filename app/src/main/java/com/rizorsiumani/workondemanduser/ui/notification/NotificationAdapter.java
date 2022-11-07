@@ -40,7 +40,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         NotificationDataItem dataItem = list.get(position);
         holder.title.setText(dataItem.getTitle());
         holder.message.setText(dataItem.getBody());
-        holder.date.setText(Constants.getDate(dataItem.getCreatedAt()));
+        holder.date.setText(Constants.constant.getDate(dataItem.getCreatedAt()));
 
         }catch (NullPointerException e){
             e.printStackTrace();
