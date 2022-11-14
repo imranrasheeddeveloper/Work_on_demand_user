@@ -52,7 +52,10 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
     }
 
     private void setData(UserData userData) {
-        Glide.with(EditProfile.this).load(Constants.IMG_PATH + userData.getImage()).into(activityBinding.userImage);
+        Glide.with(EditProfile.this)
+                .load(Constants.IMG_PATH + userData.getImage())
+                .placeholder(R.color.placeholder_bg)
+                .into(activityBinding.userImage);
         activityBinding.edFirstname.setText(userData.getFirstName());
         activityBinding.edLastname.setText(userData.getLastName());
         activityBinding.edEmail.setText(userData.getEmail());

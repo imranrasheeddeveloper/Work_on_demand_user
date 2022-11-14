@@ -236,7 +236,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
     private void clickListeners() {
 
         fragmentBinding.searchIcon.setOnClickListener(view -> {
-            ActivityUtil.gotoPage(requireContext(), SearchServices.class);
+            ActivityUtil.gotoPage(requireContext(), SearchProvider.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
@@ -372,8 +372,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
                     if (categoriesDataItems.size() > 0) {
                         buildCategoryRv(categoriesDataItems);
                     }
-
-
                 }
             }
         });
@@ -404,6 +402,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         adapter.setOnServiceClickListener(position -> {
             Intent intent = new Intent(requireContext(), SubCategories.class);
             intent.putExtra("category_id", categoriesDataItems.get(position).getId());
+            intent.putExtra("category_title", categoriesDataItems.get(position).getTitle());
             startActivity(intent);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });

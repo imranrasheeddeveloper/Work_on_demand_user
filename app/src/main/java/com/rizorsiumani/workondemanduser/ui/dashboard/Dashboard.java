@@ -29,17 +29,11 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.tabs.TabLayout;
-import com.rizorsiumani.workondemanduser.App;
-import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityDashboardBinding;
-import com.rizorsiumani.workondemanduser.ui.login.Login;
 import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
-import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
-import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
-import com.rizorsiumani.workondemanduser.utils.GPSTracker;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.OnLocationUpdateListener;
@@ -52,7 +46,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
 
     public static ActivityDashboardBinding binding;
     boolean isLocationPermissionGranted;
-    GPSTracker gpsTracker;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -183,7 +176,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
             if (ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                     ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED||
                     ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                gpsTracker = new GPSTracker(Dashboard.this);
                 Constants.constant.isLocationPermissionGranted = true;
                 locationHandler();
 
@@ -201,7 +193,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
                         10);
             }
         } else {
-            gpsTracker = new GPSTracker(Dashboard.this); //GPSTracker is class that is used for retrieve user current location
         }
     }
 
@@ -210,7 +201,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 10) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                gpsTracker = new GPSTracker(Dashboard.this);
                 Constants.constant.isLocationPermissionGranted = true;
                 locationHandler();
 
@@ -247,10 +237,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
                     if (ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                             ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                             || ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        gpsTracker = new GPSTracker(Dashboard.this);
-                        if (gpsTracker.canGetLocation()) {
-                            locationHandler();
-                        }
+                        locationHandler();
                     } else {
                         requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_BACKGROUND_LOCATION},10);
@@ -350,7 +337,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
     }
 
     public static void goToBooking(){
-
+        binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#FFFFFFFF"), PorterDuff.Mode.SRC_IN);
         binding.bottomNavigation.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
         mNavController.navigate(R.id.bookingFragment,null);
     }

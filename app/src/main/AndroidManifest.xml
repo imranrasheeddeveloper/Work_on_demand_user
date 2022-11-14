@@ -17,6 +17,18 @@
         android:theme="@style/Theme.RizorsiUmaniUser"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.add_card.AddCard"
+            android:exported="false" />
+        <activity
+            android:name=".ui.webview.WebView"
+            android:exported="false" />
+        <activity
+            android:name=".ui.cards.GetAllCards"
+            android:exported="false" />
+        <activity
+            android:name=".ui.forgot_password.ForgotPassword"
+            android:exported="false" />
+        <activity
             android:name=".ui.search_provider.SearchProvider"
             android:exported="false" />
         <activity
@@ -25,7 +37,6 @@
         <activity
             android:name=".ui.inbox.Inbox"
             android:exported="false" />
-
         <activity
             android:name=".ui.chat.Chatroom"
             android:exported="false" /> <!-- Foreground services in Q+ require type. -->
@@ -125,13 +136,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/GOOGLE_MAP_API_KEY" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.rizorsiumani.workondemanduser.provider"
@@ -151,20 +163,20 @@
         </service>
     </application>
     <uses-feature
-        android:name="android.hardware.camera.flash"
-        android:required="false" />
-    <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

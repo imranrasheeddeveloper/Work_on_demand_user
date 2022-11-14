@@ -1,6 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.register;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +14,15 @@ import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityRegisterBinding;
 import com.rizorsiumani.workondemanduser.ui.commercial_user_info.ComapnyInformation;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.regex.Pattern;
 
 public class Register extends BaseActivity<ActivityRegisterBinding> {
+
+    private RegisterUserViewModel viewModel;
 
     @Override
     protected ActivityRegisterBinding getActivityBinding() {
@@ -27,7 +32,9 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
     @Override
     protected void onStart() {
         super.onStart();
+        viewModel = new ViewModelProvider(this).get(RegisterUserViewModel.class);
 
+        hideCartButton();
         clickListeners();
     }
 
@@ -43,6 +50,7 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
         String last_name = activityBinding.edLastname.getText().toString().trim();
         String email = activityBinding.edEmail.getText().toString().trim();
         String number = "+92"+activityBinding.edNumber.getText().toString().trim();
+        String password = activityBinding.edPassword.getText().toString();
 
 
         if (TextUtils.isEmpty(first_name)){
@@ -57,20 +65,44 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
             showSnackBarShort("Phone Number Required");
         } else if (!Patterns.PHONE.matcher(number).matches()) {
             showSnackBarShort("Valid Number Required");
+        }else if(TextUtils.isEmpty(password)){
+            showSnackBarShort("Enter Password");
         }else {
-            createPassword(first_name,last_name,email,number);
+            registerUser(first_name,last_name,email,number,password);
         }
     }
 
-    private void createPassword(String first_name, String last_name, String email, String number) {
-        Intent intent = new Intent(Register.this,CreatePassword.class);
-        intent.putExtra("first_name",first_name);
-        intent.putExtra("last_name",last_name);
-        intent.putExtra("email",email);
-        intent.putExtra("number",number);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    private void registerUser(String first_name, String last_name, String email, String number,String pass) {
+        try {
 
+            JsonObject object = new JsonObject();
+            object.addProperty("firstName",first_name);
+            object.addProperty("lastName",last_name);
+            object.addProperty("email",email);
+            object.addProperty("phoneNumber",number);
+            object.addProperty("password",pass);
+            object.addProperty("fcm_token", Constants.constant.FCM_TOKEN);
+
+            viewModel.registerUser(object);
+
+            viewModel._regData.observe(this, response -> {
+                if (response != null) {
+                    if (response.isLoading()) {
+                        showLoading();
+                    } else if (!response.getError().isEmpty()) {
+                        hideLoading();
+                        showSnackBarShort(response.getError());
+                    } else if (response.getData().getData() != null) {
+                        hideLoading();
+                        ActivityUtil.gotoPage(Register.this, Dashboard.class);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    }
+                }
+            });
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
 
     }
 

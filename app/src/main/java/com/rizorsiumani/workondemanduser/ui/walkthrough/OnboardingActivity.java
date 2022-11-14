@@ -19,6 +19,7 @@ import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.OnBoardDataItem;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityOnboardingBinding;
+import com.rizorsiumani.workondemanduser.ui.login.Login;
 import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
 import com.rizorsiumani.workondemanduser.ui.welcome_user.WelcomeUser;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -168,7 +169,7 @@ public class OnboardingActivity extends BaseActivity<ActivityOnboardingBinding> 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_next1:
-                ActivityUtil.gotoPage(OnboardingActivity.this, WelcomeUser.class);
+                ActivityUtil.gotoPage(OnboardingActivity.this, Login.class);
 
 //                if (activityBinding.btnNext.getText().toString().equalsIgnoreCase("next")) {
 //                    activityBinding.slideViewpager.setCurrentItem(mCurrentPage + 1);
@@ -177,7 +178,7 @@ public class OnboardingActivity extends BaseActivity<ActivityOnboardingBinding> 
 //                }
                 break;
             case R.id.btn_previous:
-                ActivityUtil.gotoPage(OnboardingActivity.this, WelcomeUser.class);
+                ActivityUtil.gotoPage(OnboardingActivity.this, Login.class);
                 break;
             default:
                 break;

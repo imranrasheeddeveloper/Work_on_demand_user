@@ -9,5 +9,6 @@
     <string name="about">Window is one of the main components of a home that helps in creating passage for entering sunlight, facilitation of ventilation and creates natural comfort of fresh air circulation in a premise.</string>
     <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu interdum felis, non aliquam magna. Duis congue mi id enim efficitur pellentesque. Duis odio nisl, eleifend at turpis ac, congue suscipit magna. Nullam sed augue non quam semper tristique et quis lacus. Cras arcu tellus, maximus eu rhoncus vel, efficitur ac nisl. Nulla non magna vel leo porta tincidunt. Donec ac nisl libero.</string>
     <string name="turn_on">Turn on location services in your device settings To optimize the capture experience</string>
+    <string name="forgot_password_details">Provide your account"'s email for which you want to reset your password!</string>
 
 </resources>

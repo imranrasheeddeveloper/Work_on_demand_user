@@ -78,7 +78,16 @@ public class PromoCodeAdapter extends RecyclerView.Adapter<PromoCodeAdapter.View
                         mListener.onCodeSelected(position);
                     }
                 }
-            });//click
+            });
+
+            itemView.setOnClickListener(view -> {
+                if (mListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        mListener.onCodeSelected(position);
+                    }
+                }
+            });
 
         }
     }

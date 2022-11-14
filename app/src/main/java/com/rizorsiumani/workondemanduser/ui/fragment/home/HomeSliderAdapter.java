@@ -58,6 +58,7 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
 
         viewHolder.sliderBtn.setOnClickListener(view -> {
             Intent intent = new Intent(context, SubCategories.class);
+            intent.putExtra("category_title", item.getTitle());
             intent.putExtra("category_id", item.getId());
             context.startActivity(intent);
             //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

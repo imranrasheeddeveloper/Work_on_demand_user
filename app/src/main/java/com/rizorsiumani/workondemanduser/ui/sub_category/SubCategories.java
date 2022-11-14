@@ -25,6 +25,7 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
     private SubCategoryViewModel viewModel;
     List<SubCategoryDataItem> dataItems;
     int catID;
+    String title;
 
     @Override
     protected ActivityResultantServiceProvidersBinding getActivityBinding() {
@@ -37,6 +38,7 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
         super.onStart();
 
         try {
+            title  = getIntent().getStringExtra("category_title");
             catID = getIntent().getIntExtra("category_id",0);
         }catch (NullPointerException e){
             e.printStackTrace();
@@ -44,9 +46,8 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
 
         viewModel = new ViewModelProvider(this).get(SubCategoryViewModel.class);
 
-        if (viewModel._subCategory.getValue() == null){
             viewModel.subCategories(catID,1);
-        }
+
 
         viewModel._subCategory.observe(this, response -> {
             if (response != null) {
@@ -72,7 +73,11 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
             }
         });
 
-        activityBinding.searchedToolbar.title.setText("Sub Services");
+        if (!title.isEmpty()) {
+            activityBinding.searchedToolbar.title.setText(title);
+        }else {
+            activityBinding.searchedToolbar.title.setText("Sub Categories");
+        }
         activityBinding.searchedToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();

@@ -64,8 +64,7 @@ import okhttp3.RequestBody;
 public class PostJob extends BaseActivity<ActivityPostJobBinding> implements DatePickerDialog.OnDateSetListener {
 
     String imagesPath;
-    AlertDialog.Builder dialogBuilder;
-    AlertDialog alertDialog;
+
     ArrayList<String> budgetUnitList;
     private HomeViewModel homeViewModel;
     private SubCategoryViewModel subCategoryViewModel;
@@ -141,7 +140,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             overridePendingTransition(R.anim.stationary, R.anim.slide_down);
         });
 
-        activityBinding.tvCategory.setOnClickListener(view -> {
+        activityBinding.selectedCategory.setOnClickListener(view -> {
             if (categoriesDataItems.size() > 0) {
                 showCategoriesDialogue(0, activityBinding.selectedCategory);
 //                if (id != 0) {
@@ -150,12 +149,9 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             }
         });
 
-        activityBinding.tvSubcategory.setOnClickListener(view -> {
+        activityBinding.selectedSubcategory.setOnClickListener(view -> {
             if (selectedCatID != 0) {
-                if (subCategoryViewModel._subCategory.getValue() == null) {
-                    subCategoryViewModel.dropDownSubCategories(selectedCatID);
-                }
-
+                subCategoryViewModel.dropDownSubCategories(selectedCatID);
                 subCategoryViewModel._subCategory.observe(PostJob.this, response -> {
                     if (response != null) {
                         if (response.isLoading()) {
@@ -173,6 +169,8 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 //                                if (id != 0) {
 //                                    selectedSubCatID = id;
 //                                }
+                            }else {
+                                showSnackBarShort("No Sub Category, Select Other Category");
                             }
 
                         }
@@ -245,9 +243,9 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
 
     private void showCategoriesDialogue(int value, TextView textView) {
-
+        AlertDialog.Builder dialogBuilder;
+        AlertDialog alertDialog;
         dialogBuilder = new AlertDialog.Builder(PostJob.this);
-        dialogBuilder.setCancelable(false);
         View layoutView = getLayoutInflater().inflate(R.layout.pick_category_dialogue, null);
         TextView cancel = (TextView) layoutView.findViewById(R.id.tv_cancel);
         TextView select = (TextView) layoutView.findViewById(R.id.tv_done);
@@ -278,7 +276,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         alertDialog.show();
         cancel.setOnClickListener(view1 -> {
             alertDialog.dismiss();
-            tempID = 0;
         });
 
         select.setOnClickListener(view1 -> {
@@ -290,7 +287,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 selectedSubCatID = valuePickerView.getSelectedItem().getId();
             }
             textView.setText(valuePickerView.getSelectedItem().getTitle());
-//            sele = valuePickerView.getSelectedItem().getId();
             alertDialog.dismiss();
 
         });

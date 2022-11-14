@@ -46,6 +46,7 @@ import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
+import com.rizorsiumani.workondemanduser.ui.cards.GetAllCards;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.promo_code.PromoCode;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -81,6 +82,8 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     PaymentIntentResponse intentResponse;
     String service_provider_id;
     int total;
+    int payment_type_id=0;
+    String payment_type;
 
     BookingDetailViewModel viewModel;
 
@@ -201,6 +204,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
         if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
             Toast.makeText(BookingDetail.this, "Payment Success", Toast.LENGTH_SHORT).show();
+            addToBookingList();
         }
     }
 
@@ -404,7 +408,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                     Integer.parseInt(Constants.constant.discount),
                     Integer.parseInt(Constants.constant.promotion_id),
                     cartSubTotal,
-                    Integer.parseInt(Constants.constant.payment_type_id),
+                    payment_type_id,
                     Constants.constant.longitude,
                     service_id
             );
@@ -437,12 +441,16 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         });
 
         activityBinding.btnPayNow.setOnClickListener(view -> {
-            if (Constants.constant.payment_type_id == null || Constants.constant.payment_type_id.isEmpty()) {
+            if (payment_type_id == 0) {
                 showSnackBarShort("Select Payment Method");
             } else if (activityBinding.tvAddress.getText().toString().equalsIgnoreCase("Please set your location")) {
                 showSnackBarShort("Select Your Location");
             } else {
-                addToBookingList();
+                if (payment_type.equalsIgnoreCase("Card")){
+                    paymentFlow();
+                }else {
+                    addToBookingList();
+                }
             }
             //paymentFlow();
         });
@@ -483,9 +491,16 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                                 e.printStackTrace();
                             }
 
-                            Constants.constant.payment_type_id = String.valueOf(paymentDataItem.getId());
-                            if (paymentDataItem.getTitle().equalsIgnoreCase("Card")){
-                                paymentFlow();
+                            payment_type_id = paymentDataItem.getId();
+                            payment_type = paymentDataItem.getTitle();
+                            if (paymentDataItem.getTitle().equalsIgnoreCase("Card")) {
+                                if (customerID != null) {
+                                    Intent intent = new Intent(BookingDetail.this, GetAllCards.class);
+                                    intent.putExtra("customer_id", customerID);
+                                    intent.putExtra("client_secret", clientSecret);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                }
                             }
                             bt.dismiss();
                             // activityBinding.btnPayNow.performClick();

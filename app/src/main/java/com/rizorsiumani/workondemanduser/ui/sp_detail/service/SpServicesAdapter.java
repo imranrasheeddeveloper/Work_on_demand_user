@@ -59,11 +59,11 @@ public class SpServicesAdapter extends RecyclerView.Adapter<SpServicesAdapter.Vi
                     holder.book.setEnabled(false);
                     holder.book.setText("Booked");
                     holder.book.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#d1001f")));
+                    break;
                 }else {
                     holder.book.setEnabled(true);
                     holder.book.setText("Book Now");
                     holder.book.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
-
                 }
             }
         }

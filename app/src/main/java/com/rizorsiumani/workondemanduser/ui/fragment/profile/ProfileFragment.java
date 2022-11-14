@@ -1,6 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.profile;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,7 +22,9 @@ import com.rizorsiumani.workondemanduser.ui.all_posted_jobs.AllPostedJobs;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
+import com.rizorsiumani.workondemanduser.ui.login.Login;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
+import com.rizorsiumani.workondemanduser.ui.webview.WebView;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.AppBarStateChangeListener;
 import com.rizorsiumani.workondemanduser.utils.Constants;
@@ -135,6 +138,31 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         fragmentBinding.tvLogout.setOnClickListener(view -> {
             showLogoutDialogue();
         });
+
+        fragmentBinding.tvPrivacyPolicy.setOnClickListener(view -> {
+            moveToWebView("","");
+        });
+
+        fragmentBinding.tvTerms.setOnClickListener(view -> {
+            moveToWebView("","");
+        });
+
+        fragmentBinding.tvReachUs.setOnClickListener(view -> {
+            moveToWebView("","");
+        });
+
+        fragmentBinding.tvAboutUs.setOnClickListener(view -> {
+            moveToWebView("","");
+        });
+    }
+
+    private void moveToWebView(String title, String url) {
+        Intent intent = new Intent(requireContext(), WebView.class);
+        intent.putExtra("web_title",title);
+        intent.putExtra("web_url", url);
+        startActivity(intent);
+        requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
     }
 
     private void showLogoutDialogue() {
@@ -150,7 +178,9 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         alertDialog.show();
         cancel.setOnClickListener(view -> alertDialog.dismiss());
         logout.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(requireContext(), Login.class);
             alertDialog.dismiss();
+            requireActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
     }

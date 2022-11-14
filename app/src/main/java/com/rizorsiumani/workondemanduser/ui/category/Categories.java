@@ -84,6 +84,7 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
         adapter.setOnServiceClickListener(position -> {
             Intent intent = new Intent(Categories.this, SubCategories.class);
             intent.putExtra("category_id", categoriesDataItems.get(position).getId());
+            intent.putExtra("category_title", categoriesDataItems.get(position).getTitle());
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
@@ -100,10 +101,13 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
             CategoriesAdapter adapter = new CategoriesAdapter(Categories.this, categoriesDataItems);
             activityBinding.categoriiesList.setAdapter(adapter);
 
-//            adapter.setOnServiceClickListener(position -> {
-//                ActivityUtil.gotoPage(Categories.this, ResultantServiceProviders.class);
-//                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-//            });
+            adapter.setOnServiceClickListener(position -> {
+                Intent intent = new Intent(Categories.this, SubCategories.class);
+                intent.putExtra("category_id", categoriesDataItems.get(position).getId());
+                intent.putExtra("category_title", categoriesDataItems.get(position).getTitle());
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            });
         });
 
         activityBinding.linearView.setOnClickListener(view -> {
