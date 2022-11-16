@@ -2,16 +2,14 @@ package com.rizorsiumani.workondemanduser.ui.cards;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,30 +21,27 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.data.businessModels.stripe.PaymentIntentResponse;
 import com.rizorsiumani.workondemanduser.databinding.ActivityGetAllCardsBinding;
 import com.rizorsiumani.workondemanduser.ui.add_card.AddCard;
-import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
-import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
+import com.rizorsiumani.workondemanduser.ui.booking_detail.model.DataItem;
+import com.rizorsiumani.workondemanduser.ui.booking_detail.model.GetCardsModel;
+import com.rizorsiumani.workondemanduser.ui.sp_detail.DiscountPlansAdapter;
 import com.stripe.android.ApiResultCallback;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.Stripe;
-import com.stripe.android.model.Customer;
+import com.stripe.android.model.PaymentIntent;
 import com.stripe.android.model.PaymentMethod;
 import com.stripe.android.model.PaymentMethodCreateParams;
 import com.stripe.android.view.CardInputWidget;
 import com.stripe.exception.StripeException;
 import com.stripe.param.CustomerCreateParams;
-import com.stripe.stripeterminal.Terminal;
-import com.stripe.stripeterminal.external.callable.SetupIntentCallback;
-import com.stripe.stripeterminal.external.models.SetupIntent;
-import com.stripe.stripeterminal.external.models.SetupIntentParameters;
-import com.stripe.stripeterminal.external.models.TerminalException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.rizorsiumani.workondemanduser.App.applicationContext;
@@ -54,10 +49,9 @@ import static com.rizorsiumani.workondemanduser.App.applicationContext;
 public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
 
     String CustomerID, client_secret;
-    String publish_key = "pk_test_51LqBWECQ7dojez1jeJpRCqumuAAhzrtnllMzOLKBWRJi8YcSQCalUNElMinY3Jp2mz6NCNvNqE8Su2c8sCKFWOZR00gY2QVC9k";
-    String secret_key = "sk_test_51LqBWECQ7dojez1jHKh6u2A4sxsizRNO7ciTF1znIAeQD1Nu8yLoULZ7s5uqLByJ6q8RDw3AHxnhoF8vWtc0f3BJ001tFvbnv8";
     private com.stripe.android.Stripe stripe;
-
+    String publish_key = "pk_test_51LqBTjGmaWwccsNaWNAb8x6B51zmMVMsI62gcxZTpC6lvhvGy7vdcw1CX1vkkrHYMkkN2C79mexjkPpuGeHW8Kg500CEi0L3Vm";
+    String secret_key = "sk_test_51LqBTjGmaWwccsNaRmfGGvK4TOL4j0rXloATiyVD7Nou0aCzqjttDMqrjJjf7sRt4mIHaFx8bivnmlzsazUI1Zie00ob2H1tvR";
 
 
     @Override
@@ -73,13 +67,13 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
                 getApplicationContext(),
                 publish_key
         );
-
-        try {
-            CustomerID = getIntent().getStringExtra("customer_id");
-            client_secret = getIntent().getStringExtra("client_secret");
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
+//
+//        try {
+//            CustomerID = getIntent().getStringExtra("customer_id");
+//            client_secret = getIntent().getStringExtra("client_secret");
+//        }catch (NullPointerException e){
+//            e.printStackTrace();
+//        }
 
         activityBinding.cardsToolbar.title.setText("Cards");
         activityBinding.cardsToolbar.back.setOnClickListener(view -> {
@@ -89,14 +83,73 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
         });
 
         clickListeners();
+        Cards();
+    }
 
-        saveCard(CustomerID);
-        getCards(CustomerID);
+    private void Cards() {
+
+        StringRequest request = new StringRequest(Request.Method.GET,
+                "https://api.stripe.com/v1/customers/cus_MnR9guf7yfBHXX/sources?object=card",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        if (response != null) {
+                            Gson gson = new Gson();
+                            GetCardsModel result = gson.fromJson(response, GetCardsModel.class);
+                            if (result.getData().size() > 0){
+                             activityBinding.noPaymentMethod.setVisibility(View.GONE);
+                             activityBinding.cardsExistLayout.setVisibility(View.VISIBLE);
+                             buildRv(result.getData());
+                            }else {
+                                activityBinding.noPaymentMethod.setVisibility(View.VISIBLE);
+                                activityBinding.cardsExistLayout.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap<>();
+                header.put("Authorization", "Bearer " + secret_key);
+                return header;
+            }
+
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> param = new HashMap<>();
+                param.put("object", "card");
+                return param;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(GetAllCards.this);
+        requestQueue.add(request);
+    }
+
+    private void buildRv(List<DataItem> data) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(GetAllCards.this, RecyclerView.VERTICAL, false);
+        activityBinding.cardsList.setLayoutManager(layoutManager);
+        CardsAdapter adapter = new CardsAdapter(data, GetAllCards.this);
+        activityBinding.cardsList.setAdapter(adapter);
     }
 
     private void clickListeners() {
         activityBinding.addCard.setOnClickListener(view -> {
-         //   showAddCardSheet();
+            Intent intent = new Intent(GetAllCards.this, AddCard.class);
+//            intent.putExtra("customer_id", CustomerID);
+//            intent.putExtra("client_secret", client_secret);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        activityBinding.btnAdd1.setOnClickListener(view -> {
             Intent intent = new Intent(GetAllCards.this, AddCard.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -124,10 +177,10 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
                 @Override
                 public void onSuccess(@NonNull PaymentMethod result) {
                     try {
-                    String paymentMethodId = result.id;
-                    showSnackBarShort(result.id);
-                    CustomerCreateParams params =
-                            CustomerCreateParams.builder().setPaymentMethod(paymentMethodId).build();
+                        String paymentMethodId = result.id;
+                        showSnackBarShort(result.id);
+                        CustomerCreateParams params =
+                                CustomerCreateParams.builder().setPaymentMethod(paymentMethodId).build();
 
                         com.stripe.model.Customer customer = com.stripe.model.Customer.create(params);
 
@@ -195,7 +248,6 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
 //        requestQueue.add(request);
 
 
-
 //        SetupIntentParameters params = new SetupIntentParameters.Builder()
 //                .setCustomer(customerID)
 //                .build();
@@ -214,33 +266,59 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
     }
 
     private void getCards(String customerID) {
-        StringRequest request = new StringRequest(Request.Method.GET,
-                "https://api.stripe.com/v1/customers/"+customerID+"/sources?object=card",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
 
-                        if (response != null) {
-
-                        }
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                final Stripe stripe = new Stripe(
+                        GetAllCards.this,
+                        publish_key
+                );
+                try {
+                    final PaymentIntent paymentIntent =
+                            stripe.retrievePaymentIntentSynchronous(client_secret);
+                    final PaymentIntent.Error lastPaymentError = paymentIntent != null ?
+                            paymentIntent.getLastPaymentError() : null;
+                    final String failureReason;
+                    if (lastPaymentError != null &&
+                            PaymentIntent.Error.Type.CardError.equals(lastPaymentError.getType())) {
+                        failureReason = lastPaymentError.getMessage();
+                    } else {
+                        failureReason = "Payment failed, try again"; // Default to a generic error message
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
+                    // Display the failure reason to your customer
+                } catch (Exception e) {
+                    // Handle error
+                }
             }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> header = new HashMap<>();
-                header.put("Authorization", "Bearer " + secret_key);
-                return header;
-            }
-
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(GetAllCards.this);
-        requestQueue.add(request);
+        });
+//        StringRequest request = new StringRequest(Request.Method.GET,
+//                "https://api.stripe.com/v1/customers/"+customerID+"/sources?object=card",
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//
+//                        if (response != null) {
+//
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> header = new HashMap<>();
+//                header.put("Authorization", "Bearer " + secret_key);
+//                return header;
+//            }
+//
+//        };
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(GetAllCards.this);
+//        requestQueue.add(request);
 
     }
 
@@ -249,9 +327,9 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
         @Override
         public void onStateChanged(@NonNull View bottomSheet, int newState) {
             if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-               // count = 0;
+                // count = 0;
             } else {
-               // count = 1;
+                // count = 1;
             }
 
         }

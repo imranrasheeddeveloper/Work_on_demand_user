@@ -16,6 +16,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
+
+    <include
+        layout="@layout/layout_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -30,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/_15sdp">
+
 
             <com.stripe.android.view.CardInputWidget
                 android:layout_width="match_parent"
@@ -55,6 +64,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardWidgets" />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

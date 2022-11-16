@@ -46,7 +46,7 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
         fragmentBinding = getFragmentBinding();
 
         prefRepository = new PreferenceRepository();
-        progressBar = fragmentBinding.getRoot().findViewById(R.id.progress);
+        progressBar = fragmentBinding.getRoot().findViewById(R.id.progressBar);
         cartView = fragmentBinding.getRoot().findViewById(R.id.cartButton);
         animationView = fragmentBinding.getRoot().findViewById(R.id.no_data_animation);
         cartItem = fragmentBinding.getRoot().findViewById(R.id.cartCount);

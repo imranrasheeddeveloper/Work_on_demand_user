@@ -170,11 +170,21 @@
 
 
                     <ImageView
+                        android:id="@+id/payment_method_edit"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:src="@drawable/ic_edit_blue"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_payment_method"
+                        app:layout_constraintTop_toTopOf="@id/tv_payment_method"
+                        app:tint="@color/primary" />
+
+                    <ImageView
                         android:id="@+id/payment_method_icon"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
                         android:src="@drawable/ic_add"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_payment_method"
@@ -190,6 +200,18 @@
                         android:text="Add Payment Method"
                         app:layout_constraintBottom_toBottomOf="@id/payment_method_icon"
                         app:layout_constraintStart_toEndOf="@id/payment_method_icon"
+                        app:layout_constraintTop_toTopOf="@id/payment_method_icon" />
+
+
+                    <TextView
+                        android:id="@+id/total_payment"
+                        style="@style/mediumText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:text=""
+                        app:layout_constraintBottom_toBottomOf="@id/payment_method_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/payment_method_icon" />
 
 

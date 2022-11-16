@@ -30,16 +30,17 @@ public class WebView extends BaseActivity<ActivityWebViewBinding> {
             title = getIntent().getStringExtra("web_title");
             url = getIntent().getStringExtra("web_url");
             binding.webToolbar.title.setText(title);
+            binding.webview.getSettings().setLoadsImagesAutomatically(true);
+            binding.webview.getSettings().setJavaScriptEnabled(true);
+            binding.webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+            binding.webview.loadUrl(url);
 
         }catch (NullPointerException e){
             e.printStackTrace();
         }
         clickEvents();
 
-        binding.webview.getSettings().setLoadsImagesAutomatically(true);
-        binding.webview.getSettings().setJavaScriptEnabled(true);
-        binding.webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        binding.webview.loadUrl(url);
+
         hideLoading();
 
     }

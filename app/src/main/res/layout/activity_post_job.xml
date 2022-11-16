@@ -209,6 +209,7 @@
                     android:background="@drawable/edit_text_bg1"
                     android:gravity="center"
                     android:hint="0"
+                    android:inputType="number"
                     android:padding="@dimen/_5sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -306,7 +307,7 @@
                 android:drawableStart="@drawable/ic_calender"
                 android:drawablePadding="@dimen/_8sdp"
                 android:padding="@dimen/_10sdp"
-                android:text="2/22/22"
+                android:hint="Select Time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_deadline" />

@@ -41,14 +41,13 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
         super.onCreate(savedInstanceState);
         activityBinding = getActivityBinding();
         setContentView(activityBinding.getRoot());
-        progressBar = findViewById(R.id.progress);
+        progressBar = findViewById(R.id.progressBar);
         cartView = findViewById(R.id.cartButton);
         animationView = findViewById(R.id.no_data_animation);
         cartItem = findViewById(R.id.cartCount);
         prefRepository = new PreferenceRepository();
 
 //        try {
-//
 //        }catch (NullPointerException | NumberFormatException |IllegalStateException e){
 //            e.printStackTrace();
 //        }

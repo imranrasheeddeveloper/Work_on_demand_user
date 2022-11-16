@@ -218,6 +218,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
                                     Dashboard.this.getPackageName(), null));
                             //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivityForResult(i, 1001);
+
                         }
                     });
                     AlertDialog alertDialog = dialog.create();
@@ -237,6 +238,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
                     if (ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                             ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                             || ActivityCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
                         locationHandler();
                     } else {
                         requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
@@ -337,7 +339,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
     }
 
     public static void goToBooking(){
-        binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#FFFFFFFF"), PorterDuff.Mode.SRC_IN);
+        binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#8D8D8D"), PorterDuff.Mode.SRC_IN);
         binding.bottomNavigation.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
         mNavController.navigate(R.id.bookingFragment,null);
     }

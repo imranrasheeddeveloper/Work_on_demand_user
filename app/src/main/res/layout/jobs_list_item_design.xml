@@ -12,32 +12,15 @@
         android:background="@color/off_white"
         android:padding="@dimen/_10sdp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/user"
-            android:id="@+id/user"/>
-
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/user"
-            app:layout_constraintEnd_toEndOf="@id/user"
-            app:layout_constraintTop_toBottomOf="@id/user"
-            style="@style/normalText"
-            android:text="Username"
-            android:layout_marginTop="5dp"/>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/user"
-            android:layout_marginStart="@dimen/_20sdp"
             style="@style/mediumText"
             android:text="House Cleaning"
             android:textColor="@color/black"
@@ -55,17 +38,38 @@
             android:text="This text is an example of a text that can be replaced in the sameSpace"
             android:layout_marginTop="5dp"/>
 
+        <TextView
+            android:id="@+id/ser_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/service_title"
+            app:layout_constraintTop_toBottomOf="@id/ser_detail"
+            style="@style/normalText"
+            android:text="Category  > Subcategory"
+            android:layout_marginTop="5dp"/>
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/ser_detail"
+            app:layout_constraintTop_toBottomOf="@id/ser_category"
             app:layout_constraintStart_toStartOf="@id/ser_detail"
             style="@style/mediumText"
             android:text="$30"
             android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@color/primary"
             android:id="@+id/service_rate"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/service_rate"
+            app:layout_constraintStart_toEndOf="@id/service_rate"
+            style="@style/mediumText"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:text=""
+            android:textColor="@color/primary"
+            android:id="@+id/service_budget_unit"/>
 
         <Button
             android:layout_width="0dp"

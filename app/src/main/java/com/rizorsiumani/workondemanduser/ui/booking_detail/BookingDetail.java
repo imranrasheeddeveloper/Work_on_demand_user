@@ -68,10 +68,12 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     List<String> name;
     AlertDialog.Builder dialogBuilder;
     AlertDialog alertDialog;
-    String publish_key = "pk_test_51LqBWECQ7dojez1jeJpRCqumuAAhzrtnllMzOLKBWRJi8YcSQCalUNElMinY3Jp2mz6NCNvNqE8Su2c8sCKFWOZR00gY2QVC9k";
-    String secret_key = "sk_test_51LqBWECQ7dojez1jHKh6u2A4sxsizRNO7ciTF1znIAeQD1Nu8yLoULZ7s5uqLByJ6q8RDw3AHxnhoF8vWtc0f3BJ001tFvbnv8";
-   // String secret_key = "sk_test_51LqBTjGmaWwccsNaRmfGGvK4TOL4j0rXloATiyVD7Nou0aCzqjttDMqrjJjf7sRt4mIHaFx8bivnmlzsazUI1Zie00ob2H1tvR";
-   // String publish_key = "pk_test_51LqBTjGmaWwccsNaWNAb8x6B51zmMVMsI62gcxZTpC6lvhvGy7vdcw1CX1vkkrHYMkkN2C79mexjkPpuGeHW8Kg500CEi0L3Vm";
+//    String publish_key = "pk_test_51LqBWECQ7dojez1jeJpRCqumuAAhzrtnllMzOLKBWRJi8YcSQCalUNElMinY3Jp2mz6NCNvNqE8Su2c8sCKFWOZR00gY2QVC9k";
+//    String secret_key = "sk_test_51LqBWECQ7dojez1jHKh6u2A4sxsizRNO7ciTF1znIAeQD1Nu8yLoULZ7s5uqLByJ6q8RDw3AHxnhoF8vWtc0f3BJ001tFvbnv8";
+
+    String publish_key = "pk_test_51LqBTjGmaWwccsNaWNAb8x6B51zmMVMsI62gcxZTpC6lvhvGy7vdcw1CX1vkkrHYMkkN2C79mexjkPpuGeHW8Kg500CEi0L3Vm";
+    String secret_key = "sk_test_51LqBTjGmaWwccsNaRmfGGvK4TOL4j0rXloATiyVD7Nou0aCzqjttDMqrjJjf7sRt4mIHaFx8bivnmlzsazUI1Zie00ob2H1tvR";
+
     PaymentSheet paymentSheet;
     String customerID;
     int amount_of_discount;
@@ -112,37 +114,38 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         PaymentConfiguration.init(BookingDetail.this, publish_key);
         paymentSheet = new PaymentSheet(this, this::onPaymentResult);
 
-        StringRequest request = new StringRequest(Request.Method.POST,
-                "https://api.stripe.com/v1/customers",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        if (response != null) {
-
-                            Gson gson = new Gson();
-                            idResponse = gson.fromJson(response, CustomerIdResponse.class);
-                            customerID = idResponse.getId();
-                            getEphemeralKey(customerID);
-
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> header = new HashMap<>();
-                header.put("Authorization", "Bearer " + secret_key);
-                return header;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(BookingDetail.this);
-        requestQueue.add(request);
+//
+//        StringRequest request = new StringRequest(Request.Method.POST,
+//                "https://api.stripe.com/v1/customers",
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//
+//                        if (response != null) {
+//
+//                            Gson gson = new Gson();
+//                            idResponse = gson.fromJson(response, CustomerIdResponse.class);
+//                            customerID = idResponse.getId();
+//                            getEphemeralKey(customerID);
+//
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> header = new HashMap<>();
+//                header.put("Authorization", "Bearer " + secret_key);
+//                return header;
+//            }
+//        };
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(BookingDetail.this);
+//        requestQueue.add(request);
 
 
     }
@@ -440,6 +443,17 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
+        activityBinding.paymentMethodEdit.setOnClickListener(v -> {
+//            if (customerID != null) {
+                Intent intent = new Intent(BookingDetail.this, GetAllCards.class);
+//                intent.putExtra("customer_id", customerID);
+//                intent.putExtra("client_secret", clientSecret);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//            }
+        });
+
+
         activityBinding.btnPayNow.setOnClickListener(view -> {
             if (payment_type_id == 0) {
                 showSnackBarShort("Select Payment Method");
@@ -461,70 +475,65 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         });
 
         activityBinding.addPaymentMethod.setOnClickListener(view -> {
-            final BottomSheetDialog bt = new BottomSheetDialog(BookingDetail.this, R.style.BottomSheetDialogTheme);
-            View items = LayoutInflater.from(BookingDetail.this).inflate(R.layout.layout_item_chooser, null, false);
-            RecyclerView recyclerView = items.findViewById(R.id.paymentList);
-
-            viewModel.getPaymentMethods();
-            viewModel._payment.observe(this, response -> {
-                if (response != null) {
-                    if (response.isLoading()) {
-                        showLoading();
-                    } else if (!response.getError().isEmpty()) {
-                        hideLoading();
-                        showSnackBarShort(response.getError());
-                    } else if (response.getData().getData() != null) {
-                        hideLoading();
-                        recyclerView.setHasFixedSize(true);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false));
-                        PaymentMethodsAdapter adapter = new PaymentMethodsAdapter(response.getData().getData(), BookingDetail.this);
-                        recyclerView.setAdapter(adapter);
-
-                        adapter.setonClickListener(position -> {
-                            PaymentDataItem paymentDataItem = response.getData().getData().get(position);
-                            try {
-                                String selected_payment = String.valueOf(paymentDataItem.getTitle());
-                                activityBinding.addPaymentMethod.setText(selected_payment);
-                                Glide.with(BookingDetail.this).load(Constants.IMG_PATH + paymentDataItem.getImage()).into(activityBinding.paymentMethodIcon);
-
-                            } catch (NullPointerException e) {
-                                e.printStackTrace();
-                            }
-
-                            payment_type_id = paymentDataItem.getId();
-                            payment_type = paymentDataItem.getTitle();
-                            if (paymentDataItem.getTitle().equalsIgnoreCase("Card")) {
-                                if (customerID != null) {
-                                    Intent intent = new Intent(BookingDetail.this, GetAllCards.class);
-                                    intent.putExtra("customer_id", customerID);
-                                    intent.putExtra("client_secret", clientSecret);
-                                    startActivity(intent);
-                                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                                }
-                            }
-                            bt.dismiss();
-                            // activityBinding.btnPayNow.performClick();
-                        });
-                    }
-                }
-            });
-//            ElasticImageView cash = items.findViewById(R.id.cashIcon);
-//            ElasticImageView card = items.findViewById(R.id.cardIcon);
-//            cash.setOnClickListener(view1 -> {
-//                bt.cancel();
-//            });
-//            card.setOnClickListener(view1 -> {
-//                activityBinding.btnPayNow.performClick();
-//                bt.cancel();
-//            });
-            bt.setContentView(items);
-            bt.show();
+            callPaymentmethodApi();
         });
 
         activityBinding.editAddress.setOnClickListener(view -> {
             ActivityUtil.gotoPage(BookingDetail.this, SavedAddresses.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+    }
+
+    private void callPaymentmethodApi() {
+        final BottomSheetDialog bt = new BottomSheetDialog(BookingDetail.this, R.style.BottomSheetDialogTheme);
+        View items = LayoutInflater.from(BookingDetail.this).inflate(R.layout.layout_item_chooser, null, false);
+        RecyclerView recyclerView = items.findViewById(R.id.paymentList);
+
+        viewModel.getPaymentMethods();
+        viewModel._payment.observe(this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (!response.getError().isEmpty()) {
+                    hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+                    hideLoading();
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false));
+                    PaymentMethodsAdapter adapter = new PaymentMethodsAdapter(response.getData().getData(), BookingDetail.this);
+                    recyclerView.setAdapter(adapter);
+
+                    adapter.setonClickListener(position -> {
+                        PaymentDataItem paymentDataItem = response.getData().getData().get(position);
+                        try {
+                            String selected_payment = String.valueOf(paymentDataItem.getTitle());
+                            activityBinding.addPaymentMethod.setText(selected_payment);
+                            Glide.with(BookingDetail.this).load(Constants.IMG_PATH + paymentDataItem.getImage()).into(activityBinding.paymentMethodIcon);
+
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
+
+                        payment_type_id = paymentDataItem.getId();
+                        payment_type = paymentDataItem.getTitle();
+                        if (paymentDataItem.getTitle().equalsIgnoreCase("Card")) {
+                          //  if (customerID != null) {
+                                Intent intent = new Intent(BookingDetail.this, GetAllCards.class);
+                             //   intent.putExtra("customer_id", customerID);
+                              //  intent.putExtra("client_secret", clientSecret);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                           // }
+                        }
+                        bt.dismiss();
+                        // activityBinding.btnPayNow.performClick();
+                    });
+                }
+            }
+        });
+        bt.setContentView(items);
+        bt.show();
     }
 
     private void addBooking(List<AddBookingDataItem> bookingList) {

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsDataItem;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
@@ -39,6 +40,9 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
         holder.name.setText(dataItem.getTitle());
         holder.description.setText(dataItem.getDescription());
         holder.name.setText(dataItem.getBudget());
+        holder.budget_unit.setText("("+ dataItem.getPriceUnit()+")");
+        holder.budget.setText(Constants.constant.CURRENCY + dataItem.getBudget());
+
 
     }
 
@@ -48,7 +52,7 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name,description,budget;
+        public TextView name,description,budget,budget_unit, category;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -56,6 +60,8 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
             name = itemView.findViewById(R.id.service_title);
             description = itemView.findViewById(R.id.ser_detail);
             budget = itemView.findViewById(R.id.service_rate);
+            budget_unit = itemView.findViewById(R.id.service_budget_unit);
+            category = itemView.findViewById(R.id.ser_category);
 
         }
     }

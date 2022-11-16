@@ -16,43 +16,112 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cards_toolbar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:padding="@dimen/_10sdp">
 
 
-            <ImageView
-                android:id="@+id/card_icon"
-                android:layout_width="@dimen/_15sdp"
-                android:layout_height="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:src="@drawable/ic_credit_card_custom"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
 
-            <TextView
-                android:id="@+id/add_card"
-                style="@style/mediumText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:text="Add Cards"
-                app:layout_constraintBottom_toBottomOf="@id/card_icon"
-                app:layout_constraintStart_toEndOf="@id/card_icon"
-                app:layout_constraintTop_toTopOf="@id/card_icon" />
-
-            <androidx.recyclerview.widget.RecyclerView
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cards_exist_layout"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/cardsList"/>
+
+                <ImageView
+                    android:id="@+id/card_icon"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_23sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:src="@drawable/ic_logo_container"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardsList"
+                    />
+
+                <TextView
+                    android:id="@+id/add_card"
+                    style="@style/mediumText"
+                    android:layout_width="0dp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:text="Add Cards"
+                    android:paddingEnd="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:drawableEnd="@drawable/grey_forward_icon"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@id/card_icon"
+                    app:layout_constraintStart_toEndOf="@id/card_icon"
+                    app:layout_constraintTop_toTopOf="@id/card_icon" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/no_payment_method"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@id/card_icon"
-                android:id="@+id/cardsList"/>
-            
-            
+>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="300dp"
+                    android:src="@drawable/payment_cards"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/cards_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/cards_icon"
+                    app:layout_constraintStart_toStartOf="@id/cards_icon"
+                    app:layout_constraintEnd_toEndOf="@id/cards_icon"
+                    style="@style/mediumText"
+                    android:text="No Cards Added Yet."
+                    android:textColor="@color/semi_black"
+                    android:layout_marginTop="-30dp"
+                    android:id="@+id/tv_no_card"/>
+
+                <Button
+                    android:id="@+id/btn_add1"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_round_bg"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    style="@style/greenButtonStyle"
+                    android:text="Add Card"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:textAllCaps="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_no_card"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
             <include
@@ -60,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </ScrollView>
 
     <include

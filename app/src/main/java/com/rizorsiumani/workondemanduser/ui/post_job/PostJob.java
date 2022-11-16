@@ -200,9 +200,31 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
         activityBinding.btnPost.setOnClickListener(view -> {
             if (imageUri != null){
-                uploadImage();
-            }
+                String title = activityBinding.edTitle.getText().toString();
+                String description = activityBinding.edDescribe.getText().toString();
+                String budget = activityBinding.edBudget.getText().toString();
+                String date = activityBinding.deadlineDate.getText().toString();
 
+                if (TextUtils.isEmpty(title)) {
+                    showSnackBarShort("Title required");
+                } else if (TextUtils.isEmpty(budget)) {
+                    showSnackBarShort("Budget required");
+                } else if (selectedBudgetUnit.isEmpty()) {
+                    showSnackBarShort("Budget Unit required");
+                } else if (TextUtils.isEmpty(date)) {
+                    showSnackBarShort("Date required");
+                } else if (selectedCatID == 0) {
+                    showSnackBarShort("Select Category");
+                } else if (selectedSubCatID == 0) {
+                    showSnackBarShort("Select Sub Category");
+                } else if (selectedBudgetUnit == null) {
+                    showSnackBarShort("Select Budget unit");
+                }else {
+                    uploadImage(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, date);
+                }
+            }else{
+                showSnackBarShort("Select Title");
+            }
         });
 
 
@@ -211,6 +233,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     private void postJob(String title, String description, String budget, String selectedBudgetUnit,
                          int selectedCatID, int selectedSubCatID, String imagesPath, String date) {
 
+        showLoading();
         String token = prefRepository.getString("token");
 
         JsonObject object = new JsonObject();
@@ -234,6 +257,10 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     showSnackBarShort(response.getData().getMessage());
+                    Intent intent = new Intent(PostJob.this, Dashboard.class);
+                    startActivity(intent);
+                    finish();
+                    overridePendingTransition(R.anim.stationary, R.anim.slide_down);
 
                 }
             }
@@ -323,7 +350,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         return pickerItems;
     }
 
-    private void uploadImage(){
+    private void uploadImage(String title, String description, String budget, String selectedBudgetUnit, int selectedCatID, int selectedSubCatID, String date){
         File file1 = new File(GetRealPathFromUri.getPathFromUri(PostJob.this, imageUri));
 
         MultipartBody.Part multiPartProfile = MultipartBody.Part.createFormData("image",
@@ -334,6 +361,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 )
         );
 
+        showLoading();
         postJobViewModel.postImage(multiPartProfile);
 
         postJobViewModel._job_image.observe(this, response -> {
@@ -346,31 +374,37 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 } else if (response.getData().getMessage() != null) {
                     showSnackBarShort(response.getData().getMessage());
                     imagesPath = response.getData().getFilePATH();
-                    uploadJob(imagesPath);
+                    postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, imagesPath, date);
                 }
             }
         });
     }
 
-    private void uploadJob(String imagesPath) {
-        String title = activityBinding.edTitle.getText().toString();
-        String description = activityBinding.edDescribe.getText().toString();
-        String budget = activityBinding.edBudget.getText().toString();
-        String date = activityBinding.deadlineDate.getText().toString();
-
-        if (TextUtils.isEmpty(title)) {
-            showSnackBarShort("Title required");
-        } else if (TextUtils.isEmpty(budget)) {
-            showSnackBarShort("Budget required");
-        } else if (selectedBudgetUnit.isEmpty()) {
-            showSnackBarShort("Budget Unit required");
-        } else if (TextUtils.isEmpty(date)) {
-            showSnackBarShort("Date required");
-        } else {
-            postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, imagesPath, date);
-        }
-
-    }
+//    private void uploadJob(String imagesPath) {
+//        String title = activityBinding.edTitle.getText().toString();
+//        String description = activityBinding.edDescribe.getText().toString();
+//        String budget = activityBinding.edBudget.getText().toString();
+//        String date = activityBinding.deadlineDate.getText().toString();
+//
+//        if (TextUtils.isEmpty(title)) {
+//            showSnackBarShort("Title required");
+//        } else if (TextUtils.isEmpty(budget)) {
+//            showSnackBarShort("Budget required");
+//        } else if (selectedBudgetUnit.isEmpty()) {
+//            showSnackBarShort("Budget Unit required");
+//        } else if (TextUtils.isEmpty(date)) {
+//            showSnackBarShort("Date required");
+//        } else if (imagesPath == null) {
+//            showSnackBarShort("Select Image");
+//        } else if (selectedCatID == 0) {
+//            showSnackBarShort("Select Category");
+//        } else if (selectedSubCatID == 0) {
+//            showSnackBarShort("Select Sub Category");
+//        } else {
+//            postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, imagesPath, date);
+//        }
+//
+//    }
 
     private List<Item> getBudgetPickerItems() {
 
