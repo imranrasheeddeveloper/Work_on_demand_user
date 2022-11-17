@@ -1,32 +1,23 @@
 package com.rizorsiumani.workondemanduser.ui.post_job;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -38,24 +29,19 @@ import com.paulrybitskyi.valuepicker.model.Item;
 import com.paulrybitskyi.valuepicker.model.PickerItem;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.common.ImageUploadViewModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
 import com.rizorsiumani.workondemanduser.databinding.ActivityPostJobBinding;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
-import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.HomeViewModel;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategoryViewModel;
-import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.rizorsiumani.workondemanduser.utils.GetRealPathFromUri;
-import com.skydoves.elasticviews.ElasticImageView;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -78,6 +64,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
     private PostJobViewModel postJobViewModel;
     Uri imageUri;
+    AlertDialog alertDialog1 = null;
 
 
     @Override
@@ -165,11 +152,11 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                             subCategoryDataItems = new ArrayList<>();
                             subCategoryDataItems.addAll(response.getData().getData());
                             if (subCategoryDataItems.size() > 0) {
-                                showCategoriesDialogue(1, activityBinding.selectedSubcategory);
+                                showSubCategoriesDialogue(activityBinding.selectedSubcategory);
 //                                if (id != 0) {
 //                                    selectedSubCatID = id;
 //                                }
-                            }else {
+                            } else {
                                 showSnackBarShort("No Sub Category, Select Other Category");
                             }
 
@@ -199,7 +186,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
         activityBinding.btnPost.setOnClickListener(view -> {
-            if (imageUri != null){
+            if (imageUri != null) {
                 String title = activityBinding.edTitle.getText().toString();
                 String description = activityBinding.edDescribe.getText().toString();
                 String budget = activityBinding.edBudget.getText().toString();
@@ -219,10 +206,10 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                     showSnackBarShort("Select Sub Category");
                 } else if (selectedBudgetUnit == null) {
                     showSnackBarShort("Select Budget unit");
-                }else {
+                } else {
                     uploadImage(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, date);
                 }
-            }else{
+            } else {
                 showSnackBarShort("Select Title");
             }
         });
@@ -308,9 +295,9 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         select.setOnClickListener(view1 -> {
             if (value == 2) {
                 selectedBudgetUnit = valuePickerView.getSelectedItem().getTitle();
-            }else if (value == 0){
+            } else if (value == 0) {
                 selectedCatID = valuePickerView.getSelectedItem().getId();
-            }else if (value == 1){
+            } else if (value == 1) {
                 selectedSubCatID = valuePickerView.getSelectedItem().getId();
             }
             textView.setText(valuePickerView.getSelectedItem().getTitle());
@@ -319,6 +306,47 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
     }
+
+    private void showSubCategoriesDialogue(TextView textView) {
+        AlertDialog.Builder dialogBuilder1;
+        if (alertDialog1 == null) {
+            dialogBuilder1 = new AlertDialog.Builder(PostJob.this);
+            View layoutView1 = getLayoutInflater().inflate(R.layout.pick_category_dialogue, null);
+            TextView cancel = (TextView) layoutView1.findViewById(R.id.tv_cancel);
+            TextView select = (TextView) layoutView1.findViewById(R.id.tv_done);
+            ValuePickerView valuePickerView = (ValuePickerView) layoutView1.findViewById(R.id.teamPicker);
+            valuePickerView.setOnItemSelectedListener((item) -> {
+                textView.setTag(item.getTitle());
+            });
+
+            List<Item> pickerItems = null;
+
+            pickerItems = getSubCatPickerItems();
+            valuePickerView.setItems(getSubCatPickerItems());
+
+            //valuePickerView.setSelectedItem(pickerItems.get(2));
+
+
+            dialogBuilder1.setView(layoutView1);
+            alertDialog1 = dialogBuilder1.create();
+            alertDialog1.getWindow().getAttributes().windowAnimations = R.style.DialogAnimations;
+            alertDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            alertDialog1.show();
+            cancel.setOnClickListener(view1 -> {
+                alertDialog1.dismiss();
+            });
+
+            select.setOnClickListener(view1 -> {
+                selectedSubCatID = valuePickerView.getSelectedItem().getId();
+                textView.setText(valuePickerView.getSelectedItem().getTitle());
+                alertDialog1.dismiss();
+
+            });
+        }else {
+            alertDialog1.show();
+        }
+    }
+
 
     private List<Item> getCatPickerItems() {
         final List<Item> pickerItems = new ArrayList<>();
@@ -350,7 +378,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         return pickerItems;
     }
 
-    private void uploadImage(String title, String description, String budget, String selectedBudgetUnit, int selectedCatID, int selectedSubCatID, String date){
+    private void uploadImage(String title, String description, String budget, String selectedBudgetUnit, int selectedCatID, int selectedSubCatID, String date) {
         File file1 = new File(GetRealPathFromUri.getPathFromUri(PostJob.this, imageUri));
 
         MultipartBody.Part multiPartProfile = MultipartBody.Part.createFormData("image",

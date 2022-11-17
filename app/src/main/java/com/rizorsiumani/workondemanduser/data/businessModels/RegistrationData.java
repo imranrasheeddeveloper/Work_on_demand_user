@@ -34,6 +34,13 @@ public class RegistrationData {
 	@SerializedName("updatedAt")
 	private String updatedAt;
 
+	@SerializedName("stripe_customerId")
+	private String stripe_customerId;
+
+	public String getStripe_customerId() {
+		return stripe_customerId;
+	}
+
 	public String getFirstName(){
 		return firstName;
 	}

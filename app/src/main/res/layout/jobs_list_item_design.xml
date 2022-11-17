@@ -38,21 +38,12 @@
             android:text="This text is an example of a text that can be replaced in the sameSpace"
             android:layout_marginTop="5dp"/>
 
+
+
         <TextView
-            android:id="@+id/ser_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/service_title"
             app:layout_constraintTop_toBottomOf="@id/ser_detail"
-            style="@style/normalText"
-            android:text="Category  > Subcategory"
-            android:layout_marginTop="5dp"/>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/ser_category"
             app:layout_constraintStart_toStartOf="@id/ser_detail"
             style="@style/mediumText"
             android:text="$30"

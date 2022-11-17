@@ -11,7 +11,6 @@ import com.rizorsiumani.workondemanduser.databinding.ActivityWebViewBinding;
 
 public class WebView extends BaseActivity<ActivityWebViewBinding> {
 
-    ActivityWebViewBinding binding;
     String title, url;
 
     @Override
@@ -29,16 +28,17 @@ public class WebView extends BaseActivity<ActivityWebViewBinding> {
         try {
             title = getIntent().getStringExtra("web_title");
             url = getIntent().getStringExtra("web_url");
-            binding.webToolbar.title.setText(title);
-            binding.webview.getSettings().setLoadsImagesAutomatically(true);
-            binding.webview.getSettings().setJavaScriptEnabled(true);
-            binding.webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-            binding.webview.loadUrl(url);
+            activityBinding.webToolbar.title.setText(title);
 
         }catch (NullPointerException e){
             e.printStackTrace();
         }
         clickEvents();
+
+        activityBinding.webview.getSettings().setLoadsImagesAutomatically(true);
+        activityBinding.webview.getSettings().setJavaScriptEnabled(true);
+        activityBinding.webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        activityBinding.webview.loadUrl(url);
 
 
         hideLoading();
@@ -47,7 +47,7 @@ public class WebView extends BaseActivity<ActivityWebViewBinding> {
 
 
     private void clickEvents() {
-        binding.webToolbar.back.setOnClickListener(view -> {
+        activityBinding.webToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);

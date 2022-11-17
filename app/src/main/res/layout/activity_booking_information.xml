@@ -6,12 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.view_booking_information.BookingInformation">
 
-    <include
-        layout="@layout/layout_progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
 
-        />
 
     <include
         android:id="@+id/booking_info_toolbar"
@@ -32,300 +27,336 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/booking_info_toolbar">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_10sdp">
+            android:layout_height="match_parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="60dp"
-                android:layout_height="60sp"
+            <aglibs.loading.skeleton.layout.SkeletonLinearLayout
+                android:id="@+id/skeletonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:clipToText="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include layout="@layout/booking_information_place_holder" />
+
+
+            </aglibs.loading.skeleton.layout.SkeletonLinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/informationView"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/user"
-                android:background="@color/transparent"
-                app:civ_border_color="@color/off_white"
-                app:civ_border_width="1dp"
-                android:id="@+id/iv_sp"/>
+                app:layout_constraintEnd_toEndOf="parent">
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/iv_sp"
-                app:layout_constraintStart_toEndOf="@id/iv_sp"
-                android:layout_marginStart="@dimen/_10sdp"
-                style="@style/mediumText"
-
-                android:text="Ayesja Ali"
-                android:textColor="@color/black"
-                android:layout_marginTop="@dimen/_2sdp"
-                android:id="@+id/tv_sp_name"/>
-
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tv_sp_name"
-                app:layout_constraintStart_toStartOf="@id/tv_sp_name"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                />
-
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_sp"
+                    android:layout_width="60dp"
+                    android:layout_height="60sp"
+                    android:background="@color/transparent"
+                    android:src="@color/placeholder_bg"
+                    app:civ_border_color="@color/off_white"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <TextView
+                    android:id="@+id/tv_sp_name"
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/mediumText"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@id/iv_sp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:text="-"
-                    android:id="@+id/booking_title"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/mediumText"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@id/booking_title"
+                    app:layout_constraintStart_toEndOf="@id/iv_sp"
+                    app:layout_constraintTop_toTopOf="@id/iv_sp" />
+
+
+                <RatingBar
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/tv_sp_name"
+                    app:layout_constraintTop_toBottomOf="@id/tv_sp_name" />
+
+
+                <TextView
+                    android:id="@+id/booking_title"
+                    style="@style/mediumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_sp" />
+
+                <TextView
+                    android:id="@+id/tv_detail"
+                    style="@style/mediumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Order Details"
-                    android:id="@+id/tv_detail"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/mediumText"
-                    android:layout_marginTop="@dimen/_6sdp"
-                    android:textColor="@color/gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_detail"
+                    android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:text="Order Number"
-                    android:id="@+id/tv_order_number"/>
+                    app:layout_constraintTop_toBottomOf="@id/booking_title" />
 
                 <TextView
+                    android:id="@+id/tv_order_number"
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/mediumText"
-                    android:textSize="12sp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:text="Order Number"
                     android:textColor="@color/gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_detail" />
+
+                <TextView
+                    android:id="@+id/order_number"
+                    style="@style/mediumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/rating_bg1"
                     android:backgroundTint="@color/light_grey1"
                     android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp"
                     android:paddingTop="@dimen/_2sdp"
-                    app:layout_constraintTop_toTopOf="@id/tv_order_number"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:text="-"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/tv_order_number"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="-"
-                    android:id="@+id/order_number"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_order_number" />
 
                 <TextView
+                    android:id="@+id/tv_order_from"
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/mediumText"
                     android:layout_marginTop="@dimen/_6sdp"
-                    android:textColor="@color/gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_order_number"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:text="Order From"
-                    android:id="@+id/tv_order_from"/>
+                    android:textColor="@color/gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_order_number" />
 
                 <TextView
+                    android:id="@+id/order_from"
+                    style="@style/mediumText"
                     android:layout_width="@dimen/_150sdp"
                     android:layout_height="wrap_content"
-                    style="@style/mediumText"
-                    android:textSize="12sp"
-                    android:textColor="@color/primary"
-                    android:maxLines="2"
                     android:ellipsize="end"
-                    app:layout_constraintTop_toTopOf="@id/tv_order_from"
+                    android:maxLines="2"
+                    android:text="-"
+                    android:textColor="@color/primary"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/tv_order_from"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="-"
-                    android:id="@+id/order_from"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_order_from" />
 
                 <TextView
+                    android:id="@+id/tv_delivery_address"
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/mediumText"
                     android:layout_marginTop="@dimen/_6sdp"
-                    android:textColor="@color/gray"
-                    app:layout_constraintTop_toBottomOf="@id/order_from"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:text="Delivery Address"
-                    android:id="@+id/tv_delivery_address"/>
+                    android:textColor="@color/gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/order_from" />
 
                 <TextView
+                    android:id="@+id/delivery_address"
+                    style="@style/mediumText"
                     android:layout_width="@dimen/_150sdp"
                     android:layout_height="wrap_content"
-                    style="@style/mediumText"
-                    android:textColor="@color/black"
-                    android:maxLines="2"
-                    android:textSize="12sp"
                     android:ellipsize="end"
-                    app:layout_constraintTop_toTopOf="@id/tv_delivery_address"
+                    android:maxLines="2"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/tv_delivery_address"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="-"
-                    android:id="@+id/delivery_address"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_delivery_address" />
 
                 <View
+                    android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/delivery_address"
                     android:layout_marginTop="@dimen/_6sdp"
-                    android:background="@color/light_grey"
                     android:alpha="0.5"
-                    android:id="@+id/view"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/mediumText"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    app:layout_constraintTop_toBottomOf="@id/view"
+                    android:background="@color/light_grey"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:id="@+id/service_name"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/mediumText"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toTopOf="@id/service_name"
-                app:layout_constraintBottom_toBottomOf="@id/service_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/service_rate"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:paddingEnd="@dimen/_40sdp"
-                android:maxLines="2"
-                android:ellipsize="middle"
-                style="@style/normalText"
-                android:textColor="@color/gray"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_2sdp"
-                app:layout_constraintTop_toBottomOf="@id/service_name"
-                app:layout_constraintStart_toStartOf="@id/service_name"
-                android:id="@+id/service_detail"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/service_detail"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:background="@color/light_grey"
-                android:alpha="0.5"
-                android:id="@+id/view1"/>
+                    app:layout_constraintTop_toBottomOf="@id/delivery_address" />
 
                 <TextView
+                    android:id="@+id/service_name"
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/mediumText"
                     android:layout_marginTop="@dimen/_8sdp"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view" />
+
+                <TextView
+                    android:id="@+id/service_rate"
+                    style="@style/mediumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/service_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/service_name" />
+
+                <TextView
+                    android:id="@+id/service_detail"
+                    style="@style/normalText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:ellipsize="middle"
+                    android:maxLines="2"
+                    android:paddingEnd="@dimen/_40sdp"
                     android:textColor="@color/gray"
-                    app:layout_constraintTop_toBottomOf="@id/view1"
+                    app:layout_constraintStart_toStartOf="@id/service_name"
+                    app:layout_constraintTop_toBottomOf="@id/service_name" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:alpha="0.5"
+                    android:background="@color/light_grey"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:text="Subtotal"
-                    android:id="@+id/tv_sub_total"/>
+                    app:layout_constraintTop_toBottomOf="@id/service_detail" />
 
                 <TextView
+                    android:id="@+id/tv_sub_total"
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="Subtotal"
+                    android:textColor="@color/gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view1" />
+
+                <TextView
+                    android:id="@+id/sub_total"
                     style="@style/mediumText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toTopOf="@id/tv_sub_total"
                     app:layout_constraintBottom_toBottomOf="@id/tv_sub_total"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="-"
-                    android:id="@+id/sub_total"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_sub_total" />
 
                 <TextView
+                    android:id="@+id/tv_budget_unit"
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/mediumText"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:textColor="@color/gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_sub_total"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:text="Budget Unit"
-                    android:id="@+id/tv_budget_unit"/>
+                    android:textColor="@color/gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_sub_total" />
 
                 <TextView
+                    android:id="@+id/budget_unit"
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/mediumText"
+                    android:text="-"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toTopOf="@id/tv_budget_unit"
                     app:layout_constraintBottom_toBottomOf="@id/tv_budget_unit"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="-"
-                    android:id="@+id/budget_unit"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_budget_unit" />
 
 
                 <TextView
+                    android:id="@+id/tv_voucher"
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/mediumText"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:textColor="@color/gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_budget_unit"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:text="Voucher : 12345"
-                    android:id="@+id/tv_voucher"/>
+                    android:textColor="@color/gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_budget_unit" />
 
                 <TextView
+                    android:id="@+id/voucher_discount"
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/mediumText"
+                    android:text="-"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toTopOf="@id/tv_voucher"
                     app:layout_constraintBottom_toBottomOf="@id/tv_voucher"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="-"
-                    android:id="@+id/voucher_discount"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_voucher" />
 
                 <TextView
+                    android:id="@+id/tv_total"
+                    style="@style/mediumText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@color/off_white"
                     android:paddingTop="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_10sdp"
-                    android:text="Total"
-                    style="@style/mediumText"
+                    android:text="total"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@id/tv_voucher"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:background="@color/off_white"
-                    android:id="@+id/tv_total"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_voucher" />
 
                 <TextView
+                    android:id="@+id/total"
+                    style="@style/mediumText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-
+                    android:background="@color/off_white"
                     android:text="-"
-                    style="@style/mediumText"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toTopOf="@id/tv_total"
                     app:layout_constraintBottom_toBottomOf="@id/tv_total"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:background="@color/off_white"
-                    android:id="@+id/total"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_total" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+            <include
+                layout="@layout/layout_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

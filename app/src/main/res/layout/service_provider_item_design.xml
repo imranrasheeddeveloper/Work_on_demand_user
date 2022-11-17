@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_86sdp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_6sdp"
         app:cardUseCompatPadding="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,28 +18,34 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="@dimen/_8sdp"
             >
 
-            <ImageView
-                android:layout_width="@dimen/_70sdp"
-                android:layout_height="0dp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="60dp"
+                android:layout_height="60sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:src="@color/placeholder_bg"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@color/red"
-                android:scaleType="fitXY"
-                android:id="@+id/sp_image"/>
+                android:background="@color/transparent"
+                app:civ_border_color="@color/off_white"
+                app:civ_border_width="1dp"
+                android:id="@+id/iv_sp"/>
+
+
+
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                app:layout_constraintStart_toEndOf="@id/sp_image"
+                app:layout_constraintStart_toEndOf="@id/iv_sp"
+                android:layout_marginStart="@dimen/_14sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:paddingStart="@dimen/_8sdp"
-                android:paddingTop="@dimen/_3sdp"
-                android:paddingBottom="@dimen/_3sdp">
+                >
 
 
                 <TextView
@@ -47,7 +53,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="ANGEL WILLIAM"
+                    android:text="-"
                     style="@style/mediumText"
                     android:textColor="@color/black"
                     android:id="@+id/sp_name11"/>
@@ -57,7 +63,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/sp_name11"
-                    android:text="Home Cleaning"
+                    android:text="-"
                     android:layout_marginTop="-3dp"
                     style="@style/normalText"
                     android:textColor="@color/gray"
@@ -68,7 +74,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/sp_service"
-                    android:text="$20"
+                    android:text="-"
                     style="@style/normalText"
                     android:textColor="@color/primary"
                     android:id="@+id/sp_rate"/>

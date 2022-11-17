@@ -7,6 +7,7 @@ import com.rizorsiumani.workondemanduser.common.AddBookingDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.PromoDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
+import com.rizorsiumani.workondemanduser.ui.booking_detail.model.DataItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class TinyDbManager {
     public static final String KEY_HOUR = "key_hour";
     public static final String KEY_PROMO = "key_promo";
     public static final String KEY_SPID = "key_service_provider_id";
+    public static final String KEY_CARD = "key_card";
 
 
 
@@ -159,4 +161,16 @@ public class TinyDbManager {
         TinyDB tinyDB = new TinyDB(App.applicationContext);
         return tinyDB.getString(KEY_SPID);
     }
+
+    public static void selectedCard(DataItem dataItem) {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        tinyDB.putObject(KEY_CARD, dataItem);
+        Log.e("CARD", "saved !");
+    }
+
+    public static DataItem getSelectedCard(){
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        return tinyDB.getObject(KEY_CARD,DataItem.class);
+    }
+
 }

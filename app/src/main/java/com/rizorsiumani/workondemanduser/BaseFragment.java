@@ -72,7 +72,8 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
         cartView.setOnClickListener(view1 -> {
             Intent intent = new Intent(requireContext(), BookingDetail.class);
             startActivity(intent);
-            requireActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
         });
 
         return fragmentBinding.getRoot();

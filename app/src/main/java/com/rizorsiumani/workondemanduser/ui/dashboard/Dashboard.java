@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
@@ -37,6 +38,9 @@ import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.OnLocationUpdateListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Dashboard extends AppCompatActivity implements OnLocationUpdateListener {
 
@@ -168,7 +172,27 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
             }
         });
 
+       checkAndRequestPermissions();
 
+
+
+
+    }
+
+    private void checkAndRequestPermissions() {
+        int WExtstorePermission = ContextCompat.checkSelfPermission(Dashboard.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (WExtstorePermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded
+                    .add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(Dashboard.this, listPermissionsNeeded
+                            .toArray(new String[listPermissionsNeeded.size()]),
+                    11);
+        }
     }
 
     public void checkRunTimePermission() {
@@ -225,6 +249,15 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
                     alertDialog.show();
                 }
                 //code for deny
+            }
+        }
+        if (requestCode == 11) {
+        if (ContextCompat.checkSelfPermission(Dashboard.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getApplicationContext(),
+                        "FlagUp Requires Access to Your Storage.",
+                        Toast.LENGTH_SHORT).show();
+            } else {
             }
         }
     }

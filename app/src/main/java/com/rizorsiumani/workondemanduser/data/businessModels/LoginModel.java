@@ -16,9 +16,12 @@ public class LoginModel{
 	@SerializedName("token")
 	private String token;
 
+
 	public UserData getData(){
 		return data;
 	}
+
+
 
 	public boolean isSuccess(){
 		return success;

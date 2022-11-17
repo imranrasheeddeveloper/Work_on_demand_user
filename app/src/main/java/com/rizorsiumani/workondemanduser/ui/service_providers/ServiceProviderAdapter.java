@@ -69,7 +69,7 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
             name = itemView.findViewById(R.id.sp_name11);
             service = itemView.findViewById(R.id.sp_service);
             price = itemView.findViewById(R.id.sp_rate);
-            imageView = itemView.findViewById(R.id.sp_image);
+            imageView = itemView.findViewById(R.id.iv_sp);
 
             itemView.setOnClickListener(view -> {
                 if (itemClickListener!= null){

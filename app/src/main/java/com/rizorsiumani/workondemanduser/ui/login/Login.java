@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.View;
 
@@ -43,6 +44,9 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
         viewModel = new ViewModelProvider(Login.this).get(LoginViewModel.class);
 
 
+        activityBinding.edPassword.setTransformationMethod(new PasswordTransformationMethod());
+        activityBinding.edPassword1.setTransformationMethod(new PasswordTransformationMethod());
+
 
         clickListeners();
     }
@@ -57,6 +61,30 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
         activityBinding.textForgot.setOnClickListener(view -> {
             ActivityUtil.gotoPage(Login.this, ForgotPassword.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        activityBinding.showPass.setOnClickListener(v -> {
+            if (activityBinding.showPass.getTag().equals("hide")) {
+                activityBinding.edPassword.setTransformationMethod(null);
+                activityBinding.showPass.setImageResource(R.drawable.show_password);
+                activityBinding.showPass.setTag("show");
+            } else {
+                activityBinding.edPassword.setTransformationMethod(new PasswordTransformationMethod());
+                activityBinding.showPass.setImageResource(R.drawable.hide_password);
+                activityBinding.showPass.setTag("hide");
+            }
+        });
+
+        activityBinding.showPass1.setOnClickListener(v -> {
+            if (activityBinding.showPass1.getTag().equals("hide")) {
+                activityBinding.edPassword1.setTransformationMethod(null);
+                activityBinding.showPass1.setImageResource(R.drawable.show_password);
+                activityBinding.showPass1.setTag("show");
+            } else {
+                activityBinding.edPassword1.setTransformationMethod(new PasswordTransformationMethod());
+                activityBinding.showPass1.setImageResource(R.drawable.hide_password);
+                activityBinding.showPass1.setTag("hide");
+            }
         });
 
         activityBinding.tvPhone.setOnClickListener(view -> {
@@ -130,7 +158,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
         JsonObject object = new JsonObject();
         object.addProperty("phoneNumber", number);
         object.addProperty("password", password);
-        object.addProperty("fcm_token" , Constants.constant.FCM_TOKEN);
+        object.addProperty("fcm_token" , "Constants.constant.FCM_TOKEN");
         object.addProperty("type","individual");
 
         viewModel.login(object);
@@ -197,7 +225,6 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
                     hideLoading();
                     prefRepository.setString("token" , "Bearer "+response.getData().getToken());
                     TinyDbManager.saveUserData(response.getData().getData());
-
 
                     ActivityUtil.gotoPage(Login.this, Dashboard.class);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

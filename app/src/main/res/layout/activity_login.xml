@@ -130,9 +130,24 @@
                 android:background="@drawable/edit_text_bg"
                 android:hint="Enter password"
                 android:padding="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_20sdp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_pass" />
+
+            <ImageView
+                android:id="@+id/showPass"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:tag="hide"
+                app:layout_constraintEnd_toEndOf="@id/ed_password"
+                app:layout_constraintTop_toTopOf="@id/ed_password"
+                app:layout_constraintBottom_toBottomOf="@id/ed_password"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:src="@drawable/hide_password" />
+
 
             <TextView
                 android:id="@+id/text_forgot"
@@ -237,9 +252,23 @@
                 android:background="@drawable/edit_text_bg"
                 android:hint="Enter password"
                 android:padding="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_20sdp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_pass1" />
+
+            <ImageView
+                android:id="@+id/showPass1"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:tag="hide"
+                app:layout_constraintEnd_toEndOf="@id/ed_password1"
+                app:layout_constraintTop_toTopOf="@id/ed_password1"
+                app:layout_constraintBottom_toBottomOf="@id/ed_password1"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:src="@drawable/hide_password" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityGetAllCardsBinding;
 import com.rizorsiumani.workondemanduser.ui.add_card.AddCard;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.model.DataItem;
@@ -48,10 +49,8 @@ import static com.rizorsiumani.workondemanduser.App.applicationContext;
 
 public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
 
-    String CustomerID, client_secret;
-    private com.stripe.android.Stripe stripe;
-    String publish_key = "pk_test_51LqBTjGmaWwccsNaWNAb8x6B51zmMVMsI62gcxZTpC6lvhvGy7vdcw1CX1vkkrHYMkkN2C79mexjkPpuGeHW8Kg500CEi0L3Vm";
-    String secret_key = "sk_test_51LqBTjGmaWwccsNaRmfGGvK4TOL4j0rXloATiyVD7Nou0aCzqjttDMqrjJjf7sRt4mIHaFx8bivnmlzsazUI1Zie00ob2H1tvR";
+    String publish_key = "pk_test_51M4i3YFyKkhI7Itr08xnMiRdCI0txUVQcAlroa7CfS1nLDIjRaKN6YIdMucBtThd1u7U0VZiKrkd5qEAT20yTVMI001ZLp3IjR";
+    String secret_key = "sk_test_51M4i3YFyKkhI7ItrcxzXMddb90sUJrShRKkPOXFMW25LhQjqsRrn0DKX8Cw4sA2u4PDMki7bPeMoZP2tX4nvMh7O00ijVe6qL6";
 
 
     @Override
@@ -67,13 +66,7 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
                 getApplicationContext(),
                 publish_key
         );
-//
-//        try {
-//            CustomerID = getIntent().getStringExtra("customer_id");
-//            client_secret = getIntent().getStringExtra("client_secret");
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//        }
+
 
         activityBinding.cardsToolbar.title.setText("Cards");
         activityBinding.cardsToolbar.back.setOnClickListener(view -> {
@@ -87,50 +80,58 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
     }
 
     private void Cards() {
+        try {
 
-        StringRequest request = new StringRequest(Request.Method.GET,
-                "https://api.stripe.com/v1/customers/cus_MnR9guf7yfBHXX/sources?object=card",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+        if (TinyDbManager.getUserInformation().getStripe_customerId() != null) {
+            String id = TinyDbManager.getUserInformation().getStripe_customerId();
+            StringRequest request = new StringRequest(Request.Method.GET,
+                    "https://api.stripe.com/v1/customers/"+id+"/sources?object=card",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
-                        if (response != null) {
-                            Gson gson = new Gson();
-                            GetCardsModel result = gson.fromJson(response, GetCardsModel.class);
-                            if (result.getData().size() > 0){
-                             activityBinding.noPaymentMethod.setVisibility(View.GONE);
-                             activityBinding.cardsExistLayout.setVisibility(View.VISIBLE);
-                             buildRv(result.getData());
-                            }else {
-                                activityBinding.noPaymentMethod.setVisibility(View.VISIBLE);
-                                activityBinding.cardsExistLayout.setVisibility(View.GONE);
+                            if (response != null) {
+                                Gson gson = new Gson();
+                                GetCardsModel result = gson.fromJson(response, GetCardsModel.class);
+                                if (result.getData().size() > 0) {
+                                    activityBinding.noPaymentMethod.setVisibility(View.GONE);
+                                    activityBinding.cardsExistLayout.setVisibility(View.VISIBLE);
+                                    buildRv(result.getData());
+                                } else {
+                                    activityBinding.noPaymentMethod.setVisibility(View.VISIBLE);
+                                    activityBinding.cardsExistLayout.setVisibility(View.GONE);
+                                }
                             }
                         }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
 
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> header = new HashMap<>();
-                header.put("Authorization", "Bearer " + secret_key);
-                return header;
-            }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> header = new HashMap<>();
+                    header.put("Authorization", "Bearer " + secret_key);
+                    return header;
+                }
 
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> param = new HashMap<>();
-                param.put("object", "card");
-                return param;
-            }
-        };
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> param = new HashMap<>();
+                    param.put("object", "card");
+                    return param;
+                }
+            };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(GetAllCards.this);
-        requestQueue.add(request);
+            RequestQueue requestQueue = Volley.newRequestQueue(GetAllCards.this);
+            requestQueue.add(request);
+        }
+
+        }catch (NullPointerException |IllegalStateException e){
+            e.printStackTrace();
+        }
     }
 
     private void buildRv(List<DataItem> data) {
@@ -138,13 +139,18 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
         activityBinding.cardsList.setLayoutManager(layoutManager);
         CardsAdapter adapter = new CardsAdapter(data, GetAllCards.this);
         activityBinding.cardsList.setAdapter(adapter);
+
+        adapter.setOnCardClickListener(position -> {
+            TinyDbManager.selectedCard(data.get(position));
+            onBackPressed();
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        });
     }
 
     private void clickListeners() {
         activityBinding.addCard.setOnClickListener(view -> {
             Intent intent = new Intent(GetAllCards.this, AddCard.class);
-//            intent.putExtra("customer_id", CustomerID);
-//            intent.putExtra("client_secret", client_secret);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
@@ -155,187 +161,4 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
-
-    private void showAddCardSheet() {
-        final BottomSheetDialog bt = new BottomSheetDialog(GetAllCards.this, R.style.BottomSheetDialogTheme);
-        bt.setCanceledOnTouchOutside(false);
-        View view = LayoutInflater.from(GetAllCards.this).inflate(R.layout.add_card_layout, null, false);
-        bt.getBehavior().addBottomSheetCallback(mBottomSheetBehaviorCallback);
-
-        CardInputWidget cardInputWidget = view.findViewById(R.id.cardWidgets);
-        Button addCard = view.findViewById(R.id.btn_add_card);
-
-        addCard.setOnClickListener(view1 -> {
-            PaymentMethodCreateParams params = cardInputWidget.getPaymentMethodCreateParams();
-            if (params == null) {
-                return;
-            }
-            // Configure the SDK with your Stripe publishable key so that it can make requests to the Stripe API
-            stripe = new Stripe(applicationContext,
-                    publish_key);
-            stripe.createPaymentMethod(params, new ApiResultCallback<PaymentMethod>() {
-                @Override
-                public void onSuccess(@NonNull PaymentMethod result) {
-                    try {
-                        String paymentMethodId = result.id;
-                        showSnackBarShort(result.id);
-                        CustomerCreateParams params =
-                                CustomerCreateParams.builder().setPaymentMethod(paymentMethodId).build();
-
-                        com.stripe.model.Customer customer = com.stripe.model.Customer.create(params);
-
-//                        PaymentMethod paymentMethod = PaymentMethod.retrieve("{{PAYMENT_METHOD_ID}}");
-//
-//                        PaymentMethodAttachParams params =
-//                                PaymentMethodAttachParams.builder()
-//                                        .setCustomer("{{CUSTOMER_ID}}")
-//                                        .build();
-//
-//                        paymentMethod.attach(params);
-
-                    } catch (StripeException e) {
-                        e.printStackTrace();
-                    }
-                    // Send paymentMethodId to your server for the next steps
-                }
-
-                @Override
-                public void onError(@NonNull Exception e) {
-                    // Display the error to the user
-                }
-            });
-        });
-
-
-        bt.setContentView(view);
-        bt.show();
-    }
-
-    private void saveCard(String customerID) {
-//        StringRequest request = new StringRequest(Request.Method.POST,
-//                "https://api.stripe.com/v1/"+customerID+"/sources",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//
-//                        if (response != null) {
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> header = new HashMap<>();
-//                header.put("Authorization", "Bearer " + secret_key);
-//                return header;
-//            }
-//
-//            @Nullable
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("source", "tok_amex");
-//
-//                return params;
-//            }
-//        };
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(GetAllCards.this);
-//        requestQueue.add(request);
-
-
-//        SetupIntentParameters params = new SetupIntentParameters.Builder()
-//                .setCustomer(customerID)
-//                .build();
-//
-//        Terminal.getInstance().createSetupIntent(params, new SetupIntentCallback() {
-//            @Override
-//            public void onSuccess(@NonNull SetupIntent setupIntent) {
-//                // Placeholder for collecting a payment method with setupIntent
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull TerminalException exception) {
-//                // Placeholder for handling exception
-//            }
-//        });
-    }
-
-    private void getCards(String customerID) {
-
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                final Stripe stripe = new Stripe(
-                        GetAllCards.this,
-                        publish_key
-                );
-                try {
-                    final PaymentIntent paymentIntent =
-                            stripe.retrievePaymentIntentSynchronous(client_secret);
-                    final PaymentIntent.Error lastPaymentError = paymentIntent != null ?
-                            paymentIntent.getLastPaymentError() : null;
-                    final String failureReason;
-                    if (lastPaymentError != null &&
-                            PaymentIntent.Error.Type.CardError.equals(lastPaymentError.getType())) {
-                        failureReason = lastPaymentError.getMessage();
-                    } else {
-                        failureReason = "Payment failed, try again"; // Default to a generic error message
-                    }
-                    // Display the failure reason to your customer
-                } catch (Exception e) {
-                    // Handle error
-                }
-            }
-        });
-//        StringRequest request = new StringRequest(Request.Method.GET,
-//                "https://api.stripe.com/v1/customers/"+customerID+"/sources?object=card",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//
-//                        if (response != null) {
-//
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> header = new HashMap<>();
-//                header.put("Authorization", "Bearer " + secret_key);
-//                return header;
-//            }
-//
-//        };
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(GetAllCards.this);
-//        requestQueue.add(request);
-
-    }
-
-    private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
-
-        @Override
-        public void onStateChanged(@NonNull View bottomSheet, int newState) {
-            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                // count = 0;
-            } else {
-                // count = 1;
-            }
-
-        }
-
-        @Override
-        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-        }
-    };
 }

@@ -71,7 +71,7 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
         cartView.setOnClickListener(view -> {
             Intent intent = new Intent(BaseActivity.this, BookingDetail.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
 

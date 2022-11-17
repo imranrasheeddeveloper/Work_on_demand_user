@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.BaseActivity;
@@ -80,8 +81,17 @@ public class BookingInformation extends BaseActivity<ActivityBookingInformationB
         activityBinding.serviceDetail.setText(data.getService().getDescription());
         activityBinding.deliveryAddress.setText(data.getAddress());
         activityBinding.subTotal.setText(Constants.constant.CURRENCY + data.getSubTotal());
-        activityBinding.voucherDiscount.setText( "-" + Constants.constant.CURRENCY + data.getDiscount());
-        activityBinding.tvVoucher.setText("Voucher :" + String.valueOf(data.getPromotion().getCode()));
+        if (data.getPromotion() != null){
+            activityBinding.voucherDiscount.setText( "-" + Constants.constant.CURRENCY + data.getDiscount());
+            activityBinding.tvVoucher.setText("Voucher :" + String.valueOf(data.getPromotion().getCode()));
+        }else {
+            activityBinding.voucherDiscount.setVisibility(View.GONE);
+            activityBinding.tvVoucher.setVisibility(View.GONE);
+        }
+
+
+        activityBinding.informationView.setVisibility(View.VISIBLE);
+        activityBinding.skeletonLayout.setVisibility(View.GONE);
 
 
         }catch (NullPointerException | NumberFormatException | IllegalStateException e){

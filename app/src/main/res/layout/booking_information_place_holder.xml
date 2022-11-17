@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aglibs.loading.skeleton.layout.SkeletonConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <aglibs.loading.skeleton.layout.SkeletonConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_4sdp"
+        >
+
+        <aglibs.loading.skeleton.view.SkeletonImageView
+            android:layout_width="60dp"
+            android:layout_height="60sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/placeholder_image"/>
+
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/placeholder_image"
+            app:layout_constraintStart_toEndOf="@id/placeholder_image"
+            android:layout_marginStart="@dimen/_10sdp"
+            style="@style/mediumText"
+            android:text="User Name Here"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:id="@+id/placeholder_name"/>
+
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            app:layout_constraintTop_toBottomOf="@id/placeholder_name"
+            app:layout_constraintStart_toStartOf="@id/placeholder_name"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            />
+
+
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/placeholder_image"
+            android:layout_marginTop="@dimen/_8sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Booking Title here"
+            android:id="@+id/booking_title01"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/booking_title01"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Order Details"
+            android:id="@+id/tv_detail"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:textColor="@color/gray"
+            app:layout_constraintTop_toBottomOf="@id/tv_detail"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Order Number"
+            android:id="@+id/tv_order_number01"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/tv_order_number01"
+            app:layout_constraintBottom_toBottomOf="@id/tv_order_number01"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Order Number"
+            android:textSize="16sp"
+            android:id="@+id/order_number01"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:textColor="@color/gray"
+            android:text="Order From"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_number01"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/tv_order_from01"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:textSize="14sp"
+            android:textColor="@color/primary"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintTop_toTopOf="@id/tv_order_from01"
+            app:layout_constraintBottom_toBottomOf="@id/tv_order_from01"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Complete Delivery Address"
+            android:id="@+id/order_from01"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:textColor="@color/gray"
+            app:layout_constraintTop_toBottomOf="@id/order_from01"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Delivery Address"
+            android:id="@+id/tv_delivery_address"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:textColor="@color/black"
+            android:maxLines="2"
+            android:textSize="14sp"
+            android:ellipsize="end"
+            app:layout_constraintTop_toTopOf="@id/tv_delivery_address"
+            app:layout_constraintBottom_toBottomOf="@id/tv_delivery_address"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Complete Delivery Address"
+            android:id="@+id/delivery_address"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/delivery_address"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:background="@color/light_grey"
+            android:alpha="0.5"
+            android:id="@+id/view"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:text="Order Item here"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/_8sdp"
+            app:layout_constraintTop_toBottomOf="@id/view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/service_name01"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:text="rATE"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/service_name01"
+            app:layout_constraintBottom_toBottomOf="@id/service_name01"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/service_rate01"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="match_parent"
+            android:paddingEnd="@dimen/_40sdp"
+            android:maxLines="2"
+            android:ellipsize="middle"
+            android:text="Item description will Mentioned here"
+            style="@style/normalText"
+            android:textColor="@color/gray"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            app:layout_constraintTop_toBottomOf="@id/service_name01"
+            app:layout_constraintStart_toStartOf="@id/service_name01"
+            android:id="@+id/service_detail01"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/service_detail01"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@color/light_grey"
+            android:alpha="0.5"
+            android:id="@+id/view1"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:textColor="@color/gray"
+            app:layout_constraintTop_toBottomOf="@id/view1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Subtotal01"
+            android:id="@+id/tv_sub_total0101"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/tv_sub_total0101"
+            app:layout_constraintBottom_toBottomOf="@id/tv_sub_total0101"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Subtotal01"
+            android:id="@+id/sub_total0101"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:textColor="@color/gray"
+            app:layout_constraintTop_toBottomOf="@id/tv_sub_total0101"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Budget Unit"
+            android:id="@+id/tv_budget_unit"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/tv_budget_unit"
+            app:layout_constraintBottom_toBottomOf="@id/tv_budget_unit"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Budget Unit"
+            android:id="@+id/budget_unit01"/>
+
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:textColor="@color/gray"
+            app:layout_constraintTop_toBottomOf="@id/tv_budget_unit"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Voucher : 12345"
+            android:id="@+id/tv_voucher"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/mediumText"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/tv_voucher"
+            app:layout_constraintBottom_toBottomOf="@id/tv_voucher"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="12345"
+            android:id="@+id/discount_price01"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:text="total01 Here"
+            style="@style/mediumText"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/tv_voucher"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/off_white"
+            android:id="@+id/tv_total01"/>
+
+        <aglibs.loading.skeleton.view.SkeletonTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:text="total01 VALUE"
+            style="@style/mediumText"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/tv_total01"
+            app:layout_constraintBottom_toBottomOf="@id/tv_total01"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/off_white"
+            android:id="@+id/total01"/>
+
+    </aglibs.loading.skeleton.layout.SkeletonConstraintLayout>
+
+
+
+</aglibs.loading.skeleton.layout.SkeletonConstraintLayout>

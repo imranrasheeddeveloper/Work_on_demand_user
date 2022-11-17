@@ -52,7 +52,7 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name,description,budget,budget_unit, category;
+        public TextView name,description,budget,budget_unit;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,7 +61,6 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
             description = itemView.findViewById(R.id.ser_detail);
             budget = itemView.findViewById(R.id.service_rate);
             budget_unit = itemView.findViewById(R.id.service_budget_unit);
-            category = itemView.findViewById(R.id.ser_category);
 
         }
     }
