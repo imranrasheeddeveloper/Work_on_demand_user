@@ -17,7 +17,7 @@
         android:theme="@style/Theme.RizorsiUmaniUser"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".PostedJobDetail"
+            android:name=".ui.posted_job_details.PostedJobDetail"
             android:exported="false" />
         <activity
             android:name=".ui.add_card.AddCard"

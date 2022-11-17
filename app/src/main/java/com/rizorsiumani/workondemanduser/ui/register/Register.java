@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PatternMatcher;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 
 import com.google.gson.JsonObject;
@@ -33,6 +34,7 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
     protected void onStart() {
         super.onStart();
         viewModel = new ViewModelProvider(this).get(RegisterUserViewModel.class);
+        activityBinding.edPassword.setTransformationMethod(new PasswordTransformationMethod());
 
         hideCartButton();
         clickListeners();
@@ -43,6 +45,19 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
         activityBinding.btnNext.setOnClickListener(view -> {
             validateInformation();
         });
+
+        activityBinding.showPass.setOnClickListener(v -> {
+            if (activityBinding.showPass.getTag().equals("hide")) {
+                activityBinding.edPassword.setTransformationMethod(null);
+                activityBinding.showPass.setImageResource(R.drawable.show_password);
+                activityBinding.showPass.setTag("show");
+            } else {
+                activityBinding.edPassword.setTransformationMethod(new PasswordTransformationMethod());
+                activityBinding.showPass.setImageResource(R.drawable.hide_password);
+                activityBinding.showPass.setTag("hide");
+            }
+        });
+
     }
 
     private void validateInformation() {
