@@ -35,6 +35,77 @@
             app:imageView_duration="300"
             android:id="@+id/backSetLocation"/>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:id="@+id/searchBar"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/backSetLocation"
+            app:layout_constraintStart_toEndOf="@id/backSetLocation"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/rect_bg"
+            android:backgroundTint="@color/white">
+
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:background="@drawable/ic_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/search"
+                style="@style/normalText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:hint="Search"
+                android:paddingEnd="@dimen/_5sdp"
+                android:background="@color/white"
+                android:textColorHint="@color/hint_color"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@id/clear_icon"
+                app:layout_constraintBottom_toBottomOf="@id/search_icon"
+                app:layout_constraintStart_toEndOf="@id/search_icon"
+                app:layout_constraintTop_toTopOf="@id/search_icon" />
+
+
+            <ImageView
+                android:id="@+id/clear_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="visible"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@drawable/circular_cross1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loadingView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                android:visibility="gone"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/search_loading" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,6 +121,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/searchBar"
+            app:layout_constraintStart_toStartOf="@id/searchBar"
+            app:layout_constraintEnd_toEndOf="@id/searchBar"
+            android:padding="@dimen/_8sdp"
+            android:id="@+id/placesList"/>
+
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

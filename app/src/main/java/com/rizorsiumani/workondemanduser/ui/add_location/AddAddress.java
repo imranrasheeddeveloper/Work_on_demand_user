@@ -4,26 +4,45 @@ import static android.content.ContentValues.TAG;
 import static com.rizorsiumani.workondemanduser.utils.map_utils.GeoCoders.GetProperLocationAddress;
 
 import android.location.Location;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityAddAddressBinding;
+import com.rizorsiumani.workondemanduser.ui.address.LocationListAdapter;
+import com.rizorsiumani.workondemanduser.ui.address.PlaceModel;
+import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.MapConfig;
 import com.rizorsiumani.workondemanduser.utils.map_utils.OnLocationUpdateListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implements OnMapReadyCallback, OnLocationUpdateListener {
 
@@ -36,6 +55,13 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
     String title = "other";
     private AddressViewModel viewModel;
     int addressID;
+
+    LocationListAdapter adapter;
+
+    PlacesClient placesClient;
+    private List<AutocompletePrediction> predictionList;
+    ArrayList<PlaceModel> suggestionList;
+    AutocompleteSessionToken token;
 
     @Override
     protected ActivityAddAddressBinding getActivityBinding() {
@@ -53,6 +79,8 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
 
         viewModel = new ViewModelProvider(AddAddress.this).get(AddressViewModel.class);
         initMap();
+        initPlacesClient();
+        textWatcher();
         clickListeners();
     }
 
@@ -78,6 +106,89 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
             }
         });
     }
+
+    private void initPlacesClient() {
+        String apiKey = getString(R.string.GOOGLE_MAP_API_KEY);
+        if (!Places.isInitialized()) {
+            Places.initialize(AddAddress.this, apiKey);
+        }
+        placesClient = Places.createClient(AddAddress.this);
+        token = AutocompleteSessionToken.newInstance();
+    }
+
+    private void textWatcher() {
+
+        activityBinding.search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                activityBinding.loadingView.setVisibility(View.VISIBLE);
+                activityBinding.clearIcon.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                activityBinding.placesList.setVisibility(View.VISIBLE);
+                GetPredictionsList(editable, token, activityBinding.search);
+            }
+        });
+
+    }
+
+    private void GetPredictionsList(Editable s, AutocompleteSessionToken token, EditText view) {
+        FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
+                .setTypeFilter(TypeFilter.ADDRESS)
+                .setSessionToken(token)
+                .setQuery(s.toString())
+                .build();
+
+        placesClient.findAutocompletePredictions(request).addOnCompleteListener(task -> {
+
+            if (task.isSuccessful()) {
+                FindAutocompletePredictionsResponse predictionsResponse = task.getResult();
+                if (predictionsResponse != null) {
+                    predictionList = predictionsResponse.getAutocompletePredictions();
+                    suggestionList = new ArrayList<>();
+                    for (int i = 0; i < predictionList.size(); i++) {
+                        AutocompletePrediction prediction = predictionList.get(i);
+                        suggestionList.add(new PlaceModel(prediction.getPrimaryText(null).toString(),
+                                prediction.getFullText(null).toString()));
+
+                    }
+
+                    activityBinding.placesList.setHasFixedSize(true);
+                    activityBinding.placesList.setLayoutManager(new LinearLayoutManager(AddAddress.this));
+                    adapter = new LocationListAdapter(suggestionList, AddAddress.this);
+                    activityBinding.placesList.setAdapter(adapter);
+
+                    activityBinding.loadingView.setVisibility(View.GONE);
+                    activityBinding.clearIcon.setVisibility(View.VISIBLE);
+
+                    adapter.setAddressClickListener(position -> {
+                        //TinyDbManager.saveCurrentAddress(suggestionList.get(position).getAddress());
+                      //  prefRepository.setString("CURRENT_LOCATION", suggestionList.get(position).getAddress());
+                      //  MapConfig.config.moveCamera(suggestionList.get(position).getAddress(), mMap);
+
+                        // view.setText(suggestionList.get(position).getTitle());
+                    });
+                }
+
+            } else {
+                Log.i("PredictionTag", "Prediction fetching task failed..");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
 
     private void updateAddress() {
         String token = prefRepository.getString("token");

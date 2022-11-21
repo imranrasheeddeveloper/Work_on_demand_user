@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_5sdp"
-    android:background="?attr/selectableItemBackground">
+    android:background="@color/white">
 
 
     <ImageView
         android:id="@+id/location_icon"
-        android:layout_width="@dimen/_18sdp"
-        android:layout_height="@dimen/_18sdp"
+        android:layout_width="@dimen/_16sdp"
+        android:layout_height="@dimen/_16sdp"
         android:src="@drawable/ic_location_icon"
         app:layout_constraintBottom_toBottomOf="@id/view"
         app:layout_constraintStart_toStartOf="parent"
