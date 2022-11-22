@@ -91,6 +91,10 @@
                 android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
                 android:hint="first name"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 style="@style/normalText"
                 android:id="@+id/ed_firstname"/>
 
@@ -118,6 +122,10 @@
                 android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
                 android:hint="last name"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 style="@style/normalText"
                 android:id="@+id/ed_lastname"/>
 
@@ -143,6 +151,10 @@
                 android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
                 android:hint="email"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 style="@style/normalText"
                 android:id="@+id/ed_email"/>
 
@@ -168,6 +180,10 @@
                 android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
                 android:hint="number"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 style="@style/normalText"
                 android:id="@+id/ed_number"/>
             <TextView

@@ -60,7 +60,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     int selectedCatID = 0;
     int selectedSubCatID;
     String selectedBudgetUnit;
-    int tempID;
 
     private PostJobViewModel postJobViewModel;
     Uri imageUri;
@@ -130,9 +129,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         activityBinding.selectedCategory.setOnClickListener(view -> {
             if (categoriesDataItems.size() > 0) {
                 showCategoriesDialogue(0, activityBinding.selectedCategory);
-//                if (id != 0) {
-//                    selectedCatID = id;
-//                }
             }
         });
 
@@ -408,31 +404,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
     }
 
-//    private void uploadJob(String imagesPath) {
-//        String title = activityBinding.edTitle.getText().toString();
-//        String description = activityBinding.edDescribe.getText().toString();
-//        String budget = activityBinding.edBudget.getText().toString();
-//        String date = activityBinding.deadlineDate.getText().toString();
-//
-//        if (TextUtils.isEmpty(title)) {
-//            showSnackBarShort("Title required");
-//        } else if (TextUtils.isEmpty(budget)) {
-//            showSnackBarShort("Budget required");
-//        } else if (selectedBudgetUnit.isEmpty()) {
-//            showSnackBarShort("Budget Unit required");
-//        } else if (TextUtils.isEmpty(date)) {
-//            showSnackBarShort("Date required");
-//        } else if (imagesPath == null) {
-//            showSnackBarShort("Select Image");
-//        } else if (selectedCatID == 0) {
-//            showSnackBarShort("Select Category");
-//        } else if (selectedSubCatID == 0) {
-//            showSnackBarShort("Select Sub Category");
-//        } else {
-//            postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, imagesPath, date);
-//        }
-//
-//    }
 
     private List<Item> getBudgetPickerItems() {
 

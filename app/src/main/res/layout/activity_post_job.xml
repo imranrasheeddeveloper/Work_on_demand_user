@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.post_job.PostJob">
 
+
     <include
         layout="@layout/layout_progress_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
         />
-
     <include
         android:id="@+id/post_job_toolbar"
         layout="@layout/post_toolbar_layout"
@@ -34,9 +34,11 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/off_white"
             android:padding="@dimen/_8sdp">
+
+
 
             <TextView
                 android:id="@+id/tv_ask_service"
@@ -152,7 +154,6 @@
                     app:layout_constraintTop_toTopOf="@id/tv_subcategory" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             <TextView
                 android:id="@+id/tv_budget"
@@ -273,17 +274,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--            <com.google.android.material.slider.RangeSlider-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/tv_budget"-->
-            <!--                android:id="@+id/budget_range_slider"-->
-            <!--                app:values="@array/initial_slider_values"-->
-            <!--                android:valueFrom="1"-->
-            <!--                android:valueTo="500" />-->
-
             <TextView
                 android:id="@+id/tv_deadline"
                 style="@style/normalText"
@@ -326,7 +316,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/deadline_date" />
 
-
             <ImageView
                 android:id="@+id/iv_add_image"
                 android:layout_width="130dp"
@@ -337,7 +326,6 @@
                 android:src="@drawable/ic_addd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_attach_photos" />
-
 
             <ImageView
                 android:layout_width="@dimen/_20sdp"
@@ -355,7 +343,6 @@
                 app:layout_constraintTop_toTopOf="@id/iv_add_image"
                 android:id="@+id/delete_image"/>
 
-
             <TextView
                 android:id="@+id/tv_describe"
                 style="@style/normalText"
@@ -369,7 +356,6 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_add_image" />
-
 
             <EditText
                 android:id="@+id/ed_describe"
@@ -403,6 +389,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ed_describe" />
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

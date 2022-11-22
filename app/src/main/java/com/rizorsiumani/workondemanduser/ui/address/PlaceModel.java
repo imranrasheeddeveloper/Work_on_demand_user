@@ -1,11 +1,16 @@
 package com.rizorsiumani.workondemanduser.ui.address;
 
 public class PlaceModel {
-    String title , address;
+    String id,title , address;
 
-    public PlaceModel(String title, String address) {
+    public PlaceModel(String id, String title, String address) {
+        this.id = id;
         this.title = title;
         this.address = address;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {

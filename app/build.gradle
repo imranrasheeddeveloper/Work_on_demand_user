@@ -130,7 +130,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 
     //google places
-    implementation 'com.google.android.libraries.places:places:2.6.0'
+    implementation 'com.google.android.libraries.places:places:2.7.0'
 
     implementation 'com.stripe:stripe-java:20.123.0'
     implementation 'com.stripe:stripe-android:20.2.2'
@@ -140,4 +140,6 @@ dependencies {
 
 //    // Stripe Terminal library
     implementation 'com.stripe:stripeterminal:2.14.0'
+
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
 }

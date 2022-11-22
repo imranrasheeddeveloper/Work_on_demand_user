@@ -136,7 +136,6 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
 
     private void GetPredictionsList(Editable s, AutocompleteSessionToken token, EditText view) {
         FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
-                .setCountry("PK")
                 .setTypeFilter(TypeFilter.ADDRESS)
                 .setSessionToken(token)
                 .setQuery(s.toString())
@@ -151,7 +150,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
                     suggestionList = new ArrayList<>();
                     for (int i = 0; i < predictionList.size(); i++) {
                         AutocompletePrediction prediction = predictionList.get(i);
-                        suggestionList.add(new PlaceModel(prediction.getPrimaryText(null).toString(),
+                        suggestionList.add(new PlaceModel(prediction.getPlaceId(),prediction.getPrimaryText(null).toString(),
                                 prediction.getFullText(null).toString()));
 
                     }

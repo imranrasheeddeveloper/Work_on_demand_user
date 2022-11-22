@@ -15,15 +15,22 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
+import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -42,6 +49,7 @@ import com.rizorsiumani.workondemanduser.utils.map_utils.MapConfig;
 import com.rizorsiumani.workondemanduser.utils.map_utils.OnLocationUpdateListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implements OnMapReadyCallback, OnLocationUpdateListener {
@@ -62,7 +70,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
     private List<AutocompletePrediction> predictionList;
     ArrayList<PlaceModel> suggestionList;
     AutocompleteSessionToken token;
-
+    String apiKey;
     @Override
     protected ActivityAddAddressBinding getActivityBinding() {
         return ActivityAddAddressBinding.inflate(getLayoutInflater());
@@ -108,7 +116,8 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
     }
 
     private void initPlacesClient() {
-        String apiKey = getString(R.string.GOOGLE_MAP_API_KEY);
+
+        apiKey = getString(R.string.GOOGLE_MAP_API_KEY);
         if (!Places.isInitialized()) {
             Places.initialize(AddAddress.this, apiKey);
         }
@@ -155,7 +164,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
                     suggestionList = new ArrayList<>();
                     for (int i = 0; i < predictionList.size(); i++) {
                         AutocompletePrediction prediction = predictionList.get(i);
-                        suggestionList.add(new PlaceModel(prediction.getPrimaryText(null).toString(),
+                        suggestionList.add(new PlaceModel(prediction.getPlaceId(),prediction.getPrimaryText(null).toString(),
                                 prediction.getFullText(null).toString()));
 
                     }
@@ -169,12 +178,27 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
                     activityBinding.clearIcon.setVisibility(View.VISIBLE);
 
                     adapter.setAddressClickListener(position -> {
-                        //TinyDbManager.saveCurrentAddress(suggestionList.get(position).getAddress());
-                      //  prefRepository.setString("CURRENT_LOCATION", suggestionList.get(position).getAddress());
-                      //  MapConfig.config.moveCamera(suggestionList.get(position).getAddress(), mMap);
 
-                        // view.setText(suggestionList.get(position).getTitle());
-                    });
+                        String placeId = String.valueOf(suggestionList.get(position).getId());
+
+
+                        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS);
+                        FetchPlaceRequest request1 = FetchPlaceRequest.builder(placeId, placeFields).build();
+                        placesClient.fetchPlace(request1).addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
+                            @Override
+                            public void onSuccess(FetchPlaceResponse response) {
+                                MapConfig.config.moveCamera(response.getPlace().getLatLng(), mMap);
+                                activityBinding.placesList.setVisibility(View.GONE);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                if (exception instanceof ApiException) {
+                                    Toast.makeText(AddAddress.this, exception.getMessage() + "", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }); });
                 }
 
             } else {
@@ -188,6 +212,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
         });
 
     }
+
 
 
     private void updateAddress() {

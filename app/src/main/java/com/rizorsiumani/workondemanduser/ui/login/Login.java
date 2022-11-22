@@ -174,7 +174,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
                     hideLoading();
                     prefRepository.setString("token" , "Bearer "+response.getData().getToken());
                     TinyDbManager.saveUserData(response.getData().getData());
-
+   
 
                     ActivityUtil.gotoPage(Login.this, Dashboard.class);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

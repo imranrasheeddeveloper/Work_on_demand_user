@@ -105,6 +105,10 @@
                 android:background="@drawable/edit_text_bg"
                 android:hint="Enter email"
                 android:padding="@dimen/_10sdp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_email" />
@@ -133,6 +137,8 @@
                 android:paddingEnd="@dimen/_20sdp"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_pass" />
@@ -220,6 +226,10 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:hint="2378723"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
                     android:paddingTop="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_10sdp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -255,7 +265,8 @@
                 android:paddingEnd="@dimen/_20sdp"
                 android:maxLines="1"
                 android:ellipsize="end"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:singleLine="true"
+                android:imeOptions="actionDone"                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_pass1" />
 

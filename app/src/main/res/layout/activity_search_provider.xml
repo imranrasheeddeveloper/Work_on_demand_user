@@ -55,8 +55,11 @@
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:paddingEnd="@dimen/_5sdp"
-                        app:layout_constraintEnd_toStartOf="@id/search_icon"
                         android:maxLines="1"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
+                        app:layout_constraintEnd_toStartOf="@id/search_icon"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
