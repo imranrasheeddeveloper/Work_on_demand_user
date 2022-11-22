@@ -57,6 +57,9 @@ public final class Constants {
 //    }
 
     public static void hideSoftKeyboard(Activity activity) {
+
+        try {
+
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
@@ -65,6 +68,10 @@ public final class Constants {
                     activity.getCurrentFocus().getWindowToken(),
                     0
             );
+        }
+
+        }catch (NullPointerException | IllegalStateException e){
+            e.printStackTrace();
         }
     }
 
