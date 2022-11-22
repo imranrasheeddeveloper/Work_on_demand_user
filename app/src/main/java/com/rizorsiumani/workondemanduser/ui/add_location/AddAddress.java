@@ -150,7 +150,6 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
 
     private void GetPredictionsList(Editable s, AutocompleteSessionToken token, EditText view) {
         FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
-                .setTypeFilter(TypeFilter.ADDRESS)
                 .setSessionToken(token)
                 .setQuery(s.toString())
                 .build();

@@ -199,6 +199,16 @@
         <item name="vpv_orientation">vertical</item>
     </style>
 
+    <style name="tab_text">
+
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/poppin_regular</item>
+
+    </style>
+
 
     <style name="DialogAnimations">
         <item name="android:windowBackground">@color/transparent</item>

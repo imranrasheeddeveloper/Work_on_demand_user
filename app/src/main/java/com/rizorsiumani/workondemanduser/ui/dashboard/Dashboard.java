@@ -65,11 +65,11 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         if (binding.bottomNavigation.getTabCount() > 0){
             binding.bottomNavigation.removeAllTabs();
         }
-        binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("").setIcon(R.drawable.ic_home).setId(0));
-        binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("").setIcon(R.drawable.ic_booking).setId(1));
-        binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("").setIcon(R.drawable.ic_add).setId(2));
-        binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("").setIcon(R.drawable.ic_wallet).setId(3));
-        binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("").setIcon(R.drawable.ic_profile).setId(4));
+        binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Home").setIcon(R.drawable.ic_home).setId(0));
+        binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Bookings").setIcon(R.drawable.ic_booking).setId(1));
+        binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Post").setIcon(R.drawable.ic_add).setId(2));
+        binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Wallet").setIcon(R.drawable.ic_wallet).setId(3));
+        binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Profile").setIcon(R.drawable.ic_profile).setId(4));
         binding.bottomNavigation.setTabGravity(TabLayout.GRAVITY_FILL);
 
         binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);

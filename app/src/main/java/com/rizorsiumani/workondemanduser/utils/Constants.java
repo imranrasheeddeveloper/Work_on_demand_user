@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -54,6 +55,18 @@ public final class Constants {
 //            constant = new Constants();
 //        }
 //    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
+    }
 
     public BitmapDescriptor BitmapFromVector(Context context, int vectorResId) {
         // below line is use to generate a drawable.

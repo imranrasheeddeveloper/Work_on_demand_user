@@ -3,8 +3,10 @@ package com.rizorsiumani.workondemanduser;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.wang.avi.AVLoadingIndicatorView;
 
 public abstract class BaseFragment<binding extends ViewBinding> extends Fragment {
@@ -52,6 +55,9 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
         cartItem = fragmentBinding.getRoot().findViewById(R.id.cartCount);
 
         animationView = fragmentBinding.getRoot().findViewById(R.id.no_data_animation);
+
+        setupUI(fragmentBinding.getRoot());
+
 
         if (TinyDbManager.getCartData().size() > 0) {
             cartView.setVisibility(View.VISIBLE);
@@ -85,6 +91,27 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
 
+    }
+
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    Constants.constant.hideSoftKeyboard(requireActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
     }
 
     protected void showNoDataAnimation() {
