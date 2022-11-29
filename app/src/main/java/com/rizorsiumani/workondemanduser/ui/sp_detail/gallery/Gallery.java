@@ -19,7 +19,7 @@ import java.util.List;
 
 public class Gallery extends BaseFragment<FragmentGalleryBinding> {
 
-    ProviderDetailViewModel viewModel;
+    private ProviderDetailViewModel viewModel;
     List<GalleryDataItem> galleryDataItems;
 
     @Override

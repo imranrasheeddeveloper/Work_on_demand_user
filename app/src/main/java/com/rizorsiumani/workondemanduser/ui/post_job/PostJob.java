@@ -31,10 +31,12 @@ import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityPostJobBinding;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.HomeViewModel;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategoryViewModel;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.rizorsiumani.workondemanduser.utils.GetRealPathFromUri;
 
 import java.io.File;
@@ -228,6 +230,10 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         object.addProperty("attachment", imagesPath);
         object.addProperty("price_unit", selectedBudgetUnit);
         object.addProperty("date", date);
+        object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
+        object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
+        object.addProperty("address", TinyDbManager.getCurrentAddress());
+
 
         postJobViewModel.post(token, object);
         postJobViewModel._job.observe(PostJob.this, response -> {

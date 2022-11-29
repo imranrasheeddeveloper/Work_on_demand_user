@@ -43,14 +43,17 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull SpMapAdapter.ViewHolder holder, int position) {
+      try {
         ServiceProviderDataItem dataItem = list.get(position);
         holder.name.setText(dataItem.getFirstName() + " " + dataItem.getLastName());
         Glide.with(ctx).load(Constants.IMG_PATH + dataItem.getProfilePhoto()).into(holder.imageView);
-        if (dataItem.getServiceProviderServices() != null) {
+        if (dataItem.getServiceProviderServices() != null && dataItem.getServiceProviderServices().size() > 0) {
             holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
             holder.budget.setText(Constants.constant.CURRENCY + dataItem.getServiceProviderServices().get(0).getPrice());
         }
-
+    }catch (NullPointerException |IndexOutOfBoundsException| IllegalStateException | IllegalArgumentException e){
+        e.printStackTrace();
+    }
     }
 
     @Override

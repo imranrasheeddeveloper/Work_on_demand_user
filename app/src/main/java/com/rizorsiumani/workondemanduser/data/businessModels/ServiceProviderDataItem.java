@@ -6,10 +6,10 @@ import com.google.gson.annotations.SerializedName;
 public class ServiceProviderDataItem {
 
 	@SerializedName("distance")
-	private double distance;
+	private int distance;
 
 	@SerializedName("profile_photo")
-	private String profilePhoto;
+	private Object profilePhoto;
 
 	@SerializedName("service_provider_services")
 	private List<ServiceProviderServicesItem> serviceProviderServices;
@@ -29,14 +29,17 @@ public class ServiceProviderDataItem {
 	@SerializedName("first_name")
 	private String firstName;
 
+	@SerializedName("service_provider_reviews")
+	private List<ServiceProviderReviewsItem> serviceProviderReviews;
+
 	@SerializedName("longitude")
 	private double longitude;
 
-	public double getDistance(){
+	public int getDistance(){
 		return distance;
 	}
 
-	public String getProfilePhoto(){
+	public Object getProfilePhoto(){
 		return profilePhoto;
 	}
 
@@ -62,6 +65,10 @@ public class ServiceProviderDataItem {
 
 	public String getFirstName(){
 		return firstName;
+	}
+
+	public List<ServiceProviderReviewsItem> getServiceProviderReviews(){
+		return serviceProviderReviews;
 	}
 
 	public double getLongitude(){

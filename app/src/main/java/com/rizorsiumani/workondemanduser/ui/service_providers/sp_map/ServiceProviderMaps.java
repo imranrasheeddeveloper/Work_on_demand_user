@@ -194,8 +194,8 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 //                if (getArguments().getString("service_providers") != null) {
 //                    String data = getArguments().getString("service_providers");
 //                    Gson gson = new Gson();
-//                    serviceProvidersModel = gson.fromJson(data,ServiceProvidersModel.class);
-//                    if (serviceProvidersModel.getData().size() > 0){
+//                    ServiceProviderModel = gson.fromJson(data,ServiceProviderModel.class);
+//                    if (ServiceProviderModel.getData().size() > 0){
 //                        buildRv();
 //                    }else {
 //                        showSnackBarShort("Data not Available");

@@ -1,22 +1,18 @@
 package com.rizorsiumani.workondemanduser.ui.search_provider;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySearchProviderBinding;
-import com.rizorsiumani.workondemanduser.databinding.ActivitySearchServicesBinding;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderAdapter;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderViewModel;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;

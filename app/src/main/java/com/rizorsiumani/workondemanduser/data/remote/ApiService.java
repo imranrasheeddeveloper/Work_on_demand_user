@@ -9,6 +9,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.BookingDetailModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetRatingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.NotificationModel;
@@ -24,14 +25,12 @@ import com.rizorsiumani.workondemanduser.data.businessModels.ProviderGalleryMode
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderServicesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.RegistrationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SaveAddressModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderProfileModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
-
-import org.json.JSONObject;
 
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
@@ -105,17 +104,24 @@ public interface ApiService {
                                             @Body JsonObject object);
 
     @POST("serviceProvider/get_service_providers/{page_no}")
-    Observable<ServiceProvidersModel> getServiceProviders(@Header("Authorization") String token,
-                                                          @Path("page_no") int page_no,
-                                                          @Body JsonObject object);
+    Observable<ServiceProviderModel> getServiceProviders(@Header("Authorization") String token,
+                                                         @Path("page_no") int page_no,
+                                                         @Body JsonObject object);
 
     @POST("serviceProvider/viewAll_home_content_category/{page_no}")
-    Observable<ServiceProvidersModel> getServiceProvidersByCat(@Header("Authorization") String token,
+    Observable<ServiceProviderModel> getServiceProvidersByCat(@Header("Authorization") String token,
                                                                @Path("page_no") int page_no,
                                                                @Body JsonObject object);
 
     @GET("serviceProvider/get_service_providers_gallery/{id}")
     Observable<ProviderGalleryModel> getGallery(@Path("id") int id);
+
+    @POST("raiting/rate_service_provider")
+    Observable<BasicModel> rateProvider(@Header("Authorization") String token,
+                                                  @Body JsonObject object);
+
+    @GET("raiting/service_provider_all_raitings/{id}")
+    Observable<GetRatingModel> getRating(@Path("id") int id);
 
     @GET("serviceProvider/get_service_providers_services/{id}")
     Observable<ProviderServicesModel> getServices(@Path("id") int id);
@@ -161,7 +167,7 @@ public interface ApiService {
                                                    @Path("page_no") int page_no);
 
     @POST("serviceProvider/searchServices/{page_no}")
-    Observable<ServiceProvidersModel> getProviderBySearch(@Header("Authorization") String token,
+    Observable<ServiceProviderModel> getProviderBySearch(@Header("Authorization") String token,
                                                           @Path("page_no") int page_no,
                                                           @Body JsonObject object);
 

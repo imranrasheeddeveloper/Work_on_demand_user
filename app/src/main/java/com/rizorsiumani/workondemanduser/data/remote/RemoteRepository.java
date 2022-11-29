@@ -6,11 +6,11 @@ import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.common.CommonResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.AddBookingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.BasicModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.BookingDetailData;
 import com.rizorsiumani.workondemanduser.data.businessModels.BookingDetailModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetRatingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.NotificationModel;
@@ -26,15 +26,13 @@ import com.rizorsiumani.workondemanduser.data.businessModels.ProviderGalleryMode
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderServicesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.RegistrationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SaveAddressModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderProfileModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
-
-import org.json.JSONObject;
 
 import okhttp3.MultipartBody;
 import rx.Observable;
@@ -196,7 +194,7 @@ public class RemoteRepository {
         return null;
     }
 
-    public Observable<ServiceProvidersModel> getProviders(int page, String token , JsonObject object) {
+    public Observable<ServiceProviderModel> getProviders(int page, String token , JsonObject object) {
 
         if (mService != null) {
             return mService.getServiceProviders(token,page,object);
@@ -204,7 +202,7 @@ public class RemoteRepository {
         return null;
     }
 
-    public Observable<ServiceProvidersModel> getProvidersByCat(int page, String token , JsonObject object) {
+    public Observable<ServiceProviderModel> getProvidersByCat(int page, String token , JsonObject object) {
 
         if (mService != null) {
             return mService.getServiceProvidersByCat(token,page,object);
@@ -216,6 +214,14 @@ public class RemoteRepository {
 
         if (mService != null) {
             return mService.getGallery(id);
+        }
+        return null;
+    }
+
+    public Observable<GetRatingModel> getRating(int id) {
+
+        if (mService != null) {
+            return mService.getRating(id);
         }
         return null;
     }
@@ -291,6 +297,14 @@ public class RemoteRepository {
         }
         return null;
     }
+
+    public Observable<BasicModel> rating(String token , JsonObject object) {
+
+        if (mService != null) {
+            return mService.rateProvider(token,object);
+        }
+        return null;
+    }
     public Observable<BasicModel> rescheduleBooking(String token , JsonObject object) {
 
         if (mService != null) {
@@ -315,7 +329,7 @@ public class RemoteRepository {
         return null;
     }
 
-    public Observable<ServiceProvidersModel> searchProvider(String token , int page,JsonObject object) {
+    public Observable<ServiceProviderModel> searchProvider(String token , int page,JsonObject object) {
 
         if (mService != null) {
             return mService.getProviderBySearch(token,page,object);

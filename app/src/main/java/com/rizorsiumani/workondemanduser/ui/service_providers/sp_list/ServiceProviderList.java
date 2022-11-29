@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
@@ -118,8 +117,8 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
 //                if (getArguments().getString("service_providers") != null) {
 //                    String data = getArguments().getString("service_providers");
 //                    Gson gson = new Gson();
-//                    serviceProvidersModel = gson.fromJson(data,ServiceProvidersModel.class);
-//                    if (serviceProvidersModel.getData().size() > 0){
+//                    ServiceProviderModel = gson.fromJson(data,ServiceProviderModel.class);
+//                    if (ServiceProviderModel.getData().size() > 0){
 //                        buildRv();
 //                    }else {
 //                        showSnackBarShort("Data not Available");

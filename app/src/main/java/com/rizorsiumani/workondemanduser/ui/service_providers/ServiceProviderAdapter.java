@@ -41,12 +41,18 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
 
     @Override
     public void onBindViewHolder(@NonNull ServiceProviderAdapter.ViewHolder holder, int position) {
+        try {
+
         ServiceProviderDataItem dataItem = list.get(position);
         holder.name.setText(dataItem.getFirstName() +" "+ dataItem.getLastName());
         Glide.with(ctx).load(Constants.IMG_PATH + dataItem.getProfilePhoto()).into(holder.imageView);
-        if (dataItem.getServiceProviderServices() != null) {
-            holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
-            holder.price.setText(Constants.constant.CURRENCY + dataItem.getServiceProviderServices().get(0).getPrice());
+        if (dataItem.getServiceProviderServices() != null && dataItem.getServiceProviderServices().size() > 0) {
+            holder.service.setText(dataItem.getServiceProviderServices().get(position).getTitle());
+            holder.price.setText(Constants.constant.CURRENCY + dataItem.getServiceProviderServices().get(position).getPrice());
+        }
+
+        }catch (NullPointerException |IndexOutOfBoundsException| IllegalStateException | IllegalArgumentException e){
+            e.printStackTrace();
         }
     }
 

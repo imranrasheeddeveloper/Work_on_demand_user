@@ -41,6 +41,8 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
 
     @Override
     public void onBindViewHolder(SliderAdapterViewHolder viewHolder, final int position) {
+     try {
+
         SliderDataItem item = images.get(position);
 
         viewHolder.title.setText(item.getDescription());
@@ -91,6 +93,11 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+     }catch (IllegalArgumentException | IllegalStateException | NullPointerException e){
+         e.printStackTrace();
+     }
 
     }
 

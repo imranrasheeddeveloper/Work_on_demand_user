@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,7 +12,10 @@ import android.view.View;
 
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
+import com.rizorsiumani.workondemanduser.data.businessModels.GalleryDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.RatingDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentReviewsBinding;
+import com.rizorsiumani.workondemanduser.ui.sp_detail.ProviderDetailViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +23,8 @@ import java.util.List;
 
 public class Reviews extends BaseFragment<FragmentReviewsBinding> {
 
+    private ProviderDetailViewModel viewModel;
+    List<RatingDataItem> ratingDataItems;
 
     @Override
     protected FragmentReviewsBinding getFragmentBinding() {
@@ -30,19 +36,41 @@ public class Reviews extends BaseFragment<FragmentReviewsBinding> {
         super.onViewCreated(view, savedInstanceState);
         hideCartButton();
 
-        getReviews();
+        String spID = getActivity().getIntent().getStringExtra("service_provider_id");
+
+
+        viewModel = new ViewModelProvider(this).get(ProviderDetailViewModel.class);
+        viewModel.getRating(Integer.parseInt(spID));
+        viewModel._rating.observe(getViewLifecycleOwner(), response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (!response.getError().isEmpty()) {
+                    hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+                    hideLoading();
+                    if (response.getData().getData().size() > 0){
+                        hideNoDataAnimation();
+                        ratingDataItems = new ArrayList<>();
+                        ratingDataItems.addAll(response.getData().getData());
+                        buildRv(ratingDataItems);
+                    }else {
+                        showNoDataAnimation();
+                    }
+                }
+            }
+        });
     }
 
-    private void getReviews() {
-        List<String> reviews = new ArrayList<>();
-        reviews.add("5");
-        reviews.add("4");
-        reviews.add("3");
+    private void buildRv(List<RatingDataItem> ratingDataItems) {
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
         fragmentBinding.reviewsList.setLayoutManager(layoutManager);
-        ReviewsAdapter adapter = new ReviewsAdapter(reviews, App.applicationContext);
+        ReviewsAdapter adapter = new ReviewsAdapter(ratingDataItems, requireContext());
         fragmentBinding.reviewsList.setAdapter(adapter);
     }
+
+
 
 }

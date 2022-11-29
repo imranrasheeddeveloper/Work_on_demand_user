@@ -11,7 +11,7 @@ public class User{
 	private String lastName;
 
 	@SerializedName("image")
-	private String image;
+	private Object image;
 
 	@SerializedName("phoneNumber")
 	private String phoneNumber;
@@ -30,7 +30,7 @@ public class User{
 		return lastName;
 	}
 
-	public String getImage(){
+	public Object getImage(){
 		return image;
 	}
 

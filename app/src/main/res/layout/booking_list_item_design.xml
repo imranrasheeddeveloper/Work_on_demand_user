@@ -170,42 +170,67 @@
                 app:layout_constraintTop_toBottomOf="@id/booking_iv_sp" />
 
 
-            <Button
-                android:id="@+id/cancel_booking"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:background="@drawable/outline_back"
-                android:gravity="center_horizontal"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:textAllCaps="false"
-                android:fontFamily="@font/poppin_regular"
-                android:textSize="12sp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:textColor="@color/primary"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/arting"
-                android:text="Cancel Booking"/>
+                android:id="@+id/commentLayout">
+
+<!--                <RatingBar-->
+<!--                    android:id="@+id/ratingBar"-->
+<!--                    style="@style/Widget.AppCompat.RatingBar"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:rating="0"-->
+<!--                    android:theme="@style/RatingBar"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    />-->
+
+                <Button
+                    android:id="@+id/cancel_booking"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:background="@drawable/outline_back"
+                    android:gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/poppin_regular"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:textColor="@color/primary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="Cancel Booking"/>
 
 
-            <Button
-                android:id="@+id/requested_booking"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cancel_booking"
-                android:background="@drawable/outline_back"
-                android:gravity="center_horizontal"
-                android:text="Reschedule Booking"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:textAllCaps="false"
-                android:fontFamily="@font/poppin_regular"
-                android:textSize="12sp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:textColor="@color/primary"/>
+                <Button
+                    android:id="@+id/requested_booking"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cancel_booking"
+                    android:background="@drawable/outline_back"
+                    android:gravity="center_horizontal"
+                    android:text="Reschedule Booking"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/poppin_regular"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:textColor="@color/primary"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
             <View
                 android:layout_width="match_parent"
@@ -214,7 +239,7 @@
                 android:backgroundTint="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/requested_booking"
+                app:layout_constraintTop_toBottomOf="@id/commentLayout"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="-30dp"
                 android:layout_marginEnd="-30dp"

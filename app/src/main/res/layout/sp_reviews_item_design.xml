@@ -32,7 +32,7 @@
         android:layout_marginStart="@dimen/_5sdp"
         android:paddingTop="@dimen/_3sdp"
         android:text="Willard Parnel"
-        android:id="@+id/sp_location"/>
+        android:id="@+id/tv_name"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"

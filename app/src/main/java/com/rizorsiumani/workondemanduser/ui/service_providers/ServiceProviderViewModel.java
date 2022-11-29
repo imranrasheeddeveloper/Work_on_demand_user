@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.gson.JsonObject;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvidersModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderModel;
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
 
@@ -16,14 +16,14 @@ import rx.schedulers.Schedulers;
 public class ServiceProviderViewModel extends ViewModel {
 
 
-    private final MutableLiveData<ResponseWrapper<ServiceProvidersModel>> provider = new MutableLiveData<>();
-    public LiveData<ResponseWrapper<ServiceProvidersModel>> _provider = provider;
+    private final MutableLiveData<ResponseWrapper<ServiceProviderModel>> provider = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<ServiceProviderModel>> _provider = provider;
 
-    private final MutableLiveData<ResponseWrapper<ServiceProvidersModel>> by_cat_provider = new MutableLiveData<>();
-    public LiveData<ResponseWrapper<ServiceProvidersModel>> _by_cat_provider = by_cat_provider;
+    private final MutableLiveData<ResponseWrapper<ServiceProviderModel>> by_cat_provider = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<ServiceProviderModel>> _by_cat_provider = by_cat_provider;
 
-    private final MutableLiveData<ResponseWrapper<ServiceProvidersModel>> search_provider = new MutableLiveData<>();
-    public LiveData<ResponseWrapper<ServiceProvidersModel>> _search_provider = search_provider;
+    private final MutableLiveData<ResponseWrapper<ServiceProviderModel>> search_provider = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<ServiceProviderModel>> _search_provider = search_provider;
 
 
     public void serviceProviders(int page , String token ,JsonObject object) {
@@ -37,7 +37,7 @@ public class ServiceProviderViewModel extends ViewModel {
                 .getProviders(page,token,object)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ServiceProvidersModel>() {
+                .subscribe(new Observer<ServiceProviderModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -53,11 +53,11 @@ public class ServiceProviderViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onNext(ServiceProvidersModel serviceProvidersModel) {
+                    public void onNext(ServiceProviderModel ServiceProviderModel) {
                         provider.setValue(new ResponseWrapper<>(
                                 false,
                                 "",
-                                serviceProvidersModel
+                                ServiceProviderModel
                         ));
                     }
                 });
@@ -74,7 +74,7 @@ public class ServiceProviderViewModel extends ViewModel {
                 .getProvidersByCat(page,token,object)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ServiceProvidersModel>() {
+                .subscribe(new Observer<ServiceProviderModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -90,11 +90,11 @@ public class ServiceProviderViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onNext(ServiceProvidersModel serviceProvidersModel) {
+                    public void onNext(ServiceProviderModel ServiceProviderModel) {
                         by_cat_provider.setValue(new ResponseWrapper<>(
                                 false,
                                 "",
-                                serviceProvidersModel
+                                ServiceProviderModel
                         ));
                     }
                 });
@@ -111,7 +111,7 @@ public class ServiceProviderViewModel extends ViewModel {
                 .searchProvider(token,page,object)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ServiceProvidersModel>() {
+                .subscribe(new Observer<ServiceProviderModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -127,11 +127,11 @@ public class ServiceProviderViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onNext(ServiceProvidersModel serviceProvidersModel) {
+                    public void onNext(ServiceProviderModel ServiceProviderModel) {
                         search_provider.setValue(new ResponseWrapper<>(
                                 false,
                                 "",
-                                serviceProvidersModel
+                                ServiceProviderModel
                         ));
                     }
                 });

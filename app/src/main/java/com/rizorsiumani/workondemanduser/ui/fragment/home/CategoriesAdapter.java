@@ -53,16 +53,20 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                 .into(holder.serImage);
 
         try {
+            String color = model.getColor();
+            if (!color.startsWith("#")) {
+                color = "#" + color;
+                final int[] colors = new int[2];
+                colors[0] = Color.parseColor(color);
+                colors[1] = Color.parseColor("#fef4ea");
 
-            final int[] colors = new int[2];
-            colors[0] = Color.parseColor(model.getColor());
-            colors[1] = Color.parseColor("#fef4ea");
+                GradientDrawable gd = new GradientDrawable(
+                        GradientDrawable.Orientation.LEFT_RIGHT,
+                        colors
+                );
+                holder.layout.setBackground(gd);
 
-            GradientDrawable gd = new GradientDrawable(
-                    GradientDrawable.Orientation.LEFT_RIGHT,
-                    colors
-            );
-            holder.layout.setBackground(gd);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

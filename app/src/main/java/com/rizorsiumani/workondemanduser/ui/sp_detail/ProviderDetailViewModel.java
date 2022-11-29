@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.rizorsiumani.workondemanduser.data.businessModels.GetRatingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderAvailabilityModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderGalleryModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.ProviderServicesModel;
@@ -29,6 +30,10 @@ public class ProviderDetailViewModel extends ViewModel {
 
     private final MutableLiveData<ResponseWrapper<ServiceProviderProfileModel>> profile = new MutableLiveData<>();
     public LiveData<ResponseWrapper<ServiceProviderProfileModel>> _profile = profile;
+
+    private final MutableLiveData<ResponseWrapper<GetRatingModel>> rating = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<GetRatingModel>> _rating = rating;
+
 
     public void getGallery(int id) {
 
@@ -170,5 +175,38 @@ public class ProviderDetailViewModel extends ViewModel {
                 });
     }
 
+    public void getRating(int id) {
 
+        rating.setValue(
+                new ResponseWrapper<>(
+                        true, "", null
+                ));
+
+        RemoteRepository.getInstance()
+                .getRating(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<GetRatingModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        rating.setValue(new ResponseWrapper<>(
+                                false,
+                                e.getLocalizedMessage(),
+                                null
+                        ));
+                    }
+                    @Override
+                    public void onNext(GetRatingModel model) {
+                        rating.setValue(new ResponseWrapper<>(
+                                false,
+                                "",
+                                model
+                        ));
+                    }
+                });
+    }
 }

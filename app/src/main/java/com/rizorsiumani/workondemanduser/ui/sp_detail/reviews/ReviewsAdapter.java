@@ -8,17 +8,21 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
+import com.bumptech.glide.Glide;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.RatingDataItem;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
 
-    private final List<String> list;
+    private final List<RatingDataItem> list;
     private final Context ctx;
 
-    public ReviewsAdapter(List<String> data, Context context) {
+    public ReviewsAdapter(List<RatingDataItem> data, Context context) {
         this.list = data;
         this.ctx = context;
     }
@@ -32,8 +36,19 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ReviewsAdapter.ViewHolder holder, int position) {
-        String name = list.get(position);
-        holder.review.setText(name);
+        try {
+
+        RatingDataItem ratingDataItem = list.get(position);
+        Glide.with(ctx)
+                .load(Constants.IMG_PATH +ratingDataItem.getUser().getImage())
+                        .into(holder.userImg);
+        holder.review.setText(ratingDataItem.getDescription());
+        holder.usename.setText(ratingDataItem.getUser().getFirstName());
+        holder.rating.setText(String.valueOf(ratingDataItem.getRaiting()));
+
+        }catch (NullPointerException | IllegalArgumentException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -43,11 +58,17 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView review;
+        CircleImageView userImg;
+        TextView usename,rating;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            review = itemView.findViewById(R.id.sp_reviews);
+            rating = itemView.findViewById(R.id.sp_reviews);
+            userImg = itemView.findViewById(R.id.user_image);
+            usename = itemView.findViewById(R.id.tv_name);
+            review = itemView.findViewById(R.id.comment);
+
         }
     }
 }
