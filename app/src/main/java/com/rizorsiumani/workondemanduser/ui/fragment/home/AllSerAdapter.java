@@ -2,31 +2,20 @@ package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentDataItem;
-import com.rizorsiumani.workondemanduser.data.businessModels.RecommendedServicesModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.SerCategoryModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvider;
-import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AllSerAdapter extends RecyclerView.Adapter<AllSerAdapter.ViewHolder> {

@@ -1,7 +1,5 @@
 package com.rizorsiumani.workondemanduser.ui.promo_code;
 
-import com.google.gson.JsonObject;
-import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PromoActivationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PromotionModel;
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;

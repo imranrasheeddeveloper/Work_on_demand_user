@@ -56,9 +56,13 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
             if (current_status.equalsIgnoreCase("Pending")) {
                 holder.requested.setVisibility(View.VISIBLE);
                 holder.cancel.setVisibility(View.VISIBLE);
+                holder.rate.setVisibility(View.GONE);
+
             } else {
                 holder.requested.setVisibility(View.GONE);
                 holder.cancel.setVisibility(View.GONE);
+                holder.rate.setVisibility(View.VISIBLE);
+
             }
 
             GetBookingDataItem item = list.get(position);
@@ -102,13 +106,16 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
         void cancelBooking(int position);
 
         void bookingInformation(int position);
+
+        void rateBooking(int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView status, service, name, description, token, total, date, time;
+        TextView status, service, name, description, token, total, date, time, rate;
         Button requested, cancel;
         CircleImageView circleImageView;
+
 
 
         public ViewHolder(View itemView, ItemClickListener mListener) {
@@ -126,6 +133,7 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
             total = itemView.findViewById(R.id.booking_total);
             date = itemView.findViewById(R.id.booking_date);
             time = itemView.findViewById(R.id.booking_time);
+            rate = itemView.findViewById(R.id.rate_provider);
 
             requested = itemView.findViewById(R.id.requested_booking);
 
@@ -152,6 +160,15 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         mListener.bookingInformation(position);
+                    }
+                }
+            });
+
+            rate.setOnClickListener(view -> {
+                if (mListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        mListener.rateBooking(position);
                     }
                 }
             });

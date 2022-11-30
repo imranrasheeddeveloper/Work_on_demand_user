@@ -168,8 +168,6 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     private void setData() {
         try {
 
-
-
             try {
                 if (TinyDbManager.getSelectedCard() != null) {
                     activityBinding.totalPayment.setText(Constants.constant.CURRENCY + getCartTotal());

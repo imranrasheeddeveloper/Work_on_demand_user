@@ -40,13 +40,10 @@ public final class Constants {
     public  final String APP_PREFERENCES = "com.rizorsiumani.workondemanduser.preferences";
     public  String FCM_TOKEN = "";
     public  boolean isHome = false;
-
     public  double latitude;
     public  double longitude;
-    public  String payment_type_id = "";
     public  String promotion_id= "";
     public  String discount = "";
-
     public  String CURRENCY = "$ ";
 
 
@@ -145,7 +142,7 @@ public final class Constants {
 
     public String formatDate(String earningPeriod) {
         String inputPattern = "yyyy-MM-dd";
-        String outputPattern = "dd MMM yyyy";
+        String outputPattern = "dd MMM, yyyy";
         SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
         SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
 

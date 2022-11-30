@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityHoursItem;
-import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderAvailabilitiesHoursItem;
 
 import java.util.List;
 
@@ -25,6 +24,7 @@ public class AvailabilityHoursAdapter extends RecyclerView.Adapter<AvailabilityH
         this.list = data;
     }
 
+
     @NonNull
     @Override
     public AvailabilityHoursAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,7 +35,7 @@ public class AvailabilityHoursAdapter extends RecyclerView.Adapter<AvailabilityH
     @Override
     public void onBindViewHolder(@NonNull AvailabilityHoursAdapter.ViewHolder holder, int position) {
         AvailabilityHoursItem dataItem = list.get(position);
-        holder.hour.setText(dataItem.getTime());
+        holder.from.setText(dataItem.getFromTime() + " to " + dataItem.getToTime());
 
     }
 
@@ -45,12 +45,12 @@ public class AvailabilityHoursAdapter extends RecyclerView.Adapter<AvailabilityH
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView hour;
+        public TextView from;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            hour = itemView.findViewById(R.id.tv_hour);
+            from = itemView.findViewById(R.id.fromTime);
         }
     }
 }

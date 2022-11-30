@@ -9,6 +9,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
 
+import okhttp3.MultipartBody;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -21,7 +22,7 @@ public class ImageUploadViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<UpdateUserModel>> update = new MutableLiveData<>();
     public LiveData<ResponseWrapper<UpdateUserModel>> _update = update;
 
-    public void upload(JsonObject object) {
+    public void upload(MultipartBody.Part object) {
 
         response.setValue(
                 new ResponseWrapper<>(

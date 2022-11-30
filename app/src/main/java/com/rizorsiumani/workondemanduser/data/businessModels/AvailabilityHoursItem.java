@@ -13,14 +13,20 @@ public class AvailabilityHoursItem{
 	@SerializedName("service_provider_id")
 	private int serviceProviderId;
 
+	@SerializedName("totalHours")
+	private int totalHours;
+
+	@SerializedName("fromTime")
+	private String fromTime;
+
 	@SerializedName("id")
 	private int id;
 
-	@SerializedName("time")
-	private String time;
-
 	@SerializedName("day_id")
 	private int dayId;
+
+	@SerializedName("toTime")
+	private String toTime;
 
 	@SerializedName("updatedAt")
 	private String updatedAt;
@@ -37,16 +43,24 @@ public class AvailabilityHoursItem{
 		return serviceProviderId;
 	}
 
+	public int getTotalHours(){
+		return totalHours;
+	}
+
+	public String getFromTime(){
+		return fromTime;
+	}
+
 	public int getId(){
 		return id;
 	}
 
-	public String getTime(){
-		return time;
-	}
-
 	public int getDayId(){
 		return dayId;
+	}
+
+	public String getToTime(){
+		return toTime;
 	}
 
 	public String getUpdatedAt(){

@@ -4,22 +4,24 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.TransactionsDataItem;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.ViewHolder> {
 
-    private final List<String> list;
+    private final List<TransactionsDataItem> list;
     private final Context ctx;
 
-    public TransactionsAdapter(List<String> transactions, Context context) {
+    public TransactionsAdapter(List<TransactionsDataItem> transactions, Context context) {
         this.list = transactions;
         this.ctx = context;
     }
@@ -33,8 +35,20 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull TransactionsAdapter.ViewHolder holder, int position) {
-        String name = list.get(position);
-        holder.name.setText(name);
+        TransactionsDataItem dataItem = list.get(position);
+
+        if (dataItem.getDebit() != 0){
+            holder.amount.setText("- " + Constants.constant.CURRENCY + dataItem.getDebit());
+            holder.icon.setImageResource(R.drawable.debit_icon);
+        }else if (dataItem.getCredit() != 0){
+            holder.amount.setText("+ " + Constants.constant.CURRENCY + dataItem.getCredit());
+            holder.icon.setImageResource(R.drawable.ic_credit);
+        }
+
+        holder.date.setText(Constants.constant.getDate(dataItem.getCreatedAt()));
+        holder.name.setText(dataItem.getDescription());
+
+
     }
 
     @Override
@@ -43,12 +57,16 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
+        public TextView name,amount,date;
+        public ImageView icon;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.payment_name);
+            amount = itemView.findViewById(R.id.payment_amount);
+            date = itemView.findViewById(R.id.payment_date);
+            icon = itemView.findViewById(R.id.payment_icon);
         }
     }
 }

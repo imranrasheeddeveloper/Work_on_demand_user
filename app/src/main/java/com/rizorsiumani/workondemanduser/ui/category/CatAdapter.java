@@ -54,14 +54,18 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
         holder.query.setText(model.getTitle());
 
         try {
-            final int[] colors = new int[2];
-            colors[0] = Color.parseColor("#fef4ea");
-            colors[1] = Color.parseColor(model.getColor());
-            GradientDrawable gd = new GradientDrawable(
-                    GradientDrawable.Orientation.LEFT_RIGHT,
-                    colors
-            );
-            holder.layout.setBackground(gd);
+            String color = model.getColor();
+            if (!color.startsWith("#")) {
+                color = "#" + color;
+                final int[] colors = new int[2];
+                colors[0] = Color.parseColor("#fef4ea");
+                colors[1] = Color.parseColor(color);
+                GradientDrawable gd = new GradientDrawable(
+                        GradientDrawable.Orientation.LEFT_RIGHT,
+                        colors
+                );
+                holder.layout.setBackground(gd);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

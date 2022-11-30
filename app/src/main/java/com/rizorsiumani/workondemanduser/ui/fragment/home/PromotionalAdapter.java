@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,34 +50,26 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        try {
+
         ServiceProviderCategoriesItem item = data.get(position);
 
-        String rate = item.getPrice() + Constants.constant.CURRENCY;
+        String rate = Constants.constant.CURRENCY + item.getPrice();
         holder.textView.setText(rate);
 
         holder.sp_name.setText(item.getServiceProvider().getFirstName());
 
         Glide.with(holder.sp_image.getContext())
                 .load(Constants.IMG_PATH + item.getServiceProvider().getProfilePhoto())
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                       // holder.loading.setVisibility(View.GONE);
-
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                     //   holder.loading.setVisibility(View.VISIBLE);
-                        return false;
-                    }
-
-
-                })
+                .placeholder(R.color.placeholder_bg)
                 .into(holder.sp_image);
 
+        holder.ratingBar.setRating(Float.valueOf(item.getServiceProvider().getServiceProviderReviews().getRating()));
 
+
+        }catch (NullPointerException | IllegalStateException | IllegalArgumentException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -89,6 +82,7 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
         public TextView textView;
         public TextView sp_name;
         public ImageView sp_image;
+        public RatingBar ratingBar;
         //AVLoadingIndicatorView loading;
 
         public ViewHolder(@NonNull View itemView, OnPromotionAdapterClick listener) {
@@ -97,6 +91,7 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
             textView = itemView.findViewById(R.id.startFrom);
             sp_name = itemView.findViewById(R.id.sp_name);
             sp_image = itemView.findViewById(R.id.sp_image);
+            ratingBar = itemView.findViewById(R.id.rating);
           //  loading = itemView.findViewById(R.id.avi);
 
 

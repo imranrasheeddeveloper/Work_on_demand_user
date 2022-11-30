@@ -5,16 +5,10 @@ import com.google.gson.annotations.SerializedName;
 public class ServiceProvider{
 
 	@SerializedName("profile_photo")
-	private String profilePhoto;
+	private Object profilePhoto;
 
 	@SerializedName("last_name")
 	private String lastName;
-
-	@SerializedName("active")
-	private int active;
-
-	@SerializedName("phone_number")
-	private String phoneNumber;
 
 	@SerializedName("id")
 	private int id;
@@ -22,23 +16,15 @@ public class ServiceProvider{
 	@SerializedName("first_name")
 	private String firstName;
 
-	@SerializedName("email")
-	private String email;
+	@SerializedName("service_provider_reviews")
+	private ServiceProviderReviews serviceProviderReviews;
 
-	public String getProfilePhoto(){
+	public Object getProfilePhoto(){
 		return profilePhoto;
 	}
 
 	public String getLastName(){
 		return lastName;
-	}
-
-	public int getActive(){
-		return active;
-	}
-
-	public String getPhoneNumber(){
-		return phoneNumber;
 	}
 
 	public int getId(){
@@ -49,7 +35,7 @@ public class ServiceProvider{
 		return firstName;
 	}
 
-	public String getEmail(){
-		return email;
+	public ServiceProviderReviews getServiceProviderReviews(){
+		return serviceProviderReviews;
 	}
 }

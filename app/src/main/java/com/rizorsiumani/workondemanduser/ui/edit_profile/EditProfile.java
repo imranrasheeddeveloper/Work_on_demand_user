@@ -18,12 +18,21 @@ import com.rizorsiumani.workondemanduser.common.ImageUploadViewModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityEditProfileBinding;
+import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
 import com.rizorsiumani.workondemanduser.utils.Constants;
+import com.rizorsiumani.workondemanduser.utils.GetRealPathFromUri;
+
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
 
     private ImageUploadViewModel viewModel;
-    String imageUrl;
+    Uri  uri;
+    String imagePath;
 
     @Override
     protected ActivityEditProfileBinding getActivityBinding() {
@@ -77,36 +86,79 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
         });
 
         activityBinding.btnUpdate.setOnClickListener(view -> {
-            String first_name = activityBinding.edFirstname.getText().toString().trim();
-            String last_name = activityBinding.edLastname.getText().toString().trim();
-            String email = activityBinding.edEmail.getText().toString().trim();
-            String number = activityBinding.edNumber.getText().toString().trim();
+                String first_name = activityBinding.edFirstname.getText().toString().trim();
+                String last_name = activityBinding.edLastname.getText().toString().trim();
+                String email = activityBinding.edEmail.getText().toString().trim();
+                String number = activityBinding.edNumber.getText().toString().trim();
 
-            if (TextUtils.isEmpty(first_name)) {
-                showSnackBarShort("First Name Required");
-            } else if (TextUtils.isEmpty(last_name)) {
-                showSnackBarShort("Last Name Required");
-            } else if (TextUtils.isEmpty(email)) {
-                showSnackBarShort("Email Required");
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                showSnackBarShort("Valid Email Required");
-            } else if (TextUtils.isEmpty(number)) {
-                showSnackBarShort("Phone Number Required");
-            } else if (!Patterns.PHONE.matcher(number).matches()) {
-                showSnackBarShort("Valid Number Required");
-            } else {
-                updateData(first_name, last_name, email, number);
-            }
+                if (TextUtils.isEmpty(first_name)) {
+                    showSnackBarShort("First Name Required");
+                } else if (TextUtils.isEmpty(last_name)) {
+                    showSnackBarShort("Last Name Required");
+                } else if (TextUtils.isEmpty(email)) {
+                    showSnackBarShort("Email Required");
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    showSnackBarShort("Valid Email Required");
+                } else if (TextUtils.isEmpty(number)) {
+                    showSnackBarShort("Phone Number Required");
+                } else if (!Patterns.PHONE.matcher(number).matches()) {
+                    showSnackBarShort("Valid Number Required");
+                } else {
+                    if (uri != null) {
+                        uploadImage(first_name, last_name, email, number);
+                    }else {
+                        updateData(first_name, last_name, email, number);
+                    }
+                }
+
         });
     }
 
+
+    private void uploadImage(String first_name, String last_name, String email, String number) {
+        File file1 = new File(GetRealPathFromUri.getPathFromUri(EditProfile.this, uri));
+
+        MultipartBody.Part multiPartProfile = MultipartBody.Part.createFormData("image",
+                file1.getName(),
+                RequestBody.create(
+                        file1,
+                        MediaType.parse("*/*")
+                )
+        );
+
+        showLoading();
+        viewModel.upload(multiPartProfile);
+
+        viewModel._response.observe(this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (!response.getError().isEmpty()) {
+                    //we have error to show
+                    hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().isSuccess()) {
+                    if (!response.getData().getFilePATH().isEmpty()){
+                        imagePath = response.getData().getFilePATH();
+                        updateData(first_name, last_name, email, number);
+                    }
+                }
+            }
+        });
+
+
+    }
     private void updateData(String first_name, String last_name, String email, String number) {
         JsonObject object = new JsonObject();
         object.addProperty("firstName", first_name);
         object.addProperty("lastName", last_name);
         object.addProperty("email", email);
         object.addProperty("phoneNumber", number);
-        object.addProperty("image", "");
+        if (imagePath.isEmpty()){
+            object.addProperty("image", "");
+        }else {
+            object.addProperty("image", Constants.IMG_PATH + imagePath);
+        }
         String token = prefRepository.getString("token");
 
         viewModel.update(token, object);
@@ -131,27 +183,10 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                Uri uri = data.getData();
-                String path = Constants.constant.getRealPathFromURI(uri, EditProfile.this);
-                Glide.with(EditProfile.this).load(path).into(activityBinding.userImage);
-
-                JsonObject object = new JsonObject();
-                object.addProperty("image", path);
-                viewModel.upload(object);
-
-                viewModel._response.observe(this, response -> {
-                    if (response != null) {
-                        if (response.isLoading()) {
-                            showLoading();
-                        } else if (!response.getError().isEmpty()) {
-                            //we have error to show
-                            hideLoading();
-                            showSnackBarShort(response.getError());
-                        } else if (response.getData().getMessage() != null) {
-                            showSnackBarShort(response.getData().getMessage());
-                        }
-                    }
-                });
+                uri = data.getData();
+                activityBinding.userImage.setImageURI(uri);
+//                String path = Constants.constant.getRealPathFromURI(uri, EditProfile.this);
+//                Glide.with(EditProfile.this).load(path).into(activityBinding.userImage);
             }
         }
     }

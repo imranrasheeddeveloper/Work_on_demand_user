@@ -68,11 +68,11 @@ public class ServiceProviderProfile extends BaseActivity<ActivityServiceProvider
         reviews.add("5");
         reviews.add("4");
         reviews.add("3");
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
-        activityBinding.reviewsList.setLayoutManager(layoutManager);
-        ReviewsAdapter adapter = new ReviewsAdapter(reviews, App.applicationContext);
-        activityBinding.reviewsList.setAdapter(adapter);
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
+//        activityBinding.reviewsList.setLayoutManager(layoutManager);
+//        ReviewsAdapter adapter = new ReviewsAdapter(reviews, App.applicationContext);
+//        activityBinding.reviewsList.setAdapter(adapter);
     }
 
     private void getImages() {

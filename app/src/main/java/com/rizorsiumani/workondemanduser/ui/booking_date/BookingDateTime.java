@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +25,6 @@ import com.rizorsiumani.workondemanduser.ui.booking.BookService;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ProviderDetailViewModel;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
-import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -242,7 +240,7 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
 //        slots.add("09PM - 10PM");
 //        slots.add("10PM - 11PM");
 //        slots.add("11PM - 12AM");
-        GridLayoutManager layoutManager = new GridLayoutManager(App.applicationContext, 3);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(BookingDateTime.this, LinearLayoutManager.VERTICAL, false);
         activityBinding.timeList.setLayoutManager(layoutManager);
         timeSlotsAdapter = new TimeSlotsAdapter(BookingDateTime.this, hoursList);
         activityBinding.timeList.setAdapter(timeSlotsAdapter);

@@ -15,14 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentBookingBinding;
 import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.login.Login;
 import com.rizorsiumani.workondemanduser.ui.requested_sevices.RequestServices;
 import com.rizorsiumani.workondemanduser.ui.view_booking_information.BookingInformation;
@@ -44,6 +49,9 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     LinearLayoutManager mLayoutManager;
     String current_status;
+
+    AlertDialog.Builder dialogBuilder;
+    AlertDialog alertDialog;
 
     @Override
     protected FragmentBookingBinding getFragmentBinding() {
@@ -196,7 +204,59 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                 intent.putExtra("booking_id", String.valueOf(dataItems.get(position).getId()));
                 startActivity(intent);
             }
+
+            @Override
+            public void rateBooking(int position) {
+                ratingDialogue(String.valueOf(dataItems.get(position).getId()),
+                        String.valueOf(dataItems.get(position).getServiceProvider().getId()));
+            }
         });
+    }
+
+    private void ratingDialogue(String bookingID, String providerID) {
+        dialogBuilder = new AlertDialog.Builder(requireContext());
+        View layoutView = getLayoutInflater().inflate(R.layout.rating_dialogue, null);
+        TextView cancel = (TextView) layoutView.findViewById(R.id.cancel_rating_dialogue);
+        Button submit = (Button) layoutView.findViewById(R.id.submit_rating);
+        RatingBar rating = (RatingBar) layoutView.findViewById(R.id.rating_barr);
+        EditText comment = (EditText) layoutView.findViewById(R.id.ed_comments);
+
+        dialogBuilder.setView(layoutView);
+        alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimations;
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+
+        cancel.setOnClickListener(view -> alertDialog.dismiss());
+        submit.setOnClickListener(view -> {
+            showLoading();
+            if (!comment.getText().toString().isEmpty()){
+                String token = prefRepository.getString("token");
+                JsonObject object = new JsonObject();
+                object.addProperty("description",comment.getText().toString());
+                object.addProperty("raiting",String.valueOf(rating.getRating()));
+                object.addProperty("booking_id",bookingID);
+                object.addProperty("service_provider_id",providerID);
+
+                viewModel.rateProvider(token,object);
+                viewModel._rate.observe(this, response -> {
+                    if (response != null) {
+                        if (response.isLoading()) {
+                            showLoading();
+                        } else if (!response.getError().isEmpty()) {
+                            hideLoading();
+                            showSnackBarShort(response.getError());
+                        } else if (response.getData().isSuccess()) {
+                            hideLoading();
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
+            }
+
+        });
+
     }
 
     private void confirmCancellationDialogue(int id) {

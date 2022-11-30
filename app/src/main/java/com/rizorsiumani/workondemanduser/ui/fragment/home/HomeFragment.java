@@ -34,10 +34,8 @@ import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
-import com.rizorsiumani.workondemanduser.ui.search.SearchServices;
 import com.rizorsiumani.workondemanduser.ui.search_provider.SearchProvider;
 import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
-import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.AppBarStateChangeListener;
@@ -262,10 +260,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
 
         fragmentBinding.filter.setOnClickListener(view -> {
-            if (count == 0) {
-                count = 1;
-                expandFiltersSheet();
-            }
+            expandFiltersSheet();
+
+//            if (count == 0) {
+//                count = 1;
+//                expandFiltersSheet();
+//            }
         });
 
         fragmentBinding.tvChooseAddress.setOnClickListener(view -> {
@@ -454,6 +454,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
     public void onError(String error) {
 
     }
+
+
 
 
 }

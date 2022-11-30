@@ -178,6 +178,23 @@
                 app:layout_constraintTop_toBottomOf="@id/arting"
                 android:id="@+id/commentLayout">
 
+                    <TextView
+                        android:id="@+id/rate_provider"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="Rate Service Provider"
+                        android:background="@drawable/rect_bg"
+                        android:backgroundTint="@color/primary"
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone"
+                        style="@style/mediumText"
+                        android:textColor="@color/white"/>
+
+
 <!--                <RatingBar-->
 <!--                    android:id="@+id/ratingBar"-->
 <!--                    style="@style/Widget.AppCompat.RatingBar"-->
@@ -198,6 +215,7 @@
                     android:gravity="center_horizontal"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:textAllCaps="false"
+                    android:visibility="gone"
                     android:fontFamily="@font/poppin_regular"
                     android:textSize="12sp"
                     android:layout_marginEnd="@dimen/_20sdp"
@@ -213,6 +231,7 @@
                     android:id="@+id/requested_booking"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cancel_booking"

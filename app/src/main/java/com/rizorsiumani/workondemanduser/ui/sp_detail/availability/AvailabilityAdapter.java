@@ -26,6 +26,7 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
         this.ctx = context;
     }
 
+
     @NonNull
     @Override
     public AvailabilityAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -8,6 +8,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.BasicModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.BookingDetailModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetAllCardsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetRatingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
@@ -31,6 +32,8 @@ import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.WalletBalanceModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.WalletTransactionsModel;
 
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
@@ -60,8 +63,9 @@ public interface ApiService {
     @GET("slider/getSlider")
     Observable<SliderModel> getSliderData();
 
+    @Multipart
     @POST("users/uploadProfile")
-    Observable<CommonResponse> uploadImage(@Body JsonObject object);
+    Observable<CommonResponse> uploadImage(@Part MultipartBody.Part object);
 
     @Multipart
     @POST("users/jobPostingAttachment")
@@ -171,5 +175,24 @@ public interface ApiService {
                                                           @Path("page_no") int page_no,
                                                           @Body JsonObject object);
 
+    @GET("users/wallet_balance")
+    Observable<WalletBalanceModel> getBalance(@Header("Authorization") String token);
 
+    @GET("users/user_wallet_transactions")
+    Observable<WalletTransactionsModel> getTransactions(@Header("Authorization") String token);
+
+    @POST("users/create_card")
+    Observable<BasicModel> createCard(@Header("Authorization") String token,
+                                      @Body JsonObject object);
+
+    @POST("users/remove_card/{card_id}")
+    Observable<BasicModel> removeCard(@Header("Authorization") String token,
+                                      @Path("card_id") String card_id);
+
+    @GET("users/retrive_cards")
+    Observable<GetAllCardsModel> getCards(@Header("Authorization") String token);
+
+    @POST("users/wallet_toup")
+    Observable<BasicModel> wallet_up(@Header("Authorization") String token,
+                                     @Body JsonObject object);
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.common.AddBookingDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.CardsDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.PromoDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
@@ -162,15 +163,15 @@ public class TinyDbManager {
         return tinyDB.getString(KEY_SPID);
     }
 
-    public static void selectedCard(DataItem dataItem) {
+    public static void selectedCard(CardsDataItem dataItem) {
         TinyDB tinyDB = new TinyDB(App.applicationContext);
         tinyDB.putObject(KEY_CARD, dataItem);
         Log.e("CARD", "saved !");
     }
 
-    public static DataItem getSelectedCard(){
+    public static CardsDataItem getSelectedCard(){
         TinyDB tinyDB = new TinyDB(App.applicationContext);
-        return tinyDB.getObject(KEY_CARD,DataItem.class);
+        return tinyDB.getObject(KEY_CARD,CardsDataItem.class);
     }
 
 }

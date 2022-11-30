@@ -46,7 +46,7 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
 
         viewModel = new ViewModelProvider(this).get(SubCategoryViewModel.class);
 
-            viewModel.subCategories(catID,1);
+        viewModel.subCategories(catID,1);
 
 
         viewModel._subCategory.observe(this, response -> {

@@ -9,6 +9,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.BasicModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.BookingDetailModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetAllCardsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetRatingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
@@ -32,6 +33,8 @@ import com.rizorsiumani.workondemanduser.data.businessModels.SliderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.WalletBalanceModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.WalletTransactionsModel;
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
 
 import okhttp3.MultipartBody;
@@ -106,7 +109,7 @@ public class RemoteRepository {
         return null;
     }
 
-    public Observable<CommonResponse> upload(JsonObject object){
+    public Observable<CommonResponse> upload(MultipartBody.Part object){
         if (mService != null){
             return  mService.uploadImage(object);
         }
@@ -186,7 +189,7 @@ public class RemoteRepository {
         return null;
     }
 
-    public Observable<HomeContentModel> getHomeContent(String token ,JsonObject object) {
+    public Observable<HomeContentModel> getHomeContent(String token , JsonObject object) {
 
         if (mService != null) {
             return mService.getContent(token,object);
@@ -333,6 +336,54 @@ public class RemoteRepository {
 
         if (mService != null) {
             return mService.getProviderBySearch(token,page,object);
+        }
+        return null;
+    }
+
+    public Observable<WalletBalanceModel> balance(String token) {
+
+        if (mService != null) {
+            return mService.getBalance(token);
+        }
+        return null;
+    }
+
+    public Observable<WalletTransactionsModel> transactions(String token) {
+
+        if (mService != null) {
+            return mService.getTransactions(token);
+        }
+        return null;
+    }
+
+    public Observable<BasicModel> create(String token,JsonObject object) {
+
+        if (mService != null) {
+            return mService.createCard(token,object);
+        }
+        return null;
+    }
+
+    public Observable<BasicModel> remove(String token,String id) {
+
+        if (mService != null) {
+            return mService.removeCard(token,id);
+        }
+        return null;
+    }
+
+    public Observable<GetAllCardsModel> getCards(String token) {
+
+        if (mService != null) {
+            return mService.getCards(token);
+        }
+        return null;
+    }
+
+    public Observable<BasicModel> upWallet(String token,JsonObject object) {
+
+        if (mService != null) {
+            return mService.wallet_up(token,object);
         }
         return null;
     }

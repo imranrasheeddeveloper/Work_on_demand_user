@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.CardsDataItem;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.model.DataItem;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> {
 
-    private final List<DataItem> list;
+    private final List<CardsDataItem> list;
     private final Context ctx;
     ItemClickListener itemClickListener;
 
@@ -26,7 +27,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
         this.itemClickListener = itemClickListener;
     }
 
-    public CardsAdapter(List<DataItem> data, Context context) {
+    public CardsAdapter(List<CardsDataItem> data, Context context) {
         this.list = data;
         this.ctx = context;
     }
@@ -40,7 +41,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull CardsAdapter.ViewHolder holder, int position) {
-        DataItem dataItem = list.get(position);
+        CardsDataItem dataItem = list.get(position);
         holder.number.setText("**********" + dataItem.getLast4());
         if (dataItem.getBrand() != null){
             String brand = dataItem.getBrand();
@@ -60,6 +61,12 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void removeItem(int position) {
+        list.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, list.size());
     }
 
     public interface ItemClickListener {

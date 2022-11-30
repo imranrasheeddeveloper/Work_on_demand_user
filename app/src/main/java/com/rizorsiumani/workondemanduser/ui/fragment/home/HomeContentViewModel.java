@@ -2,7 +2,6 @@ package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
 

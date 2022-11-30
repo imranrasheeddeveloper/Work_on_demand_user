@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityHoursItem;
 
-import java.util.Collection;
 import java.util.List;
 
 public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.ViewHolder> {
@@ -38,7 +38,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
     @NonNull
     @Override
     public TimeSlotsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.time_slot_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.availability_hours_design, parent, false);
         return new TimeSlotsAdapter.ViewHolder(view, itemClickListener);
     }
 
@@ -46,7 +46,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
     public void onBindViewHolder(@NonNull TimeSlotsAdapter.ViewHolder holder, int position) {
         AvailabilityHoursItem hoursItem = data.get(position);
 
-        holder.time.setText(hoursItem.getTime());
+        holder.fromTime.setText(hoursItem.getFromTime() + " to " + hoursItem.getToTime());
 
         if (position == selectedPosition) {
             holder.selectedTimeSlot();
@@ -65,14 +65,16 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView time;
+        public TextView fromTime;
         CardView card;
+        ConstraintLayout layout;
 
         public ViewHolder(@NonNull View itemView, TimeSlotsAdapter.OnItemClickListener itemClickListener) {
             super(itemView);
 
-            time = itemView.findViewById(R.id.one_am);
+            fromTime = itemView.findViewById(R.id.fromTime);
             card = itemView.findViewById(R.id.slotCard);
+            layout = itemView.findViewById(R.id.timeView);
 
             itemView.setOnClickListener(view -> {
                 if (itemClickListener != null) {
@@ -98,16 +100,16 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
 
         public void selectedTimeSlot() {
             //card.setUseCompatPadding(false);
-            time.setBackgroundColor(Color.parseColor("#00A688"));
-            time.setTextColor(Color.parseColor("#FFFFFFFF"));
+            layout.setBackgroundColor(Color.parseColor("#00A688"));
+            fromTime.setTextColor(Color.parseColor("#FFFFFFFF"));
 
             card.setEnabled(false);
         }
 
         public void unSelectedTimeSlot() {
            // card.setUseCompatPadding(true);
-            time.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
-            time.setTextColor(Color.parseColor("#FF000000"));
+            layout.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+            fromTime.setTextColor(Color.parseColor("#FF000000"));
             card.setEnabled(true);
 
         }

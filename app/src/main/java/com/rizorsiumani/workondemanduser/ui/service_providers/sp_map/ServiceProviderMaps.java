@@ -121,15 +121,20 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
     private void getData() {
         try {
-            subCatID = getActivity().getIntent().getStringExtra("sub_cat_id");
-            catID = getActivity().getIntent().getStringExtra("cat_id");
+            try {
+                subCatID = getActivity().getIntent().getStringExtra("sub_cat_id");
+                catID = getActivity().getIntent().getStringExtra("cat_id");
+
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
 
             if (subCatID == null){
                 if (!catID.isEmpty()){
                     viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
                     JsonObject object = new JsonObject();
-                    object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
-                    object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
+                    object.addProperty("latitude", "31.510376");
+                    object.addProperty("longitude", "74.339676");
                     object.addProperty("category_id", catID);
                     String token = prefRepository.getString("token");
                     viewModel.catServiceProviders(1, token, object);
