@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,6 +56,10 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
         transactionsDataItemList = new ArrayList<>();
         setProfileInfo();
         transactionsRv(transactionsDataItemList);
+
+        fragmentBinding.tvTopup.setOnClickListener(view1 -> {
+            Navigation.findNavController(view1).navigate(R.id.action_walletFragment_to_walletTopup);
+        });
 
     }
 

@@ -145,22 +145,32 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp">
 
                         <TextView
                             android:id="@+id/balance_wallet"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:fontFamily="@font/poppins_semibold"
+                            android:fontFamily="@font/poppins_medium"
                             android:padding="5dp"
                             android:textSize="14sp"
                             android:text="Balance in wallet"
                             android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
+                        <TextView
+                            android:id="@+id/tv_topup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:padding="5dp"
+                            android:textSize="14sp"
+                            android:text="Top up"
+                            android:textColor="@color/primary"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/wallet_price"
@@ -168,24 +178,22 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_semibold"
                             android:text="0"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:gravity="center"
-                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_5sdp"
                             android:textColor="@color/primary"
                             android:textSize="20sp"
-                            app:layout_constraintEnd_toStartOf="@id/dollar_icon"
-                            app:layout_constraintBottom_toBottomOf="@id/balance_wallet"
-                            app:layout_constraintTop_toTopOf="@id/balance_wallet"
-                            tools:layout_editor_absoluteX="284dp" />
+                            app:layout_constraintStart_toEndOf="@id/dollar_icon"
+                            app:layout_constraintBottom_toBottomOf="@id/dollar_icon"
+                            app:layout_constraintTop_toTopOf="@id/dollar_icon"
+                             />
 
                         <ImageView
                             android:id="@+id/dollar_icon"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
-                            android:layout_marginEnd="@dimen/_10sdp"
-                            app:layout_constraintTop_toTopOf="@id/wallet_price"
-                            app:layout_constraintBottom_toBottomOf="@id/wallet_price"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/balance_wallet"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/balance_wallet"
                             android:src="@drawable/ic_dollar"/>
 
 

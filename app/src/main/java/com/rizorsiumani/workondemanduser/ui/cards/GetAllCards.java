@@ -81,7 +81,7 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
                             activityBinding.cardsExistLayout.setVisibility(View.VISIBLE);
                             cardsDataItems = new ArrayList<>();
                             cardsDataItems.addAll(response.getData().getData().getData());
-                            buildRv(cardsDataItems);
+                            buildRv();
                         } else {
                             activityBinding.noPaymentMethod.setVisibility(View.VISIBLE);
                             activityBinding.cardsExistLayout.setVisibility(View.GONE);
@@ -141,16 +141,16 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
             }
         }
 
-        private void buildRv (List<CardsDataItem> data) {
+        private void buildRv () {
             LinearLayoutManager layoutManager = new LinearLayoutManager(GetAllCards.this, RecyclerView.VERTICAL, false);
             activityBinding.cardsList.setLayoutManager(layoutManager);
-            adapter = new CardsAdapter(data, GetAllCards.this);
+            adapter = new CardsAdapter(cardsDataItems, GetAllCards.this);
             activityBinding.cardsList.setAdapter(adapter);
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
             itemTouchHelper.attachToRecyclerView(activityBinding.cardsList);
 
             adapter.setOnCardClickListener(position -> {
-                TinyDbManager.selectedCard(data.get(position));
+                TinyDbManager.selectedCard(cardsDataItems.get(position));
                 onBackPressed();
                 finish();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
@@ -181,7 +181,21 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
         public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
             if (direction == ItemTouchHelper.LEFT) {
-                adapter.removeItem(position);
+                String token = prefRepository.getString("token");
+                viewModel.removeCard(token,cardsDataItems.get(position).getId());
+                viewModel._remove.observe(GetAllCards.this , response -> {
+                    if (response != null){
+                        if (response.isLoading()) {
+                            showLoading();
+                        } else if (!response.getError().isEmpty()) {
+                            hideLoading();
+                            showSnackBarShort(response.getError());
+                        } else if (response.getData().isSuccess()) {
+                            hideLoading();
+                            adapter.removeItem(position);
+                        }
+                    }
+                });
             }
         }
 

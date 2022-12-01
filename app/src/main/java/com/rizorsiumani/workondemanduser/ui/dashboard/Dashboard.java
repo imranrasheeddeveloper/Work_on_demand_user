@@ -396,4 +396,8 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
 
     }
 
+    public static void hideTabs(){
+        binding.bottomNavigation.setVisibility(View.GONE);
+    }
+
 }
