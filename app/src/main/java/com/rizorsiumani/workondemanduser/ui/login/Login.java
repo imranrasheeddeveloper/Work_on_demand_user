@@ -156,7 +156,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
 
     private void loginApiByNumber(String number, String password) {
         JsonObject object = new JsonObject();
-        object.addProperty("phoneNumber", number);
+        object.addProperty("phone_number", number);
         object.addProperty("password", password);
         object.addProperty("fcm_token" , Constants.constant.FCM_TOKEN);
         object.addProperty("type","individual");

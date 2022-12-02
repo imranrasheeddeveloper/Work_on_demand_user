@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class RegistrationData {
 
-	@SerializedName("firstName")
+	@SerializedName("first_name")
 	private String firstName;
 
-	@SerializedName("lastName")
+	@SerializedName("last_name")
 	private String lastName;
 
 	@SerializedName("createdAt")
@@ -16,7 +16,7 @@ public class RegistrationData {
 	@SerializedName("password")
 	private String password;
 
-	@SerializedName("phoneNumber")
+	@SerializedName("phone_number")
 	private String phoneNumber;
 
 	@SerializedName("role")

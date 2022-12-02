@@ -4,16 +4,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class User{
 
-	@SerializedName("firstName")
+	@SerializedName("first_name")
 	private String firstName;
 
-	@SerializedName("lastName")
+	@SerializedName("last_name")
 	private String lastName;
 
 	@SerializedName("image")
 	private Object image;
 
-	@SerializedName("phoneNumber")
+	@SerializedName("phone_number")
 	private String phoneNumber;
 
 	@SerializedName("id")

@@ -56,12 +56,13 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_current_balance"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/_10sdp">
 
                 <TextView
                     android:id="@+id/inc_200"
-                    android:layout_width="@dimen/_80sdp"
+                    android:layout_width="@dimen/_90sdp"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp"
                     style="@style/mediumText"
@@ -74,7 +75,7 @@
 
                 <TextView
                     android:id="@+id/inc_500"
-                    android:layout_width="@dimen/_100sdp"
+                    android:layout_width="@dimen/_90sdp"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp"
                     style="@style/mediumText"
@@ -87,7 +88,7 @@
 
                 <TextView
                     android:id="@+id/inc_1000"
-                    android:layout_width="@dimen/_100sdp"
+                    android:layout_width="@dimen/_90sdp"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp"
                     style="@style/mediumText"

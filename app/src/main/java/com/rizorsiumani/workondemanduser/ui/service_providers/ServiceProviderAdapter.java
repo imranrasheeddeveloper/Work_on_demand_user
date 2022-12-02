@@ -50,6 +50,9 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
             holder.service.setText(dataItem.getServiceProviderServices().get(position).getTitle());
             holder.price.setText(Constants.constant.CURRENCY + dataItem.getServiceProviderServices().get(position).getPrice());
         }
+        if (dataItem.getServiceProviderReviews() != null){
+            holder.reviews.setText(String.valueOf(dataItem.getServiceProviderReviews().getRating()) + " reviews");
+        }
 
         }catch (NullPointerException |IndexOutOfBoundsException| IllegalStateException | IllegalArgumentException e){
             e.printStackTrace();
@@ -66,7 +69,7 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, service, price;
+        public TextView name, service, price, reviews;
         ImageView imageView;
 
         public ViewHolder(@NonNull View itemView, onItemClickListener itemClickListener) {
@@ -76,6 +79,7 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
             service = itemView.findViewById(R.id.sp_service);
             price = itemView.findViewById(R.id.sp_rate);
             imageView = itemView.findViewById(R.id.iv_sp);
+            reviews = itemView.findViewById(R.id.sp_reviews);
 
             itemView.setOnClickListener(view -> {
                 if (itemClickListener!= null){

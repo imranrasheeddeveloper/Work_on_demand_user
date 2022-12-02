@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,6 +52,11 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
             holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
             holder.budget.setText(Constants.constant.CURRENCY + dataItem.getServiceProviderServices().get(0).getPrice());
         }
+
+          if (dataItem.getServiceProviderReviews() != null){
+              holder.reviews.setRating(Float.parseFloat(dataItem.getServiceProviderReviews().getRating()));
+          }
+
     }catch (NullPointerException |IndexOutOfBoundsException| IllegalStateException | IllegalArgumentException e){
         e.printStackTrace();
     }
@@ -68,6 +74,7 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name,service,budget;
+        RatingBar reviews;
         public Button profile , message;
         public CircleImageView imageView;
 
@@ -80,6 +87,7 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
             budget = itemView.findViewById(R.id.sp_rate);
             imageView = itemView.findViewById(R.id.iv_sp);
             message = itemView.findViewById(R.id.message_btn);
+            reviews = itemView.findViewById(R.id.rating_sp);
 
             profile.setOnClickListener(view -> {
                 if (listener != null){

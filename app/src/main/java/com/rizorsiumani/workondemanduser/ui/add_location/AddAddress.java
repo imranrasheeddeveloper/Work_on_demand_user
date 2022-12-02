@@ -291,7 +291,6 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         MapConfig.config.mapStyle(googleMap, AddAddress.this);
-        //boolean isLocationPermissionGranted = LocationService.service.requestLocationPermission(AddAddress.this);
         if (Constants.constant.isLocationPermissionGranted) {
             LocationUpdateService locationUpdateService = new LocationUpdateService();
             locationUpdateService.LocationHandler(AddAddress.this, this);

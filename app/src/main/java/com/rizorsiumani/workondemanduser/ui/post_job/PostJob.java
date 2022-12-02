@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -17,7 +18,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -33,9 +36,14 @@ import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityPostJobBinding;
+import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
+import com.rizorsiumani.workondemanduser.ui.address.LocationListAdapter;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.HomeViewModel;
+import com.rizorsiumani.workondemanduser.ui.job_timing.JobTiming;
+import com.rizorsiumani.workondemanduser.ui.job_timing.TimeItem;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategoryViewModel;
+import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.rizorsiumani.workondemanduser.utils.GetRealPathFromUri;
 
@@ -103,6 +111,35 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
 
         clickListeners();
+        if (TinyDbManager.getTiming() != null){
+            List<TimeItem> data = new ArrayList<>();
+            for (int i = 0; i < TinyDbManager.getTiming().size(); i++) {
+                try {
+                    if (TinyDbManager.getTiming().get(i).getTime() != null) {
+                        if (TinyDbManager.getTiming().get(i).getTime().size() > 0) {
+                            data.addAll(TinyDbManager.getTiming().get(i).getTime());
+                        }
+                    }
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+
+            }
+            if (data.size() > 0){
+                activityBinding.timeData.setHasFixedSize(true);
+                activityBinding.timeData.setLayoutManager(new LinearLayoutManager(PostJob.this));
+                SelectedTimeAdapter adapter = new SelectedTimeAdapter(PostJob.this,data);
+                activityBinding.timeData.setAdapter(adapter);
+                activityBinding.deadlineDate.setVisibility(View.GONE);
+                activityBinding.tvDeadline.setVisibility(View.GONE);
+                activityBinding.timeData.setVisibility(View.VISIBLE);
+            }else {
+                activityBinding.deadlineDate.setVisibility(View.VISIBLE);
+                activityBinding.tvDeadline.setVisibility(View.VISIBLE);
+                activityBinding.timeData.setVisibility(View.GONE);
+            }
+
+        }
 
     }
 
@@ -178,9 +215,12 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
         activityBinding.deadlineDate.setOnClickListener(view -> {
-            com.rizorsiumani.workondemanduser.utils.DatePicker mDatePickerDialogFragment;
-            mDatePickerDialogFragment = new com.rizorsiumani.workondemanduser.utils.DatePicker();
-            mDatePickerDialogFragment.show(getSupportFragmentManager(), "Select Date");
+            ActivityUtil.gotoPage(PostJob.this, JobTiming.class);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+//            com.rizorsiumani.workondemanduser.utils.DatePicker mDatePickerDialogFragment;
+//            mDatePickerDialogFragment = new com.rizorsiumani.workondemanduser.utils.DatePicker();
+//            mDatePickerDialogFragment.show(getSupportFragmentManager(), "Select Date");
         });
 
         activityBinding.btnPost.setOnClickListener(view -> {
@@ -196,8 +236,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                     showSnackBarShort("Budget required");
                 } else if (selectedBudgetUnit.isEmpty()) {
                     showSnackBarShort("Budget Unit required");
-                } else if (TextUtils.isEmpty(date)) {
-                    showSnackBarShort("Date required");
                 } else if (selectedCatID == 0) {
                     showSnackBarShort("Select Category");
                 } else if (selectedSubCatID == 0) {
@@ -221,6 +259,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         showLoading();
         String token = prefRepository.getString("token");
 
+        Gson gson = new Gson();
         JsonObject object = new JsonObject();
         object.addProperty("title", title);
         object.addProperty("description", description);
@@ -229,7 +268,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         object.addProperty("budget", budget);
         object.addProperty("attachment", imagesPath);
         object.addProperty("price_unit", selectedBudgetUnit);
-        object.addProperty("date", date);
+        object.add("timings", gson.toJsonTree(TinyDbManager.getTiming()));
         object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
         object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
         object.addProperty("address", TinyDbManager.getCurrentAddress());

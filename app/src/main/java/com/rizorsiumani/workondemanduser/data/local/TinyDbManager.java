@@ -9,6 +9,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.PromoDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.model.DataItem;
+import com.rizorsiumani.workondemanduser.ui.job_timing.AvailabilitiesItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class TinyDbManager {
     public static final String KEY_PROMO = "key_promo";
     public static final String KEY_SPID = "key_service_provider_id";
     public static final String KEY_CARD = "key_card";
+    public static final String KEY_TIMING = "key_timing";
 
 
 
@@ -174,4 +176,22 @@ public class TinyDbManager {
         return tinyDB.getObject(KEY_CARD,CardsDataItem.class);
     }
 
+    public static void saveTiming(AvailabilitiesItem dayTimeModelList) {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        tinyDB.putObject(KEY_TIMING, dayTimeModelList);
+    }
+
+    public static List<AvailabilitiesItem> getTiming() {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        ArrayList<Object> items = tinyDB.getListObject(KEY_TIMING, AvailabilitiesItem.class);
+        ArrayList<AvailabilitiesItem> timeModels = new ArrayList<>();
+        if (!items.isEmpty()) {
+            for (int i = 0; i < items.size(); i++) {
+
+                AvailabilitiesItem item = (AvailabilitiesItem) items.get(i);
+                timeModels.add(item);
+            }
+        }
+        return timeModels;
+    }
 }

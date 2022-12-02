@@ -91,10 +91,10 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
         try {
 
             JsonObject object = new JsonObject();
-            object.addProperty("firstName",first_name);
-            object.addProperty("lastName",last_name);
+            object.addProperty("first_name",first_name);
+            object.addProperty("last_name",last_name);
             object.addProperty("email",email);
-            object.addProperty("phoneNumber",number);
+            object.addProperty("phone_number",number);
             object.addProperty("password",pass);
             object.addProperty("fcm_token", Constants.constant.FCM_TOKEN);
 

@@ -150,10 +150,10 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
     }
     private void updateData(String first_name, String last_name, String email, String number) {
         JsonObject object = new JsonObject();
-        object.addProperty("firstName", first_name);
-        object.addProperty("lastName", last_name);
+        object.addProperty("first_name", first_name);
+        object.addProperty("last_name", last_name);
         object.addProperty("email", email);
-        object.addProperty("phoneNumber", number);
+        object.addProperty("phone_number", number);
         if (imagePath.isEmpty()){
             object.addProperty("image", "");
         }else {
