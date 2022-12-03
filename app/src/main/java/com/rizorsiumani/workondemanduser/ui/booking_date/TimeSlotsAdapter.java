@@ -48,10 +48,15 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
 
         holder.fromTime.setText(hoursItem.getFromTime() + " to " + hoursItem.getToTime());
 
-        if (position == selectedPosition) {
-            holder.selectedTimeSlot();
-        } else {
-            holder.unSelectedTimeSlot();
+        try {
+
+            if (position == selectedPosition) {
+                holder.selectedTimeSlot();
+            } else {
+                holder.unSelectedTimeSlot();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -94,8 +99,6 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
 
                 }
             });
-
-
         }
 
         public void selectedTimeSlot() {
@@ -107,7 +110,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
         }
 
         public void unSelectedTimeSlot() {
-           // card.setUseCompatPadding(true);
+            // card.setUseCompatPadding(true);
             layout.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
             fromTime.setTextColor(Color.parseColor("#FF000000"));
             card.setEnabled(true);
