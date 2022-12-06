@@ -1,15 +1,20 @@
 package com.rizorsiumani.workondemanduser.ui.post_job;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission_group.CAMERA;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
@@ -17,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -36,8 +43,6 @@ import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityPostJobBinding;
-import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
-import com.rizorsiumani.workondemanduser.ui.address.LocationListAdapter;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.HomeViewModel;
 import com.rizorsiumani.workondemanduser.ui.job_timing.JobTiming;
@@ -66,6 +71,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     private SubCategoryViewModel subCategoryViewModel;
     List<CategoriesDataItem> categoriesDataItems;
     List<SubCategoryDataItem> subCategoryDataItems;
+    private int READ_STORAGE_PERMISSION_REQUEST_CODE = 23;
 
     int selectedCatID = 0;
     int selectedSubCatID;
@@ -111,7 +117,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
 
         clickListeners();
-        if (TinyDbManager.getTiming() != null){
+        if (TinyDbManager.getTiming() != null) {
             List<TimeItem> data = new ArrayList<>();
             for (int i = 0; i < TinyDbManager.getTiming().size(); i++) {
                 try {
@@ -120,20 +126,20 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                             data.addAll(TinyDbManager.getTiming().get(i).getTime());
                         }
                     }
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
 
             }
-            if (data.size() > 0){
+            if (data.size() > 0) {
                 activityBinding.timeData.setHasFixedSize(true);
                 activityBinding.timeData.setLayoutManager(new LinearLayoutManager(PostJob.this));
-                SelectedTimeAdapter adapter = new SelectedTimeAdapter(PostJob.this,data);
+                SelectedTimeAdapter adapter = new SelectedTimeAdapter(PostJob.this, data);
                 activityBinding.timeData.setAdapter(adapter);
                 activityBinding.deadlineDate.setVisibility(View.GONE);
                 activityBinding.tvDeadline.setVisibility(View.GONE);
                 activityBinding.timeData.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 activityBinding.deadlineDate.setVisibility(View.VISIBLE);
                 activityBinding.tvDeadline.setVisibility(View.VISIBLE);
                 activityBinding.timeData.setVisibility(View.GONE);
@@ -155,7 +161,14 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     private void clickListeners() {
 
         activityBinding.ivAddImage.setOnClickListener(view -> {
-            checkPermissions();
+            if (checkPermission()) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 13);
+            } else {
+                requestPermission();
+            }
         });
 
         activityBinding.postJobToolbar.back.setOnClickListener(view -> {
@@ -224,37 +237,56 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
         activityBinding.btnPost.setOnClickListener(view -> {
-            if (imageUri != null) {
-                String title = activityBinding.edTitle.getText().toString();
-                String description = activityBinding.edDescribe.getText().toString();
-                String budget = activityBinding.edBudget.getText().toString();
-                String date = activityBinding.deadlineDate.getText().toString();
+            try {
 
-                if (TextUtils.isEmpty(title)) {
-                    showSnackBarShort("Title required");
-                } else if (TextUtils.isEmpty(budget)) {
-                    showSnackBarShort("Budget required");
-                } else if (selectedBudgetUnit.isEmpty()) {
-                    showSnackBarShort("Budget Unit required");
-                } else if (selectedCatID == 0) {
-                    showSnackBarShort("Select Category");
-                } else if (selectedSubCatID == 0) {
-                    showSnackBarShort("Select Sub Category");
-                } else if (selectedBudgetUnit == null) {
-                    showSnackBarShort("Select Budget unit");
+                if (imageUri != null) {
+                    String title = activityBinding.edTitle.getText().toString();
+                    String description = activityBinding.edDescribe.getText().toString();
+                    String budget = activityBinding.edBudget.getText().toString();
+                    String date = activityBinding.deadlineDate.getText().toString();
+
+                    if (TextUtils.isEmpty(title)) {
+                        showSnackBarShort("Title required");
+                    }else if (TextUtils.isEmpty(description)){
+                        showSnackBarShort("Description required");
+                    } else if (TextUtils.isEmpty(budget)) {
+                        showSnackBarShort("Budget required");
+                    } else if (selectedBudgetUnit == null) {
+                        showSnackBarShort("Budget Unit required");
+                    } else if (selectedCatID == 0) {
+                        showSnackBarShort("Select Category");
+                    } else if (selectedSubCatID == 0) {
+                        showSnackBarShort("Select Sub Category");
+                    } else if (selectedBudgetUnit == null) {
+                        showSnackBarShort("Select Budget unit");
+                    } else {
+                        uploadImage(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, date);
+                    }
                 } else {
-                    uploadImage(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, date);
+                    showSnackBarShort("Image Required");
                 }
-            } else {
-                showSnackBarShort("Select Title");
+
+            } catch (NullPointerException | IllegalArgumentException | IllegalStateException e) {
+                e.printStackTrace();
             }
         });
 
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(PostJob.this, Dashboard.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.stationary, R.anim.slide_down);
+    }
+
     private void postJob(String title, String description, String budget, String selectedBudgetUnit,
                          int selectedCatID, int selectedSubCatID, String imagesPath, String date) {
+
+        try {
 
         showLoading();
         String token = prefRepository.getString("token");
@@ -282,7 +314,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 } else if (!response.getError().isEmpty()) {
                     hideLoading();
                     showSnackBarShort(response.getError());
-                } else if (response.getData().getData() != null) {
+                } else if (response.getData().isSuccess()) {
                     hideLoading();
                     showSnackBarShort(response.getData().getMessage());
                     Intent intent = new Intent(PostJob.this, Dashboard.class);
@@ -293,6 +325,11 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 }
             }
         });
+
+
+        }catch (NullPointerException | IllegalArgumentException |IllegalStateException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -383,7 +420,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 alertDialog1.dismiss();
 
             });
-        }else {
+        } else {
             alertDialog1.show();
         }
     }
@@ -472,68 +509,127 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     }
 
 
-    private void checkPermissions() {
-        Dexter.withContext(PostJob.this)
-                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
-                            Intent intent = new Intent();
-                            intent.setType("image/*");
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 13);
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
 
-                        } else if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
-                            //open app settings dialog
-                            Toast.makeText(PostJob.this, "Denied Permanently !", Toast.LENGTH_SHORT).show();
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(this, new String[]{READ_EXTERNAL_STORAGE}, 112);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 112:
+                if (grantResults.length > 0) {
+
+                    boolean storage = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    if (storage) {
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 13);
+                    }else{
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE)) {
+                                    showMessageOKCancel("You need to allow access to both the permissions",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                        requestPermissions(new String[]{READ_EXTERNAL_STORAGE},
+                                                                112);
+                                                    }
+                                                }
+                                            });
+                                    return;
+                                }
+                            }
+
                         }
                     }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-                        permissionToken.continuePermissionRequest();
-                    }
-                }).check();
+
+                    break;
+                }
+        }
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(PostJob.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 13) {
-            if (resultCode == Activity.RESULT_OK) {
-                imageUri = data.getData();
-                activityBinding.ivAddImage.setImageResource(0);
-                activityBinding.ivAddImage.setImageURI(imageUri);
-                activityBinding.ivAddImage.setBackgroundResource(R.drawable.rect_bg);
-                activityBinding.deleteImage.setVisibility(View.VISIBLE);
+        private void checkPermissions () {
+
+            Dexter.withContext(PostJob.this)
+                    .withPermissions(Manifest.permission.CAMERA, READ_EXTERNAL_STORAGE)
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                            if (multiplePermissionsReport.areAllPermissionsGranted()) {
+                                Intent intent = new Intent();
+                                intent.setType("image/*");
+                                intent.setAction(Intent.ACTION_GET_CONTENT);
+                                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 13);
+
+                            } else if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
+                                //open app settings dialog
+                                Toast.makeText(PostJob.this, "Denied Permanently !", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                            permissionToken.continuePermissionRequest();
+                        }
+                    }).check();
+        }
+
+        @Override
+        public void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data){
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == 13) {
+                if (resultCode == Activity.RESULT_OK) {
+                    imageUri = data.getData();
+                    activityBinding.ivAddImage.setImageResource(0);
+                    activityBinding.ivAddImage.setImageURI(imageUri);
+                    activityBinding.ivAddImage.setBackgroundResource(R.drawable.rect_bg);
+                    activityBinding.deleteImage.setVisibility(View.VISIBLE);
+                }
             }
         }
+
+
+        @Override
+        public void onDateSet (DatePicker datePicker,int year, int month, int dayOfMonth){
+            Calendar mCalendar = Calendar.getInstance();
+            mCalendar.set(Calendar.YEAR, year);
+            mCalendar.set(Calendar.MONTH, month);
+            mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mCalendar.getTime());
+            activityBinding.deadlineDate.setText(selectedDate);
+
+        }
+
+        @Override
+        protected void onDestroy () {
+            super.onDestroy();
+
+            homeViewModel._category.removeObservers(this);
+            postJobViewModel._job.removeObservers(this);
+            subCategoryViewModel._subCategory.removeObservers(this);
+            postJobViewModel._job_image.removeObservers(this);
+
+            homeViewModel = null;
+            postJobViewModel = null;
+            subCategoryViewModel = null;
+        }
     }
-
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        Calendar mCalendar = Calendar.getInstance();
-        mCalendar.set(Calendar.YEAR, year);
-        mCalendar.set(Calendar.MONTH, month);
-        mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mCalendar.getTime());
-        activityBinding.deadlineDate.setText(selectedDate);
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        homeViewModel._category.removeObservers(this);
-        postJobViewModel._job.removeObservers(this);
-        subCategoryViewModel._subCategory.removeObservers(this);
-        postJobViewModel._job_image.removeObservers(this);
-
-        homeViewModel = null;
-        postJobViewModel = null;
-        subCategoryViewModel = null;
-    }
-}

@@ -50,7 +50,7 @@ public class AvailabilityHoursAdapter extends RecyclerView.Adapter<AvailabilityH
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            from = itemView.findViewById(R.id.fromTime);
+            from = itemView.findViewById(R.id.time_value);
         }
     }
 }

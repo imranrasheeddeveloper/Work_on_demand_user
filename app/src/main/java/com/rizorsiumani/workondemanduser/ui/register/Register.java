@@ -13,6 +13,7 @@ import android.util.Patterns;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityRegisterBinding;
 import com.rizorsiumani.workondemanduser.ui.commercial_user_info.ComapnyInformation;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
@@ -109,13 +110,15 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
                         showSnackBarShort(response.getError());
                     } else if (response.getData().getData() != null) {
                         hideLoading();
+                        prefRepository.setString("token" , "Bearer "+response.getData().getToken());
+                        TinyDbManager.saveUserData(response.getData().getData());
                         ActivityUtil.gotoPage(Register.this, Dashboard.class);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     }
                 }
             });
 
-        }catch (NullPointerException e){
+        }catch (NullPointerException |IllegalStateException | IllegalArgumentException e){
             e.printStackTrace();
         }
 

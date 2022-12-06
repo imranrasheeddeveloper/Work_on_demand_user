@@ -199,9 +199,11 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
             }
         });
 
-        activityBinding.addCurrentAddress.setOnClickListener(view -> {
-            navToAddAddress();
-        });
+      activityBinding.currentLocation.setOnClickListener(v -> {
+          onBackPressed();
+          finish();
+          overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+      });
 
         activityBinding.homeView.setOnClickListener(view -> {
             String address = activityBinding.homeAddress.getText().toString();

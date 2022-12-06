@@ -118,7 +118,7 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
         adapter.setOnDaySelectListener((position) -> {
             selectedIndex = position;
             mainList.add(new AvailabilitiesItem(null,dayTimeModelList.get(position).getDay()));
-            mainTimeList = new ArrayList<>();
+           // mainTimeList = new ArrayList<>();
             timeSlotsRv(dayTimeModelList.get(selectedIndex).getTimeItems());
         });
 
@@ -142,6 +142,7 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
         LinearLayoutManager llm = new LinearLayoutManager(JobTiming.this, RecyclerView.VERTICAL, false);
         activityBinding.timeList.setLayoutManager(llm);
         TimeSlotsAdapter1 adapter = new TimeSlotsAdapter1(JobTiming.this, list);
+        adapter.notifyDataSetChanged();
         activityBinding.timeList.setAdapter(adapter);
 
     }

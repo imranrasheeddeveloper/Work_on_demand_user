@@ -46,9 +46,10 @@ public class AllSerAdapter extends RecyclerView.Adapter<AllSerAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull AllSerAdapter.ViewHolder holder, int position) {
 
+        try {
+
         HomeContentDataItem model = data.get(position);
         holder.name.setText(model.getTitle());
-
 
 
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false);
@@ -64,6 +65,9 @@ public class AllSerAdapter extends RecyclerView.Adapter<AllSerAdapter.ViewHolder
         });
 
 
+        }catch (NullPointerException | IllegalStateException | IllegalArgumentException e){
+            e.printStackTrace();
+        }
 
     }
 

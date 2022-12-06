@@ -6,12 +6,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
 import com.rizorsiumani.workondemanduser.databinding.ActivityResultantServiceProvidersBinding;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServiceAdapter;
+import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderViewModel;
 import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
 import com.rizorsiumani.workondemanduser.ui.walkthrough.OnBoardingViewModel;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -26,6 +31,8 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
     List<SubCategoryDataItem> dataItems;
     int catID;
     String title;
+    private ServiceProviderViewModel providerViewModel;
+
 
     @Override
     protected ActivityResultantServiceProvidersBinding getActivityBinding() {
@@ -45,6 +52,7 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
         }
 
         viewModel = new ViewModelProvider(this).get(SubCategoryViewModel.class);
+        providerViewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
 
         viewModel.subCategories(catID,1);
 
@@ -107,10 +115,42 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
         activityBinding.searchDataList.setAdapter(adapter);
 
         adapter.setOnCategoryClickListener(position -> {
-            Intent intent = new Intent(SubCategories.this, Serviceproviders.class);
-            intent.putExtra("sub_cat_id",String.valueOf(dataItems.get(position).getId()));
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            try {
+
+            JsonObject object = new JsonObject();
+            object.addProperty("latitude", "31.510376");
+            object.addProperty("longitude", "74.339676");
+            object.addProperty("category_id", String.valueOf(dataItems.get(position).getId()));
+            String token = prefRepository.getString("token");
+            providerViewModel.catServiceProviders(1, token, object);
+            providerViewModel._by_cat_provider.observe(this, response -> {
+                if (response != null) {
+                    if (response.isLoading()) {
+                        showLoading();
+                    } else if (!response.getError().isEmpty()) {
+                        hideLoading();
+                        showSnackBarShort(response.getError());
+                    } else if (response.getData().isSuccess()) {
+                        hideLoading();
+                        if (response.getData().getData().size() > 0) {
+                            Gson gson = new Gson();
+                            String providers = gson.toJson(response.getData(), ServiceProviderModel.class);
+                            Intent intent = new Intent(SubCategories.this, Serviceproviders.class);
+                            intent.putExtra("providers",providers);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        } else {
+                            showSnackBarShort("Service Providers not Available");
+                        }
+                    }
+
+                }
+            });
+
+            }catch (NullPointerException | IllegalArgumentException e){
+                e.printStackTrace();
+            }
+
         });
 
     }

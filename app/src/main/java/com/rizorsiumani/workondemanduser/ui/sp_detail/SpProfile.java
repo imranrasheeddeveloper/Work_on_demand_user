@@ -67,6 +67,7 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
                                 .load(Constants.IMG_PATH + data.getProfilePhoto())
                                 .into(activityBinding.ivSp);
                         activityBinding.tvSpName.setText(data.getFirstName() + " " + data.getLastName());
+                        activityBinding.title.setText(data.getFirstName() + " " + "Details");
                     }
                 }
             }

@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -145,6 +146,16 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         setSlider();
         clickListeners();
 
+        fragmentBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getServices();
+                setSlider();
+                setHomeContent(null);
+                fragmentBinding.swipeContainer.setRefreshing(false);
+            }
+        });
+
     }
 
     private void setHomeContent(List<Integer> selectedFilter) {
@@ -195,6 +206,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         fragmentBinding.allService.setAdapter(adapter1);
 
         adapter1.setOnServiceClickListener(position -> {
+            Constants.constant.isHome = false;
             Intent intent = new Intent(requireContext(), Serviceproviders.class);
             intent.putExtra("cat_id",String.valueOf(contentDataItems.get(position).getId()));
             startActivity(intent);
@@ -234,26 +246,31 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
     private void clickListeners() {
 
         fragmentBinding.searchIcon.setOnClickListener(view -> {
+            Constants.constant.isHome = false;
             ActivityUtil.gotoPage(requireContext(), SearchProvider.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         fragmentBinding.tvSearch.setOnClickListener(view -> {
+            Constants.constant.isHome = false;
             ActivityUtil.gotoPage(requireContext(), SearchProvider.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         fragmentBinding.notifications.setOnClickListener(view -> {
+            Constants.constant.isHome = false;
             ActivityUtil.gotoPage(requireContext(), Notification.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         fragmentBinding.homeCartButton.setOnClickListener(view -> {
+            Constants.constant.isHome = false;
             ActivityUtil.gotoPage(requireContext(), BookingDetail.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         fragmentBinding.tvViewAll.setOnClickListener(view -> {
+            Constants.constant.isHome = false;
             ActivityUtil.gotoPage(requireContext(), Categories.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
@@ -269,6 +286,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         });
 
         fragmentBinding.tvChooseAddress.setOnClickListener(view -> {
+            Constants.constant.isHome = false;
             ActivityUtil.gotoPage(requireContext(), SavedAddresses.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
@@ -400,6 +418,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
 
         adapter.setOnServiceClickListener(position -> {
+            Constants.constant.isHome = false;
             Intent intent = new Intent(requireContext(), SubCategories.class);
             intent.putExtra("category_id", categoriesDataItems.get(position).getId());
             intent.putExtra("category_title", categoriesDataItems.get(position).getTitle());
@@ -432,7 +451,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
         viewModel._category.removeObservers(this);
         viewModel = null;
-        Constants.constant.isHome = false;
     }
 
 

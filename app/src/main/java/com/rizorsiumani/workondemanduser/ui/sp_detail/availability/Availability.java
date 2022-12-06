@@ -64,8 +64,6 @@ public class Availability extends BaseFragment<FragmentAvailabilityBinding> {
                 }
             }
         });
-
-
     }
 
     private void buildRv(List<AvailabilityDataItem> lst) {

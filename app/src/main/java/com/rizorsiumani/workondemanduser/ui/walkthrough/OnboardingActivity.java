@@ -192,4 +192,11 @@ public class OnboardingActivity extends BaseActivity<ActivityOnboardingBinding> 
         viewModel._onBoard.removeObservers(this);
         viewModel = null;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        finishAffinity();
+    }
 }

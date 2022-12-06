@@ -228,6 +228,7 @@
                     android:hint="2378723"
                     android:maxLines="1"
                     android:ellipsize="end"
+                    android:inputType="number"
                     android:singleLine="true"
                     android:imeOptions="actionNext"
                     android:paddingTop="@dimen/_10sdp"

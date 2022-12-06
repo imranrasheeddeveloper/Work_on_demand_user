@@ -102,7 +102,7 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
         activityBinding.btnContinue.setOnClickListener(view -> {
             try {
 
-            if (!selectedHours.isEmpty()) {
+            if (selectedHours != null) {
 
                 if (bookingID != null) {
                     String token = prefRepository.getString("token");
@@ -240,7 +240,7 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
 //        slots.add("09PM - 10PM");
 //        slots.add("10PM - 11PM");
 //        slots.add("11PM - 12AM");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(BookingDateTime.this, LinearLayoutManager.VERTICAL, false);
+        GridLayoutManager layoutManager = new GridLayoutManager(BookingDateTime.this, 2);
         activityBinding.timeList.setLayoutManager(layoutManager);
         timeSlotsAdapter = new TimeSlotsAdapter(BookingDateTime.this, hoursList);
         activityBinding.timeList.setAdapter(timeSlotsAdapter);

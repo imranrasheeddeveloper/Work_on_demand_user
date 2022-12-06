@@ -113,6 +113,11 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
                 }
             }
         });
+
+        activityBinding.clearIcon.setOnClickListener(view -> {
+            activityBinding.search.setText("");
+            activityBinding.placesList.setVisibility(View.GONE);
+        });
     }
 
     private void initPlacesClient() {
@@ -177,6 +182,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
                     activityBinding.clearIcon.setVisibility(View.VISIBLE);
 
                     adapter.setAddressClickListener(position -> {
+                        showLoading();
 
                         String placeId = String.valueOf(suggestionList.get(position).getId());
 
@@ -188,6 +194,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
                             public void onSuccess(FetchPlaceResponse response) {
                                 MapConfig.config.moveCamera(response.getPlace().getLatLng(), mMap);
                                 activityBinding.placesList.setVisibility(View.GONE);
+                                hideLoading();
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {

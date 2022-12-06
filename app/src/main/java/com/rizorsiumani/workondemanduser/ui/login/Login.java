@@ -174,12 +174,12 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
                     hideLoading();
                     prefRepository.setString("token" , "Bearer "+response.getData().getToken());
                     TinyDbManager.saveUserData(response.getData().getData());
-   
-
                     ActivityUtil.gotoPage(Login.this, Dashboard.class);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }else {
                     hideLoading();
+                    showSnackBarShort(response.getData().getMessage());
+
                 }
             }
         });
@@ -240,5 +240,12 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
 
         viewModel._loginData.removeObservers(this);
         viewModel = null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        finishAffinity();
     }
 }

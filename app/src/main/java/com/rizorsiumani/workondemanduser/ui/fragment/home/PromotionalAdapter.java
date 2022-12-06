@@ -56,15 +56,17 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
 
         String rate = Constants.constant.CURRENCY + item.getPrice();
         holder.textView.setText(rate);
+        if (item.getServiceProvider() != null) {
 
-        holder.sp_name.setText(item.getServiceProvider().getFirstName());
+            holder.sp_name.setText(item.getServiceProvider().getFirstName());
 
-        Glide.with(holder.sp_image.getContext())
-                .load(Constants.IMG_PATH + item.getServiceProvider().getProfilePhoto())
-                .placeholder(R.color.placeholder_bg)
-                .into(holder.sp_image);
+            Glide.with(holder.sp_image.getContext())
+                    .load(Constants.IMG_PATH + item.getServiceProvider().getProfilePhoto())
+                    .placeholder(R.color.placeholder_bg)
+                    .into(holder.sp_image);
 
-        holder.ratingBar.setRating(Float.valueOf(item.getServiceProvider().getServiceProviderReviews().getRating()));
+            holder.ratingBar.setRating(Float.valueOf(item.getServiceProvider().getServiceProviderReviews().getRating()));
+        }
 
 
         }catch (NullPointerException | IllegalStateException | IllegalArgumentException e){

@@ -10,10 +10,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderModel;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServiceProviderListBinding;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderAdapter;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderViewModel;
@@ -29,6 +31,8 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
     List<ServiceProviderDataItem> serviceProviders;
     private ServiceProviderViewModel viewModel;
     String subCatID = "" , catID = "";
+    ServiceProviderModel providerModel;
+
 
     @Override
     protected FragmentServiceProviderListBinding getFragmentBinding() {
@@ -40,10 +44,12 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
         super.onViewCreated(view, savedInstanceState);
 
         try {
-            subCatID = getActivity().getIntent().getStringExtra("sub_cat_id");
+            String providerData = getActivity().getIntent().getStringExtra("providers");
+            Gson gson = new Gson();
+            providerModel = gson.fromJson(providerData, ServiceProviderModel.class);
             catID = getActivity().getIntent().getStringExtra("cat_id");
 
-            if (subCatID == null){
+            if (providerModel == null){
                 if (!catID.isEmpty()){
                     viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
                     JsonObject object = new JsonObject();
@@ -75,35 +81,36 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
                     });
                 }
             }else {
-                viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
-                JsonObject object = new JsonObject();
-                object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
-                object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
-                object.addProperty("sub_category_id", subCatID);
-                String token = prefRepository.getString("token");
-                viewModel.serviceProviders(1, token, object);
-                viewModel._provider.observe(getViewLifecycleOwner(), response -> {
-                    if (response != null) {
-                        if (response.isLoading()) {
-                             showLoading();
-                        } else if (!response.getError().isEmpty()) {
-                            hideLoading();
-                            showSnackBarShort(response.getError());
-                        } else if (response.getData().isSuccess()) {
-
-                            hideLoading();
-                            if (response.getData().getData().size() > 0) {
-                                hideNoDataAnimation();
-                                serviceProviders = new ArrayList<>();
-                                serviceProviders.addAll(response.getData().getData());
-                                buildRv(serviceProviders);
-                            } else {
-                                showNoDataAnimation();
-                            }
-                        }
-
-                    }
-                });
+                buildRv(providerModel.getData());
+//                viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
+//                JsonObject object = new JsonObject();
+//                object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
+//                object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
+//                object.addProperty("sub_category_id", subCatID);
+//                String token = prefRepository.getString("token");
+//                viewModel.serviceProviders(1, token, object);
+//                viewModel._provider.observe(getViewLifecycleOwner(), response -> {
+//                    if (response != null) {
+//                        if (response.isLoading()) {
+//                             showLoading();
+//                        } else if (!response.getError().isEmpty()) {
+//                            hideLoading();
+//                            showSnackBarShort(response.getError());
+//                        } else if (response.getData().isSuccess()) {
+//
+//                            hideLoading();
+//                            if (response.getData().getData().size() > 0) {
+//                                hideNoDataAnimation();
+//                                serviceProviders = new ArrayList<>();
+//                                serviceProviders.addAll(response.getData().getData());
+//                                buildRv(serviceProviders);
+//                            } else {
+//                                showNoDataAnimation();
+//                            }
+//                        }
+//
+//                    }
+//                });
             }
 
         } catch (NullPointerException e) {
