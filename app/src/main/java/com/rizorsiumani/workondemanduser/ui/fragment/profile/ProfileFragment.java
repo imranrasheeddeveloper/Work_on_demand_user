@@ -45,6 +45,8 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         super.onViewCreated(view, savedInstanceState);
 
 
+        Dashboard.hideTabs(false);
+
         hideCartButton();
         if (TinyDbManager.getCartData().size() > 0){
             fragmentBinding.tvCart.setVisibility(View.VISIBLE);

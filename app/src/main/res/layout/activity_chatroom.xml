@@ -63,7 +63,7 @@
                 android:inputType="textMultiLine"
                 android:maxLength="255"
                 android:padding="8dp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textColorHint="@color/hint_color"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="parent"

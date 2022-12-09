@@ -1,6 +1,9 @@
 package com.rizorsiumani.workondemanduser;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,6 +20,8 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.viewbinding.ViewBinding;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -26,6 +31,7 @@ import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
+import com.rizorsiumani.workondemanduser.ui.fragment.booking.BookingsViewModel;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -41,12 +47,16 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
     private LottieAnimationView animationView;
     TextView cartItem;
     String cartTotal;
+    BookingsViewModel viewModel;
+    AlertDialog.Builder dialogBuilder;
+    AlertDialog alertDialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fragmentBinding = getFragmentBinding();
+        viewModel = new ViewModelProvider(this).get(BookingsViewModel.class);
 
         prefRepository = new PreferenceRepository();
         progressBar = fragmentBinding.getRoot().findViewById(R.id.progressBar);
@@ -54,7 +64,6 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
         animationView = fragmentBinding.getRoot().findViewById(R.id.no_data_animation);
         cartItem = fragmentBinding.getRoot().findViewById(R.id.cartCount);
 
-        animationView = fragmentBinding.getRoot().findViewById(R.id.no_data_animation);
 
         setupUI(fragmentBinding.getRoot());
 
@@ -152,5 +161,52 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
 
     protected void showSnackBarShort(@StringRes int resID) {
         Snackbar.make(fragmentBinding.getRoot(), resID, Snackbar.LENGTH_SHORT).show();
+    }
+
+    protected void confirmationDialogue(String title , String description,String token, int bookingID,String status) {
+        dialogBuilder = new AlertDialog.Builder(requireContext());
+        View layoutView = getLayoutInflater().inflate(R.layout.cancel_booking_dialogue, null);
+        TextView cancel = (TextView) layoutView.findViewById(R.id.cancel_dialogue);
+        TextView confirm = (TextView) layoutView.findViewById(R.id.confirm);
+        TextView title_D = (TextView) layoutView.findViewById(R.id.tv_cancel);
+        TextView des_D = (TextView) layoutView.findViewById(R.id.tv_msg);
+
+        title_D.setText(title);
+        des_D.setText(description);
+
+        dialogBuilder.setView(layoutView);
+        alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimations;
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+        cancel.setOnClickListener(view -> alertDialog.dismiss());
+        confirm.setOnClickListener(view -> {
+            viewModel.updateStatus(token,bookingID,status);
+            viewModel._booking_status.observe(getViewLifecycleOwner(), response -> {
+                if (response != null){
+                    if (response.isLoading()) {
+                        showLoading();
+                    } else if (!response.getError().isEmpty()) {
+                        hideLoading();
+                        alertDialog.dismiss();
+                        showSnackBarShort(response.getError());
+                    } else if (response.getData().isSuccess()) {
+                        hideLoading();
+                        alertDialog.dismiss();
+                        Navigation.findNavController(getView()).navigate(R.id.bookingFragment);
+
+                    }
+                }
+            });
+
+        });
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        viewModel._booking_status.removeObservers(this);
+        viewModel = null;
     }
 }

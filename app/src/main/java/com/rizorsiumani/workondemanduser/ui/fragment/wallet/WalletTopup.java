@@ -37,7 +37,7 @@ public class WalletTopup extends BaseFragment<FragmentWalletTopupBinding> {
 
         viewModel = new ViewModelProvider(this).get(WalletViewModel.class);
         hideCartButton();
-        Dashboard.hideTabs();
+        Dashboard.hideTabs(true);
         fragmentBinding.topupToolbar.title.setText("Enter top-up amount");
         clickListener();
     }

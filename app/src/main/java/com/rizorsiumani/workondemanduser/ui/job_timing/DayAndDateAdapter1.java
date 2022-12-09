@@ -45,8 +45,11 @@ public class DayAndDateAdapter1 extends RecyclerView.Adapter<DayAndDateAdapter1.
         DayTimeModel dayTimeModel = data.get(position);
 
         holder.day.setText(dayTimeModel.getDay());
-        //holder.date.setTag(dayTimeModel.getDate());
-
+        if (position == selectedPosition){
+            holder.selectedDay();
+        }else {
+            holder.unSelectedDay();
+        }
     }
 
     @Override
@@ -74,21 +77,13 @@ public class DayAndDateAdapter1 extends RecyclerView.Adapter<DayAndDateAdapter1.
                 if (itemClickListener != null) {
 
                     selectedPosition = getAdapterPosition();
-                    String tag = day.getTag().toString();
-                    if (tag.equalsIgnoreCase("unselected")) {
-                        selectedDay();
-                        day.setTag("selected");
-                    } else {
-                        unSelectedDay();
-                        day.setTag("unselected");
+
+                    if (lastSelectedPos != -1){
+                        notifyItemChanged(lastSelectedPos);
                     }
 
-//                    if (lastSelectedPos != -1){
-//                        notifyItemChanged(lastSelectedPos);
-//                    }
-//
-//                    lastSelectedPos = selectedPosition;
-//                    notifyItemChanged(selectedPosition);
+                    lastSelectedPos = selectedPosition;
+                    notifyItemChanged(selectedPosition);
 
                     if (selectedPosition != RecyclerView.NO_POSITION) {
                         itemClickListener.onTimeSelect(selectedPosition);

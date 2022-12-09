@@ -56,15 +56,29 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
             if (current_status.equalsIgnoreCase("Pending")) {
                 holder.requested.setVisibility(View.VISIBLE);
                 holder.cancel.setVisibility(View.VISIBLE);
-                holder.rate.setVisibility(View.GONE);
 
-            } else {
+            } else if (current_status.equalsIgnoreCase("In Progress")){
+                holder.cancel.setText("Cancel");
+                holder.requested.setVisibility(View.GONE);
+                holder.cancel.setVisibility(View.VISIBLE);
+            }else if (current_status.equalsIgnoreCase("Declined")){
+                holder.requested.setVisibility(View.GONE);
+                holder.cancel.setVisibility(View.GONE);
+            }else if (current_status.equalsIgnoreCase("Approval")){
+                holder.requested.setText("Approve");
+                holder.cancel.setText("Cancel");
+                holder.cancel.setVisibility(View.VISIBLE);
+                holder.requested.setVisibility(View.VISIBLE);
+            }else if (current_status.equalsIgnoreCase("Cancelled")){
+                holder.requested.setVisibility(View.GONE);
+                holder.cancel.setVisibility(View.GONE);
+            }else if (current_status.equalsIgnoreCase("Completed")){
                 holder.requested.setVisibility(View.GONE);
                 holder.cancel.setVisibility(View.GONE);
                 holder.rate.setVisibility(View.VISIBLE);
+            }else {
 
             }
-
             GetBookingDataItem item = list.get(position);
 
             holder.status.setText(item.getStatus());
@@ -101,7 +115,7 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
     }
 
     public interface ItemClickListener {
-        void allRequestedBookings(int position);
+        void onReschedule(int position);
 
         void cancelBooking(int position);
 
@@ -150,7 +164,7 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
                 if (mListener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        mListener.allRequestedBookings(position);
+                        mListener.onReschedule(position);
                     }
                 }
             });

@@ -25,6 +25,9 @@ public class BookingsViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<BasicModel>> rate = new MutableLiveData<>();
     public LiveData<ResponseWrapper<BasicModel>> _rate = rate;
 
+    private final MutableLiveData<ResponseWrapper<BasicModel>> booking_status = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<BasicModel>> _booking_status = booking_status;
+
     public void getBookings(String token, int page, String status) {
 
         bookings.setValue(
@@ -139,5 +142,42 @@ public class BookingsViewModel extends ViewModel {
 
     }
 
+    public void updateStatus(String token,int id, String status) {
+
+        booking_status.setValue(
+                new ResponseWrapper<>(
+                        true, "", null
+                ));
+
+        RemoteRepository.getInstance()
+                .updateBookingStatus(token,status,id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BasicModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        booking_status.setValue(new ResponseWrapper<>(
+                                false,
+                                e.getLocalizedMessage(),
+                                null
+                        ));
+                    }
+
+                    @Override
+                    public void onNext(BasicModel model) {
+                        booking_status.setValue(new ResponseWrapper<>(
+                                false,
+                                "",
+                                model
+                        ));
+                    }
+                });
+
+    }
 
 }

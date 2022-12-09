@@ -38,6 +38,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.WalletTransactionsM
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
 
 import okhttp3.MultipartBody;
+import rx.Completable;
 import rx.Observable;
 
 /**
@@ -387,4 +388,12 @@ public class RemoteRepository {
         }
         return null;
     }
+
+    public Observable<BasicModel> updateBookingStatus(String token,String status, int id) {
+        if (mService != null) {
+            return mService.bookingStatus(token,status,id);
+        }
+        return null;
+    }
+
 }

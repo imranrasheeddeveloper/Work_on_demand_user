@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Objects;
 
 public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
 
@@ -102,7 +103,7 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
             dayTimeModelList.add(new DayTimeModel(i,date,day,null));
         }
         if (mainList.size() == 0) {
-            mainList.add(0, new AvailabilitiesItem(null, dayTimeModelList.get(0).getDay()));
+            mainList.add(0, new AvailabilitiesItem(mainTimeList, dayTimeModelList.get(0).getDay()));
         }
         daysRv(dayTimeModelList);
 
@@ -114,10 +115,11 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
         activityBinding.daysList.setLayoutManager(llm);
         DayAndDateAdapter1 adapter = new DayAndDateAdapter1(JobTiming.this, dayTimeModelList);
         activityBinding.daysList.setAdapter(adapter);
+        activityBinding.daysList.postDelayed(() -> Objects.requireNonNull(activityBinding.daysList.findViewHolderForAdapterPosition(0)).itemView.performClick(), 100);
 
         adapter.setOnDaySelectListener((position) -> {
             selectedIndex = position;
-            mainList.add(new AvailabilitiesItem(null,dayTimeModelList.get(position).getDay()));
+            mainList.add(new AvailabilitiesItem(mainTimeList,dayTimeModelList.get(position).getDay()));
            // mainTimeList = new ArrayList<>();
             timeSlotsRv(dayTimeModelList.get(selectedIndex).getTimeItems());
         });

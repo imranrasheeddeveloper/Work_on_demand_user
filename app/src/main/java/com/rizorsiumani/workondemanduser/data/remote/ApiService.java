@@ -195,4 +195,8 @@ public interface ApiService {
     @POST("users/wallet_toup")
     Observable<BasicModel> wallet_up(@Header("Authorization") String token,
                                      @Body JsonObject object);
-}
+
+    @GET("booking/update_booking_status/{status}/{id}")
+    Observable<BasicModel> bookingStatus(@Header("Authorization") String token,
+                                         @Path("status") String status,
+                                         @Path("id") int id);}

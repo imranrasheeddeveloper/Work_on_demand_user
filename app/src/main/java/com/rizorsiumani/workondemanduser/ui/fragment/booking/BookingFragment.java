@@ -61,6 +61,7 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Dashboard.hideTabs(false);
 
         viewModel = new ViewModelProvider(this).get(BookingsViewModel.class);
         mLayoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
@@ -123,6 +124,8 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
         List<String> status = new ArrayList<>();
         status.add("Pending");
         status.add("In Progress");
+        status.add("Decline");
+        status.add("Approval");
         status.add("Canceled");
         status.add("Completed");
 
@@ -184,18 +187,56 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
 
         bookingAdopter.setOnBookingClickListener(new BookingAdopter.ItemClickListener() {
             @Override
-            public void allRequestedBookings(int position) {
-                // ActivityUtil.gotoPage(requireContext(), RequestServices.class);
-                Intent intent = new Intent(requireContext(), BookingDateTime.class);
-                intent.putExtra("service_provider_id", String.valueOf(dataItems.get(position).getServiceProvider().getId()));
-                intent.putExtra("booking_id", String.valueOf(dataItems.get(position).getId()));
-                intent.putExtra("availability_id", String.valueOf(dataItems.get(position).getBookingAvailability().getId()));
-                startActivity(intent);
+            public void onReschedule(int position) {
+                String status = null;
+                String token = prefRepository.getString("token");
+                int bookingID = dataItems.get(position).getId();
+
+                if (dataItems.get(position).getStatus().equalsIgnoreCase("Pending")) {
+                    Intent intent = new Intent(requireContext(), BookingDateTime.class);
+                    intent.putExtra("service_provider_id", String.valueOf(dataItems.get(position).getServiceProvider().getId()));
+                    intent.putExtra("booking_id", String.valueOf(dataItems.get(position).getId()));
+                    intent.putExtra("availability_id", String.valueOf(dataItems.get(position).getBookingAvailability().getId()));
+                    startActivity(intent);
+                } else if (dataItems.get(position).getStatus().equalsIgnoreCase("In Progress")){
+
+                }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Declined")){
+
+                }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Approval")){
+                    status = "Completed";
+                    confirmationDialogue("Do you want to Accept Approval?",
+                            "By Confirm the Approval, this booking will be Complete.",
+                            token,bookingID,status);
+                }
+
+
             }
 
             @Override
             public void cancelBooking(int position) {
-                confirmCancellationDialogue(dataItems.get(position).getId());
+                String status = null;
+                String token = prefRepository.getString("token");
+                int bookingID = dataItems.get(position).getId();
+
+                if (dataItems.get(position).getStatus().equalsIgnoreCase("Pending")) {
+                    status = "Cancelled";
+                    confirmationDialogue("Do you want to Cancel Booking?",
+                            "By Confirm the Cancel, this booking will delete permanently.",
+                            token,bookingID,status);
+                } else if (dataItems.get(position).getStatus().equalsIgnoreCase("In Progress")){
+                    status = "Cancelled";
+                    confirmationDialogue("Do you want to Cancel Booking?",
+                            "By Confirm the Cancel, this booking will delete permanently.",
+                            token,bookingID,status);
+                }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Declined")){
+
+                }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Approval")){
+                    status = "In Progress";
+                    confirmationDialogue("Do you want to Cancel Approval?",
+                            "By Confirm the Approval cancellation, this booking will be in Progress state.",
+                            token,bookingID,status);
+
+                }
             }
 
             @Override
@@ -209,6 +250,23 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
             public void rateBooking(int position) {
                 ratingDialogue(String.valueOf(dataItems.get(position).getId()),
                         String.valueOf(dataItems.get(position).getServiceProvider().getId()));
+            }
+        });
+    }
+
+    private void changeBookingStatus(String token, int bookingID, String status) {
+        viewModel.updateStatus(token,bookingID,status);
+        viewModel._booking_status.observe(getViewLifecycleOwner(), response -> {
+            if (response != null){
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (!response.getError().isEmpty()) {
+                    hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().isSuccess()) {
+                    hideLoading();
+                    Navigation.findNavController(getView()).navigate(R.id.bookingFragment);
+                }
             }
         });
     }
@@ -259,42 +317,42 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
 
     }
 
-    private void confirmCancellationDialogue(int id) {
-        AlertDialog.Builder dialogBuilder;
-        AlertDialog alertDialog;
-        dialogBuilder = new AlertDialog.Builder(requireContext());
-        View layoutView = getLayoutInflater().inflate(R.layout.cancel_booking_dialogue, null);
-        TextView cancel = (TextView) layoutView.findViewById(R.id.cancel_dialogue);
-        TextView confirm = (TextView) layoutView.findViewById(R.id.confirm);
-
-        dialogBuilder.setView(layoutView);
-        alertDialog = dialogBuilder.create();
-        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimations;
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.show();
-        cancel.setOnClickListener(view -> alertDialog.dismiss());
-        confirm.setOnClickListener(view -> {
-
-            String token = prefRepository.getString("token");
-            viewModel.cancelBooking(token, id);
-            viewModel._cancel_booking.observe(getViewLifecycleOwner(), response -> {
-                if (response != null) {
-                    if (response.isLoading()) {
-                        showLoading();
-                    } else if (!response.getError().isEmpty()) {
-                        hideLoading();
-                        showSnackBarShort(response.getError());
-                    } else if (response.getData().isSuccess()) {
-                        hideLoading();
-                        alertDialog.dismiss();
-                        showSnackBarShort(response.getData().getMessage());
-                        Navigation.findNavController(requireView()).navigate(R.id.bookingFragment);
-                    }
-                }
-            });
-        });
-
-    }
+//    private void confirmationDialogue(int id) {
+//        AlertDialog.Builder dialogBuilder;
+//        AlertDialog alertDialog;
+//        dialogBuilder = new AlertDialog.Builder(requireContext());
+//        View layoutView = getLayoutInflater().inflate(R.layout.cancel_booking_dialogue, null);
+//        TextView cancel = (TextView) layoutView.findViewById(R.id.cancel_dialogue);
+//        TextView confirm = (TextView) layoutView.findViewById(R.id.confirm);
+//
+//        dialogBuilder.setView(layoutView);
+//        alertDialog = dialogBuilder.create();
+//        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimations;
+//        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        alertDialog.show();
+//        cancel.setOnClickListener(view -> alertDialog.dismiss());
+//        confirm.setOnClickListener(view -> {
+//
+//            String token = prefRepository.getString("token");
+//            viewModel.cancelBooking(token, id);
+//            viewModel._cancel_booking.observe(getViewLifecycleOwner(), response -> {
+//                if (response != null) {
+//                    if (response.isLoading()) {
+//                        showLoading();
+//                    } else if (!response.getError().isEmpty()) {
+//                        hideLoading();
+//                        showSnackBarShort(response.getError());
+//                    } else if (response.getData().isSuccess()) {
+//                        hideLoading();
+//                        alertDialog.dismiss();
+//                        showSnackBarShort(response.getData().getMessage());
+//                        Navigation.findNavController(requireView()).navigate(R.id.bookingFragment);
+//                    }
+//                }
+//            });
+//        });
+//
+//    }
 
     private void clickListeners() {
         fragmentBinding.past.setOnClickListener(view1 -> {

@@ -33,6 +33,7 @@ import com.rizorsiumani.workondemanduser.databinding.FragmentHomeBinding;
 import com.rizorsiumani.workondemanduser.ui.address.SavedAddresses;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.ui.category.Categories;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.ui.search_provider.SearchProvider;
@@ -76,6 +77,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         super.onViewCreated(view, savedInstanceState);
 
         hideCartButton();
+        Dashboard.hideTabs(false);
+
         if (TinyDbManager.getCartData().size() > 0){
             fragmentBinding.homeCartButton.setVisibility(View.VISIBLE);
             fragmentBinding.cartCount.setText(String.valueOf(TinyDbManager.getCartData().size()));

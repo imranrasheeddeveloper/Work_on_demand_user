@@ -24,6 +24,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.TransactionsDataIte
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentWalletBinding;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.rizorsiumani.workondemanduser.utils.SwipeHelper;
 
@@ -48,6 +49,7 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Dashboard.hideTabs(false);
 
         viewModel = new ViewModelProvider(this).get(WalletViewModel.class);
         String token = prefRepository.getString("token");

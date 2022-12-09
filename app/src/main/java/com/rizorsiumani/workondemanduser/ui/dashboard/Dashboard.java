@@ -2,7 +2,6 @@ package com.rizorsiumani.workondemanduser.ui.dashboard;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static com.rizorsiumani.workondemanduser.utils.map_utils.GeoCoders.GetProperLocationAddress;
 
 import android.Manifest;
@@ -23,7 +22,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -32,7 +30,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
@@ -177,7 +174,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
     }
 
 
-
     private void requestPermission() {
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, 001);
     }
@@ -265,6 +261,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
                 }
         }
     }
+
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(Dashboard.this)
                 .setMessage(message)
@@ -454,8 +451,12 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
 
     }
 
-    public static void hideTabs() {
-        binding.bottomNavigation.setVisibility(View.GONE);
+    public static void hideTabs(boolean status) {
+        if (status) {
+            binding.bottomNavigation.setVisibility(View.GONE);
+        } else {
+            binding.bottomNavigation.setVisibility(View.VISIBLE);
+        }
     }
 
 }
