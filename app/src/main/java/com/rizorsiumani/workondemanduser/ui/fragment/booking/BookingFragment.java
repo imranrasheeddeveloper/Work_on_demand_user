@@ -219,12 +219,12 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                 int bookingID = dataItems.get(position).getId();
 
                 if (dataItems.get(position).getStatus().equalsIgnoreCase("Pending")) {
-                    status = "Cancelled";
+                    status = "Canceled";
                     confirmationDialogue("Do you want to Cancel Booking?",
                             "By Confirm the Cancel, this booking will delete permanently.",
                             token,bookingID,status);
                 } else if (dataItems.get(position).getStatus().equalsIgnoreCase("In Progress")){
-                    status = "Cancelled";
+                    status = "Canceled";
                     confirmationDialogue("Do you want to Cancel Booking?",
                             "By Confirm the Cancel, this booking will delete permanently.",
                             token,bookingID,status);

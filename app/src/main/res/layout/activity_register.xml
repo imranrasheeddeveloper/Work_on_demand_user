@@ -215,7 +215,7 @@
         android:background="@drawable/button_round_bg"
         android:textColor="@color/white"
         style="@style/greenButtonStyle"
-        android:text="Next"
+        android:text="Register"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:textAllCaps="false"
