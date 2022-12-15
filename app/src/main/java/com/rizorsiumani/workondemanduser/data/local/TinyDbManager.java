@@ -28,6 +28,7 @@ public class TinyDbManager {
     public static final String KEY_SPID = "key_service_provider_id";
     public static final String KEY_CARD = "key_card";
     public static final String KEY_TIMING = "key_timing";
+    public static final String KEY_TYPE = "key_user_type";
 
 
 
@@ -47,6 +48,8 @@ public class TinyDbManager {
         Log.e("ADD BOOKING", "booking item saved !");
     }
 
+
+
     public static List<AddBookingDataItem> getBookingList() {
 
         TinyDB tinyDB = new TinyDB(App.applicationContext);
@@ -62,6 +65,16 @@ public class TinyDbManager {
             }
         }
         return cartItems;
+    }
+    public static void saveUserType(String data) {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        tinyDB.putString(KEY_TYPE, data);
+        Log.e("user", " saved !");
+    }
+
+    public static String getUserType() {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        return tinyDB.getString(KEY_TYPE);
     }
 
 

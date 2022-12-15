@@ -22,13 +22,14 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
         super.onStart();
 
         try {
-            id = getIntent().getStringExtra("service_provider_id");
-            name = getIntent().getStringExtra("service_provider_name");
+            id = getIntent().getStringExtra("user_id");
+            name = getIntent().getStringExtra("user_name");
 
             activityBinding.chatToolbar.title.setText(name);
 
         }catch (NullPointerException e){
             e.printStackTrace();
+            activityBinding.chatToolbar.title.setText("Chat");
         }
 
         clickListener();

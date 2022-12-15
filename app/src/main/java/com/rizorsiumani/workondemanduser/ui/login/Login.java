@@ -159,8 +159,7 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
         object.addProperty("phone_number", number);
         object.addProperty("password", password);
         object.addProperty("fcm_token" , Constants.constant.FCM_TOKEN);
-        object.addProperty("type","individual");
-
+        object.addProperty("type",TinyDbManager.getUserType());
         viewModel.login(object);
 
         viewModel._loginData.observe(Login.this, response -> {

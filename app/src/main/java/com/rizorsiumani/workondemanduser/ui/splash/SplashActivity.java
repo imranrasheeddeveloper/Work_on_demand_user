@@ -60,7 +60,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
                 if (token.equals("Bearer ") || token.equals("nil")) {
                     boolean firstVisit = TinyDbManager.getVisit();
                     if (firstVisit) {
-                        ActivityUtil.gotoPage(SplashActivity.this, Login.class);
+                        ActivityUtil.gotoPage(SplashActivity.this, WelcomeUser.class);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     } else {
                         ActivityUtil.gotoPage(SplashActivity.this, OnboardingActivity.class);
@@ -94,7 +94,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
 
             boolean firstVisit = TinyDbManager.getVisit();
             if (firstVisit) {
-                ActivityUtil.gotoPage(SplashActivity.this, Login.class);
+                ActivityUtil.gotoPage(SplashActivity.this, WelcomeUser.class);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             } else {
                 ActivityUtil.gotoPage(SplashActivity.this, OnboardingActivity.class);

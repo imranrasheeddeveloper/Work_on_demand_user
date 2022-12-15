@@ -418,17 +418,17 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
     }
 
     public static void goToWallet() {
-        changeIconColor(binding.navigation.walletFragment,
-                binding.navigation.bookingFragment,
-                binding.navigation.profileFragment,
-                binding.navigation.homeFragment
-        );
+        binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#8D8D8D"), PorterDuff.Mode.SRC_IN);
+        binding.bottomNavigation.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#8D8D8D"), PorterDuff.Mode.SRC_IN);
+        binding.bottomNavigation.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
+
         mNavController.navigate(R.id.walletFragment, null, options);
     }
 
     public static void goToBooking() {
         binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#8D8D8D"), PorterDuff.Mode.SRC_IN);
         binding.bottomNavigation.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
+
         mNavController.navigate(R.id.bookingFragment, null);
     }
 
