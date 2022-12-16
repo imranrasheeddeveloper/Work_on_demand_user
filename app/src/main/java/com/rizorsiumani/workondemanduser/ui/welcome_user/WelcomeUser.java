@@ -29,7 +29,7 @@ public class WelcomeUser extends BaseActivity<ActivityWelcomeUserBinding> {
         });
 
         activityBinding.btnResidential.setOnClickListener(view -> {
-            TinyDbManager.saveUserType("Individual");
+            TinyDbManager.saveUserType("Residential");
             ActivityUtil.gotoPage(WelcomeUser.this, Login.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });

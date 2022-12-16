@@ -35,6 +35,8 @@ import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletBalanceModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletTransactionsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.chat.GetAllMessageModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.inbox.GetInboxModel;
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
 
 import okhttp3.MultipartBody;
@@ -396,4 +398,24 @@ public class RemoteRepository {
         return null;
     }
 
+    public Observable<GetInboxModel> inbox(String token) {
+        if (mService != null) {
+            return mService.getInboxList(token);
+        }
+        return null;
+    }
+
+    public Observable<BasicModel> sendMsg(String token,JsonObject object) {
+        if (mService != null) {
+            return mService.send_message(token,object);
+        }
+        return null;
+    }
+
+    public Observable<GetAllMessageModel> getMessages(String token, int inbox_id) {
+        if (mService != null) {
+            return mService.get_messages(token,inbox_id);
+        }
+        return null;
+    }
 }

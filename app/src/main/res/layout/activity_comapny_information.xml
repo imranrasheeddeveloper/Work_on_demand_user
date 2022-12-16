@@ -55,7 +55,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_company_name"
                 android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
-                android:hint="fitrid technologies"
+                android:hint="Enter Company Name"
                 style="@style/normalText"
                 android:id="@+id/ed_company_name"/>
 
@@ -80,7 +80,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_company_reg"
                 android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
-                android:hint="3438746"
+                android:hint="Enter Registration Number"
                 style="@style/normalText"
                 android:id="@+id/ed_company_reg"/>
 
@@ -105,7 +105,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_company_vat"
                 android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
-                android:hint="3438746"
+                android:hint="Enter VAT Number"
                 style="@style/normalText"
                 android:id="@+id/ed_company_vat"/>
 
@@ -131,7 +131,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_company_owner"
                 android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
-                android:hint="name"
+                android:hint="Enter Owner Name"
                 style="@style/normalText"
                 android:id="@+id/ed_company_owner"/>
 
@@ -156,7 +156,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_company_position"
                 android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
-                android:hint="name"
+                android:hint="Enter Position"
                 style="@style/normalText"
                 android:id="@+id/ed_company_position"/>
 
@@ -181,7 +181,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_company_building"
                 android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
-                android:hint="big city plaza"
+                android:hint="Enter Building Name"
                 style="@style/normalText"
                 android:id="@+id/ed_company_building"/>
 
@@ -206,7 +206,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_company_street"
                 android:background="@drawable/edit_text_bg"
                 android:padding="@dimen/_10sdp"
-                android:hint="big city plaza"
+                android:hint="Enter Company Address"
                 style="@style/normalText"
                 android:id="@+id/ed_company_street"/>
 
@@ -217,7 +217,7 @@
                 android:background="@drawable/button_round_bg"
                 android:textColor="@color/white"
                 style="@style/greenButtonStyle"
-                android:text="Next"
+                android:text="Register"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:textAllCaps="false"
@@ -227,7 +227,11 @@
                 app:layout_constraintTop_toBottomOf="@id/ed_company_street"
                 />
 
-
+            <include
+                layout="@layout/layout_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

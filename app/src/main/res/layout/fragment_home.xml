@@ -77,8 +77,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center"
+                            android:layout_marginStart="@dimen/_10sdp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             android:text="Work On Demand"
@@ -89,9 +89,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_6sdp"
-                            app:layout_constraintTop_toTopOf="@id/notifications"
-                            app:layout_constraintEnd_toStartOf="@id/notifications"
-                            app:layout_constraintBottom_toBottomOf="@id/notifications"
+                            app:layout_constraintTop_toTopOf="@id/inbox_icon"
+                            app:layout_constraintEnd_toStartOf="@id/inbox_icon"
+                            app:layout_constraintBottom_toBottomOf="@id/inbox_icon"
                             >
 
 
@@ -125,6 +125,17 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
+                        <ImageView
+                            android:id="@+id/inbox_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            app:layout_constraintTop_toTopOf="@id/notifications"
+                            app:layout_constraintBottom_toBottomOf="@id/notifications"
+                            app:layout_constraintEnd_toStartOf="@id/notifications"
+                            android:background="@drawable/message_icon"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:backgroundTint="@color/dark_gray" />
 
                         <ImageView
                             android:id="@+id/notifications"

@@ -70,6 +70,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Bookings").setIcon(R.drawable.ic_booking).setId(1));
         binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Post").setIcon(R.drawable.ic_add).setId(2));
         binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Wallet").setIcon(R.drawable.ic_wallet).setId(3));
+        //binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Chats").setIcon(R.drawable.message_icon).setId(3));
         binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Profile").setIcon(R.drawable.ic_profile).setId(4));
         binding.bottomNavigation.setTabGravity(TabLayout.GRAVITY_FILL);
 

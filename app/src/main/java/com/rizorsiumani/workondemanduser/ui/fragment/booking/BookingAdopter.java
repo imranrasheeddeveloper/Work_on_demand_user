@@ -23,9 +23,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHolder> {
 
-    private final List<GetBookingDataItem> list;
-    private Context context;
-    private ItemClickListener mListener;
+    final List<GetBookingDataItem> list;
+    Context context;
+    ItemClickListener mListener;
     String current_status;
 
     public void setOnBookingClickListener(ItemClickListener listener) {

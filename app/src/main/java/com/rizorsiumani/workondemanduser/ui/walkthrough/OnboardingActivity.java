@@ -169,7 +169,7 @@ public class OnboardingActivity extends BaseActivity<ActivityOnboardingBinding> 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_next1:
-                ActivityUtil.gotoPage(OnboardingActivity.this, Login.class);
+                ActivityUtil.gotoPage(OnboardingActivity.this, WelcomeUser.class);
 
 //                if (activityBinding.btnNext.getText().toString().equalsIgnoreCase("next")) {
 //                    activityBinding.slideViewpager.setCurrentItem(mCurrentPage + 1);
@@ -178,7 +178,7 @@ public class OnboardingActivity extends BaseActivity<ActivityOnboardingBinding> 
 //                }
                 break;
             case R.id.btn_previous:
-                ActivityUtil.gotoPage(OnboardingActivity.this, Login.class);
+                ActivityUtil.gotoPage(OnboardingActivity.this, WelcomeUser.class);
                 break;
             default:
                 break;

@@ -34,6 +34,8 @@ import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletBalanceModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletTransactionsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.chat.GetAllMessageModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.inbox.GetInboxModel;
 
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
@@ -199,4 +201,21 @@ public interface ApiService {
     @GET("booking/update_booking_status/{status}/{id}")
     Observable<BasicModel> bookingStatus(@Header("Authorization") String token,
                                          @Path("status") String status,
-                                         @Path("id") int id);}
+                                         @Path("id") int id);
+
+    @POST("messages/create_inbox")
+    Observable<BasicModel> create_inbox(@Header("Authorization") String token,
+                                     @Body JsonObject object);
+
+    @POST("messages/send_message")
+    Observable<BasicModel> send_message(@Header("Authorization") String token,
+                                        @Body JsonObject object);
+
+    @GET("messages/get_user_all_inobexs")
+    Observable<GetInboxModel> getInboxList(@Header("Authorization") String token);
+
+    @GET("messages/get_messages/{id}")
+    Observable<GetAllMessageModel> get_messages(@Header("Authorization") String token,
+                                                @Path("id") int id);
+
+}

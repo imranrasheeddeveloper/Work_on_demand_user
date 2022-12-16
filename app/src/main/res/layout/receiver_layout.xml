@@ -12,7 +12,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingBottom="3dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +37,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:text="Receiver here... " />
+
+            <TextView
+                android:id="@+id/receiver_time"
+                style="@style/normalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:padding="@dimen/_3sdp"
+                android:textColor="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="-" />
 
         </LinearLayout>
 

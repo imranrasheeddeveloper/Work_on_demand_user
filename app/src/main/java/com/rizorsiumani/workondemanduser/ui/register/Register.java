@@ -17,6 +17,7 @@ import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityRegisterBinding;
 import com.rizorsiumani.workondemanduser.ui.commercial_user_info.ComapnyInformation;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
+import com.rizorsiumani.workondemanduser.ui.login.Login;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
@@ -34,6 +35,12 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
     @Override
     protected void onStart() {
         super.onStart();
+
+        if (TinyDbManager.getUserType().equalsIgnoreCase("Residential")){
+            activityBinding.btnNext.setText("Register");
+        }else {
+            activityBinding.btnNext.setText("Next");
+        }
         viewModel = new ViewModelProvider(this).get(RegisterUserViewModel.class);
         activityBinding.edPassword.setTransformationMethod(new PasswordTransformationMethod());
 
@@ -84,7 +91,18 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
         }else if(TextUtils.isEmpty(password)){
             showSnackBarShort("Enter Password");
         }else {
-            registerUser(first_name,last_name,email,number,password);
+            if (TinyDbManager.getUserType().equalsIgnoreCase("Residential")){
+                registerUser(first_name,last_name,email,number,password);
+            }else {
+                Intent intent = new Intent(Register.this,ComapnyInformation.class);
+                intent.putExtra("first_name",first_name);
+                intent.putExtra("last_name",last_name);
+                intent.putExtra("email",email);
+                intent.putExtra("phone_number",number);
+                intent.putExtra("password",password);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
         }
     }
 
@@ -97,6 +115,7 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
             object.addProperty("email",email);
             object.addProperty("phone_number",number);
             object.addProperty("password",pass);
+            object.addProperty("type","Residential");
             object.addProperty("fcm_token", Constants.constant.FCM_TOKEN);
 
             viewModel.registerUser(object);
@@ -112,7 +131,7 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
                         hideLoading();
                         prefRepository.setString("token" , "Bearer "+response.getData().getToken());
                         TinyDbManager.saveUserData(response.getData().getData());
-                        ActivityUtil.gotoPage(Register.this, Dashboard.class);
+                        ActivityUtil.gotoPage(Register.this, Login.class);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     }
                 }
