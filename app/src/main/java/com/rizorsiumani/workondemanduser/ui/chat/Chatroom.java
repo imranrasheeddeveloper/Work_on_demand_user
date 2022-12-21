@@ -2,6 +2,8 @@ package com.rizorsiumani.workondemanduser.ui.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -87,6 +89,8 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
                     hideLoading();
                     if (response.getData().getData().getMessages().size() > 0){
                         msgs = new ArrayList<>();
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(Chatroom.this, RecyclerView.VERTICAL, false);
+                        activityBinding.chat.setLayoutManager(layoutManager);
                         List<MessagesItem> messagesItems = response.getData().getData().getMessages();
                         for (int i = 0; i <= messagesItems.size() - 1; i++) {
 

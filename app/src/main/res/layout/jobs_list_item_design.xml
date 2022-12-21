@@ -3,26 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardCornerRadius="@dimen/_8sdp"
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/off_white"
-        android:padding="@dimen/_10sdp">
+        android:padding="@dimen/_6sdp">
 
 
-
-
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_60sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@color/teal_200"
+            app:shapeAppearanceOverlay="@style/roundedCorners"
+            android:scaleType="fitXY"
+            android:layout_marginEnd="@dimen/_3sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/service_image"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/service_image"
             style="@style/mediumText"
-            android:text="House Cleaning"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:text="-"
             android:textColor="@color/black"
             android:id="@+id/service_title"/>
 
@@ -35,8 +44,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/service_title"
             style="@style/normalText"
-            android:text="This text is an example of a text that can be replaced in the sameSpace"
-            android:layout_marginTop="5dp"/>
+            android:text="-"
+            />
 
 
 
@@ -46,8 +55,8 @@
             app:layout_constraintTop_toBottomOf="@id/ser_detail"
             app:layout_constraintStart_toStartOf="@id/ser_detail"
             style="@style/mediumText"
-            android:text="$30"
-            android:layout_marginTop="@dimen/_5sdp"
+            android:text="-"
+            android:layout_marginTop="@dimen/_2sdp"
             android:textColor="@color/primary"
             android:id="@+id/service_rate"/>
 
@@ -62,33 +71,37 @@
             android:textColor="@color/primary"
             android:id="@+id/service_budget_unit"/>
 
-        <Button
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/service_rate"
+            app:layout_constraintTop_toBottomOf="@id/service_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_cancel"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_3sdp"
-            android:background="@drawable/button_round_bg"
-            style="@style/greenButtonStyle"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:background="@drawable/rect_bg"
+            android:backgroundTint="@color/primary"
+            style="@style/mediumText"
             android:text="Alter Request"
-            android:padding="@dimen/_6sdp"
+            android:padding="@dimen/_8sdp"
             android:id="@+id/btn_alter"/>
 
-        <Button
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_3sdp"
-            android:background="@drawable/button_round_bg"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/service_rate"
+            android:gravity="center_horizontal"
+            android:background="@drawable/rect_bg"
+            android:backgroundTint="#f1f1f1"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/service_image"
             app:layout_constraintStart_toEndOf="@id/btn_alter"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/_14sdp"
-            style="@style/redButtonStyle"
-            android:padding="@dimen/_6sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            style="@style/mediumText"
+            android:padding="@dimen/_8sdp"
             android:text="Cancel Request"
             android:id="@+id/btn_cancel"/>
 

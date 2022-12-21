@@ -35,6 +35,8 @@ import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.filter.CategoryFilterAdapter;
+import com.rizorsiumani.workondemanduser.ui.inbox.Inbox;
+import com.rizorsiumani.workondemanduser.ui.inbox.InboxViewModel;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.ui.search_provider.SearchProvider;
 import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
@@ -65,6 +67,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
     List<HomeContentDataItem> contentDataItems;
     int count = 0;
     boolean isLocationPermissionGranted;
+    private InboxViewModel inboxViewModel;
 
 
     @Override
@@ -78,6 +81,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
         hideCartButton();
         Dashboard.hideTabs(false);
+        inboxViewModel = new ViewModelProvider(this).get(InboxViewModel.class);
 
         if (TinyDbManager.getCartData().size() > 0){
             fragmentBinding.homeCartButton.setVisibility(View.VISIBLE);
@@ -252,6 +256,32 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
             Constants.constant.isHome = false;
             ActivityUtil.gotoPage(requireContext(), SearchProvider.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        fragmentBinding.inboxIcon.setOnClickListener(view -> {
+            Constants.constant.isHome = false;
+            String token = prefRepository.getString("token");
+
+            inboxViewModel.isInboxExist(token, TinyDbManager.getUserInformation().getId());
+            inboxViewModel._is_exist.observe(getViewLifecycleOwner() , response -> {
+                if (response != null) {
+                    if (response.isLoading()) {
+                        showLoading();
+                    } else if (!response.getError().isEmpty()) {
+                        hideLoading();
+                        showSnackBarShort(response.getError());
+                    } else if (response.getData().isSuccess()) {
+                        hideLoading();
+                        if (response.getData().getInboxId() != 0) {
+                            hideNoDataAnimation();
+                            Intent intent = new Intent(requireContext(), Inbox.class);
+                            startActivity(intent);
+                            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        }
+                    }
+                }
+            });
+
         });
 
         fragmentBinding.tvSearch.setOnClickListener(view -> {
@@ -451,8 +481,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
     public void onDestroyView() {
         super.onDestroyView();
 
-
         viewModel._category.removeObservers(this);
+        inboxViewModel._is_exist.removeObservers(this);
+        inboxViewModel = null;
         viewModel = null;
     }
 

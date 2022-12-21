@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsDataItem;
 import com.rizorsiumani.workondemanduser.utils.Constants;
@@ -36,13 +38,22 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull JobsListAdapter.ViewHolder holder, int position) {
+        try {
+
         PostedJobsDataItem dataItem = list.get(position);
         holder.name.setText(dataItem.getTitle());
         holder.description.setText(dataItem.getDescription());
         holder.name.setText(dataItem.getBudget());
         holder.budget_unit.setText("("+ dataItem.getPriceUnit()+")");
         holder.budget.setText(Constants.constant.CURRENCY + dataItem.getBudget());
+        Glide.with(ctx)
+                .load(Constants.IMG_PATH + dataItem.getAttachment())
+                .placeholder(R.color.teal_200)
+                .into(holder.shapeableImageView);
 
+        }catch (NullPointerException | IllegalStateException | IllegalArgumentException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -51,8 +62,15 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
         return list.size();
     }
 
+    public interface OnItemClickListener{
+        void onCancel(int position);
+        void onUpdate(int position);
+    }
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name,description,budget,budget_unit;
+        public TextView name,description,budget,budget_unit, btnCancel, btnAlter;
+        public ShapeableImageView shapeableImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +79,17 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
             description = itemView.findViewById(R.id.ser_detail);
             budget = itemView.findViewById(R.id.service_rate);
             budget_unit = itemView.findViewById(R.id.service_budget_unit);
+            shapeableImageView = itemView.findViewById(R.id.service_image);
+            btnAlter = itemView.findViewById(R.id.btn_alter);
+            btnCancel = itemView.findViewById(R.id.btn_cancel);
+
+            btnCancel.setOnClickListener(v -> {
+
+            });
+
+            btnAlter.setOnClickListener(v -> {
+
+            });
 
         }
     }

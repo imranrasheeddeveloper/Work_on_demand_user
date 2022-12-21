@@ -38,4 +38,24 @@ public class ServiceProvider{
 	public String getFirstName(){
 		return firstName;
 	}
+
+	public void setProfilePhoto(String profilePhoto) {
+		this.profilePhoto = profilePhoto;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setActive(Object active) {
+		this.active = active;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 }

@@ -9,7 +9,7 @@ public class ServiceProviderDataItem {
 	private float distance;
 
 	@SerializedName("profile_photo")
-	private Object profilePhoto;
+	private String profilePhoto;
 
 	@SerializedName("service_provider_services")
 	private List<ServiceProviderServicesItem> serviceProviderServices;
@@ -39,7 +39,7 @@ public class ServiceProviderDataItem {
 		return distance;
 	}
 
-	public Object getProfilePhoto(){
+	public String getProfilePhoto(){
 		return profilePhoto;
 	}
 

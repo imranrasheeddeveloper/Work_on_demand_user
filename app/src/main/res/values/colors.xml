@@ -20,6 +20,8 @@
     <color name="transparent">#00000000</color>
     <color name="light_grey">#B8B8BC</color>
     <color name="red">#d1001f</color>
+    <color name="red_alpha">#ff5b74</color>
+
     <color name="hint_color">#afb4b8</color>
 
     <color name="red_active">#f44336</color>

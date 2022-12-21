@@ -22,6 +22,7 @@ public class Inbox extends BaseActivity<ActivityInboxBinding> {
 
     private InboxViewModel viewModel;
     List<InboxDataItem> list;
+    int inbox_id;
 
     @Override
     protected ActivityInboxBinding getActivityBinding() {
@@ -33,6 +34,7 @@ public class Inbox extends BaseActivity<ActivityInboxBinding> {
     protected void onStart() {
         super.onStart();
 
+        //inbox_id = getIntent().getStringExtra("inbox_id");
         viewModel = new ViewModelProvider(this).get(InboxViewModel.class);
         activityBinding.inboxToolbar.title.setText("Inbox");
         clickListeners();
@@ -89,7 +91,7 @@ public class Inbox extends BaseActivity<ActivityInboxBinding> {
             Gson gson = new Gson();
             String providerData = gson.toJson(list.get(position).getServiceProvider(), ServiceProvider.class);
             Intent intent = new Intent(Inbox.this, Chatroom.class);
-            intent.putExtra("inbox_id",list.get(position).getId());
+            intent.putExtra("inbox_id",String.valueOf(list.get(position).getId()));
             intent.putExtra("provider_detail",providerData);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

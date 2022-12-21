@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:background="@color/white"
-    android:padding="@dimen/_8sdp">
+    android:background="@color/purple_700"
+    android:padding="@dimen/_5sdp">
 
 
     <ImageView
@@ -15,11 +15,12 @@
         android:src="@drawable/back_arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_width="@dimen/_28sdp"
+        android:layout_height="@dimen/_28sdp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/back"
@@ -37,9 +38,9 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_medium"
         android:text="_"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        android:layout_marginStart="@dimen/_6sdp"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginStart="@dimen/_8sdp"
         app:layout_constraintBottom_toBottomOf="@id/back"
         app:layout_constraintStart_toEndOf="@id/chat_image"
         app:layout_constraintTop_toTopOf="@id/back" />

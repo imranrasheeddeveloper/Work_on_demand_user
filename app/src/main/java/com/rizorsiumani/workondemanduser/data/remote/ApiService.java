@@ -36,6 +36,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.WalletBalanceModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletTransactionsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.chat.GetAllMessageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.GetInboxModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.inbox.InboxExistModel;
 
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
@@ -218,4 +219,7 @@ public interface ApiService {
     Observable<GetAllMessageModel> get_messages(@Header("Authorization") String token,
                                                 @Path("id") int id);
 
+    @GET("messages/is_inbox_exist/{id}")
+    Observable<InboxExistModel> is_inbox_exsit(@Header("Authorization") String token,
+                                               @Path("id") int id);
 }

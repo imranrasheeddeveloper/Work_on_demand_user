@@ -40,8 +40,12 @@ import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.inbox.ServiceProvider;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServiceProviderMapsBinding;
 import com.rizorsiumani.workondemanduser.ui.chat.Chatroom;
+import com.rizorsiumani.workondemanduser.ui.inbox.Inbox;
+import com.rizorsiumani.workondemanduser.ui.inbox.InboxViewModel;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderViewModel;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 import com.rizorsiumani.workondemanduser.utils.Constants;
@@ -67,6 +71,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
     private ServiceProviderViewModel viewModel;
     ServiceProviderModel providerModel;
     String catID = "";
+    private InboxViewModel inboxViewModel;
 
 
     @Override
@@ -78,6 +83,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        inboxViewModel = new ViewModelProvider(this).get(InboxViewModel.class);
         initMap();
         markers = new ArrayList<>();
         layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -289,11 +295,38 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
         adapter.setOnProviderClickListener(new SpMapAdapter.ItemClickListener() {
             @Override
             public void onMessageClick(int position) {
-                Intent intent = new Intent(requireContext(), Chatroom.class);
-                intent.putExtra("service_provider_id",String.valueOf(serviceProviders.get(position).getId()));
-                intent.putExtra("service_provider_name",serviceProviders.get(position).getFirstName() + " " + serviceProviders.get(position).getLastName());
-                startActivity(intent);
-                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                String token = prefRepository.getString("token");
+                inboxViewModel.isInboxExist(token, TinyDbManager.getUserInformation().getId());
+                inboxViewModel._is_exist.observe(getViewLifecycleOwner() , response -> {
+                    if (response != null) {
+                        if (response.isLoading()) {
+                            showLoading();
+                        } else if (!response.getError().isEmpty()) {
+                            hideLoading();
+                            showSnackBarShort(response.getError());
+                        } else if (response.getData().isSuccess()) {
+                            hideLoading();
+                            if (response.getData().getInboxId() != 0) {
+                                hideNoDataAnimation();
+                                Gson gson = new Gson();
+                                ServiceProvider serviceProvider = new ServiceProvider();
+                                serviceProvider.setFirstName(serviceProviders.get(position).getFirstName());
+                                serviceProvider.setLastName(serviceProviders.get(position).getLastName());
+                                serviceProvider.setProfilePhoto(serviceProviders.get(position).getProfilePhoto());
+                                serviceProvider.setId(serviceProviders.get(position).getId());
+
+                                String providerData = gson.toJson(serviceProvider, ServiceProvider.class);
+
+                                Intent intent = new Intent(requireContext(), Chatroom.class);
+                                intent.putExtra("inbox_id",String.valueOf(response.getData().getInboxId()));
+                                intent.putExtra("provider_detail",providerData);
+                                startActivity(intent);
+                                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            }
+                        }
+                    }
+                });
+
             }
 
             @Override
