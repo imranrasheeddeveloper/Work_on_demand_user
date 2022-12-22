@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_4sdp"
     android:padding="@dimen/_8sdp"
-    android:background="@color/white"
+    android:background="#f4f4f4"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -37,7 +37,7 @@
         app:layout_constraintStart_toEndOf="@id/iv_inbox"
         app:layout_constraintTop_toBottomOf="@id/inbox_name"
         style="@style/normalText"
-        android:textColor="@color/light_gray"
+        android:textColor="@color/gray"
         android:text="This is the last message."
         android:layout_marginStart="@dimen/_10sdp"
         android:id="@+id/last_message"/>

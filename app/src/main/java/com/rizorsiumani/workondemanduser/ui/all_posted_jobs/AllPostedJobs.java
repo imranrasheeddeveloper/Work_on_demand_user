@@ -6,14 +6,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsDataItem;
 import com.rizorsiumani.workondemanduser.databinding.ActivityAllPostedJobsBinding;
 import com.rizorsiumani.workondemanduser.ui.address.AdressesAdapter;
+import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +75,24 @@ public class AllPostedJobs extends BaseActivity<ActivityAllPostedJobsBinding> {
         activityBinding.jobsList.setLayoutManager(layoutManager);
         adapter = new JobsListAdapter(AllPostedJobs.this, dataItems);
         activityBinding.jobsList.setAdapter(adapter);
+
+        adapter.setOnJobClickListener(new JobsListAdapter.OnItemClickListener() {
+            @Override
+            public void onCancel(int position) {
+                adapter.remove(position);
+            }
+
+            @Override
+            public void onUpdate(int position) {
+                Gson gson = new Gson();
+                String job_details = gson.toJson(dataItems.get(position),PostedJobsDataItem.class);
+                dataItems.get(position);
+                Intent intent = new Intent(AllPostedJobs.this, PostJob.class);
+                intent.putExtra("posted_job_detail", job_details);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
     }
 
     private void clickListeners() {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +21,11 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
 
     private final List<PostedJobsDataItem> list;
     private final Context ctx;
+    OnItemClickListener listener;
 
+    public void setOnJobClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public JobsListAdapter(Context context, List<PostedJobsDataItem> data) {
         this.ctx = context;
@@ -33,7 +36,7 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
     @Override
     public JobsListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.jobs_list_item_design, parent, false);
-        return new JobsListAdapter.ViewHolder(view);
+        return new JobsListAdapter.ViewHolder(view,listener);
     }
 
     @Override
@@ -67,12 +70,15 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
         void onUpdate(int position);
     }
 
-
+    public void remove(int position) {
+        list.remove(position);
+        notifyItemRemoved(position);
+    }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name,description,budget,budget_unit, btnCancel, btnAlter;
         public ShapeableImageView shapeableImageView;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
 
             name = itemView.findViewById(R.id.service_title);
@@ -84,11 +90,17 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
             btnCancel = itemView.findViewById(R.id.btn_cancel);
 
             btnCancel.setOnClickListener(v -> {
-
+               if (listener != null){
+                   if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                       listener.onCancel(getAdapterPosition());
+                   }
+               }
             });
 
             btnAlter.setOnClickListener(v -> {
-
+                if (getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onUpdate(getAdapterPosition());
+                }
             });
 
         }

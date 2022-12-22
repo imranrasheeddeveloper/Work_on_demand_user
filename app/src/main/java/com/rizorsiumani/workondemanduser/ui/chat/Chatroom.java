@@ -2,11 +2,17 @@ package com.rizorsiumani.workondemanduser.ui.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +26,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.chat.MessagesItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.ServiceProvider;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityChatroomBinding;
+import com.rizorsiumani.workondemanduser.utils.Configration;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
@@ -34,6 +41,7 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
     String token;
     private ArrayList<Object> msgs;
     ChatAdapter adapter;
+    private BroadcastReceiver mReceiver;
 
 
     @Override
@@ -67,6 +75,7 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
         getAllMessages();
         clickListener();
 
+        registerChatReceiver();
         activityBinding.chat.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
             if (bottom <= oldBottom) {
 
@@ -75,6 +84,20 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
         });
 
     }
+
+    private void registerChatReceiver() {
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                if (intent.getAction().equals(Configration.CHAT_MSG_NOTIFICATION)) {
+                    Log.e("Group Chat", "onReceive: reloaded");
+                    getAllMessages();
+                }
+            }
+        };
+    }
+
 
     private void getAllMessages() {
         viewModel.getMessages(token, Integer.parseInt(inboxID));
@@ -165,5 +188,18 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
                 });
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(Chatroom.this).registerReceiver(mReceiver,
+                new IntentFilter(Configration.CHAT_MSG_NOTIFICATION));
+    }
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(Chatroom.this).unregisterReceiver(mReceiver);
+        super.onPause();
     }
 }

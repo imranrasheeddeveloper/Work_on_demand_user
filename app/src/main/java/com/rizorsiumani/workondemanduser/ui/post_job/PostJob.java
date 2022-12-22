@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
@@ -40,6 +41,7 @@ import com.paulrybitskyi.valuepicker.model.PickerItem;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityPostJobBinding;
@@ -80,6 +82,8 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     private PostJobViewModel postJobViewModel;
     Uri imageUri;
     AlertDialog alertDialog1 = null;
+    PostedJobsDataItem postedJobsDataItem;
+
 
 
     @Override
@@ -90,6 +94,8 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     @Override
     protected void onStart() {
         super.onStart();
+
+
 
         homeViewModel = new ViewModelProvider(PostJob.this).get(HomeViewModel.class);
         subCategoryViewModel = new ViewModelProvider(PostJob.this).get(SubCategoryViewModel.class);
@@ -115,6 +121,14 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             }
         });
 
+        if (getIntent() != null){
+            Gson gson = new Gson();
+            String data = getIntent().getStringExtra("posted_job_detail");
+            postedJobsDataItem = gson.fromJson(data, PostedJobsDataItem.class);
+            if (postedJobsDataItem != null){
+                setData(postedJobsDataItem);
+            }
+        }
 
         clickListeners();
         if (TinyDbManager.getTiming() != null) {
@@ -147,6 +161,35 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
         }
 
+    }
+
+    private void setData(PostedJobsDataItem postedJobsDataItem) {
+        try {
+
+            activityBinding.edTitle.setText(postedJobsDataItem.getTitle());
+            activityBinding.edBudget.setText(postedJobsDataItem.getBudget());
+            activityBinding.edDescribe.setText(postedJobsDataItem.getDescription());
+            Glide.with(PostJob.this).load(Constants.IMG_PATH + postedJobsDataItem.getAttachment()).into(activityBinding.ivAddImage);
+            activityBinding.ivAddImage.setBackgroundResource(R.drawable.rect_bg);
+            activityBinding.deleteImage.setVisibility(View.VISIBLE);
+            for (int i = 0; i < categoriesDataItems.size(); i++) {
+                if (categoriesDataItems.get(i).getId() == postedJobsDataItem.getCategoryId()){
+                    activityBinding.selectedCategory.setText(categoriesDataItems.get(i).getTitle());
+                }
+            }
+            for (int i = 0; i < subCategoryDataItems.size(); i++) {
+                if (subCategoryDataItems.get(i).getId() == postedJobsDataItem.getSubCategoryId()){
+                    activityBinding.selectedSubcategory.setText(subCategoryDataItems.get(i).getTitle());
+                }
+            }
+            activityBinding.selectedBudgetUnit.setText(postedJobsDataItem.getPriceUnit());
+
+
+
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     private ArrayList<String> getList() {

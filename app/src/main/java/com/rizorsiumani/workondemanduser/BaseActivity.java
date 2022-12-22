@@ -53,10 +53,6 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
 
         setupUI(activityBinding.getRoot());
 
-//        try {
-//        }catch (NullPointerException | NumberFormatException |IllegalStateException e){
-//            e.printStackTrace();
-//        }
 
         if (TinyDbManager.getCartData().size() > 0) {
             cartView.setVisibility(View.VISIBLE);
