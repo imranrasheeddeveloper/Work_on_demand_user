@@ -7,7 +7,7 @@
     tools:context=".ui.job_timing.JobTiming">
 
     <include
-        android:id="@+id/searched_toolbar"
+        android:id="@+id/timing_toolbar"
         layout="@layout/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searched_toolbar">
+        app:layout_constraintTop_toBottomOf="@id/timing_toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -72,9 +72,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginBottom="@dimen/_8sdp"
-                app:layout_constraintBottom_toTopOf="@id/btn_confirm"
+                app:layout_constraintBottom_toTopOf="@id/iv_add_time"
                 android:id="@+id/timeList"/>
-
+            <ImageView
+                android:layout_width="@dimen/_38sdp"
+                android:layout_height="@dimen/_38sdp"
+                app:layout_constraintBottom_toTopOf="@id/btn_confirm"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/add"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:padding="@dimen/_6sdp"
+                android:background="@drawable/rating_bg1"
+                android:backgroundTint="@color/primary"
+                android:id="@+id/iv_add_time"/>
             <Button
                 android:id="@+id/btn_confirm"
                 android:layout_width="match_parent"

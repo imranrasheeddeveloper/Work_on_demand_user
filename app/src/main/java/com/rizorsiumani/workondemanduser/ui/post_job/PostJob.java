@@ -274,9 +274,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             ActivityUtil.gotoPage(PostJob.this, JobTiming.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-//            com.rizorsiumani.workondemanduser.utils.DatePicker mDatePickerDialogFragment;
-//            mDatePickerDialogFragment = new com.rizorsiumani.workondemanduser.utils.DatePicker();
-//            mDatePickerDialogFragment.show(getSupportFragmentManager(), "Select Date");
         });
 
         activityBinding.btnPost.setOnClickListener(view -> {
@@ -302,6 +299,8 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                         showSnackBarShort("Select Sub Category");
                     } else if (selectedBudgetUnit == null) {
                         showSnackBarShort("Select Budget unit");
+                    }else if (TinyDbManager.getTiming() == null) {
+                        showSnackBarShort("Add Your Timing");
                     } else {
                         uploadImage(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, date);
                     }

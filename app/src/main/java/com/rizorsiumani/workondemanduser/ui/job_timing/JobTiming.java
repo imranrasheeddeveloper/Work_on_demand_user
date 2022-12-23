@@ -1,6 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.job_timing;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityJobTimingBinding;
+import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +40,8 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
     @Override
     protected void onStart() {
         super.onStart();
+
+        activityBinding.timingToolbar.title.setText("Add Timing");
         mainList = new ArrayList<>();
         dayTimeModelList = new ArrayList<>();
         mainTimeList = new ArrayList<>();
@@ -46,7 +50,7 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
     }
 
     private void clickListeners() {
-        activityBinding.searchedToolbar.back.setOnClickListener(view -> {
+        activityBinding.timingToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
@@ -60,7 +64,7 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
             finish();
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         });
-        activityBinding.tvAddTime.setOnClickListener(view -> {
+        activityBinding.ivAddTime.setOnClickListener(view -> {
             callTimePickerDialogue();
         });
     }
@@ -141,8 +145,8 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
 
     private void timeSlotsRv(List<TimeItem> list) {
 
-        LinearLayoutManager llm = new LinearLayoutManager(JobTiming.this, RecyclerView.VERTICAL, false);
-        activityBinding.timeList.setLayoutManager(llm);
+        GridLayoutManager layoutManager = new GridLayoutManager(JobTiming.this, 2);
+        activityBinding.timeList.setLayoutManager(layoutManager);
         TimeSlotsAdapter1 adapter = new TimeSlotsAdapter1(JobTiming.this, list);
         adapter.notifyDataSetChanged();
         activityBinding.timeList.setAdapter(adapter);

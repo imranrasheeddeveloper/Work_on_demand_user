@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.BaseActivity;
@@ -66,12 +67,16 @@ public class SearchProvider extends BaseActivity<ActivitySearchProviderBinding> 
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                if (i2 == 0) {
+                    activityBinding.list.setVisibility(View.GONE);
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().isEmpty()){
+                    activityBinding.list.setVisibility(View.GONE);
+                    showLoading();
                     getSearchedData(editable.toString());
                 }
             }
@@ -97,14 +102,15 @@ public class SearchProvider extends BaseActivity<ActivitySearchProviderBinding> 
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
 
-                    hideLoading();
                     if (response.getData().getData().size() > 0) {
-                       // hideNoDataAnimation();
+                        hideNoDataAnimation();
                         serviceProviders = new ArrayList<>();
                         serviceProviders.addAll(response.getData().getData());
                         buildRv(serviceProviders);
                     } else {
-                        showSnackBarShort("No Data For " + data);
+                        hideLoading();
+                        showNoDataAnimation();
+                        activityBinding.list.setVisibility(View.GONE);
                     }
                 }
 
@@ -117,6 +123,8 @@ public class SearchProvider extends BaseActivity<ActivitySearchProviderBinding> 
         activityBinding.list.setLayoutManager(layoutManager);
         ServiceProviderAdapter adapter = new ServiceProviderAdapter(serviceProviders, SearchProvider.this);
         activityBinding.list.setAdapter(adapter);
+        hideLoading();
+        activityBinding.list.setVisibility(View.VISIBLE);
 
         adapter.setOnProviderSelectListener(position -> {
             Intent intent = new Intent(SearchProvider.this, SpProfile.class);

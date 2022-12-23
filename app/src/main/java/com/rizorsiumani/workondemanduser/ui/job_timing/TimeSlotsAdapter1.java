@@ -44,8 +44,8 @@ public class TimeSlotsAdapter1 extends RecyclerView.Adapter<TimeSlotsAdapter1.Vi
         TimeItem itemModel = data.get(position);
 
         if (itemModel != null){
-            holder.froTime.setText(itemModel.getFromTime());
-            holder.toTime.setText(itemModel.getToTime());
+            holder.froTime.setText(itemModel.getFromTime() + " " + itemModel.getFromTime());
+
         }
 
 
@@ -72,8 +72,8 @@ public class TimeSlotsAdapter1 extends RecyclerView.Adapter<TimeSlotsAdapter1.Vi
         public ViewHolder(@NonNull View itemView, TimeSlotsAdapter1.OnItemClickListener itemClickListener) {
             super(itemView);
 
-            toTime = itemView.findViewById(R.id.toTime);
-            froTime = itemView.findViewById(R.id.fromTime);
+           // toTime = itemView.findViewById(R.id.toTime);
+            froTime = itemView.findViewById(R.id.time_value);
             card = itemView.findViewById(R.id.slotCard);
             
 

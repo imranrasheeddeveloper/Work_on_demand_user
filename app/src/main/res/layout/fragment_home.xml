@@ -198,9 +198,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_6sdp"
-                        android:text="search for services"
+                        android:text="search for providers"
                         android:textColor="@color/hint_color"
-                        android:textSize="13sp"
+                        android:textSize="11sp"
                         app:layout_constraintBottom_toBottomOf="@id/search_icon"
                         app:layout_constraintStart_toEndOf="@id/search_icon"
                         app:layout_constraintTop_toTopOf="@id/search_icon" />

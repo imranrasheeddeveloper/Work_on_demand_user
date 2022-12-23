@@ -96,19 +96,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         sliderViewModel = new ViewModelProvider(this).get(SliderViewModel.class);
         homeContentViewModel = new ViewModelProvider(this).get(HomeContentViewModel.class);
-//        if (isLocationPermissionGranted) {
-//            locationHandler();
-//        } else {
-//            fragmentBinding.view2.setVisibility(View.GONE);
-//            fragmentBinding.toolbar.setBackgroundResource(R.color.transparent);
-//            fragmentBinding.title.setTextColor(Color.parseColor("#00000000"));
-//            fragmentBinding.imageSlider.setVisibility(View.GONE);
-//
-//            fragmentBinding.appBar.setLiftableOverrideEnabled(false);
-//            fragmentBinding.homeContent.setVisibility(View.GONE);
-//            fragmentBinding.permissionMissing.setVisibility(View.VISIBLE);
-//           // isLocationPermissionGranted = LocationService.service.requestLocationPermission(requireContext());
-//        }
+
 
         if (Constants.constant.isLocationPermissionGranted) {
             locationHandler();
