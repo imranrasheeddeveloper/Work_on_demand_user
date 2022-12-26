@@ -297,7 +297,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
             @Override
             public void onMessageClick(int position) {
                 String token = prefRepository.getString("token");
-                inboxViewModel.isInboxExist(token, TinyDbManager.getUserInformation().getId());
+                inboxViewModel.isInboxExist(token, serviceProviders.get(position).getId());
                 inboxViewModel._is_exist.observe(getViewLifecycleOwner() , response -> {
                     if (response != null) {
                         if (response.isLoading()) {

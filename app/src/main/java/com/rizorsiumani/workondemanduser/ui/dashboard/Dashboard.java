@@ -71,7 +71,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Bookings").setIcon(R.drawable.ic_booking).setId(1));
         binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Post").setIcon(R.drawable.ic_add).setId(2));
         binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Wallet").setIcon(R.drawable.ic_wallet).setId(3));
-        //binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Chats").setIcon(R.drawable.message_icon).setId(3));
         binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Profile").setIcon(R.drawable.ic_profile).setId(4));
         binding.bottomNavigation.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -83,13 +82,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         } else {
             requestPermission();
         }
-
-//        isLocationPermissionGranted = LocationService.service.requestLocationPermission(Dashboard.this);
-//        if (!Constants.constant.isLocationPermissionGranted){
-//            binding.servicesSuspendLayout.setVisibility(View.VISIBLE);
-//        }else {
-//            locationHandler();
-//        }
 
         binding.turnOnLocationService.setOnClickListener(view -> {
             checkRunTimePermission();
@@ -103,16 +95,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
 
         binding.navigation.homeFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
 
-        NavOptions.Builder builder = new NavOptions.Builder()
-                .setLaunchSingleTop(true)
-                .setEnterAnim(R.anim.slide_in_right)
-                .setExitAnim(R.anim.slide_out_left)
-                .setPopEnterAnim(R.anim.slide_in_left)
-                .setPopExitAnim(R.anim.slide_out_right);
-
-        options = builder.build();
-
-        //clickListeners(options);
 
         if (getIntent() != null) {
             String nav = getIntent().getStringExtra("Navigation");
@@ -139,14 +121,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
                         Intent intent = new Intent(Dashboard.this, PostJob.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
-//                        NavOptions.Builder builder = new NavOptions.Builder()
-//                                .setEnterAnim(R.anim.slide_up)
-//                                .setExitAnim(R.anim.stationary)
-//                                .setPopEnterAnim(R.anim.slide_down)
-//                                .setPopExitAnim(R.anim.stationary);
-//
-//                        NavOptions options1 = builder.build();
-//                        mNavController.navigate(R.id.postJob,null, options1);
                         break;
                     case 3:
                         mNavController.navigate(R.id.walletFragment, null);
@@ -169,9 +143,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
 
             }
         });
-
-        //checkAndRequestPermissions();
-
 
     }
 
@@ -264,57 +235,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         }
     }
 
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(Dashboard.this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
-    }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == 001) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Constants.constant.isLocationPermissionGranted = true;
-//                locationHandler();
-//
-//            } else {
-//                if (!ActivityCompat.shouldShowRequestPermissionRationale(Dashboard.this, ACCESS_FINE_LOCATION)) {
-//                    // If User Checked 'Don't Show Again' checkbox for runtime permission, then navigate user to Settings
-//                    AlertDialog.Builder dialog = new AlertDialog.Builder(Dashboard.this);
-//                    dialog.setTitle("Permission Required");
-//                    dialog.setCancelable(false);
-//                    dialog.setMessage("You have to Allow permission to access user location");
-//                    dialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package",
-//                                    Dashboard.this.getPackageName(), null));
-//                            //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            startActivityForResult(i, 1001);
-//
-//                        }
-//                    });
-//                    AlertDialog alertDialog = dialog.create();
-//                    alertDialog.show();
-//                }
-//                //code for deny
-//            }
-//        }
-//        if (requestCode == 11) {
-//            if (ContextCompat.checkSelfPermission(Dashboard.this,
-//                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(getApplicationContext(),
-//                        "FlagUp Requires Access to Your Storage.",
-//                        Toast.LENGTH_SHORT).show();
-//            } else {
-//            }
-//        }
-//    }
-
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
@@ -335,72 +255,6 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
             default:
                 break;
         }
-    }
-
-
-//    private void clickListeners(NavOptions options) {
-//        binding.navigation.bookingFragment.setOnClickListener(view -> {
-//            changeIconColor( binding.navigation.bookingFragment,
-//                    binding.navigation.walletFragment,
-//                    binding.navigation.profileFragment,
-//                    binding.navigation.homeFragment
-//            );
-//            binding.navigation.bookingFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
-//
-//            mNavController.navigate(R.id.bookingFragment,null, options);
-//        });
-//
-//        binding.navigation.walletFragment.setOnClickListener(view -> {
-//            changeIconColor( binding.navigation.walletFragment,
-//                    binding.navigation.bookingFragment,
-//                    binding.navigation.profileFragment,
-//                    binding.navigation.homeFragment
-//            );
-//            mNavController.navigate(R.id.walletFragment,null, options);
-//
-//        });
-//
-//        binding.navigation.profileFragment.setOnClickListener(view -> {
-//            changeIconColor( binding.navigation.profileFragment,
-//                    binding.navigation.walletFragment,
-//                    binding.navigation.bookingFragment,
-//                    binding.navigation.homeFragment
-//            );
-//            mNavController.navigate(R.id.profileFragment,null,options);
-//
-//        });
-//
-//        binding.navigation.homeFragment.setOnClickListener(view -> {
-//            changeIconColor( binding.navigation.homeFragment,
-//                    binding.navigation.walletFragment,
-//                    binding.navigation.profileFragment,
-//                    binding.navigation.bookingFragment
-//            );
-//            mNavController.navigate(R.id.homeFragment,null, options);
-//
-//        });
-//
-//        binding.navigation.postJob.setOnClickListener(view -> {
-//            NavOptions.Builder builder = new NavOptions.Builder()
-//                    .setLaunchSingleTop(true)
-//                    .setEnterAnim(R.anim.slide_up)
-//                    .setExitAnim(R.anim.stationary)
-//                    .setPopEnterAnim(R.anim.slide_down)
-//                    .setPopExitAnim(R.anim.stationary);
-//
-//            NavOptions options1 = builder.build();
-//            mNavController.navigate(R.id.postJob,null, options1);
-//
-//        });
-//
-//
-//    }
-
-    public static void changeIconColor(ImageView selectedTab, ImageView unselectedTab1, ImageView unselectedTab2, ImageView unselectedTab3) {
-        selectedTab.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
-        unselectedTab1.setImageTintList(ColorStateList.valueOf(Color.parseColor("#8D8D8D")));
-        unselectedTab2.setImageTintList(ColorStateList.valueOf(Color.parseColor("#8D8D8D")));
-        unselectedTab3.setImageTintList(ColorStateList.valueOf(Color.parseColor("#8D8D8D")));
     }
 
 

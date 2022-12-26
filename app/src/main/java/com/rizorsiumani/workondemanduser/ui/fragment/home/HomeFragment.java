@@ -247,28 +247,31 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         });
 
         fragmentBinding.inboxIcon.setOnClickListener(view -> {
-            Constants.constant.isHome = false;
-            String token = prefRepository.getString("token");
-
-            inboxViewModel.isInboxExist(token, TinyDbManager.getUserInformation().getId());
-            inboxViewModel._is_exist.observe(getViewLifecycleOwner() , response -> {
-                if (response != null) {
-                    if (response.isLoading()) {
-                        showLoading();
-                    } else if (!response.getError().isEmpty()) {
-                        hideLoading();
-                        showSnackBarShort(response.getError());
-                    } else if (response.getData().isSuccess()) {
-                        hideLoading();
-                        if (response.getData().getInboxId() != 0) {
-                            hideNoDataAnimation();
-                            Intent intent = new Intent(requireContext(), Inbox.class);
-                            startActivity(intent);
-                            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        }
-                    }
-                }
-            });
+            Intent intent = new Intent(requireContext(), Inbox.class);
+            startActivity(intent);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//            Constants.constant.isHome = false;
+//            String token = prefRepository.getString("token");
+//
+//            inboxViewModel.isInboxExist(token, );
+//            inboxViewModel._is_exist.observe(getViewLifecycleOwner() , response -> {
+//                if (response != null) {
+//                    if (response.isLoading()) {
+//                        showLoading();
+//                    } else if (!response.getError().isEmpty()) {
+//                        hideLoading();
+//                        showSnackBarShort(response.getError());
+//                    } else if (response.getData().isSuccess()) {
+//                        hideLoading();
+//                        if (response.getData().getInboxId() != 0) {
+//                            hideNoDataAnimation();
+//                            Intent intent = new Intent(requireContext(), Inbox.class);
+//                            startActivity(intent);
+//                            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                        }
+//                    }
+//                }
+//            });
 
         });
 
