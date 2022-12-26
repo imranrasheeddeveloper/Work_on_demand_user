@@ -299,7 +299,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                         showSnackBarShort("Select Sub Category");
                     } else if (selectedBudgetUnit == null) {
                         showSnackBarShort("Select Budget unit");
-                    }else if (TinyDbManager.getTiming() == null) {
+                    }else if (TinyDbManager.getTiming().size() == 0) {
                         showSnackBarShort("Add Your Timing");
                     } else {
                         uploadImage(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, date);
@@ -359,6 +359,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 } else if (response.getData().isSuccess()) {
                     hideLoading();
                     showSnackBarShort(response.getData().getMessage());
+                    TinyDbManager.clearTiming();
                     Intent intent = new Intent(PostJob.this, Dashboard.class);
                     startActivity(intent);
                     finish();
@@ -520,7 +521,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                     hideLoading();
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getMessage() != null) {
-                    showSnackBarShort(response.getData().getMessage());
+                   // showSnackBarShort(response.getData().getMessage());
                     imagesPath = response.getData().getFilePATH();
                     postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, imagesPath, date);
                 }

@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -419,17 +420,12 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
     }
 
     public static void goToWallet() {
-        binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#8D8D8D"), PorterDuff.Mode.SRC_IN);
-        binding.bottomNavigation.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#8D8D8D"), PorterDuff.Mode.SRC_IN);
-        binding.bottomNavigation.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
-
+        binding.bottomNavigation.getTabAt(3).select();
         mNavController.navigate(R.id.walletFragment, null, options);
     }
 
     public static void goToBooking() {
-        binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#8D8D8D"), PorterDuff.Mode.SRC_IN);
-        binding.bottomNavigation.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
-
+        binding.bottomNavigation.getTabAt(1).select();
         mNavController.navigate(R.id.bookingFragment, null);
     }
 

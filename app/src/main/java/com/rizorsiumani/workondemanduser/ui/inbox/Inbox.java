@@ -91,6 +91,7 @@ public class Inbox extends BaseActivity<ActivityInboxBinding> {
             Gson gson = new Gson();
             String providerData = gson.toJson(list.get(position).getServiceProvider(), ServiceProvider.class);
             Intent intent = new Intent(Inbox.this, Chatroom.class);
+            intent.putExtra("maps","false");
             intent.putExtra("inbox_id",String.valueOf(list.get(position).getId()));
             intent.putExtra("provider_detail",providerData);
             startActivity(intent);

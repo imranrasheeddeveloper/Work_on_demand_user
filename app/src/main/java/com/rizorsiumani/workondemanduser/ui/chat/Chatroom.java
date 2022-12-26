@@ -26,6 +26,9 @@ import com.rizorsiumani.workondemanduser.data.businessModels.chat.MessagesItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.ServiceProvider;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityChatroomBinding;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
+import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
+import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
 import com.rizorsiumani.workondemanduser.utils.Configration;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
@@ -42,6 +45,7 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
     private ArrayList<Object> msgs;
     ChatAdapter adapter;
     private BroadcastReceiver mReceiver;
+    String isFromMapScreen;
 
 
     @Override
@@ -58,6 +62,7 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
         try {
             inboxID = getIntent().getStringExtra("inbox_id");
             String data = getIntent().getStringExtra("provider_detail");
+            isFromMapScreen = getIntent().getStringExtra("maps");
             Gson gson = new Gson();
             provider = gson.fromJson(data, ServiceProvider.class);
 
@@ -201,5 +206,20 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
     public void onPause() {
         LocalBroadcastManager.getInstance(Chatroom.this).unregisterReceiver(mReceiver);
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+////        if (isFromMapScreen.equalsIgnoreCase("true")) {
+////            Intent intent = new Intent(Chatroom.this, Serviceproviders.class);
+////            startActivity(intent);
+////            finish();
+////            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+////        }else {
+//            onBackPressed();
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
     }
 }

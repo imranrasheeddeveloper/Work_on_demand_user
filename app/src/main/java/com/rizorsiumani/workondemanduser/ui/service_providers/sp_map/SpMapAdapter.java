@@ -47,7 +47,10 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
       try {
         ServiceProviderDataItem dataItem = list.get(position);
         holder.name.setText(dataItem.getFirstName() + " " + dataItem.getLastName());
-        Glide.with(ctx).load(Constants.IMG_PATH + dataItem.getProfilePhoto()).into(holder.imageView);
+        Glide.with(ctx)
+                .load(Constants.IMG_PATH + dataItem.getProfilePhoto())
+                .placeholder(R.color.placeholder_bg)
+                .into(holder.imageView);
         if (dataItem.getServiceProviderServices() != null && dataItem.getServiceProviderServices().size() > 0) {
             holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
             holder.budget.setText(Constants.constant.CURRENCY + dataItem.getServiceProviderServices().get(0).getPrice());

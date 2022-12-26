@@ -142,8 +142,8 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
                 if (catID != null){
                     viewModel = new ViewModelProvider(this).get(ServiceProviderViewModel.class);
                     JsonObject object = new JsonObject();
-                    object.addProperty("latitude", "31.510376");
-                    object.addProperty("longitude", "74.339676");
+                    object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
+                    object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
                     object.addProperty("category_id", catID);
                     String token = prefRepository.getString("token");
                     viewModel.catServiceProviders(1, token, object);
@@ -159,6 +159,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
                                 if (response.getData().getData().size() > 0) {
                                     serviceProviders = new ArrayList<>();
                                     serviceProviders.addAll(response.getData().getData());
+                                    buildRv(serviceProviders);
                                 } else {
                                     showSnackBarShort("Data not Available");
                                 }
@@ -319,6 +320,7 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
                                 Intent intent = new Intent(requireContext(), Chatroom.class);
                                 intent.putExtra("inbox_id",String.valueOf(response.getData().getInboxId()));
+                                intent.putExtra("maps","true");
                                 intent.putExtra("provider_detail",providerData);
                                 startActivity(intent);
                                 requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

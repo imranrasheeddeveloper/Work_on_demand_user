@@ -207,4 +207,13 @@ public class TinyDbManager {
         }
         return timeModels;
     }
+
+    public static void clearTiming() {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        ArrayList<Object> previousItems = tinyDB.getListObject(KEY_TIMING, AvailabilitiesItem.class);
+        previousItems.clear();
+        tinyDB.putListObject(KEY_TIMING, previousItems);
+        Log.e("TIMING", previousItems.size() + " Timing List cleared successfully!");
+
+    }
 }
