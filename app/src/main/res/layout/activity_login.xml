@@ -225,7 +225,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
-                    android:hint="2378723"
+                    android:hint="Enter number"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:inputType="number"

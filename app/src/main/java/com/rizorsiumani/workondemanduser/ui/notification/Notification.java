@@ -111,7 +111,7 @@ public class Notification extends BaseActivity<ActivityNotificationBinding> {
                         notificationDataItems.addAll(response.getData().getData());
                         buildRv(notificationDataItems);
                     }else {
-                        showNoDataAnimation();
+                        showNoDataAnimation(R.raw.bell,"No Notification");
                         flag_loading = false;
 
                     }

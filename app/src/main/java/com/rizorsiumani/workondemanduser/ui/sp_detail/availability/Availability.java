@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.rizorsiumani.workondemanduser.BaseFragment;
+import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentAvailabilityBinding;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ProviderDetailViewModel;
@@ -59,7 +60,7 @@ public class Availability extends BaseFragment<FragmentAvailabilityBinding> {
                         lst.addAll(response.getData().getData());
                         buildRv(lst);
                     } else {
-                        showNoDataAnimation();
+                        showNoDataAnimation(R.raw.no_job,"Not Added Yet");
                     }
                 }
             }

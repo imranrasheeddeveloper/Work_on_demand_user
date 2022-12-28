@@ -82,7 +82,7 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
                             transactionsDataItemList.addAll(response.getData().getData());
                             transactionsRv(transactionsDataItemList);
                         }else {
-                            showNoDataAnimation();
+                            showNoDataAnimation(R.raw.no_transaction,"No Transaction");
                         }
                     }
                 }

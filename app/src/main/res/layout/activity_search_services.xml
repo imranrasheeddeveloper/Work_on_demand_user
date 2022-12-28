@@ -41,7 +41,7 @@
                 android:backgroundTint="@color/light_grey1"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="@dimen/_8sdp"
-                android:hint="search anything"
+                android:hint="search services"
                 android:padding="@dimen/_10sdp"
                 android:maxLines="1"
                 android:ellipsize="end"

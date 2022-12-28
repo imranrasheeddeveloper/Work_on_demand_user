@@ -166,7 +166,7 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                         buildList(dataItems, status);
                     } else {
                         flag_loading = false;
-                        showNoDataAnimation();
+                        showNoDataAnimation(R.raw.no_job,"No Booking");
                         fragmentBinding.bookingList.setVisibility(View.GONE);
 
                     }

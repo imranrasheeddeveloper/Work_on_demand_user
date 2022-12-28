@@ -14,6 +14,7 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
+import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServicesDataItem;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServicesBinding;
@@ -64,7 +65,7 @@ public class Services extends BaseFragment<FragmentServicesBinding> {
                        servicesList.addAll(response.getData().getData());
                         buildRv(servicesList);
                     }else {
-                        showNoDataAnimation();
+                        showNoDataAnimation(R.raw.no_job,"No Services");
                     }
                 }
             }

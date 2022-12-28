@@ -187,6 +187,9 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
                             showSnackBarShort(response.getError());
                         } else if (response.getData().isSuccess()) {
                             hideLoading();
+                            if (msgs == null){
+                                msgs = new ArrayList<>();
+                            }
                             msgs.add(new SenderModel(message, Calendar.getInstance().getTime().toString()));
 
                             if (msgs.size() == 1){

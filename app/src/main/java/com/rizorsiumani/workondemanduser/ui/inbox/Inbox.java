@@ -65,12 +65,11 @@ public class Inbox extends BaseActivity<ActivityInboxBinding> {
                             setInboxRv(list);
                         }
                     }else {
-                        showNoDataAnimation();
+                        showNoDataAnimation(R.raw.empty_inbox,"No Chat");
                     }
                 }
             }
         });
-
 
     }
 

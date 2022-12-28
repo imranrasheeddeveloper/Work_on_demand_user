@@ -46,6 +46,7 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
     protected PreferenceRepository prefRepository = null;
     private LottieAnimationView animationView;
     TextView cartItem;
+    TextView noDataMessage;
     String cartTotal;
     BookingsViewModel viewModel;
     AlertDialog.Builder dialogBuilder;
@@ -62,6 +63,7 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
         progressBar = fragmentBinding.getRoot().findViewById(R.id.progressBar);
         cartView = fragmentBinding.getRoot().findViewById(R.id.cartButton);
         animationView = fragmentBinding.getRoot().findViewById(R.id.no_data_animation);
+        noDataMessage = fragmentBinding.getRoot().findViewById(R.id.tv_no_data);
         cartItem = fragmentBinding.getRoot().findViewById(R.id.cartCount);
 
 
@@ -123,12 +125,17 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
         }
     }
 
-    protected void showNoDataAnimation() {
+    protected void showNoDataAnimation(int rawFile,String message) {
+        animationView.setAnimation(rawFile);
         animationView.setVisibility(View.VISIBLE);
+        animationView.playAnimation();
+        noDataMessage.setText(message);
+        noDataMessage.setVisibility(View.VISIBLE);
     }
 
     protected void hideNoDataAnimation() {
         animationView.setVisibility(View.GONE);
+        noDataMessage.setVisibility(View.GONE);
     }
     protected void showLoading() {
         progressBar.setVisibility(View.VISIBLE);

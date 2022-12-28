@@ -109,7 +109,7 @@ public class SearchProvider extends BaseActivity<ActivitySearchProviderBinding> 
                         buildRv(serviceProviders);
                     } else {
                         hideLoading();
-                        showNoDataAnimation();
+                        showNoDataAnimation(R.raw.no_job,"No Service Provider");
                         activityBinding.list.setVisibility(View.GONE);
                     }
                 }

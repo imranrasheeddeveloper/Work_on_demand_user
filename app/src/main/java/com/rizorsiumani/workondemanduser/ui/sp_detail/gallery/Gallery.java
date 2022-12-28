@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.rizorsiumani.workondemanduser.BaseFragment;
+import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.GalleryDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentGalleryBinding;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ProviderDetailViewModel;
@@ -53,7 +54,7 @@ public class Gallery extends BaseFragment<FragmentGalleryBinding> {
                          galleryDataItems.addAll(response.getData().getData());
                          buildRv(galleryDataItems);
                     }else {
-                        showNoDataAnimation();
+                        showNoDataAnimation(R.raw.no_job,"Empty Gallery");
                     }
                 }
             }

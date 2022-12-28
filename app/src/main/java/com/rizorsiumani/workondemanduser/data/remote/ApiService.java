@@ -35,6 +35,9 @@ import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletBalanceModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletTransactionsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.chat.GetAllMessageModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.ConversationModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.MessagesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.SendSupportMessageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.GetInboxModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.InboxExistModel;
 
@@ -222,4 +225,20 @@ public interface ApiService {
     @GET("messages/is_inbox_exist/{id}")
     Observable<InboxExistModel> is_inbox_exsit(@Header("Authorization") String token,
                                                @Path("id") int id);
+
+    @GET("api/v1/accounts/{account_id}/conversations/{conversation_id}/messages")
+    Observable<MessagesModel> get_support_chat(@Header("api_access_token") String apiKey,
+                                               @Path("account_id") int  account_id ,
+                                               @Path("conversation_id") int conversation_id);
+
+    @POST("api/v1/accounts/{account_id}/conversations")
+    Observable<ConversationModel> createConversation(@Header("api_access_token") String apiKey,
+                                                     @Path("account_id") int  account_id ,
+                                                     @Body JsonObject object);
+
+    @POST("api/v1/accounts/{account_id}/conversations/{conversation_id}/messages")
+    Observable<SendSupportMessageModel> sendSupportQuery(@Header("api_access_token") String apiKey,
+                                                         @Path("conversation_id") int conversation_id,
+                                                         @Path("account_id") int  account_id ,
+                                                         @Body JsonObject object);
 }

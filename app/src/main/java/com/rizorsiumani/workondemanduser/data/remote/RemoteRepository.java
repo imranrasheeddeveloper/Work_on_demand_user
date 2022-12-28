@@ -36,6 +36,9 @@ import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletBalanceModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletTransactionsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.chat.GetAllMessageModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.ConversationModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.MessagesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.SendSupportMessageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.GetInboxModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.InboxExistModel;
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
@@ -423,6 +426,27 @@ public class RemoteRepository {
     public Observable<InboxExistModel> inboxExist(String token, int id) {
         if (mService != null) {
             return mService.is_inbox_exsit(token,id);
+        }
+        return null;
+    }
+
+    public Observable<MessagesModel> getSupportChat(String token, int accountID, int conversationID) {
+        if (mService != null) {
+            return mService.get_support_chat(token,accountID,conversationID);
+        }
+        return null;
+    }
+
+    public Observable<ConversationModel> create_conversation(String token, int account_id, JsonObject object) {
+        if (mService != null) {
+            return mService.createConversation(token,account_id,object);
+        }
+        return null;
+    }
+
+    public Observable<SendSupportMessageModel> send_support_message(String token, int conversation_id, int account_id, JsonObject object) {
+        if (mService != null) {
+            return mService.sendSupportQuery(token,conversation_id,account_id,object);
         }
         return null;
     }

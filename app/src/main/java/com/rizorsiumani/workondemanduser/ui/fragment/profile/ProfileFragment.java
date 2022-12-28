@@ -24,6 +24,7 @@ import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
 import com.rizorsiumani.workondemanduser.ui.login.Login;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
+import com.rizorsiumani.workondemanduser.ui.support_chat.SupportChat;
 import com.rizorsiumani.workondemanduser.ui.webview.WebView;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.AppBarStateChangeListener;
@@ -128,6 +129,10 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
+        fragmentBinding.tvSupportChat.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(requireContext(), SupportChat.class);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
 
         fragmentBinding.booking.setOnClickListener(view -> {
             Dashboard.goToBooking();

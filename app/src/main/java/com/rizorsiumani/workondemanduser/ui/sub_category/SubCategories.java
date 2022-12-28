@@ -80,7 +80,7 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
                         hideNoDataAnimation();
                         buildRv(dataItems);
                     }else {
-                        showNoDataAnimation();
+                        showNoDataAnimation(R.raw.no_job,"No Category Available");
                     }
 
                 }

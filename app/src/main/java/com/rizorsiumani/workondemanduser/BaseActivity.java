@@ -39,6 +39,8 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
     private LottieAnimationView animationView;
     TextView cartItem;
     String cartTotal;
+    TextView noDataMessage;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
         progressBar = findViewById(R.id.progressBar);
         cartView = findViewById(R.id.cartButton);
         animationView = findViewById(R.id.no_data_animation);
+        noDataMessage = findViewById(R.id.tv_no_data);
+
         cartItem = findViewById(R.id.cartCount);
         prefRepository = new PreferenceRepository();
 
@@ -100,12 +104,17 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
         }
     }
 
-    protected void showNoDataAnimation() {
+    protected void showNoDataAnimation(int rawFile,String message) {
+        animationView.setAnimation(rawFile);
         animationView.setVisibility(View.VISIBLE);
+        animationView.playAnimation();
+        noDataMessage.setText(message);
+        noDataMessage.setVisibility(View.VISIBLE);
     }
 
     protected void hideNoDataAnimation() {
         animationView.setVisibility(View.GONE);
+        noDataMessage.setVisibility(View.GONE);
     }
     protected void showLoading() {
         progressBar.setVisibility(View.VISIBLE);

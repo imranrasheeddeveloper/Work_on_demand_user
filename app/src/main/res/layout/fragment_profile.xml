@@ -380,6 +380,21 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_change_password" />
 
+
+                    <TextView
+                        android:id="@+id/tv_support_chat"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Support Chat"
+                        android:layout_marginTop="1dp"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/personal_detail"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/support_setting" />
+
+
                     <TextView
                         android:id="@+id/tv_privacy_policy"
                         style="@style/profile_text_appearance"
@@ -391,7 +406,7 @@
                         app:drawableEndCompat="@drawable/grey_forward_icon"
                         app:drawableStartCompat="@drawable/personal_detail"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/support_setting" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_support_chat" />
 
                     <TextView
                         android:id="@+id/tv_about_us"

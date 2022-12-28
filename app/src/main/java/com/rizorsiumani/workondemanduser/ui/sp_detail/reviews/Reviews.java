@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
+import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.GalleryDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.RatingDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentReviewsBinding;
@@ -56,7 +57,7 @@ public class Reviews extends BaseFragment<FragmentReviewsBinding> {
                         ratingDataItems.addAll(response.getData().getData());
                         buildRv(ratingDataItems);
                     }else {
-                        showNoDataAnimation();
+                        showNoDataAnimation(R.raw.no_job,"Not Rated Yet.");
                     }
                 }
             }

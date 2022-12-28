@@ -17,14 +17,18 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.SProfileData;
+import com.rizorsiumani.workondemanduser.data.businessModels.inbox.ServiceProvider;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySpProfileBinding;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
+import com.rizorsiumani.workondemanduser.ui.chat.Chatroom;
 import com.rizorsiumani.workondemanduser.ui.inbox.Inbox;
+import com.rizorsiumani.workondemanduser.ui.inbox.InboxViewModel;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
@@ -33,7 +37,8 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
     NavController mNavController;
     ProviderDetailViewModel viewModel;
     String id;
-
+    InboxViewModel inboxViewModel;
+    SProfileData sProfileData;
 
     @Override
     protected ActivitySpProfileBinding getActivityBinding() {
@@ -43,6 +48,8 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
     @Override
     protected void onStart() {
         super.onStart();
+
+        inboxViewModel = new ViewModelProvider(this).get(InboxViewModel.class);
 
         try {
 
@@ -63,12 +70,13 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
                 } else if (response.getData().isSuccess()) {
                   //  hideLoading();
                     if (response.getData().getData() != null){
-                        SProfileData data = response.getData().getData();
+                        sProfileData = response.getData().getData();
                         Glide.with(SpProfile.this)
-                                .load(Constants.IMG_PATH + data.getProfilePhoto())
+                                .load(Constants.IMG_PATH + sProfileData.getProfilePhoto())
+                                .placeholder(R.color.placeholder_bg)
                                 .into(activityBinding.ivSp);
-                        activityBinding.tvSpName.setText(data.getFirstName() + " " + data.getLastName());
-                        activityBinding.title.setText(data.getFirstName() + " " + "Details");
+                        activityBinding.tvSpName.setText(sProfileData.getFirstName() + " " + sProfileData.getLastName());
+                        activityBinding.title.setText(sProfileData.getFirstName() + " " + "Details");
                     }
                 }
             }
@@ -106,19 +114,49 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
-        activityBinding.availability.setOnClickListener(view -> {
-            showProfileDetail();
-        });
+//        activityBinding.availability.setOnClickListener(view -> {
+//            showProfileDetail();
+//        });
 
         activityBinding.cartItem.setOnClickListener(view -> {
             ActivityUtil.gotoPage(SpProfile.this, BookingDetail.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
-        activityBinding.inboxIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(SpProfile.this, Inbox.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        activityBinding.tvChat.setOnClickListener(v -> {
+            String token = prefRepository.getString("token");
+            inboxViewModel.isInboxExist(token, Integer.parseInt(id));
+            inboxViewModel._is_exist.observe(this, response -> {
+                if (response != null) {
+                    if (response.isLoading()) {
+                        showLoading();
+                    } else if (!response.getError().isEmpty()) {
+                        hideLoading();
+                        showSnackBarShort(response.getError());
+                    } else if (response.getData().isSuccess()) {
+                        hideLoading();
+                        if (response.getData().getInboxId() != 0) {
+                            hideNoDataAnimation();
+                            Gson gson = new Gson();
+                            ServiceProvider serviceProvider = new ServiceProvider();
+                            serviceProvider.setFirstName(sProfileData.getFirstName());
+                            serviceProvider.setLastName(sProfileData.getLastName());
+                            serviceProvider.setProfilePhoto(sProfileData.getProfilePhoto());
+                            serviceProvider.setId(sProfileData.getId());
+
+                            String providerData = gson.toJson(serviceProvider, ServiceProvider.class);
+
+                            Intent intent = new Intent(SpProfile.this, Chatroom.class);
+                            intent.putExtra("inbox_id",String.valueOf(response.getData().getInboxId()));
+                            intent.putExtra("maps","true");
+                            intent.putExtra("provider_detail",providerData);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        }
+                    }
+                }
+            });
+
         });
     }
 

@@ -58,7 +58,7 @@ public class AllPostedJobs extends BaseActivity<ActivityAllPostedJobsBinding> {
                         dataItems.addAll(response.getData().getData());
                         setRv(dataItems);
                     }else {
-                        showNoDataAnimation();
+                        showNoDataAnimation(R.raw.no_job,"No Jobs");
                     }
 
                 }
