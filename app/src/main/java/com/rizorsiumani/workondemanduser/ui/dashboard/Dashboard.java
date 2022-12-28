@@ -266,9 +266,11 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
             if (press == 1) {
                 finishAffinity();
             } else {
+                Toast.makeText(Dashboard.this, "Press again to exit.", Toast.LENGTH_SHORT).show();
                 press++;
             }
         } else {
+            binding.bottomNavigation.getTabAt(0).select();
             mNavController.navigate(R.id.homeFragment);
         }
     }

@@ -1,5 +1,7 @@
 package com.rizorsiumani.workondemanduser.ui.sub_category;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 import android.content.Intent;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -11,9 +13,12 @@ import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDB;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityResultantServiceProvidersBinding;
 import com.rizorsiumani.workondemanduser.ui.search.SearchServiceAdapter;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderViewModel;
@@ -45,8 +50,9 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
         super.onStart();
 
         try {
-            title  = getIntent().getStringExtra("category_title");
-            catID = getIntent().getIntExtra("category_id",0);
+            CategoriesDataItem categoriesDataItem = TinyDbManager.getCategory();
+            title  = categoriesDataItem.getTitle();
+            catID = categoriesDataItem.getId();
         }catch (NullPointerException e){
             e.printStackTrace();
         }
@@ -133,10 +139,11 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
                     } else if (response.getData().isSuccess()) {
                         hideLoading();
                         if (response.getData().getData().size() > 0) {
-                            Gson gson = new Gson();
-                            String providers = gson.toJson(response.getData(), ServiceProviderModel.class);
+//                            Gson gson = new Gson();
+//                            String providers = gson.toJson(response.getData(), ServiceProviderModel.class);
+                            TinyDbManager.saveProviderForMapScreen(response.getData());
                             Intent intent = new Intent(SubCategories.this, Serviceproviders.class);
-                            intent.putExtra("providers",providers);
+//                            intent.putExtra("providers",providers);
                             startActivity(intent);
                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         } else {
@@ -162,4 +169,6 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
         viewModel._subCategory.removeObservers(this);
         viewModel = null;
     }
+
+
 }

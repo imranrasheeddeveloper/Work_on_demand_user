@@ -1,5 +1,6 @@
 package com.rizorsiumani.workondemanduser.ui.splash;
 
+import static android.view.WindowManager.LayoutParams.*;
 import static com.rizorsiumani.workondemanduser.utils.map_utils.GeoCoders.GetProperLocationAddress;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,9 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.karumi.dexter.Dexter;
@@ -50,33 +54,54 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
 
         hideCartButton();
 
-        isLocationPermissionGranted = LocationService.service.requestLocationPermission(SplashActivity.this);
-        if (isLocationPermissionGranted) {
-            locationHandler();
-        } else {
-            isLocationPermissionGranted = LocationService.service.requestLocationPermission(SplashActivity.this);
-            new Handler().postDelayed(() -> {
-                String token = prefRepository.getString("token");
-                if (token.equals("Bearer ") || token.equals("nil")) {
-                    boolean firstVisit = TinyDbManager.getVisit();
-                    if (firstVisit) {
-                        ActivityUtil.gotoPage(SplashActivity.this, WelcomeUser.class);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    } else {
-                        ActivityUtil.gotoPage(SplashActivity.this, OnboardingActivity.class);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    }
+        new Handler().postDelayed(() -> {
+            String token = prefRepository.getString("token");
+            if (token.equals("Bearer ") || token.equals("nil")) {
+                boolean firstVisit = TinyDbManager.getVisit();
+                if (firstVisit) {
+                    ActivityUtil.gotoPage(SplashActivity.this, WelcomeUser.class);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 } else {
-                    ActivityUtil.gotoPage(SplashActivity.this, Dashboard.class);
+                    ActivityUtil.gotoPage(SplashActivity.this, OnboardingActivity.class);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
-            }, 3000);
-
-        }
-
+            } else {
+                ActivityUtil.gotoPage(SplashActivity.this, Dashboard.class);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        }, 3000);
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+//        isLocationPermissionGranted = LocationService.service.requestLocationPermission(SplashActivity.this);
+//        if (isLocationPermissionGranted) {
+//            locationHandler();
+//        } else {
+//            isLocationPermissionGranted = LocationService.service.requestLocationPermission(SplashActivity.this);
+//            new Handler().postDelayed(() -> {
+//                String token = prefRepository.getString("token");
+//                if (token.equals("Bearer ") || token.equals("nil")) {
+//                    boolean firstVisit = TinyDbManager.getVisit();
+//                    if (firstVisit) {
+//                        ActivityUtil.gotoPage(SplashActivity.this, WelcomeUser.class);
+//                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                    } else {
+//                        ActivityUtil.gotoPage(SplashActivity.this, OnboardingActivity.class);
+//                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                    }
+//                } else {
+//                    ActivityUtil.gotoPage(SplashActivity.this, Dashboard.class);
+//                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                }
+//            }, 3000);
+//
+//        }
+
+    }
 
     private void locationHandler() {
         LocationUpdateService locationUpdateService = new LocationUpdateService();

@@ -24,6 +24,7 @@ import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySpProfileBinding;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
+import com.rizorsiumani.workondemanduser.ui.inbox.Inbox;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
@@ -114,6 +115,11 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
+        activityBinding.inboxIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(SpProfile.this, Inbox.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
     }
 
     private void showProfileDetail() {

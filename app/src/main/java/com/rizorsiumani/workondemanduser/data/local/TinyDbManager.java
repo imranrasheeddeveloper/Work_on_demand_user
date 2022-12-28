@@ -5,7 +5,9 @@ import android.util.Log;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.common.AddBookingDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.CardsDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.PromoDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.model.DataItem;
@@ -29,6 +31,8 @@ public class TinyDbManager {
     public static final String KEY_CARD = "key_card";
     public static final String KEY_TIMING = "key_timing";
     public static final String KEY_TYPE = "key_user_type";
+    public static final String KEY_PROVIDER = "key_provider";
+    public static final String KEY_CATEGORY= "key_category";
 
 
 
@@ -216,4 +220,25 @@ public class TinyDbManager {
         Log.e("TIMING", previousItems.size() + " Timing List cleared successfully!");
 
     }
+
+    public static void saveProviderForMapScreen(ServiceProviderModel data) {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        tinyDB.putObject(KEY_PROVIDER, data);
+    }
+
+    public static ServiceProviderModel getProviderMap(){
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        return tinyDB.getObject(KEY_PROVIDER,ServiceProviderModel.class);
+    }
+
+    public static void saveCategory(CategoriesDataItem categoriesDataItem) {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        tinyDB.putObject(KEY_CATEGORY, categoriesDataItem);
+    }
+
+    public static CategoriesDataItem getCategory(){
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        return tinyDB.getObject(KEY_CATEGORY,CategoriesDataItem.class);
+    }
+
 }

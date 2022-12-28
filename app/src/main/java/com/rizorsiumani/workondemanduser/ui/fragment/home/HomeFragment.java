@@ -1,5 +1,6 @@
 package com.rizorsiumani.workondemanduser.ui.fragment.home;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.rizorsiumani.workondemanduser.utils.map_utils.GeoCoders.GetProperLocationAddress;
 
 import android.content.Intent;
@@ -301,6 +302,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
 
         fragmentBinding.filter.setOnClickListener(view -> {
+            Constants.constant.isHome = false;
             expandFiltersSheet();
 
 //            if (count == 0) {
@@ -443,10 +445,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
         adapter.setOnServiceClickListener(position -> {
             Constants.constant.isHome = false;
-            Intent intent = new Intent(requireContext(), SubCategories.class);
-            intent.putExtra("category_id", categoriesDataItems.get(position).getId());
-            intent.putExtra("category_title", categoriesDataItems.get(position).getTitle());
-            startActivity(intent);
+            TinyDbManager.saveCategory(categoriesDataItems.get(position));
+            ActivityUtil.gotoPage(requireContext(), SubCategories.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }

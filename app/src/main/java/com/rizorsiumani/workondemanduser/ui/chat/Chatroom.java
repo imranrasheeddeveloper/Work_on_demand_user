@@ -1,11 +1,14 @@
 package com.rizorsiumani.workondemanduser.ui.chat;
 
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +29,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.chat.MessagesItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.ServiceProvider;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityChatroomBinding;
+import com.rizorsiumani.workondemanduser.ui.category.Categories;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
 import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
@@ -34,6 +38,7 @@ import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
@@ -147,9 +152,18 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
 
     private void clickListener() {
         activityBinding.chatToolbar.back.setOnClickListener(view -> {
-            onBackPressed();
-            finish();
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            if (isFromMapScreen.equalsIgnoreCase("true")) {
+
+                Intent intent = new Intent(this, Serviceproviders.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            }else {
+                finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
+            }
         });
 
         activityBinding.sendMessage.setOnClickListener(v -> {
@@ -209,17 +223,33 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed(){
+//        ActivityManager m = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+//        List<ActivityManager.RunningTaskInfo> runningTaskInfoList =  m.getRunningTasks(10);
+//        Iterator<ActivityManager.RunningTaskInfo> itr = runningTaskInfoList.iterator();
+//        while(itr.hasNext()){
+//            ActivityManager.RunningTaskInfo runningTaskInfo = (ActivityManager.RunningTaskInfo)itr.next();
+//            int id = runningTaskInfo.id;
+//            CharSequence desc= runningTaskInfo.description;
+//            int numOfActivities = runningTaskInfo.numActivities;
+//            String topActivity = runningTaskInfo.topActivity.getShortClassName();
+//            if (topActivity.equalsIgnoreCase(".ui.chat.Chatroom")){
+//
+//            }
+//        }
         super.onBackPressed();
-////        if (isFromMapScreen.equalsIgnoreCase("true")) {
-////            Intent intent = new Intent(Chatroom.this, Serviceproviders.class);
-////            startActivity(intent);
-////            finish();
-////            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-////        }else {
-//            onBackPressed();
+
+        if (isFromMapScreen.equalsIgnoreCase("true")) {
+
+            Intent intent = new Intent(this, Serviceproviders.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        }else {
             finish();
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
+        }
     }
 }

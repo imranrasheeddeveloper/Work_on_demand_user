@@ -1,5 +1,6 @@
 package com.rizorsiumani.workondemanduser.ui.service_providers;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -11,6 +12,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityServiceprovidersBinding;
+import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 
 public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBinding> {
 
@@ -18,11 +20,9 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
     NavController mNavController;
 
 
-
     @Override
     protected void onStart() {
         super.onStart();
-
 
 
         activityBinding.serviceToolbar.title.setText("Service Providers");
@@ -31,10 +31,14 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
             activityBinding.tabLayout.addTab(activityBinding.tabLayout.newTab().setText("Map").setIcon(R.drawable.ic_oval).setId(0));
             activityBinding.tabLayout.addTab(activityBinding.tabLayout.newTab().setText("List").setIcon(R.drawable.ic_booking).setId(1));
         }
-        activityBinding.tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#FFFFFFFF"), PorterDuff.Mode.SRC_IN);
 
-        activityBinding.tabLayout.getTabAt(0).view.setBackground(getResources().getDrawable(R.drawable.rect_bg));
-        activityBinding.tabLayout.getTabAt(0).view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+        if (activityBinding.tabLayout.getSelectedTabPosition() == 0) {
+            activityBinding.tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#FFFFFFFF"), PorterDuff.Mode.SRC_IN);
+            activityBinding.tabLayout.getTabAt(0).view.setBackground(getResources().getDrawable(R.drawable.rect_bg));
+            activityBinding.tabLayout.getTabAt(0).view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+        }else {
+            activityBinding.tabLayout.getTabAt(1).select();
+        }
 
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment01);
@@ -47,13 +51,10 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
     }
 
 
-
     private void clickListeners() {
         activityBinding.serviceToolbar.back.setOnClickListener(view -> {
             onBackPressed();
-            finish();
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-
         });
 
         activityBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -62,7 +63,6 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
                 tab.getIcon().setColorFilter(Color.parseColor("#FFFFFFFF"), PorterDuff.Mode.SRC_IN);
                 tab.view.setBackground(getResources().getDrawable(R.drawable.rect_bg));
                 tab.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
-
 
 
                 if (tab.getId() == 1) {
@@ -74,6 +74,8 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                tab.getIcon().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+                tab.view.setBackground(getResources().getDrawable(R.drawable.rect_bg));
                 tab.view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFFFF")));
             }
 
@@ -88,5 +90,18 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
     @Override
     protected ActivityServiceprovidersBinding getActivityBinding() {
         return ActivityServiceprovidersBinding.inflate(getLayoutInflater());
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(this, SubCategories.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
+        super.onBackPressed();
+
     }
 }

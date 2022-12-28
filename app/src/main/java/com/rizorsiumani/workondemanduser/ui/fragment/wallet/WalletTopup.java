@@ -20,6 +20,7 @@ import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.FragmentWalletTopupBinding;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 
 public class WalletTopup extends BaseFragment<FragmentWalletTopupBinding> {
@@ -34,6 +35,8 @@ public class WalletTopup extends BaseFragment<FragmentWalletTopupBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Constants.constant.isHome = false;
 
         viewModel = new ViewModelProvider(this).get(WalletViewModel.class);
         hideCartButton();

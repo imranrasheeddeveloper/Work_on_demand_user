@@ -16,6 +16,7 @@ import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderModel;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServiceProviderListBinding;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderAdapter;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderViewModel;
@@ -44,9 +45,10 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
         super.onViewCreated(view, savedInstanceState);
 
         try {
-            String providerData = getActivity().getIntent().getStringExtra("providers");
-            Gson gson = new Gson();
-            providerModel = gson.fromJson(providerData, ServiceProviderModel.class);
+//            String providerData = getActivity().getIntent().getStringExtra("providers");
+//            Gson gson = new Gson();
+//            providerModel = gson.fromJson(providerData, ServiceProviderModel.class);
+            providerModel = TinyDbManager.getProviderMap();
             catID = getActivity().getIntent().getStringExtra("cat_id");
 
             if (providerModel == null){
