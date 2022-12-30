@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.common.CommonResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.AddBookingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.BasicModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.BookingDetailModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAllCardsModel;
@@ -35,16 +34,17 @@ import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletBalanceModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletTransactionsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.booking_detail.BookingDetailModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.chat.GetAllMessageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.ConversationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.MessagesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.SendSupportMessageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.GetInboxModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.InboxExistModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.job_timing.JobTimingModel;
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
 
 import okhttp3.MultipartBody;
-import rx.Completable;
 import rx.Observable;
 
 /**
@@ -447,6 +447,20 @@ public class RemoteRepository {
     public Observable<SendSupportMessageModel> send_support_message(String token, int conversation_id, int account_id, JsonObject object) {
         if (mService != null) {
             return mService.sendSupportQuery(token,conversation_id,account_id,object);
+        }
+        return null;
+    }
+
+    public Observable<JobTimingModel> getTiming(int id) {
+        if (mService != null) {
+            return mService.getJobTiming(id);
+        }
+        return null;
+    }
+
+    public Observable<BasicModel> deleteJob(String token) {
+        if (mService != null) {
+            return mService.delete_posted_job(token);
         }
         return null;
     }

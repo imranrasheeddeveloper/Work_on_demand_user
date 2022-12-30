@@ -99,10 +99,8 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
         hideCartButton();
 
-        service_provider_id = getIntent().getStringExtra("service_provider_id");
-        if (service_provider_id == null) {
-            service_provider_id = TinyDbManager.getServiceProviderID();
-        }
+
+        service_provider_id = TinyDbManager.getServiceProviderID();
 
         viewModel = new ViewModelProvider(this).get(BookingDetailViewModel.class);
 
@@ -443,17 +441,18 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                 AddBookingDataItem bookingDataItem = new AddBookingDataItem(
                         Integer.parseInt(cartItems.getData().getPrice()),
                         TinyDbManager.getCurrentAddress(),
-                        Integer.parseInt(service_provider_id),
+                        Integer.parseInt(cartItems.getId()),
                         Integer.parseInt(String.valueOf(userID)),
                         Constants.constant.latitude,
                         cartItems.getDescription(),
-                        Integer.parseInt(cartItems.getAvailability_id()),
                         Integer.parseInt(Constants.constant.discount),
                         Integer.parseInt(Constants.constant.promotion_id),
                         cartSubTotal,
                         payment_type_id,
                         Constants.constant.longitude,
-                        service_id
+                        service_id,
+                        cartItems.getDate(),
+                        cartItems.getAvailability()
                 );
 
                 TinyDbManager.saveBookingList(bookingDataItem);

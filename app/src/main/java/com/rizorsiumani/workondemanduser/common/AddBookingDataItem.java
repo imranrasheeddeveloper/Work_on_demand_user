@@ -2,6 +2,8 @@ package com.rizorsiumani.workondemanduser.common;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class AddBookingDataItem {
 
 	@SerializedName("total")
@@ -43,32 +45,40 @@ public class AddBookingDataItem {
 	@SerializedName("longitude")
 	private double longitude;
 
+	@SerializedName("start_date")
+	private String start_date;
+
+	@SerializedName("booking_timing")
+	private List<BookingTimingItem> booking_timing;
+
 	public AddBookingDataItem(int total,
                               String address,
                               int serviceProviderId,
                               int userId,
                               double latitude,
                               String description,
-                              int availabilityId,
                               int discount,
                               int promotionId,
                               int subTotal,
                               int paymentTypeId,
                               double longitude,
-							  int service_id) {
+							  int service_id,
+							  String startDate,
+							  List<BookingTimingItem> bookingTime) {
 		this.total = total;
 		this.address = address;
 		this.service_provider_id = serviceProviderId;
 		this.user_id = userId;
 		this.latitude = latitude;
 		this.description = description;
-		this.availability_id = availabilityId;
 		this.discount = discount;
 		this.promotion_id = promotionId;
 		this.subTotal = subTotal;
 		this.payment_type_id = paymentTypeId;
 		this.longitude = longitude;
 		this.service_id = service_id;
+		this.start_date = startDate;
+		this.booking_timing = bookingTime;
 	}
 
 	public int getTotal() {
@@ -121,5 +131,13 @@ public class AddBookingDataItem {
 
 	public double getLongitude() {
 		return longitude;
+	}
+
+	public String getStart_date() {
+		return start_date;
+	}
+
+	public List<BookingTimingItem> getBooking_timing() {
+		return booking_timing;
 	}
 }

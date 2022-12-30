@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.data.businessModels.BasicModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostImageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostJobModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.job_timing.JobTimingModel;
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
 
@@ -24,6 +26,11 @@ public class PostJobViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<PostImageModel>> job_image = new MutableLiveData<>();
     public LiveData<ResponseWrapper<PostImageModel>> _job_image= job_image;
 
+    private final MutableLiveData<ResponseWrapper<JobTimingModel>> job_timing = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<JobTimingModel>> _job_timing = job_timing;
+
+    private final MutableLiveData<ResponseWrapper<BasicModel>> delete_time_slot = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<BasicModel>> _delete_time_slot = delete_time_slot;
 
     public void post(String token, JsonObject object) {
 
@@ -98,6 +105,82 @@ public class PostJobViewModel extends ViewModel {
                     }
                 });
     }
+
+    public void getJobTiming(int id) {
+
+        job_timing.setValue(
+                new ResponseWrapper<>(
+                        true, "", null
+                ));
+
+        RemoteRepository.getInstance()
+                .getTiming(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<JobTimingModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        job_timing.setValue(new ResponseWrapper<>(
+                                false,
+                                e.getLocalizedMessage(),
+                                null
+                        ));
+                    }
+
+                    @Override
+                    public void onNext(JobTimingModel model) {
+                        job_timing.setValue(new ResponseWrapper<>(
+                                false,
+                                "",
+                                model
+                        ));
+                    }
+                });
+    }
+
+//    public void deleteJobTiming(String token) {
+//
+//        delete_time_slot.setValue(
+//                new ResponseWrapper<>(
+//                        true, "", null
+//                ));
+//
+//        RemoteRepository.getInstance()
+//                .deleteJob(token)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<BasicModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        delete_job.setValue(new ResponseWrapper<>(
+//                                false,
+//                                e.getLocalizedMessage(),
+//                                null
+//                        ));
+//                    }
+//
+//                    @Override
+//                    public void onNext(BasicModel model) {
+//                        delete_job.setValue(new ResponseWrapper<>(
+//                                false,
+//                                "",
+//                                model
+//                        ));
+//                    }
+//                });
+//    }
+
+
 
 }
 

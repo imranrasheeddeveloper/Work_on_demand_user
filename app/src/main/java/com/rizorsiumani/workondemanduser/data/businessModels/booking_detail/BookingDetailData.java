@@ -1,5 +1,6 @@
-package com.rizorsiumani.workondemanduser.data.businessModels;
+package com.rizorsiumani.workondemanduser.data.businessModels.booking_detail;
 
+import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class BookingDetailData {
@@ -37,8 +38,8 @@ public class BookingDetailData {
 	@SerializedName("user")
 	private User user;
 
-	@SerializedName("booking_availability")
-	private Object bookingAvailability;
+	@SerializedName("booking_timings")
+	private List<BookingTimingsItem> bookingTimings;
 
 	@SerializedName("longitude")
 	private double longitude;
@@ -46,8 +47,11 @@ public class BookingDetailData {
 	@SerializedName("status")
 	private String status;
 
+	@SerializedName("start_date")
+	private String startDate;
+
 	@SerializedName("promotion")
-	private Promotion promotion;
+	private Object promotion;
 
 	public String getAddress(){
 		return address;
@@ -93,8 +97,8 @@ public class BookingDetailData {
 		return user;
 	}
 
-	public Object getBookingAvailability(){
-		return bookingAvailability;
+	public List<BookingTimingsItem> getBookingTimings(){
+		return bookingTimings;
 	}
 
 	public double getLongitude(){
@@ -105,7 +109,11 @@ public class BookingDetailData {
 		return status;
 	}
 
-	public Promotion getPromotion(){
+	public String getStartDate(){
+		return startDate;
+	}
+
+	public Object getPromotion(){
 		return promotion;
 	}
 }

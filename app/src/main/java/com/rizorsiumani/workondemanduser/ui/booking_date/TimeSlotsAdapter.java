@@ -48,16 +48,16 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
 
         holder.fromTime.setText(hoursItem.getFromTime() + " to " + hoursItem.getToTime());
 
-        try {
-
-            if (position == selectedPosition) {
-                holder.selectedTimeSlot();
-            } else {
-                holder.unSelectedTimeSlot();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+//            if (position == selectedPosition) {
+//                holder.selectedTimeSlot();
+//            } else {
+//                holder.unSelectedTimeSlot();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -67,6 +67,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
 
     public interface OnItemClickListener {
         void onTimeSelect(int position);
+        void onTimeUnselect(int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -81,18 +82,15 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
 
             itemView.setOnClickListener(view -> {
                 if (itemClickListener != null) {
+                    if (layout.getTag().toString().equalsIgnoreCase("unselected")){
+                        layout.setTag("selected");
+                        selectedTimeSlot();
+                        itemClickListener.onTimeSelect(getAdapterPosition());
 
-                    selectedPosition = getAdapterPosition();
-
-                    if (lastSelectedPos != -1) {
-                        notifyItemChanged(lastSelectedPos);
-                    }
-
-                    lastSelectedPos = selectedPosition;
-                    notifyItemChanged(selectedPosition);
-
-                    if (selectedPosition != RecyclerView.NO_POSITION) {
-                        itemClickListener.onTimeSelect(selectedPosition);
+                    }else {
+                        layout.setTag("unselected");
+                        unSelectedTimeSlot();
+                        itemClickListener.onTimeUnselect(getAdapterPosition());
                     }
 
                 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.SnapHelper;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityDataItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentAvailabilityBinding;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ProviderDetailViewModel;
 
@@ -37,7 +38,7 @@ public class Availability extends BaseFragment<FragmentAvailabilityBinding> {
         super.onViewCreated(view, savedInstanceState);
         hideCartButton();
 
-        String spID = getActivity().getIntent().getStringExtra("service_provider_id");
+        String spID = TinyDbManager.getServiceProviderID();
 
 
         viewModel = new ViewModelProvider(this).get(ProviderDetailViewModel.class);

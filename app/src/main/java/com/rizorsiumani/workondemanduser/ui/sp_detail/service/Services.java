@@ -2,14 +2,13 @@ package com.rizorsiumani.workondemanduser.ui.sp_detail.service;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.View;
 
 import com.google.gson.Gson;
 import com.rizorsiumani.workondemanduser.App;
@@ -18,10 +17,8 @@ import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServicesDataItem;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServicesBinding;
-import com.rizorsiumani.workondemanduser.ui.booking.BookService;
-import com.rizorsiumani.workondemanduser.ui.booking.MyCartItems;
-import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ProviderDetailViewModel;
+import com.rizorsiumani.workondemanduser.ui.start_date.StartDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,32 +43,32 @@ public class Services extends BaseFragment<FragmentServicesBinding> {
 
         try {
 
-        spID = getActivity().getIntent().getStringExtra("service_provider_id");
+            spID = TinyDbManager.getServiceProviderID();
 
-        viewModel = new ViewModelProvider(this).get(ProviderDetailViewModel.class);
-        viewModel.getServices(Integer.parseInt(spID));
-        viewModel._services.observe(getViewLifecycleOwner(), response -> {
-            if (response != null) {
-                if (response.isLoading()) {
-                    showLoading();
-                } else if (!response.getError().isEmpty()) {
-                     hideLoading();
-                    showSnackBarShort(response.getError());
-                } else if (response.getData().getData() != null) {
-                    hideLoading();
-                    if (response.getData().getData().size() > 0){
-                        hideNoDataAnimation();
-                       servicesList = new ArrayList<>();
-                       servicesList.addAll(response.getData().getData());
-                        buildRv(servicesList);
-                    }else {
-                        showNoDataAnimation(R.raw.no_job,"No Services");
+            viewModel = new ViewModelProvider(this).get(ProviderDetailViewModel.class);
+            viewModel.getServices(Integer.parseInt(spID));
+            viewModel._services.observe(getViewLifecycleOwner(), response -> {
+                if (response != null) {
+                    if (response.isLoading()) {
+                        showLoading();
+                    } else if (!response.getError().isEmpty()) {
+                        hideLoading();
+                        showSnackBarShort(response.getError());
+                    } else if (response.getData().getData() != null) {
+                        hideLoading();
+                        if (response.getData().getData().size() > 0) {
+                            hideNoDataAnimation();
+                            servicesList = new ArrayList<>();
+                            servicesList.addAll(response.getData().getData());
+                            buildRv(servicesList);
+                        } else {
+                            showNoDataAnimation(R.raw.no_job, "No Services");
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -85,15 +82,20 @@ public class Services extends BaseFragment<FragmentServicesBinding> {
         fragmentBinding.servicesList.setAdapter(adapter);
 
         adapter.setOnClickListener(position -> {
-//            MyCartItems cartItems = new MyCartItems(spID,servicesList.get(position));
-//            TinyDbManager.saveCartData(cartItems);
+            TinyDbManager.saveServiceProviderID(spID);
+
             Gson gson = new Gson();
             String data = gson.toJson(servicesList.get(position), ServicesDataItem.class);
-
-            Intent intent = new Intent(requireContext(), BookingDateTime.class);
-            intent.putExtra("service_data",data);
-            intent.putExtra("service_provider_id",spID);
+            Intent intent = new Intent(requireContext(), StartDate.class);
+            intent.putExtra("service_data", data);
             startActivity(intent);
+
+//          Calendar cal = Calendar.getInstance();
+//
+//          DatePickerDialog dpd = new DatePickerDialog(requireContext(), (view1, year, month, dayOfMonth) -> {
+//                Toast.makeText(requireContext(), String.format("%d", year) + "-" + String.format("%02d", month + 1) + "-" + String.format("%02d", dayOfMonth), Toast.LENGTH_SHORT).show();
+//            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+//            dpd.show();
 
         });
 

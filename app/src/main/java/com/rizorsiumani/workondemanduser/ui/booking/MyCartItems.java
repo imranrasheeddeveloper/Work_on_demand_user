@@ -1,19 +1,27 @@
 package com.rizorsiumani.workondemanduser.ui.booking;
 
+import com.rizorsiumani.workondemanduser.common.BookingTimingItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServicesDataItem;
+
+import java.util.List;
 
 public class MyCartItems {
 
     String id;
     ServicesDataItem data;
-    String availability_id;
-    String description;
+    List<BookingTimingItem> availability;
+    String description,date;
 
-    public MyCartItems(String id, ServicesDataItem data,String hours, String des) {
+    public MyCartItems(String id, ServicesDataItem data, List<BookingTimingItem> hours, String des, String start_date) {
         this.id = id;
         this.data = data;
-        this.availability_id = hours;
+        this.availability = hours;
         this.description = des;
+        this.date = start_date;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public String getId() {
@@ -32,8 +40,8 @@ public class MyCartItems {
         this.data = data;
     }
 
-    public String getAvailability_id() {
-        return availability_id;
+    public List<BookingTimingItem> getAvailability() {
+        return availability;
     }
 
     public String getDescription() {

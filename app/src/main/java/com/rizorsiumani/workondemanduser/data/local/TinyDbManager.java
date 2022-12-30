@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.common.AddBookingDataItem;
+import com.rizorsiumani.workondemanduser.common.BookingTimingItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.CardsDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.PromoDataItem;
@@ -33,6 +34,7 @@ public class TinyDbManager {
     public static final String KEY_TYPE = "key_user_type";
     public static final String KEY_PROVIDER = "key_provider";
     public static final String KEY_CATEGORY= "key_category";
+    public static final String KEY_BOOKING_TIMING= "key_booking_timing";
 
 
 
@@ -241,4 +243,43 @@ public class TinyDbManager {
         return tinyDB.getObject(KEY_CATEGORY,CategoriesDataItem.class);
     }
 
+    public static void saveBookingTiming(BookingTimingItem bookingTimingItem) {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        ArrayList<Object> previousItems = tinyDB.getListObject(KEY_BOOKING_TIMING, BookingTimingItem.class);
+        previousItems.add(bookingTimingItem);
+        tinyDB.putListObject(KEY_BOOKING_TIMING, previousItems);
+    }
+
+    public static List<BookingTimingItem> getBookingTiming() {
+
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        ArrayList<Object> items = tinyDB.getListObject(KEY_BOOKING_TIMING, BookingTimingItem.class);
+        ArrayList<BookingTimingItem> bookingTimingItems = new ArrayList<>();
+        ;
+
+        if (!items.isEmpty()) {
+            for (int i = 0; i < items.size(); i++) {
+
+                BookingTimingItem item = (BookingTimingItem) items.get(i);
+                bookingTimingItems.add(item);
+            }
+        }
+        return bookingTimingItems;
+    }
+
+    public static void removeBookingTiming(BookingTimingItem bookingTimingItem) {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        ArrayList<Object> previousItems = tinyDB.getListObject(KEY_BOOKING_TIMING, BookingTimingItem.class);
+        int keyLocation = previousItems.indexOf(bookingTimingItem);
+        previousItems.remove(keyLocation + 1);
+        tinyDB.putListObject(KEY_BOOKING_TIMING, previousItems);
+    }
+
+    public static void clearBookingTiming() {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        ArrayList<Object> previousItems = tinyDB.getListObject(KEY_BOOKING_TIMING, BookingTimingItem.class);
+        previousItems.clear();
+        tinyDB.putListObject(KEY_BOOKING_TIMING, previousItems);
+
+    }
 }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentDataItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
 
 import java.util.List;
@@ -58,10 +59,9 @@ public class AllSerAdapter extends RecyclerView.Adapter<AllSerAdapter.ViewHolder
         holder.recyclerView.setAdapter(adapter1);
 
         adapter1.setOnCellClickListener(pos -> {
+            TinyDbManager.saveServiceProviderID(String.valueOf(model.getServiceProviderCategories().get(pos).getServiceProvider().getId()));
             Intent intent = new Intent(ctx,SpProfile.class);
-            intent.putExtra("service_provider_id",String.valueOf(model.getServiceProviderCategories().get(pos).getServiceProvider().getId()));
             ctx.startActivity(intent);
-            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
 

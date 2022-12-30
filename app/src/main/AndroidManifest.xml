@@ -35,6 +35,13 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustResize|stateHidden">
         <activity
+            android:name=".ui.start_date.StartDate"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.support_chat.SupportChat"
             android:exported="false">
             <meta-data

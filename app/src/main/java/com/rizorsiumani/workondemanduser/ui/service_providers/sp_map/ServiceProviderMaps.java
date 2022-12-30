@@ -334,8 +334,8 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
             @Override
             public void onProfileClick(int position) {
+                TinyDbManager.saveServiceProviderID(String.valueOf(serviceProviders.get(position).getId()));
                 Intent intent = new Intent(requireContext(),SpProfile.class);
-                intent.putExtra("service_provider_id",String.valueOf(serviceProviders.get(position).getId()));
                 startActivity(intent);
                 requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }

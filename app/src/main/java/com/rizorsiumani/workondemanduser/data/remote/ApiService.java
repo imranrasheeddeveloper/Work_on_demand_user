@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.common.CommonResponse;
 import com.rizorsiumani.workondemanduser.data.businessModels.AddBookingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.BasicModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.BookingDetailModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAllCardsModel;
@@ -34,15 +33,18 @@ import com.rizorsiumani.workondemanduser.data.businessModels.UpdaeAddressModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletBalanceModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.WalletTransactionsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.booking_detail.BookingDetailModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.chat.GetAllMessageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.ConversationModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.MessagesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.SendSupportMessageModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.GetInboxModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.InboxExistModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.job_timing.JobTimingModel;
 
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -241,4 +243,10 @@ public interface ApiService {
                                                          @Path("conversation_id") int conversation_id,
                                                          @Path("account_id") int  account_id ,
                                                          @Body JsonObject object);
+
+    @GET("serviceProvider/get_posted_job_timing/{job_id}")
+    Observable<JobTimingModel> getJobTiming(@Path("job_id") int job_id);
+
+    @DELETE("users/delete_posted_job/{job_id}")
+    Observable<BasicModel> delete_posted_job(@Header("Authorization") String token);
 }

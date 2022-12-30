@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:clipToText="false"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -198,12 +199,20 @@
                     android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/_6sdp"
                     android:alpha="0.5"
                     android:background="@color/light_grey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/delivery_address" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/availableTimeList"/>
+
 
                 <TextView
                     android:id="@+id/service_name"
@@ -213,7 +222,7 @@
                     android:layout_marginTop="@dimen/_8sdp"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view" />
+                    app:layout_constraintTop_toBottomOf="@id/availableTimeList" />
 
                 <TextView
                     android:id="@+id/service_rate"
@@ -322,7 +331,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@color/off_white"
+                    android:background="#f1f1f1"
                     android:paddingTop="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_10sdp"
                     android:text="total"

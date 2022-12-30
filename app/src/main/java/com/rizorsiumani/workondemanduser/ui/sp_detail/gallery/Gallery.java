@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.GalleryDataItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentGalleryBinding;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ProviderDetailViewModel;
 
@@ -34,7 +35,7 @@ public class Gallery extends BaseFragment<FragmentGalleryBinding> {
 
         hideCartButton();
 
-        String spID = getActivity().getIntent().getStringExtra("service_provider_id");
+        String spID = TinyDbManager.getServiceProviderID();
 
 
         viewModel = new ViewModelProvider(this).get(ProviderDetailViewModel.class);

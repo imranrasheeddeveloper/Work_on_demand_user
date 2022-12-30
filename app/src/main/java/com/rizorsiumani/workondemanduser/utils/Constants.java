@@ -45,6 +45,7 @@ public final class Constants {
     public  String promotion_id= "";
     public  String discount = "";
     public  String CURRENCY = "$ ";
+    public String start_date = "";
 
 
 //    public Constants() {

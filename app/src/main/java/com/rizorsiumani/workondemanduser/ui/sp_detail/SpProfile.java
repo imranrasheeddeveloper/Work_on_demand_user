@@ -53,7 +53,7 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
 
         try {
 
-        id = getIntent().getStringExtra("service_provider_id");
+        id = TinyDbManager.getServiceProviderID();
 
         viewModel = new ViewModelProvider(this).get(ProviderDetailViewModel.class);
         if (viewModel._profile.getValue() == null){

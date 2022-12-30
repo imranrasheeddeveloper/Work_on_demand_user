@@ -1,11 +1,12 @@
-package com.rizorsiumani.workondemanduser.data.businessModels;
+package com.rizorsiumani.workondemanduser.data.businessModels.job_timing;
 
+import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class BookingDetailModel{
+public class JobTimingModel{
 
 	@SerializedName("data")
-	private BookingDetailData data;
+	private List<JobTimingDataItem> data;
 
 	@SerializedName("success")
 	private boolean success;
@@ -13,7 +14,7 @@ public class BookingDetailModel{
 	@SerializedName("message")
 	private String message;
 
-	public BookingDetailData getData(){
+	public List<JobTimingDataItem> getData(){
 		return data;
 	}
 

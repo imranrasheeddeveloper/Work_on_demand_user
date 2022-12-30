@@ -74,8 +74,9 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Profile").setIcon(R.drawable.ic_profile).setId(4));
         binding.bottomNavigation.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
-
+        if (binding.bottomNavigation.getSelectedTabPosition() == 0) {
+            binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
+        }
 
         if (checkPermission()) {
             locationHandler();
@@ -93,7 +94,8 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
             mNavController = navHostFragment.getNavController();
         }
 
-        binding.navigation.homeFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+//        if ()
+//        binding.navigation.homeFragment.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
 
 
         if (getIntent() != null) {
@@ -119,6 +121,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
                         break;
                     case 2:
                         Intent intent = new Intent(Dashboard.this, PostJob.class);
+                        intent.putExtra("status", "add");
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
                         break;

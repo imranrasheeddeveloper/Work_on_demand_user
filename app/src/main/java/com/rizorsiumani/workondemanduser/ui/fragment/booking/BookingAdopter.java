@@ -84,8 +84,7 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
             holder.status.setText(item.getStatus());
             holder.token.setText("# "+ item.getId());
 
-            holder.date.setText(Constants.constant.getDate(item.getCreatedAt()));
-            holder.time.setText(Constants.constant.getTime(item.getCreatedAt()));
+            holder.date.setText(Constants.constant.getDate(item.getStart_date()));
 
             holder.service.setHorizontallyScrolling(true);
             holder.service.setFocusable(true);

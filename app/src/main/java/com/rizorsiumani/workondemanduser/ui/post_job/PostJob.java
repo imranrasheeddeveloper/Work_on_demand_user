@@ -25,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
@@ -43,6 +44,8 @@ import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SubCategoryDataItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.job_timing.JobDaysItem;
+import com.rizorsiumani.workondemanduser.data.businessModels.job_timing.JobTimingDataItem;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityPostJobBinding;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
@@ -50,6 +53,7 @@ import com.rizorsiumani.workondemanduser.ui.fragment.home.HomeViewModel;
 import com.rizorsiumani.workondemanduser.ui.job_timing.JobTiming;
 import com.rizorsiumani.workondemanduser.ui.job_timing.TimeItem;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategoryViewModel;
+import com.rizorsiumani.workondemanduser.ui.view_booking_information.BookingInformation;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.rizorsiumani.workondemanduser.utils.GetRealPathFromUri;
@@ -83,6 +87,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     Uri imageUri;
     AlertDialog alertDialog1 = null;
     PostedJobsDataItem postedJobsDataItem;
+    String status;
 
 
 
@@ -94,6 +99,8 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     @Override
     protected void onStart() {
         super.onStart();
+
+        status = getIntent().getStringExtra("status");
 
 
 
@@ -117,11 +124,40 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                     hideLoading();
                     categoriesDataItems = new ArrayList<>();
                     categoriesDataItems.addAll(response.getData().getData());
+                    if (status.equalsIgnoreCase("update")) {
+                        for (int i = 0; i < categoriesDataItems.size(); i++) {
+                            if (categoriesDataItems.get(i).getId() == postedJobsDataItem.getCategoryId()) {
+                                activityBinding.selectedCategory.setText(categoriesDataItems.get(i).getTitle());
+                                subCategoryViewModel.dropDownSubCategories(categoriesDataItems.get(i).getId());
+                                subCategoryViewModel._subCategory.observe(PostJob.this, response1 -> {
+                                    if (response1 != null) {
+                                        if (response1.isLoading()) {
+                                            showLoading();
+                                        } else if (!response1.getError().isEmpty()) {
+                                            hideLoading();
+                                            showSnackBarShort(response1.getError());
+                                        } else if (response1.getData().getData() != null) {
+                                            hideLoading();
+
+                                            subCategoryDataItems = new ArrayList<>();
+                                            subCategoryDataItems.addAll(response1.getData().getData());
+                                            for (int k = 0; k < subCategoryDataItems.size(); k++) {
+                                                if (subCategoryDataItems.get(k).getId() == postedJobsDataItem.getSubCategoryId()) {
+                                                    activityBinding.selectedSubcategory.setText(subCategoryDataItems.get(k).getTitle());
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         });
 
-        if (getIntent() != null){
+        if (status.equalsIgnoreCase("update")) {
             Gson gson = new Gson();
             String data = getIntent().getStringExtra("posted_job_detail");
             postedJobsDataItem = gson.fromJson(data, PostedJobsDataItem.class);
@@ -139,24 +175,12 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                         if (TinyDbManager.getTiming().get(i).getTime().size() > 0) {
                             data.addAll(TinyDbManager.getTiming().get(i).getTime());
                         }
+                        buildTimeSlotRv(data);
                     }
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
 
-            }
-            if (data.size() > 0) {
-                activityBinding.timeData.setHasFixedSize(true);
-                activityBinding.timeData.setLayoutManager(new LinearLayoutManager(PostJob.this));
-                SelectedTimeAdapter adapter = new SelectedTimeAdapter(PostJob.this, data);
-                activityBinding.timeData.setAdapter(adapter);
-                activityBinding.deadlineDate.setVisibility(View.GONE);
-                activityBinding.tvDeadline.setVisibility(View.GONE);
-                activityBinding.timeData.setVisibility(View.VISIBLE);
-            } else {
-                activityBinding.deadlineDate.setVisibility(View.VISIBLE);
-                activityBinding.tvDeadline.setVisibility(View.VISIBLE);
-                activityBinding.timeData.setVisibility(View.GONE);
             }
 
         }
@@ -172,23 +196,61 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             Glide.with(PostJob.this).load(Constants.IMG_PATH + postedJobsDataItem.getAttachment()).into(activityBinding.ivAddImage);
             activityBinding.ivAddImage.setBackgroundResource(R.drawable.rect_bg);
             activityBinding.deleteImage.setVisibility(View.VISIBLE);
-            for (int i = 0; i < categoriesDataItems.size(); i++) {
-                if (categoriesDataItems.get(i).getId() == postedJobsDataItem.getCategoryId()){
-                    activityBinding.selectedCategory.setText(categoriesDataItems.get(i).getTitle());
-                }
-            }
-            for (int i = 0; i < subCategoryDataItems.size(); i++) {
-                if (subCategoryDataItems.get(i).getId() == postedJobsDataItem.getSubCategoryId()){
-                    activityBinding.selectedSubcategory.setText(subCategoryDataItems.get(i).getTitle());
-                }
-            }
+
+
             activityBinding.selectedBudgetUnit.setText(postedJobsDataItem.getPriceUnit());
+            postJobViewModel.getJobTiming(postedJobsDataItem.getId());
+            postJobViewModel._job_timing.observe(this , response -> {
+                if (response != null){
+                    if (response.isLoading()) {
+                        showLoading();
+                    } else if (!response.getError().isEmpty()) {
+                        hideLoading();
+                        showSnackBarShort(response.getError());
+                    } else if (response.getData().getData() != null) {
+                        hideLoading();
+                        if (response.getData().getData().size() > 0){
+                            List<TimeItem> timeItems = new ArrayList<>();
+                            for (int i = 0; i < response.getData().getData().size(); i++) {
+                                for (int j = 0; j < response.getData().getData().get(i).getJobDays().size(); j++) {
+                                    JobDaysItem daysItem = response.getData().getData().get(i).getJobDays().get(j);
+                                    timeItems.add(new TimeItem(Integer.valueOf(daysItem.getTotalHours()), daysItem.getFromTime(), daysItem.getToTime()));
+
+                                }
+                            }
+                            buildTimeSlotRv(timeItems);
+
+                        }
+                    }
+                }
+            });
 
 
 
 
         }catch (NullPointerException e){
             e.printStackTrace();
+        }
+    }
+
+    private void buildTimeSlotRv(List<TimeItem> timeItems) {
+        if (timeItems.size() > 0) {
+            GridLayoutManager layoutManager = new GridLayoutManager(PostJob.this, 3);
+            activityBinding.timeData.setLayoutManager(layoutManager);
+            SelectedTimeAdapter adapter = new SelectedTimeAdapter(PostJob.this, timeItems);
+            activityBinding.timeData.setAdapter(adapter);
+            activityBinding.deadlineDate.setVisibility(View.GONE);
+            activityBinding.tvDeadline.setVisibility(View.GONE);
+            activityBinding.timeData.setVisibility(View.VISIBLE);
+
+            adapter.setOnSlotClickListener(position -> {
+
+            });
+
+        } else {
+            activityBinding.deadlineDate.setVisibility(View.VISIBLE);
+            activityBinding.tvDeadline.setVisibility(View.VISIBLE);
+            activityBinding.timeData.setVisibility(View.GONE);
         }
     }
 
@@ -229,31 +291,8 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
         activityBinding.selectedSubcategory.setOnClickListener(view -> {
             if (selectedCatID != 0) {
-                subCategoryViewModel.dropDownSubCategories(selectedCatID);
-                subCategoryViewModel._subCategory.observe(PostJob.this, response -> {
-                    if (response != null) {
-                        if (response.isLoading()) {
-                            showLoading();
-                        } else if (!response.getError().isEmpty()) {
-                            hideLoading();
-                            showSnackBarShort(response.getError());
-                        } else if (response.getData().getData() != null) {
-                            hideLoading();
+                getSubCategories(selectedCatID);
 
-                            subCategoryDataItems = new ArrayList<>();
-                            subCategoryDataItems.addAll(response.getData().getData());
-                            if (subCategoryDataItems.size() > 0) {
-                                showSubCategoriesDialogue(activityBinding.selectedSubcategory);
-//                                if (id != 0) {
-//                                    selectedSubCatID = id;
-//                                }
-                            } else {
-                                showSnackBarShort("No Sub Category, Select Other Category");
-                            }
-
-                        }
-                    }
-                });
 
             } else {
                 showSnackBarShort("Category Required");
@@ -314,6 +353,39 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
 
+    }
+
+    private void getSubCategories(int selectedCatID) {
+        subCategoryViewModel.dropDownSubCategories(selectedCatID);
+        subCategoryViewModel._subCategory.observe(PostJob.this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (!response.getError().isEmpty()) {
+                    hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getData() != null) {
+                    hideLoading();
+
+                    subCategoryDataItems = new ArrayList<>();
+                    subCategoryDataItems.addAll(response.getData().getData());
+                    for (int i = 0; i < subCategoryDataItems.size(); i++) {
+                        if (subCategoryDataItems.get(i).getId() == postedJobsDataItem.getSubCategoryId()){
+                            activityBinding.selectedSubcategory.setText(subCategoryDataItems.get(i).getTitle());
+                        }
+                    }
+                    if (subCategoryDataItems.size() > 0) {
+                        showSubCategoriesDialogue(activityBinding.selectedSubcategory);
+//                                if (id != 0) {
+//                                    selectedSubCatID = id;
+//                                }
+                    } else {
+                        showSnackBarShort("No Sub Category, Select Other Category");
+                    }
+
+                }
+            }
+        });
     }
 
     @Override

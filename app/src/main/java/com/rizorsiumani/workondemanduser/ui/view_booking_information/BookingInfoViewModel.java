@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.rizorsiumani.workondemanduser.data.businessModels.BookingDetailModel;
-import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.booking_detail.BookingDetailModel;
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
 

@@ -79,7 +79,21 @@ public class AllPostedJobs extends BaseActivity<ActivityAllPostedJobsBinding> {
         adapter.setOnJobClickListener(new JobsListAdapter.OnItemClickListener() {
             @Override
             public void onCancel(int position) {
-                adapter.remove(position);
+                String token = prefRepository.getString("token");
+                viewModel.deleteJob(token);
+                viewModel._delete_job.observe(AllPostedJobs.this, response -> {
+                    if (response != null){
+                        if (response.isLoading()){
+                            showLoading();
+                        } else if (!response.getError().isEmpty()) {
+                            hideLoading();
+                            showSnackBarShort(response.getError());
+                        } else if (response.getData().isSuccess()) {
+                            hideLoading();
+                            adapter.remove(position);
+                        }
+                    }
+                });
             }
 
             @Override
@@ -89,6 +103,7 @@ public class AllPostedJobs extends BaseActivity<ActivityAllPostedJobsBinding> {
                 dataItems.get(position);
                 Intent intent = new Intent(AllPostedJobs.this, PostJob.class);
                 intent.putExtra("posted_job_detail", job_details);
+                intent.putExtra("status", "update");
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }

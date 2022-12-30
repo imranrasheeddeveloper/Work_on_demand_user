@@ -1,25 +1,32 @@
 package com.rizorsiumani.workondemanduser.ui.booking_date;
 
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonObject;
-import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.common.BookingTimingItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityHoursItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookingDateTimeBinding;
 import com.rizorsiumani.workondemanduser.ui.booking.BookService;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
@@ -45,7 +52,7 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
     BookingScheduleViewModel scheduleViewModel;
     String serviceData;
     TimeSlotsAdapter timeSlotsAdapter;
-    private String selectedHours;
+    BookingTimingItem bookingTimingItem;
 
     @Override
     protected ActivityBookingDateTimeBinding getActivityBinding() {
@@ -58,7 +65,7 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
 
 
         activityBinding.searchedToolbar.title.setText("Select Hours");
-        spID = getIntent().getStringExtra("service_provider_id");
+        spID = TinyDbManager.getServiceProviderID();
         serviceData = getIntent().getStringExtra("service_data");
 
         if (getIntent().getStringExtra("booking_id") != null) {
@@ -102,13 +109,13 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
         activityBinding.btnContinue.setOnClickListener(view -> {
             try {
 
-            if (selectedHours != null) {
+            if (TinyDbManager.getBookingTiming().size() > 0) {
 
                 if (bookingID != null) {
                     String token = prefRepository.getString("token");
                     JsonObject object = new JsonObject();
                     object.addProperty("id", bookingID);
-                    object.addProperty("availability_id", selectedHours);
+//                    object.addProperty("availability_id", selectedHours);
                     scheduleViewModel.get(token, object);
                     scheduleViewModel._reschedule.observe(this, response -> {
                         if (response != null) {
@@ -132,14 +139,11 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
                     });
                 } else {
 //                    Intent intent = new Intent(BookingDateTime.this, BookingDetail.class);
-//                    intent.putExtra("service_provider_id", spID);
 //                    startActivity(intent);
 //                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
                     Intent intent = new Intent(BookingDateTime.this, BookService.class);
                     intent.putExtra("service_data",serviceData);
-                    intent.putExtra("service_provider_id", spID);
-                    intent.putExtra("availabilityHour",selectedHours);
                     startActivity(intent);
                     finish();
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -207,49 +211,40 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
                 timeSlotsAdapter.selectedPosition = -1;
                 hoursList = new ArrayList<>();
                 hoursList.addAll(list.get(position).getAvailabilityHours());
-                timeSlotsRv(hoursList);
+                timeSlotsRv(hoursList,list.get(position).getDay());
             }
         });
 
     }
 
-    private void timeSlotsRv(List<AvailabilityHoursItem> hoursList) {
-//
-//        List<String> slots = new ArrayList<>();
-//        slots.add("12AM - 01AM");
-//        slots.add("01AM - 02AM");
-//        slots.add("02AM - 03AM");
-//        slots.add("03AM - 04AM");
-//        slots.add("04AM - 05AM");
-//        slots.add("05AM - 06AM");
-//        slots.add("06AM - 07AM");
-//        slots.add("07AM - 08AM");
-//        slots.add("08AM - 09AM");
-//        slots.add("09AM - 10AM");
-//        slots.add("10AM - 11AM");
-//        slots.add("11AM - 12PM");
-//        slots.add("12PM - 01PM");
-//        slots.add("01PM - 02PM");
-//        slots.add("02PM - 03PM");
-//        slots.add("03PM - 04PM");
-//        slots.add("04PM - 05PM");
-//        slots.add("05PM - 06PM");
-//        slots.add("06PM - 07PM");
-//        slots.add("07PM - 08PM");
-//        slots.add("08PM - 09PM");
-//        slots.add("09PM - 10PM");
-//        slots.add("10PM - 11PM");
-//        slots.add("11PM - 12AM");
-        GridLayoutManager layoutManager = new GridLayoutManager(BookingDateTime.this, 2);
+    private void timeSlotsRv(List<AvailabilityHoursItem> hoursList, String day) {
+
+        GridLayoutManager layoutManager = new GridLayoutManager(BookingDateTime.this, 3);
         activityBinding.timeList.setLayoutManager(layoutManager);
         timeSlotsAdapter = new TimeSlotsAdapter(BookingDateTime.this, hoursList);
         activityBinding.timeList.setAdapter(timeSlotsAdapter);
         activityBinding.timeList.setVisibility(View.VISIBLE);
         hideLoading();
 
-        timeSlotsAdapter.setOnSlotClickListener(position -> {
-            selectedHours = String.valueOf(hoursList.get(position).getId());
-            //Toast.makeText(this, hoursList.get(position).getId(), Toast.LENGTH_SHORT).show();
+        timeSlotsAdapter.setOnSlotClickListener(new TimeSlotsAdapter.OnItemClickListener() {
+            @Override
+            public void onTimeSelect(int position) {
+                bookingTimingItem = new BookingTimingItem(hoursList.get(position).getFromTime(),
+                        String.valueOf(hoursList.get(position).getTotalHours()),
+                        day,
+                        hoursList.get(position).getToTime());
+                TinyDbManager.saveBookingTiming(bookingTimingItem);
+            }
+
+            @Override
+            public void onTimeUnselect(int position) {
+                bookingTimingItem = new BookingTimingItem(hoursList.get(position).getFromTime(),
+                        String.valueOf(hoursList.get(position).getTotalHours()),
+                        day,
+                        hoursList.get(position).getToTime());
+                TinyDbManager.removeBookingTiming(bookingTimingItem);
+
+            }
         });
     }
 
@@ -263,4 +258,6 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
         viewModel = null;
         scheduleViewModel = null;
     }
+
+
 }

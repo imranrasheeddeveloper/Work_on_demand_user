@@ -32,9 +32,8 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
 
         try {
 
-            spID = getIntent().getStringExtra("service_provider_id");
+            spID = TinyDbManager.getServiceProviderID();
             String data = getIntent().getStringExtra("service_data");
-            hours = getIntent().getStringExtra("availabilityHour");
             if (data != null) {
                 Gson gson = new Gson();
                 servicesDataItem = gson.fromJson(data, ServicesDataItem.class);
@@ -99,9 +98,11 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
                 }
             }
             if (!available){
-                MyCartItems cartItems = new MyCartItems(spID,servicesDataItem, hours , description);
+                MyCartItems cartItems = new MyCartItems(spID,servicesDataItem, TinyDbManager.getBookingTiming() , description, Constants.constant.start_date);
                 TinyDbManager.saveCartData(cartItems);
-                TinyDbManager.saveServiceProviderID(spID);
+                Constants.constant.start_date = "";
+//              TinyDbManager.saveServiceProviderID(spID);
+                TinyDbManager.clearBookingTiming();
                 Nav();
 
             }
@@ -112,7 +113,6 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
 
     private void Nav() {
         Intent intent = new Intent(BookService.this, SpProfile.class);
-        intent.putExtra("service_provider_id",String.valueOf(spID));
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);

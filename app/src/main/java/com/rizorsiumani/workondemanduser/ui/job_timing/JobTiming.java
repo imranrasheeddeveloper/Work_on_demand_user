@@ -5,7 +5,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.text.format.DateFormat;
+
 
 import com.mahdizareei.mztimepicker.MZTimePicker;
 import com.mahdizareei.mztimepicker.interfaces.OnTimeSelectedListener;
@@ -22,6 +25,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
+
+
 
 public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
 
@@ -92,6 +97,8 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
                         appendTimeSlotsInWeekDays(selectedIndex , fromTime , toTime,hours);
                     }
                 });
+
+
     }
 
 
@@ -152,10 +159,6 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
         activityBinding.timeList.setAdapter(adapter);
 
     }
-
-
-
-
 
 
 }

@@ -4,10 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
@@ -19,6 +19,12 @@ public class SelectedTimeAdapter extends RecyclerView.Adapter<SelectedTimeAdapte
 
     private final List<TimeItem> data;
     private final Context ctx;
+    OnItemClickListener mListener;
+
+
+    public void setOnSlotClickListener(OnItemClickListener mListener) {
+        this.mListener = mListener;
+    }
 
     public SelectedTimeAdapter(Context context, List<TimeItem> list) {
         this.data = list;
@@ -29,7 +35,7 @@ public class SelectedTimeAdapter extends RecyclerView.Adapter<SelectedTimeAdapte
     @Override
     public SelectedTimeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.selected_time_design, parent, false);
-        return new SelectedTimeAdapter.ViewHolder(view);
+        return new SelectedTimeAdapter.ViewHolder(view,mListener);
     }
 
     @Override
@@ -55,16 +61,26 @@ public class SelectedTimeAdapter extends RecyclerView.Adapter<SelectedTimeAdapte
     }
 
     public interface OnItemClickListener {
-        void onTimeSelect(int position);
+        void onTimeDelete(int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView label;
+        public ImageView delete_icon;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnItemClickListener mListener) {
             super(itemView);
 
             label = itemView.findViewById(R.id.time_label);
+            delete_icon = itemView.findViewById(R.id.delete_time);
+
+            delete_icon.setOnClickListener(v -> {
+                if (getAdapterPosition() != RecyclerView.NO_POSITION){
+                    if (mListener != null){
+                        mListener.onTimeDelete(getAdapterPosition());
+                    }
+                }
+            });
 
         }
 
