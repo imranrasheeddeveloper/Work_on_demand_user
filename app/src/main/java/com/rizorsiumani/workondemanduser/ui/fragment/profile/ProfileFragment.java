@@ -26,6 +26,7 @@ import com.rizorsiumani.workondemanduser.ui.login.Login;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.ui.support_chat.SupportChat;
 import com.rizorsiumani.workondemanduser.ui.webview.WebView;
+import com.rizorsiumani.workondemanduser.ui.welcome_user.WelcomeUser;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.AppBarStateChangeListener;
 import com.rizorsiumani.workondemanduser.utils.Constants;
@@ -185,7 +186,8 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         alertDialog.show();
         cancel.setOnClickListener(view -> alertDialog.dismiss());
         logout.setOnClickListener(view -> {
-            ActivityUtil.gotoPage(requireContext(), Login.class);
+            prefRepository.setString("token" , "");
+            ActivityUtil.gotoPage(requireContext(), WelcomeUser.class);
             alertDialog.dismiss();
             requireActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });

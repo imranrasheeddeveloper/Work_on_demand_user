@@ -131,7 +131,7 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
                         hideLoading();
                         prefRepository.setString("token" , "Bearer "+response.getData().getToken());
                         TinyDbManager.saveUserData(response.getData().getData());
-                        ActivityUtil.gotoPage(Register.this, Login.class);
+                        ActivityUtil.gotoPage(Register.this, Dashboard.class);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     }
                 }
