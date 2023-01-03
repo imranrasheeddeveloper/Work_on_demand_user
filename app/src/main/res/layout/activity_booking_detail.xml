@@ -285,6 +285,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvChargePerHour" />
 
+                    <TextView
+                        android:id="@+id/tvTax"
+                        style="@style/normalText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:text="Service Tax (10%)"
+                        android:textColor="@color/light_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvMinimumHour" />
+
 
                     <TextView
                         android:id="@+id/tv_discount"
@@ -296,7 +307,7 @@
                         android:textColor="@color/primary"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvMinimumHour" />
+                        app:layout_constraintTop_toBottomOf="@id/tvTax" />
 
 
                     <TextView
@@ -311,6 +322,17 @@
                         app:layout_constraintTop_toBottomOf="@id/totalCharges" />
 
                     <TextView
+                        android:id="@+id/subTotalWithTax"
+                        style="@style/normalText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:text="-"
+                        android:textColor="@color/light_gray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/subTotal" />
+
+                    <TextView
                         android:id="@+id/discount_price"
                         style="@style/normalText"
                         android:layout_width="wrap_content"
@@ -320,7 +342,7 @@
                         android:visibility="gone"
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/subTotal" />
+                        app:layout_constraintTop_toBottomOf="@id/subTotalWithTax" />
 
 
                     <View

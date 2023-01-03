@@ -81,6 +81,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         super.onViewCreated(view, savedInstanceState);
 
         hideCartButton();
+        locationHandler();
         Dashboard.hideTabs(false);
         inboxViewModel = new ViewModelProvider(this).get(InboxViewModel.class);
 
@@ -109,9 +110,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         fragmentBinding.skeletonLayout1.startLoading();
         Constants.constant.isHome = true;
 
-        if (!TinyDbManager.getCurrentAddress().isEmpty()) {
+        if (!TinyDbManager.getSelectedAddress().isEmpty()) {
+            fragmentBinding.tvChooseAddress.setText(TinyDbManager.getSelectedAddress());
+        } else if (!TinyDbManager.getCurrentAddress().isEmpty()) {
             fragmentBinding.tvChooseAddress.setText(TinyDbManager.getCurrentAddress());
-        } else {
+        }else {
             fragmentBinding.tvChooseAddress.setText("Please set your location");
         }
 

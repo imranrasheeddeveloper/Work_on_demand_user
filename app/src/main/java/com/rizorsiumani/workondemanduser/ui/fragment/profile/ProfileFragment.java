@@ -186,7 +186,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         alertDialog.show();
         cancel.setOnClickListener(view -> alertDialog.dismiss());
         logout.setOnClickListener(view -> {
-            prefRepository.setString("token" , "");
+            prefRepository.setString("token" , "nil");
             ActivityUtil.gotoPage(requireContext(), WelcomeUser.class);
             alertDialog.dismiss();
             requireActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);

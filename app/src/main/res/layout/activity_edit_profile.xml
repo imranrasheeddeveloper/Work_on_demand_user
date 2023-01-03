@@ -6,12 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.edit_profile.EditProfile">
 
-    <include
-        layout="@layout/layout_progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
 
-        />
 
     <include
         android:id="@+id/edit_profile_toolbar"
@@ -58,14 +53,13 @@
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 app:civ_border_width="@dimen/_5sdp"
-                android:padding="@dimen/_8sdp"
+                android:padding="@dimen/_6sdp"
                 android:background="@drawable/round_bg"
                 android:backgroundTint="@color/primary"
-                android:src="@drawable/ic_edit_blue"
+                android:src="@drawable/ic_add"
                 android:tag="default"
-                android:id="@+id/edit_user_image"/>
-
-
+                android:id="@+id/edit_user_image"
+                app:tint="@color/white" />
 
             <TextView
                 android:layout_width="0dp"
@@ -187,6 +181,7 @@
                 android:imeOptions="actionDone"
                 style="@style/normalText"
                 android:id="@+id/ed_number"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -232,8 +227,13 @@
                 />
 
 
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <include
+        layout="@layout/layout_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

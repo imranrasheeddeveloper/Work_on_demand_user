@@ -101,7 +101,7 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="false"
         android:visibility="gone"
-        app:lottie_rawRes="@raw/complete" />
+        app:lottie_rawRes="@raw/success" />
 
 
     <Button

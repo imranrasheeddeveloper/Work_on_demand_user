@@ -163,7 +163,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
                     activityBinding.clearIcon.setVisibility(View.VISIBLE);
 
                     adapter.setAddressClickListener(position -> {
-                        TinyDbManager.saveCurrentAddress(suggestionList.get(position).getAddress());
+                        TinyDbManager.saveSelectedAddress(suggestionList.get(position).getAddress());
                         prefRepository.setString("CURRENT_LOCATION", suggestionList.get(position).getAddress());
                         onBackPressed();
                         finish();
@@ -248,7 +248,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
     }
 
     private void setCurrentAddress(String address) {
-        TinyDbManager.saveCurrentAddress(address);
+        TinyDbManager.saveSelectedAddress(address);
         onBackPressed();
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);

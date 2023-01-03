@@ -59,7 +59,7 @@ public class PostedJobsViewModel extends ViewModel {
                 });
     }
 
-    public void deleteJob(String token) {
+    public void deleteJob(String token, int id) {
 
         delete_job.setValue(
                 new ResponseWrapper<>(
@@ -67,7 +67,7 @@ public class PostedJobsViewModel extends ViewModel {
                 ));
 
         RemoteRepository.getInstance()
-                .deleteJob(token)
+                .deleteJob(token,id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BasicModel>() {

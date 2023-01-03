@@ -23,6 +23,8 @@ public class TinyDbManager {
     public static final String KEY_ADD_BOOKING = "key_add_booking";
 
     public static final String KEY_ADDRESS = "key_address";
+    public static final String KEY_SELECTED_ADDRESS = "key_selected_address";
+
     public static final String KEY_ADDRESS_STATUS = "key_address_status";
     public static final String KEY_USER = "key_user";
     public static final String KEY_FIRST_VISIT = "key_first_visit";
@@ -138,6 +140,17 @@ public class TinyDbManager {
     public static String getCurrentAddress() {
         TinyDB tinyDB = new TinyDB(App.applicationContext);
         return tinyDB.getString(KEY_ADDRESS);
+    }
+
+    public static void saveSelectedAddress(String address) {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        tinyDB.putString(KEY_SELECTED_ADDRESS, address);
+
+    }
+
+    public static String getSelectedAddress() {
+        TinyDB tinyDB = new TinyDB(App.applicationContext);
+        return tinyDB.getString(KEY_SELECTED_ADDRESS);
     }
 
     public static void saveUserData(UserData data) {

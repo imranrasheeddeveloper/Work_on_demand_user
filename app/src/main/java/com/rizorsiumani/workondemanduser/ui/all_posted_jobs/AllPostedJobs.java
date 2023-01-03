@@ -80,7 +80,7 @@ public class AllPostedJobs extends BaseActivity<ActivityAllPostedJobsBinding> {
             @Override
             public void onCancel(int position) {
                 String token = prefRepository.getString("token");
-                viewModel.deleteJob(token);
+                viewModel.deleteJob(token,dataItems.get(position).getId());
                 viewModel._delete_job.observe(AllPostedJobs.this, response -> {
                     if (response != null){
                         if (response.isLoading()){
@@ -91,6 +91,7 @@ public class AllPostedJobs extends BaseActivity<ActivityAllPostedJobsBinding> {
                         } else if (response.getData().isSuccess()) {
                             hideLoading();
                             adapter.remove(position);
+
                         }
                     }
                 });

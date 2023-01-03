@@ -26,6 +26,7 @@ public class StartDate extends BaseActivity<ActivityStartDateBinding> {
 
         activityBinding.dateToolbar.title.setText("Select Start Date");
         serviceData = getIntent().getStringExtra("service_data");
+        activityBinding.datePicker.setMinDate(System.currentTimeMillis() - 1000);
 
         clickEvents();
     }

@@ -207,6 +207,9 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                     getCartServices(TinyDbManager.getCartData());
                     activityBinding.totalCharges.setText(Constants.constant.CURRENCY + getCartTotal());
                     activityBinding.subTotal.setText(Constants.constant.CURRENCY + getCartTotal());
+                    int taxAmount = Math.round ((Integer.parseInt(getCartTotal()) / 10) * 100);
+                    activityBinding.subTotalWithTax.setText(Constants.constant.CURRENCY + taxAmount);
+
                 }
             }
 
@@ -222,6 +225,8 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                     int subTotal = Integer.valueOf(getCartTotal()) - amount_of_discount;
                     activityBinding.btnPayNow.setText(Constants.constant.CURRENCY + subTotal);
                     activityBinding.subTotal.setText(Constants.constant.CURRENCY + subTotal);
+                    int taxAmount = Math.round ((amount_of_discount / 10) * 100);
+                    activityBinding.subTotalWithTax.setText(Constants.constant.CURRENCY + taxAmount);
                     activityBinding.totalPayment.setText(Constants.constant.CURRENCY + subTotal);
 
                     activityBinding.discountPrice.setVisibility(View.VISIBLE);

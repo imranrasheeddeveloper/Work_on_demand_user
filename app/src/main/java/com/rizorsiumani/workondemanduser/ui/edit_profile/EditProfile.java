@@ -61,10 +61,17 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
     }
 
     private void setData(UserData userData) {
-        Glide.with(EditProfile.this)
-                .load(Constants.IMG_PATH + userData.getImage())
-                .placeholder(R.color.placeholder_bg)
-                .into(activityBinding.userImage);
+        if (userData.getImage() != null){
+            Glide.with(EditProfile.this)
+                    .load(Constants.IMG_PATH + userData.getImage())
+                    .placeholder(R.color.placeholder_bg)
+                    .into(activityBinding.userImage);
+
+            activityBinding.editUserImage.setImageResource(R.drawable.ic_edit_blue);
+        }else {
+            activityBinding.editUserImage.setImageResource(R.drawable.ic_add);
+        }
+
         activityBinding.edFirstname.setText(userData.getFirstName());
         activityBinding.edLastname.setText(userData.getLastName());
         activityBinding.edEmail.setText(userData.getEmail());
@@ -116,7 +123,7 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
 
 
     private void uploadImage(String first_name, String last_name, String email, String number) {
-        File file1 = new File(GetRealPathFromUri.getPathFromUri(EditProfile.this, uri));
+        File file1 = new File(GetRealPathFromUri.getRealPathFromURI( uri,EditProfile.this));
 
         MultipartBody.Part multiPartProfile = MultipartBody.Part.createFormData("image",
                 file1.getName(),
@@ -172,7 +179,7 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
                     hideLoading();
-                    Toast.makeText(EditProfile.this, "Updated", Toast.LENGTH_SHORT).show();
+                    showSnackBarShort(response.getData().getMessage());
                 }
             }
         });

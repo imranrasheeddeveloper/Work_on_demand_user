@@ -458,9 +458,9 @@ public class RemoteRepository {
         return null;
     }
 
-    public Observable<BasicModel> deleteJob(String token) {
+    public Observable<BasicModel> deleteJob(String token,int id) {
         if (mService != null) {
-            return mService.delete_posted_job(token);
+            return mService.delete_posted_job(token,id);
         }
         return null;
     }

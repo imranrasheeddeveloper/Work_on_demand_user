@@ -8,15 +8,44 @@
     android:layout_height="match_parent"
     tools:context=".ui.register.Register">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:text="Let's get started!"-->
+<!--        style="@style/headingText"-->
+<!--        android:layout_marginTop="@dimen/_10sdp"-->
+<!--        android:id="@+id/tv_start"/>-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="117dp"
+        android:layout_height="117dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="Let's get started!"
-        style="@style/headingText"
+        app:civ_border_color="@color/off_white"
         android:layout_marginTop="@dimen/_20sdp"
-        android:id="@+id/tv_start"/>
+        app:civ_border_width="2dp"
+        android:tag="default"
+        android:src="@drawable/user"
+        android:id="@+id/user_image"/>
+
+    <ImageView
+        android:layout_width="@dimen/_26sdp"
+        android:layout_height="@dimen/_26sdp"
+        app:layout_constraintEnd_toEndOf="@id/user_image"
+        app:layout_constraintBottom_toBottomOf="@id/user_image"
+        app:civ_border_color="@color/primary"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        app:civ_border_width="@dimen/_5sdp"
+        android:padding="@dimen/_8sdp"
+        android:background="@drawable/round_bg"
+        android:backgroundTint="@color/primary"
+        android:src="@drawable/ic_edit_blue"
+        android:tag="default"
+        android:id="@+id/edit_user_image"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,9 +55,9 @@
         android:textColor="@color/black"
         android:paddingEnd="@dimen/_18sdp"
         android:paddingBottom="@dimen/_4sdp"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_8sdp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_start"
+        app:layout_constraintTop_toBottomOf="@id/user_image"
         android:id="@+id/tv_firstname"/>
 
     <EditText

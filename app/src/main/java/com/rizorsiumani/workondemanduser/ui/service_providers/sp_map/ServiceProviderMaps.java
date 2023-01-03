@@ -48,6 +48,7 @@ import com.rizorsiumani.workondemanduser.ui.inbox.Inbox;
 import com.rizorsiumani.workondemanduser.ui.inbox.InboxViewModel;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderViewModel;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.SpProfile;
+import com.rizorsiumani.workondemanduser.ui.splash.SplashActivity;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationService;
 import com.rizorsiumani.workondemanduser.utils.map_utils.LocationUpdateService;
@@ -84,7 +85,11 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
         super.onViewCreated(view, savedInstanceState);
 
         inboxViewModel = new ViewModelProvider(this).get(InboxViewModel.class);
-        initMap();
+        if (Constants.constant.isLocationPermissionGranted) {
+            LocationUpdateService locationUpdateService = new LocationUpdateService();
+            locationUpdateService.LocationHandler(requireActivity(), this);
+        }
+            initMap();
         markers = new ArrayList<>();
         layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         providersLatLng = new ArrayList<>();
@@ -254,6 +259,8 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
     @Override
     public void onLocationChange(Location location) {
+        Constants.constant.latitude = location.getLatitude();
+        Constants.constant.longitude = location.getLongitude();
         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
         boolean isCalled = true;
         if (isCalled) {

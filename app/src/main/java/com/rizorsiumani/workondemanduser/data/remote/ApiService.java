@@ -72,7 +72,7 @@ public interface ApiService {
     Observable<SliderModel> getSliderData();
 
     @Multipart
-    @POST("users/uploadProfile")
+    @POST("users/profilePhoto")
     Observable<CommonResponse> uploadImage(@Part MultipartBody.Part object);
 
     @Multipart
@@ -248,5 +248,6 @@ public interface ApiService {
     Observable<JobTimingModel> getJobTiming(@Path("job_id") int job_id);
 
     @DELETE("users/delete_posted_job/{job_id}")
-    Observable<BasicModel> delete_posted_job(@Header("Authorization") String token);
+    Observable<BasicModel> delete_posted_job(@Header("Authorization") String token,
+                                             @Path("job_id") int job_id);
 }
