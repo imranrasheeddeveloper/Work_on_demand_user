@@ -9,6 +9,10 @@ import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderMode
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -45,11 +49,18 @@ public class ServiceProviderViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        provider.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                provider.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override
@@ -82,11 +93,18 @@ public class ServiceProviderViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        by_cat_provider.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                by_cat_provider.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override
@@ -119,11 +137,18 @@ public class ServiceProviderViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        search_provider.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                search_provider.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override

@@ -12,6 +12,10 @@ import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderProf
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -53,11 +57,18 @@ public class ProviderDetailViewModel extends ViewModel {
                     }
                     @Override
                     public void onError(Throwable e) {
-                        gallery.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                gallery.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
                     @Override
                     public void onNext(ProviderGalleryModel model) {
@@ -88,11 +99,18 @@ public class ProviderDetailViewModel extends ViewModel {
                     }
                     @Override
                     public void onError(Throwable e) {
-                        services.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                services.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
                     @Override
                     public void onNext(ProviderServicesModel model) {
@@ -123,11 +141,18 @@ public class ProviderDetailViewModel extends ViewModel {
                     }
                     @Override
                     public void onError(Throwable e) {
-                        available.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                available.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
                     @Override
                     public void onNext(ProviderAvailabilityModel model) {
@@ -158,11 +183,18 @@ public class ProviderDetailViewModel extends ViewModel {
                     }
                     @Override
                     public void onError(Throwable e) {
-                        profile.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                profile.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
                     @Override
                     public void onNext(ServiceProviderProfileModel model) {
@@ -193,11 +225,18 @@ public class ProviderDetailViewModel extends ViewModel {
                     }
                     @Override
                     public void onError(Throwable e) {
-                        rating.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                rating.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
                     @Override
                     public void onNext(GetRatingModel model) {

@@ -11,6 +11,10 @@ import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.model.GetCardsModel;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -46,11 +50,18 @@ public class CardViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        createCard.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                createCard.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override
@@ -83,11 +94,18 @@ public class CardViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        cards.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                cards.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override
@@ -120,11 +138,18 @@ public class CardViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        remove.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                remove.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override

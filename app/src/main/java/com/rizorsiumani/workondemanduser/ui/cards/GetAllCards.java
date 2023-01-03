@@ -61,6 +61,13 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
         Cards();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Cards();
+
+    }
+
     private void Cards() {
         try {
 

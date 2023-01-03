@@ -13,7 +13,11 @@ import com.rizorsiumani.workondemanduser.data.businessModels.job_timing.JobTimin
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
 
+import java.io.IOException;
+
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -51,11 +55,18 @@ public class PostJobViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        job.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                job.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override
@@ -88,11 +99,18 @@ public class PostJobViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        job_image.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                job_image.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override
@@ -125,11 +143,18 @@ public class PostJobViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        job_timing.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                job_timing.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override

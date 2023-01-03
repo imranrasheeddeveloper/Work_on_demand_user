@@ -9,7 +9,11 @@ import com.rizorsiumani.workondemanduser.data.businessModels.UpdateUserModel;
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
 
+import java.io.IOException;
+
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -41,11 +45,18 @@ public class ImageUploadViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        response.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                response.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override
@@ -78,11 +89,18 @@ public class ImageUploadViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        update.setValue(new ResponseWrapper<>(
-                                false,
-                                e.getLocalizedMessage(),
-                                null
-                        ));
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                update.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override

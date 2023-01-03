@@ -102,6 +102,7 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
         activityBinding.confirmLocation.setOnClickListener(view -> {
             String address = activityBinding.locationAddress.getText().toString();
             TinyDbManager.saveCurrentAddress(address);
+            TinyDbManager.saveSelectedAddress("");
 
             if (latitude == 0.0 || longitude == 0.0) {
                 showSnackBarShort("Select Location First");
@@ -192,6 +193,8 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
                         placesClient.fetchPlace(request1).addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
                             @Override
                             public void onSuccess(FetchPlaceResponse response) {
+                                activityBinding.search.setText("");
+                                activityBinding.clearIcon.setVisibility(View.GONE);
                                 MapConfig.config.moveCamera(response.getPlace().getLatLng(), mMap);
                                 activityBinding.placesList.setVisibility(View.GONE);
                                 hideLoading();
@@ -330,6 +333,8 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
         if (!centerAddress.isEmpty()) {
             activityBinding.locationAddress.setText(centerAddress);
             TinyDbManager.saveCurrentAddress(centerAddress);
+            TinyDbManager.saveSelectedAddress("");
+
             address = centerAddress;
         }
     }

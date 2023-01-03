@@ -22,6 +22,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.data.local.TinyDB;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySplashBinding;
 import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
@@ -114,6 +115,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
         Constants.constant.longitude = location.getLongitude();
         String address = GetProperLocationAddress(location.getLatitude(), location.getLongitude(), SplashActivity.this);
         TinyDbManager.saveCurrentAddress(address);
+        TinyDbManager.saveSelectedAddress("");
         String token = prefRepository.getString("token");
         if (token.equals("Bearer ") || token.equals("nil")) {
 
