@@ -79,10 +79,13 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
                     if (response.getData().getData() != null) {
                         if (response.getData().getData().size() > 0){
                             hideNoDataAnimation();
+                            fragmentBinding.transactionsList.setVisibility(View.VISIBLE);
                             transactionsDataItemList.addAll(response.getData().getData());
                             transactionsRv(transactionsDataItemList);
                         }else {
-                            showNoDataAnimation(R.raw.no_transaction,"No Transaction");
+                            fragmentBinding.transactionsList.setVisibility(View.GONE);
+                            fragmentBinding.noTransLayout.setVisibility(View.VISIBLE);
+//                            showNoDataAnimation(R.raw.no_transaction,"No Transaction");
                         }
                     }
                 }

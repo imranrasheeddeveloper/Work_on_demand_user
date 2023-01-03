@@ -235,9 +235,52 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:visibility="gone"
                         app:layout_constraintTop_toBottomOf="@id/tv_recent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:id="@+id/transactionsList"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/noTransLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_recent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        >
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/no_data_animation"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_210sdp"
+                            android:layout_marginBottom="@dimen/_50sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/no_transaction"
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_no_data"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_20sdp"
+                            android:layout_marginEnd="@dimen/_20sdp"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:gravity="center_horizontal"
+                            android:text="No Transaction"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/no_data_animation" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

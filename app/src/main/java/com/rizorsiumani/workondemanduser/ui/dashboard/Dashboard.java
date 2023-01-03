@@ -298,8 +298,8 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         Constants.constant.latitude = location.getLatitude();
         Constants.constant.longitude = location.getLongitude();
         String address = GetProperLocationAddress(location.getLatitude(), location.getLongitude(), Dashboard.this);
-        TinyDbManager.saveCurrentAddress(address);
-        TinyDbManager.saveSelectedAddress("");
+//        TinyDbManager.saveCurrentAddress(address);
+//        TinyDbManager.saveSelectedAddress("");
 
 
     }

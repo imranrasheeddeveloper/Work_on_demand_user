@@ -164,6 +164,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
 
                     adapter.setAddressClickListener(position -> {
                         TinyDbManager.saveSelectedAddress(suggestionList.get(position).getAddress());
+                        TinyDbManager.saveCurrentAddress("");
                         prefRepository.setString("CURRENT_LOCATION", suggestionList.get(position).getAddress());
                         onBackPressed();
                         finish();
@@ -249,6 +250,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
 
     private void setCurrentAddress(String address) {
         TinyDbManager.saveSelectedAddress(address);
+        TinyDbManager.saveCurrentAddress("");
         onBackPressed();
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);

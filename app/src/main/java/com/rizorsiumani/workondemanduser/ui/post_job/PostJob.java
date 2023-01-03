@@ -343,13 +343,13 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             overridePendingTransition(R.anim.stationary, R.anim.slide_down);
         });
 
-        activityBinding.selectedCategory.setOnClickListener(view -> {
+        activityBinding.tvCategory.setOnClickListener(view -> {
             if (categoriesDataItems.size() > 0) {
                 showCategoriesDialogue(0, activityBinding.selectedCategory);
             }
         });
 
-        activityBinding.selectedSubcategory.setOnClickListener(view -> {
+        activityBinding.tvSubcategory.setOnClickListener(view -> {
             if (selectedCatID != 0) {
                 getSubCategories(selectedCatID);
 

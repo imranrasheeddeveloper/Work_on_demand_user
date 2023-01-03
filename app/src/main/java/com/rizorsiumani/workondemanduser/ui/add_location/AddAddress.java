@@ -171,7 +171,6 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
                         AutocompletePrediction prediction = predictionList.get(i);
                         suggestionList.add(new PlaceModel(prediction.getPlaceId(),prediction.getPrimaryText(null).toString(),
                                 prediction.getFullText(null).toString()));
-
                     }
 
                     activityBinding.placesList.setHasFixedSize(true);
