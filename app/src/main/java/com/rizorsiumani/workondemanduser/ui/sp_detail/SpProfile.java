@@ -184,9 +184,11 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
             activityBinding.tabLayout.addTab(activityBinding.tabLayout.newTab().setText("Available").setId(3));
         }
 
-        activityBinding.tabLayout.getTabAt(0).view.setBackground(getResources().getDrawable(R.drawable.rect_bg));
-        activityBinding.tabLayout.getTabAt(0).view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+        if (activityBinding.tabLayout.getSelectedTabPosition() == 0) {
 
+            activityBinding.tabLayout.getTabAt(0).view.setBackground(getResources().getDrawable(R.drawable.rect_bg));
+            activityBinding.tabLayout.getTabAt(0).view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00A688")));
+        }
 
         activityBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

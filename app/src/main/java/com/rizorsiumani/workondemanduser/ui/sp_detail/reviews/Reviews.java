@@ -58,7 +58,7 @@ public class Reviews extends BaseFragment<FragmentReviewsBinding> {
                         ratingDataItems.addAll(response.getData().getData());
                         buildRv(ratingDataItems);
                     }else {
-                        showNoDataAnimation(R.raw.no_job,"Not Rated Yet.");
+                        showNoDataAnimation(R.raw.no_data,"Not Rated Yet.");
                     }
                 }
             }

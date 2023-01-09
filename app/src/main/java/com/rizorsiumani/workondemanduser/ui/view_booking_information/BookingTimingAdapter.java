@@ -46,7 +46,7 @@ public class BookingTimingAdapter extends RecyclerView.Adapter<AvailabilityAdapt
 
             if (dataItem.getTime().size() > 0){
 
-                LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
+                LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.HORIZONTAL, false);
                 holder.timeSlots.setLayoutManager(layoutManager1);
                 BookingTimeSlotsAdapter adapter1 = new BookingTimeSlotsAdapter(ctx,dataItem.getTime());
                 holder.timeSlots.setAdapter(adapter1);

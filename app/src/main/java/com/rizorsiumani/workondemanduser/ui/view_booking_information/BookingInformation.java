@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.booking_detail.BookingDetailData;
@@ -110,25 +112,25 @@ public class BookingInformation extends BaseActivity<ActivityBookingInformationB
                 BookingTimingsItem bookingTimingsItem = data.getBookingTimings().get(i);
                 if (bookingTimingsItem.getDay().equalsIgnoreCase("Monday")) {
                     timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(0,new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
+                    list.add(new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
                 }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Tuesday")) {
                     timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(1, new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
+                    list.add(new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
                 }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Wednesday")) {
                     timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(2, new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
+                    list.add(new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
                 }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Thursday")) {
                     timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(3, new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
+                    list.add(new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
                 }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Friday")) {
                     timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(4, new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
+                    list.add( new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
                 }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Saturday")) {
                     timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(5, new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
+                    list.add(new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
                 }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Sunday")) {
                     timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(6, new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
+                    list.add( new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
                 }else {
 
                 }
@@ -146,7 +148,7 @@ public class BookingInformation extends BaseActivity<ActivityBookingInformationB
     }
 
     private void buildTimingRv(List<AvailabilitiesItem> list) {
-        GridLayoutManager layoutManager = new GridLayoutManager(BookingInformation.this, 3);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
         activityBinding.availableTimeList.setLayoutManager(layoutManager);
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(activityBinding.availableTimeList);

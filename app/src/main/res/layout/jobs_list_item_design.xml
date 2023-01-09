@@ -84,7 +84,7 @@
             android:background="@drawable/rect_bg"
             android:backgroundTint="@color/primary"
             style="@style/mediumText"
-            android:text="Alter Request"
+            android:text="Update Request"
             android:padding="@dimen/_8sdp"
             android:id="@+id/btn_alter"/>
 

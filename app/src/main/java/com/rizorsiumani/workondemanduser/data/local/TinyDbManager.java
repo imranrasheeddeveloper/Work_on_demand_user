@@ -63,7 +63,6 @@ public class TinyDbManager {
         TinyDB tinyDB = new TinyDB(App.applicationContext);
         ArrayList<Object> items = tinyDB.getListObject(KEY_ADD_BOOKING, AddBookingDataItem.class);
         ArrayList<AddBookingDataItem> cartItems = new ArrayList<>();
-        ;
 
         if (!items.isEmpty()) {
             for (int i = 0; i < items.size(); i++) {
@@ -91,7 +90,7 @@ public class TinyDbManager {
         TinyDB tinyDB = new TinyDB(App.applicationContext);
         ArrayList<Object> items = tinyDB.getListObject(KEY_CART, MyCartItems.class);
         ArrayList<MyCartItems> cartItems = new ArrayList<>();
-        ;
+
 
         if (!items.isEmpty()) {
             for (int i = 0; i < items.size(); i++) {
@@ -210,7 +209,10 @@ public class TinyDbManager {
 
     public static void saveTiming(AvailabilitiesItem dayTimeModelList) {
         TinyDB tinyDB = new TinyDB(App.applicationContext);
-        tinyDB.putObject(KEY_TIMING, dayTimeModelList);
+        ArrayList<Object> previousItems = tinyDB.getListObject(KEY_TIMING, AvailabilitiesItem.class);
+        previousItems.add(dayTimeModelList);
+        tinyDB.putListObject(KEY_TIMING, previousItems);
+        Log.e("ADD TIMING", "item saved !");
     }
 
     public static List<AvailabilitiesItem> getTiming() {

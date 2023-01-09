@@ -16,7 +16,10 @@ public class BookingTimingItem{
 	@SerializedName("toTime")
 	private String toTime;
 
-	public BookingTimingItem(String fromTime, String totalHours, String day, String toTime) {
+	int id;
+
+	public BookingTimingItem(int id,String fromTime, String totalHours, String day, String toTime) {
+		this.id = id;
 		this.fromTime = fromTime;
 		this.totalHours = totalHours;
 		this.day = day;
@@ -37,5 +40,9 @@ public class BookingTimingItem{
 
 	public String getToTime(){
 		return toTime;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

@@ -492,8 +492,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
         Constants.constant.latitude = location.getLatitude();
         Constants.constant.longitude = location.getLongitude();
         String address = GetProperLocationAddress(location.getLatitude(), location.getLongitude(),requireContext());
-        //TinyDbManager.saveCurrentAddress(address);
-        //fragmentBinding.tvChooseAddress.setText(address);
+        TinyDbManager.saveCurrentAddress(address);
+//        fragmentBinding.tvChooseAddress.setText(address);
     }
 
     @Override

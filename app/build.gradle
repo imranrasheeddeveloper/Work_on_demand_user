@@ -54,6 +54,7 @@ dependencies {
     // Annotation processor using Java8
     implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.squareup.picasso:picasso:2.8'
 
     //lifecycle ext
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'

@@ -508,7 +508,9 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                 showSnackBarShort("Select Your Location");
             } else {
                 if (payment_type.equalsIgnoreCase("Card")) {
-                    chargeByCard();
+                   // chargeByCard();
+                    addToBookingList();
+
                     //paymentFlow();
                 } else {
                     addToBookingList();

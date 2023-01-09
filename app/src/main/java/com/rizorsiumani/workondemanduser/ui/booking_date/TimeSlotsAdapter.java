@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityHoursItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 
 import java.util.List;
 
@@ -47,6 +48,13 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
         AvailabilityHoursItem hoursItem = data.get(position);
 
         holder.fromTime.setText(hoursItem.getFromTime() + " to " + hoursItem.getToTime());
+        if (TinyDbManager.getBookingTiming().size() > 0){
+            for (int i = 0; i < TinyDbManager.getBookingTiming().size(); i++) {
+                if (TinyDbManager.getBookingTiming().get(i).getId() == hoursItem.getId()){
+                    holder.selectedTimeSlot();
+                }
+            }
+        }
 
 //        try {
 //

@@ -115,7 +115,7 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
                     String token = prefRepository.getString("token");
                     JsonObject object = new JsonObject();
                     object.addProperty("id", bookingID);
-//                    object.addProperty("availability_id", selectedHours);
+//                  object.addProperty("availability_id", selectedHours);
                     scheduleViewModel.get(token, object);
                     scheduleViewModel._reschedule.observe(this, response -> {
                         if (response != null) {
@@ -229,7 +229,8 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
         timeSlotsAdapter.setOnSlotClickListener(new TimeSlotsAdapter.OnItemClickListener() {
             @Override
             public void onTimeSelect(int position) {
-                bookingTimingItem = new BookingTimingItem(hoursList.get(position).getFromTime(),
+                bookingTimingItem = new BookingTimingItem(hoursList.get(position).getId(),
+                        hoursList.get(position).getFromTime(),
                         String.valueOf(hoursList.get(position).getTotalHours()),
                         day,
                         hoursList.get(position).getToTime());
@@ -238,7 +239,8 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
 
             @Override
             public void onTimeUnselect(int position) {
-                bookingTimingItem = new BookingTimingItem(hoursList.get(position).getFromTime(),
+                bookingTimingItem = new BookingTimingItem(hoursList.get(position).getId(),
+                        hoursList.get(position).getFromTime(),
                         String.valueOf(hoursList.get(position).getTotalHours()),
                         day,
                         hoursList.get(position).getToTime());

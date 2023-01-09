@@ -63,7 +63,7 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
     private void setData(UserData userData) {
         if (userData.getImage() != null){
             Glide.with(EditProfile.this)
-                    .load(Constants.IMG_PATH + userData.getImage())
+                    .load(userData.getImage())
                     .placeholder(R.color.placeholder_bg)
                     .into(activityBinding.userImage);
 
@@ -161,8 +161,12 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
         object.addProperty("last_name", last_name);
         object.addProperty("email", email);
         object.addProperty("phone_number", number);
-        if (imagePath.isEmpty()){
-            object.addProperty("image", "");
+        if (imagePath == null){
+            if (TinyDbManager.getUserInformation().getImage() != null){
+                object.addProperty("image", TinyDbManager.getUserInformation().getImage());
+            }else {
+                object.addProperty("image", "");
+            }
         }else {
             object.addProperty("image", Constants.IMG_PATH + imagePath);
         }

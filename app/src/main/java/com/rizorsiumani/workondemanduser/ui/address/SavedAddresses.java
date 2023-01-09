@@ -26,6 +26,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.addressDataItems;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySavedAddressesBinding;
 import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 
 import java.util.ArrayList;
@@ -164,7 +165,6 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
 
                     adapter.setAddressClickListener(position -> {
                         TinyDbManager.saveSelectedAddress(suggestionList.get(position).getAddress());
-                        TinyDbManager.saveCurrentAddress("");
                         prefRepository.setString("CURRENT_LOCATION", suggestionList.get(position).getAddress());
                         onBackPressed();
                         finish();
@@ -201,6 +201,7 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
         });
 
       activityBinding.currentLocation.setOnClickListener(v -> {
+          TinyDbManager.saveSelectedAddress("");
           onBackPressed();
           finish();
           overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
@@ -232,9 +233,11 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
         });
 
         activityBinding.addMapLocation.setOnClickListener(view -> {
+            TinyDbManager.saveSelectedAddress("");
             navToAddAddress();
         });
         activityBinding.cancel.setOnClickListener(view -> {
+            TinyDbManager.saveSelectedAddress("");
             onBackPressed();
             finish();
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
@@ -245,13 +248,11 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
             activityBinding.placesList.setVisibility(View.GONE);
             activityBinding.favLocations.setVisibility(View.VISIBLE);
         });
-
     }
 
     private void setCurrentAddress(String address) {
         TinyDbManager.saveSelectedAddress(address);
-        TinyDbManager.saveCurrentAddress("");
-        onBackPressed();
+        ActivityUtil.gotoPage(SavedAddresses.this, Dashboard.class);
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }

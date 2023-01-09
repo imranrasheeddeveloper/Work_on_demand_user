@@ -144,6 +144,7 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
                             TinyDbManager.saveProviderForMapScreen(response.getData());
                             Intent intent = new Intent(SubCategories.this, Serviceproviders.class);
 //                            intent.putExtra("providers",providers);
+                            intent.putExtra("path","subcategory");
                             startActivity(intent);
                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         } else {

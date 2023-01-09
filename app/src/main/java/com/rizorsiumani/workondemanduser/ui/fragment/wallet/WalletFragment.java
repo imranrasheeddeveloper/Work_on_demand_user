@@ -79,6 +79,8 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
                     if (response.getData().getData() != null) {
                         if (response.getData().getData().size() > 0){
                             hideNoDataAnimation();
+                            fragmentBinding.noTransLayout.setVisibility(View.GONE);
+
                             fragmentBinding.transactionsList.setVisibility(View.VISIBLE);
                             transactionsDataItemList.addAll(response.getData().getData());
                             transactionsRv(transactionsDataItemList);
@@ -121,7 +123,7 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
                 fragmentBinding.username.setText(userData.getFirstName() + " " + userData.getLastName());
                 fragmentBinding.userNumber.setText(userData.getPhoneNumber());
                 Glide.with(requireContext())
-                        .load(Constants.IMG_PATH + userData.getImage())
+                        .load(userData.getImage())
                         .placeholder(R.color.teal_700)
                         .into(fragmentBinding.userImage);
             }

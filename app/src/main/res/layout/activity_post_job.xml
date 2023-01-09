@@ -7,12 +7,7 @@
     tools:context=".ui.post_job.PostJob">
 
 
-    <include
-        layout="@layout/layout_progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
 
-        />
     <include
         android:id="@+id/post_job_toolbar"
         layout="@layout/post_toolbar_layout"
@@ -297,26 +292,25 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/iv_add_timing"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/rect_bg"
-                    android:backgroundTint="@color/teal_200"
-                    android:scaleType="fitXY"
+                    android:id="@+id/iv_editTiming"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_edit_blue"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    app:layout_constraintEnd_toStartOf="@id/timeData"
-                    android:src="@drawable/ic_addd"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/timeData"
-                    app:layout_constraintBottom_toBottomOf="@id/timeData"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_deadline"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_deadline"
+                    app:tint="@color/primary" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_add_timing"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_deadline"
                     android:id="@+id/timeData"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -427,5 +421,11 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <include
+        layout="@layout/layout_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

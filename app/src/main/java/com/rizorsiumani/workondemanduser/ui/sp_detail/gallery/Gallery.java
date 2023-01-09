@@ -55,7 +55,7 @@ public class Gallery extends BaseFragment<FragmentGalleryBinding> {
                          galleryDataItems.addAll(response.getData().getData());
                          buildRv(galleryDataItems);
                     }else {
-                        showNoDataAnimation(R.raw.no_job,"Empty Gallery");
+                        showNoDataAnimation(R.raw.no_image,"Empty Gallery");
                     }
                 }
             }

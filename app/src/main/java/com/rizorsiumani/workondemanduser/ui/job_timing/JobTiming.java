@@ -63,7 +63,11 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
 
         activityBinding.btnConfirm.setOnClickListener(view -> {
             for (int i = 0; i < mainList.size(); i++) {
-                TinyDbManager.saveTiming(mainList.get(i));
+                if (i != 0) {
+                    if (mainList.get(i).getTime() != null && mainList.get(i).getTime().size() > 0) {
+                        TinyDbManager.saveTiming(mainList.get(i));
+                    }
+                }
             }
             onBackPressed();
             finish();
@@ -83,7 +87,7 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
                 .setDeleteTimeText("Clear") //set text
                 .setConfirmTimeText("Confirm") //set text
                 .setTabColor(getResources().getColor(R.color.primary)) //set color
-//                .setTabFont("assets/poppins_medium.ttf")
+//              .setTabFont("assets/poppins_medium.ttf")
                 .setConfirmButtonColor(getResources().getColor(R.color.primary)) //set color
                 .setDeleteButtonColor(getResources().getColor(R.color.red)) //set color
                 .setConfirmTextColor(getResources().getColor(R.color.white)) //set color
@@ -130,11 +134,14 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
 
         adapter.setOnDaySelectListener((position) -> {
             selectedIndex = position;
-            mainList.add(new AvailabilitiesItem(mainTimeList,dayTimeModelList.get(position).getDay()));
-           // mainTimeList = new ArrayList<>();
+            if (mainList.contains(dayTimeModelList.get(position).getDay())) {
+                mainList.add(new AvailabilitiesItem(mainTimeList, dayTimeModelList.get(position).getDay()));
+            }else {
+                mainList.add(new AvailabilitiesItem(mainTimeList, dayTimeModelList.get(position).getDay()));
+                mainTimeList = new ArrayList<>();
+            }
             timeSlotsRv(dayTimeModelList.get(selectedIndex).getTimeItems());
         });
-
 
     }
 

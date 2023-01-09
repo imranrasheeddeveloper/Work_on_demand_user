@@ -18,6 +18,7 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
 
 
     NavController mNavController;
+    String intentPath;
 
 
     @Override
@@ -26,6 +27,14 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
 
 
         activityBinding.serviceToolbar.title.setText("Service Providers");
+        try {
+            if (getIntent() != null){
+                intentPath = getIntent().getStringExtra("path");
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
 
         if (activityBinding.tabLayout.getTabCount() == 0) {
             activityBinding.tabLayout.addTab(activityBinding.tabLayout.newTab().setText("Map").setIcon(R.drawable.ic_oval).setId(0));
@@ -48,6 +57,7 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
 
 
         clickListeners();
+
     }
 
 
@@ -95,13 +105,16 @@ public class Serviceproviders extends BaseActivity<ActivityServiceprovidersBindi
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(this, SubCategories.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-
-        super.onBackPressed();
+        if (intentPath != null) {
+            Intent intent = new Intent(this, SubCategories.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        }else {
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        }
 
     }
 }

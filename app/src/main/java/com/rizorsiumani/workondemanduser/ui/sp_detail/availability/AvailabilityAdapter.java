@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.AvailabilityDataItem;
+import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 
 import java.util.List;
 
@@ -42,9 +44,10 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
         if (dataItem.getAvailabilityHours() != null){
 
             if (dataItem.getAvailabilityHours().size() > 0){
-
-                LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
-                holder.timeSlots.setLayoutManager(layoutManager1);
+                GridLayoutManager layoutManager = new GridLayoutManager(App.applicationContext, 3);
+                holder.timeSlots.setLayoutManager(layoutManager);
+//                LinearLayoutManager layoutManager1 = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
+//                holder.timeSlots.setLayoutManager(layoutManager1);
                 AvailabilityHoursAdapter adapter1 = new AvailabilityHoursAdapter(ctx,dataItem.getAvailabilityHours());
                 holder.timeSlots.setAdapter(adapter1);
             }

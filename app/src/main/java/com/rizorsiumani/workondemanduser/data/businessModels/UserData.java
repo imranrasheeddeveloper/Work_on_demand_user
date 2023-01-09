@@ -11,7 +11,7 @@ public class UserData {
 	private String lastName;
 
 	@SerializedName("image")
-	private Object image;
+	private String image;
 
 	@SerializedName("createdAt")
 	private String createdAt;
@@ -52,7 +52,7 @@ public class UserData {
 		return lastName;
 	}
 
-	public Object getImage(){
+	public String getImage(){
 		return image;
 	}
 

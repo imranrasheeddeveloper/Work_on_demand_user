@@ -22,7 +22,6 @@ import com.rizorsiumani.workondemanduser.ui.all_posted_jobs.AllPostedJobs;
 import com.rizorsiumani.workondemanduser.ui.booking_detail.BookingDetail;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
-import com.rizorsiumani.workondemanduser.ui.login.Login;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.ui.support_chat.SupportChat;
 import com.rizorsiumani.workondemanduser.ui.webview.WebView;
@@ -50,9 +49,9 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         Dashboard.hideTabs(false);
 
         hideCartButton();
-        if (TinyDbManager.getCartData().size() > 0){
+        if (TinyDbManager.getCartData().size() > 0) {
             fragmentBinding.tvCart.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             fragmentBinding.tvCart.setVisibility(View.GONE);
         }
 
@@ -84,11 +83,11 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
                 fragmentBinding.userNumber.setText(userData.getPhoneNumber());
                 fragmentBinding.userNumber1.setText(userData.getPhoneNumber());
                 Glide.with(requireContext())
-                        .load(Constants.IMG_PATH + userData.getImage())
+                        .load(userData.getImage())
                         .placeholder(R.color.teal_700)
                         .into(fragmentBinding.userImage);
                 Glide.with(requireContext())
-                        .load(Constants.IMG_PATH + userData.getImage())
+                        .load(userData.getImage())
                         .placeholder(R.color.teal_700)
                         .into(fragmentBinding.userImage1);
             }
@@ -148,25 +147,25 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         });
 
         fragmentBinding.tvPrivacyPolicy.setOnClickListener(view -> {
-            moveToWebView("Privacy Policy","http://www.rizorsiumani.com.mt/privacy.html");
+            moveToWebView("Privacy Policy", "http://www.rizorsiumani.com.mt/privacy.html");
         });
 
         fragmentBinding.tvTerms.setOnClickListener(view -> {
-            moveToWebView("Terms & Conditions","http://www.rizorsiumani.com.mt/terms.html");
+            moveToWebView("Terms & Conditions", "http://www.rizorsiumani.com.mt/terms.html");
         });
 
         fragmentBinding.tvReachUs.setOnClickListener(view -> {
-            moveToWebView("Reach Us","http://www.rizorsiumani.com.mt/contact.html");
+            moveToWebView("Reach Us", "http://www.rizorsiumani.com.mt/contact.html");
         });
 
         fragmentBinding.tvAboutUs.setOnClickListener(view -> {
-            moveToWebView("Work On Demand","http://www.rizorsiumani.com.mt/index.html");
+            moveToWebView("Work On Demand", "http://www.rizorsiumani.com.mt/index.html");
         });
     }
 
     private void moveToWebView(String title, String url) {
         Intent intent = new Intent(requireContext(), WebView.class);
-        intent.putExtra("web_title",title);
+        intent.putExtra("web_title", title);
         intent.putExtra("web_url", url);
         startActivity(intent);
         requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -186,7 +185,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         alertDialog.show();
         cancel.setOnClickListener(view -> alertDialog.dismiss());
         logout.setOnClickListener(view -> {
-            prefRepository.setString("token" , "nil");
+            prefRepository.setString("token", "nil");
             ActivityUtil.gotoPage(requireContext(), WelcomeUser.class);
             alertDialog.dismiss();
             requireActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);

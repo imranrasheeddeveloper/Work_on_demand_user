@@ -28,7 +28,7 @@
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/trip_complete"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_height="@dimen/_110sdp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -37,7 +37,7 @@
                 app:layout_constraintVertical_bias="0.2"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/success" />
+                app:lottie_rawRes="@raw/done" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/poppins_semibold"
                 android:gravity="center"
-                android:text="Cancel"
+                android:text="Home"
                 android:textColor="@color/dark_gray"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"

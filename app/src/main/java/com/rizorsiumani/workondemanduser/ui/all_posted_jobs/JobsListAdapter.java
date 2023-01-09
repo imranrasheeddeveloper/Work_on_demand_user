@@ -46,7 +46,6 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsListAdapter.ViewHo
         PostedJobsDataItem dataItem = list.get(position);
         holder.name.setText(dataItem.getTitle());
         holder.description.setText(dataItem.getDescription());
-        holder.name.setText(dataItem.getBudget());
         holder.budget_unit.setText("("+ dataItem.getPriceUnit()+")");
         holder.budget.setText(Constants.constant.CURRENCY + dataItem.getBudget());
         Glide.with(ctx)
