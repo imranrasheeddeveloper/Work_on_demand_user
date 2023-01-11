@@ -17,6 +17,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.booking_detail.Book
 import com.rizorsiumani.workondemanduser.data.businessModels.booking_detail.BookingTimingsItem;
 import com.rizorsiumani.workondemanduser.databinding.ActivityBookingInformationBinding;
 import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
+import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.job_timing.AvailabilitiesItem;
 import com.rizorsiumani.workondemanduser.ui.job_timing.TimeItem;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.availability.AvailabilityAdapter;
@@ -108,33 +109,32 @@ public class BookingInformation extends BaseActivity<ActivityBookingInformationB
         if (data.getBookingTimings() != null){
             List<AvailabilitiesItem> list = new ArrayList<>();
             List<TimeItem> timeItemList = new ArrayList<>();
+
             for (int i = 0; i < data.getBookingTimings().size(); i++) {
                 BookingTimingsItem bookingTimingsItem = data.getBookingTimings().get(i);
-                if (bookingTimingsItem.getDay().equalsIgnoreCase("Monday")) {
+                boolean isBreak = false;
+                if (list.size() > 0) {
+                    for (int j = 0; j < list.size(); j++) {
+                        if (list.get(j).getDay().equalsIgnoreCase(bookingTimingsItem.getDay())) {
+                            timeItemList = new ArrayList<>();
+                            timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
+                            list.get(j).setTime(timeItemList);
+                            isBreak = true;
+                            break;
+                        }
+                    }
+                    if (!isBreak) {
+                        timeItemList = new ArrayList<>();
+                        timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
+                        list.add(i, new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
+                    }
+                } else {
+                    timeItemList = new ArrayList<>();
                     timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
-                }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Tuesday")) {
-                    timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
-                }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Wednesday")) {
-                    timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
-                }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Thursday")) {
-                    timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
-                }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Friday")) {
-                    timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add( new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
-                }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Saturday")) {
-                    timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
-                }else if (bookingTimingsItem.getDay().equalsIgnoreCase("Sunday")) {
-                    timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add( new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
-                }else {
-
+                    list.add(i, new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
                 }
             }
+
 
             buildTimingRv(list);
         }
@@ -154,5 +154,15 @@ public class BookingInformation extends BaseActivity<ActivityBookingInformationB
         snapHelper.attachToRecyclerView(activityBinding.availableTimeList);
         BookingTimingAdapter adapter = new BookingTimingAdapter(list, BookingInformation.this);
         activityBinding.availableTimeList.setAdapter(adapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Dashboard.goToBooking();
+        this.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
     }
 }

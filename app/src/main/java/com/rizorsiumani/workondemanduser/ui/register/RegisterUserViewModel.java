@@ -22,6 +22,7 @@ public class RegisterUserViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<RegistrationModel>> regData = new MutableLiveData<>();
     public LiveData<ResponseWrapper<RegistrationModel>> _regData = regData;
 
+
     public void registerUser(JsonObject object) {
 
         regData.setValue(

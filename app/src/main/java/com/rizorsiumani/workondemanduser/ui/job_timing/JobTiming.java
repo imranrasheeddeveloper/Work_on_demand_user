@@ -159,7 +159,7 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
 
     private void timeSlotsRv(List<TimeItem> list) {
 
-        GridLayoutManager layoutManager = new GridLayoutManager(JobTiming.this, 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(JobTiming.this, 3);
         activityBinding.timeList.setLayoutManager(layoutManager);
         TimeSlotsAdapter1 adapter = new TimeSlotsAdapter1(JobTiming.this, list);
         adapter.notifyDataSetChanged();

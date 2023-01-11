@@ -293,7 +293,7 @@
                         android:layout_marginTop="1dp"
                         android:background="@drawable/ripple_bg_selector"
                         app:drawableEndCompat="@drawable/grey_forward_icon"
-                        app:drawableStartCompat="@drawable/notification_p"
+                        app:drawableStartCompat="@drawable/ic_booking_icon"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_notifications" />
 
@@ -308,7 +308,7 @@
                         android:layout_marginTop="1dp"
                         android:background="@drawable/ripple_bg_selector"
                         app:drawableEndCompat="@drawable/grey_forward_icon"
-                        app:drawableStartCompat="@drawable/notification_p"
+                        app:drawableStartCompat="@drawable/cart"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_jobs" />
 
@@ -390,7 +390,7 @@
                         android:layout_marginTop="1dp"
                         android:background="@drawable/ripple_bg_selector"
                         app:drawableEndCompat="@drawable/grey_forward_icon"
-                        app:drawableStartCompat="@drawable/personal_detail"
+                        app:drawableStartCompat="@drawable/reach_us"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/support_setting" />
 
@@ -404,7 +404,7 @@
                         android:layout_marginTop="1dp"
                         android:background="@drawable/ripple_bg_selector"
                         app:drawableEndCompat="@drawable/grey_forward_icon"
-                        app:drawableStartCompat="@drawable/personal_detail"
+                        app:drawableStartCompat="@drawable/privacy_policy"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_support_chat" />
 

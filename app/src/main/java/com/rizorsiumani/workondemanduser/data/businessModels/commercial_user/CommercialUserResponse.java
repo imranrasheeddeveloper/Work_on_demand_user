@@ -1,11 +1,11 @@
-package com.rizorsiumani.workondemanduser.data.businessModels;
+package com.rizorsiumani.workondemanduser.data.businessModels.commercial_user;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UpdateUserModel{
+public class CommercialUserResponse{
 
 	@SerializedName("data")
-	private UserData data;
+	private CommercialUserData data;
 
 	@SerializedName("success")
 	private boolean success;
@@ -13,7 +13,10 @@ public class UpdateUserModel{
 	@SerializedName("message")
 	private String message;
 
-	public UserData getData(){
+	@SerializedName("token")
+	private String token;
+
+	public CommercialUserData getData(){
 		return data;
 	}
 
@@ -23,5 +26,9 @@ public class UpdateUserModel{
 
 	public String getMessage(){
 		return message;
+	}
+
+	public String getToken(){
+		return token;
 	}
 }

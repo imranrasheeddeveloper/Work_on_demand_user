@@ -1,6 +1,7 @@
 package com.rizorsiumani.workondemanduser.data.businessModels;
 
 import com.google.gson.annotations.SerializedName;
+import com.rizorsiumani.workondemanduser.data.businessModels.commercial_user.Company;
 
 public class UserData {
 
@@ -15,6 +16,9 @@ public class UserData {
 
 	@SerializedName("createdAt")
 	private String createdAt;
+
+	@SerializedName("company")
+	private Company company;
 
 	@SerializedName("password")
 	private String password;
@@ -86,5 +90,9 @@ public class UserData {
 
 	public String getUpdatedAt(){
 		return updatedAt;
+	}
+
+	public Company getCompany() {
+		return company;
 	}
 }
