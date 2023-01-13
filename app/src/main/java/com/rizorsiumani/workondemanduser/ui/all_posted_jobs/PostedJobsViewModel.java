@@ -27,6 +27,9 @@ public class PostedJobsViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<BasicModel>> delete_job = new MutableLiveData<>();
     public LiveData<ResponseWrapper<BasicModel>> _delete_job = delete_job;
 
+    private final MutableLiveData<ResponseWrapper<BasicModel>> delete_job_timing = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<BasicModel>> _delete_job_timing = delete_job_timing;
+
     public void getJobs(String token) {
 
         posted_jobs.setValue(
@@ -107,6 +110,50 @@ public class PostedJobsViewModel extends ViewModel {
                     @Override
                     public void onNext(BasicModel model) {
                         delete_job.setValue(new ResponseWrapper<>(
+                                false,
+                                "",
+                                model
+                        ));
+                    }
+                });
+    }
+
+    public void deleteJobTiming(String token, int id) {
+
+        delete_job_timing.setValue(
+                new ResponseWrapper<>(
+                        true, "", null
+                ));
+
+        RemoteRepository.getInstance()
+                .deleteJobTiming(token,id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BasicModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                delete_job_timing.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(BasicModel model) {
+                        delete_job_timing.setValue(new ResponseWrapper<>(
                                 false,
                                 "",
                                 model

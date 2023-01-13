@@ -56,6 +56,7 @@ public class TimeSlotsAdapter extends RecyclerView.Adapter<TimeSlotsAdapter.View
             }
         }
 
+
 //        try {
 //
 //            if (position == selectedPosition) {

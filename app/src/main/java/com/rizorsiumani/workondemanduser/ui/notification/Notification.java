@@ -113,10 +113,8 @@ public class Notification extends BaseActivity<ActivityNotificationBinding> {
                     }else {
                         showNoDataAnimation(R.raw.bell,"No Notification");
                         flag_loading = false;
-
                     }
                 }
-
             }
         });
     }

@@ -35,7 +35,13 @@ public class WelcomeUser extends BaseActivity<ActivityWelcomeUserBinding> {
         });
 
 
+
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        finishAffinity();
+    }
 }

@@ -464,4 +464,11 @@ public class RemoteRepository {
         }
         return null;
     }
+
+    public Observable<BasicModel> deleteJobTiming(String token,int id) {
+        if (mService != null) {
+            return mService.delete_posted_job_timing(token,id);
+        }
+        return null;
+    }
 }

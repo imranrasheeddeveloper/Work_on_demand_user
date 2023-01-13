@@ -250,4 +250,8 @@ public interface ApiService {
     @DELETE("users/delete_posted_job/{job_id}")
     Observable<BasicModel> delete_posted_job(@Header("Authorization") String token,
                                              @Path("job_id") int job_id);
+
+    @DELETE("users/delete_posted_job_time/{job_id}")
+    Observable<BasicModel> delete_posted_job_timing(@Header("Authorization") String token,
+                                             @Path("job_id") int job_id);
 }

@@ -168,42 +168,50 @@ public class PostJobViewModel extends ViewModel {
                 });
     }
 
-//    public void deleteJobTiming(String token) {
-//
-//        delete_time_slot.setValue(
-//                new ResponseWrapper<>(
-//                        true, "", null
-//                ));
-//
-//        RemoteRepository.getInstance()
-//                .deleteJob(token)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<BasicModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        delete_job.setValue(new ResponseWrapper<>(
-//                                false,
-//                                e.getLocalizedMessage(),
-//                                null
-//                        ));
-//                    }
-//
-//                    @Override
-//                    public void onNext(BasicModel model) {
-//                        delete_job.setValue(new ResponseWrapper<>(
-//                                false,
-//                                "",
-//                                model
-//                        ));
-//                    }
-//                });
-//    }
+    public void deleteJobTiming(String token, int id) {
+
+        delete_time_slot.setValue(
+                new ResponseWrapper<>(
+                        true, "", null
+                ));
+
+        RemoteRepository.getInstance()
+                .deleteJobTiming(token,id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BasicModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                delete_time_slot.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(BasicModel model) {
+                        delete_time_slot.setValue(new ResponseWrapper<>(
+                                false,
+                                "",
+                                model
+                        ));
+                    }
+                });
+    }
+
 
 
 

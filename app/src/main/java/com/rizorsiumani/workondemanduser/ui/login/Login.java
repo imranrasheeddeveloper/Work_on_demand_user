@@ -241,10 +241,5 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
         viewModel = null;
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-        finishAffinity();
-    }
+
 }

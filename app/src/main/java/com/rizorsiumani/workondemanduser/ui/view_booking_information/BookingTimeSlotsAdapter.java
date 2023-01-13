@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,7 +39,6 @@ public class BookingTimeSlotsAdapter extends RecyclerView.Adapter<AvailabilityHo
     public void onBindViewHolder(@NonNull AvailabilityHoursAdapter.ViewHolder holder, int position) {
         TimeItem dataItem = list.get(position);
         holder.from.setText(dataItem.getFromTime() + " to " + dataItem.getToTime());
-
     }
 
     @Override
@@ -48,11 +48,14 @@ public class BookingTimeSlotsAdapter extends RecyclerView.Adapter<AvailabilityHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView from;
+        ImageView delete_icon;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             from = itemView.findViewById(R.id.time_value);
+            delete_icon = itemView.findViewById(R.id.delete_time);
+
         }
     }
 }
