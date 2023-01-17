@@ -123,7 +123,7 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
                 fragmentBinding.username.setText(userData.getFirstName() + " " + userData.getLastName());
                 fragmentBinding.userNumber.setText(userData.getPhoneNumber());
                 Glide.with(requireContext())
-                        .load(userData.getImage())
+                        .load(Constants.IMG_PATH + userData.getImage())
                         .placeholder(R.color.teal_700)
                         .into(fragmentBinding.userImage);
             }

@@ -274,53 +274,45 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
             if (data != null){
                 List<AvailabilitiesItem> list = new ArrayList<>();
-                for (int i = 0; i < data.size(); i++) {
-                    if (data.get(i).getDay().equalsIgnoreCase("Monday")) {
-                        List<TimeItem> timeItemList = new ArrayList<>();
-                        for (int j = 0; j < data.get(i).getJobDays().size(); j++) {
-                            timeItemList.add(new TimeItem(Integer.parseInt(data.get(i).getJobDays().get(j).getTotalHours()), data.get(i).getJobDays().get(j).getFromTime(), data.get(i).getJobDays().get(j).getToTime()));
-                        }
-                        list.add(new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
-                    }else if (data.get(i).getDay().equalsIgnoreCase("Tuesday")) {
-                        List<TimeItem> timeItemList = new ArrayList<>();
-                        for (int j = 0; j < data.get(i).getJobDays().size(); j++) {
-                            timeItemList.add(new TimeItem(Integer.parseInt(data.get(i).getJobDays().get(j).getTotalHours()), data.get(i).getJobDays().get(j).getFromTime(), data.get(i).getJobDays().get(j).getToTime()));
-                        }
-                        list.add(new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
-                    }else if (data.get(i).getDay().equalsIgnoreCase("Wednesday")) {
-                        List<TimeItem> timeItemList = new ArrayList<>();
-                        for (int j = 0; j < data.get(i).getJobDays().size(); j++) {
-                            timeItemList.add(new TimeItem(Integer.parseInt(data.get(i).getJobDays().get(j).getTotalHours()), data.get(i).getJobDays().get(j).getFromTime(), data.get(i).getJobDays().get(j).getToTime()));
-                        }
-                        list.add(new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
-                    }else if (data.get(i).getDay().equalsIgnoreCase("Thursday")) {
-                        List<TimeItem> timeItemList = new ArrayList<>();
-                        for (int j = 0; j < data.get(i).getJobDays().size(); j++) {
-                            timeItemList.add(new TimeItem(Integer.parseInt(data.get(i).getJobDays().get(j).getTotalHours()), data.get(i).getJobDays().get(j).getFromTime(), data.get(i).getJobDays().get(j).getToTime()));
-                        }
-                        list.add(new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
-                    }else if (data.get(i).getDay().equalsIgnoreCase("Friday")) {
-                        List<TimeItem> timeItemList = new ArrayList<>();
-                        for (int j = 0; j < data.get(i).getJobDays().size(); j++) {
-                            timeItemList.add(new TimeItem(Integer.parseInt(data.get(i).getJobDays().get(j).getTotalHours()), data.get(i).getJobDays().get(j).getFromTime(), data.get(i).getJobDays().get(j).getToTime()));
-                        }
-                        list.add(new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
-                    }else if (data.get(i).getDay().equalsIgnoreCase("Saturday")) {
-                        List<TimeItem> timeItemList = new ArrayList<>();
-                        for (int j = 0; j < data.get(i).getJobDays().size(); j++) {
-                            timeItemList.add(new TimeItem(Integer.parseInt(data.get(i).getJobDays().get(j).getTotalHours()), data.get(i).getJobDays().get(j).getFromTime(), data.get(i).getJobDays().get(j).getToTime()));
-                        }
-                        list.add( new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
-                    }else if (data.get(i).getDay().equalsIgnoreCase("Sunday")) {
-                        List<TimeItem> timeItemList = new ArrayList<>();
-                        for (int j = 0; j < data.get(i).getJobDays().size(); j++) {
-                            timeItemList.add(new TimeItem(Integer.parseInt(data.get(i).getJobDays().get(j).getTotalHours()), data.get(i).getJobDays().get(j).getFromTime(), data.get(i).getJobDays().get(j).getToTime()));
-                        }
-                        list.add(new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
-                    }else {
+                List<TimeItem> timeItemList;
 
+                for (int i = 0; i < data.size(); i++) {
+                    if (list.size() > 0){
+                        boolean isBreak = false;
+                        for (AvailabilitiesItem s : list) {
+                            if (s.getDay().equalsIgnoreCase(data.get(i).getDay())) {
+                                isBreak = true;
+                            }
+                        }
+                        if (!isBreak){
+                            timeItemList = new ArrayList<>();
+                            for (int j = 0; j < data.size(); j++) {
+                                if (data.get(i).getDay().equalsIgnoreCase(data.get(j).getDay())){
+                                    if (timeItemList == null) {
+                                        timeItemList = new ArrayList<>();
+                                    }
+                                    for (int k = 0; k < data.get(j).getJobDays().size(); j++) {
+                                        timeItemList.add(new TimeItem(Integer.parseInt(data.get(j).getJobDays().get(k).getTotalHours()), data.get(j).getJobDays().get(k).getFromTime(), data.get(j).getJobDays().get(k).getToTime()));
+                                    }
+                                }
+                            }
+                            list.add(new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
+                        }
+                    }else {
+                        timeItemList = new ArrayList<>();
+                        for (int j = 0; j < data.size(); j++) {
+                            if (data.get(i).getDay().equalsIgnoreCase(data.get(j).getDay())){
+                                if (timeItemList == null) {
+                                    timeItemList = new ArrayList<>();
+                                }
+                                for (int k = 0; k < data.get(j).getJobDays().size(); j++) {
+                                    timeItemList.add(new TimeItem(Integer.parseInt(data.get(j).getJobDays().get(k).getTotalHours()), data.get(j).getJobDays().get(k).getFromTime(), data.get(j).getJobDays().get(k).getToTime()));
+                                }                            }
+                        }
+                        list.add(new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
                     }
                 }
+
 
                 for (int i = 0; i < list.size(); i++) {
                     TinyDbManager.saveTiming(list.get(i));
@@ -410,8 +402,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         activityBinding.tvSubcategory.setOnClickListener(view -> {
             if (selectedCatID != 0) {
                 getSubCategories(selectedCatID);
-
-
             } else {
                 showSnackBarShort("Category Required");
             }

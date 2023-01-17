@@ -108,33 +108,41 @@ public class BookingInformation extends BaseActivity<ActivityBookingInformationB
 
         if (data.getBookingTimings() != null){
             List<AvailabilitiesItem> list = new ArrayList<>();
-            List<TimeItem> timeItemList = new ArrayList<>();
+            List<TimeItem> timeItemList;
 
             for (int i = 0; i < data.getBookingTimings().size(); i++) {
-                BookingTimingsItem bookingTimingsItem = data.getBookingTimings().get(i);
-                boolean isBreak = false;
-                if (list.size() > 0) {
-                    for (int j = 0; j < list.size(); j++) {
-                        if (list.get(j).getDay().equalsIgnoreCase(bookingTimingsItem.getDay())) {
-                            timeItemList = new ArrayList<>();
-                            timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                            list.get(j).setTime(timeItemList);
+                if (list.size() > 0){
+                    boolean isBreak = false;
+                    for (AvailabilitiesItem s : list) {
+                        if (s.getDay().equalsIgnoreCase(data.getBookingTimings().get(i).getDay())) {
                             isBreak = true;
-                            break;
                         }
                     }
-                    if (!isBreak) {
+                    if (!isBreak){
                         timeItemList = new ArrayList<>();
-                        timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                        list.add(i, new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
+                        for (int j = 0; j < data.getBookingTimings().size(); j++) {
+                            if (data.getBookingTimings().get(i).getDay().equalsIgnoreCase(data.getBookingTimings().get(j).getDay())){
+                                if (timeItemList == null) {
+                                    timeItemList = new ArrayList<>();
+                                }
+                                timeItemList.add(new TimeItem(Integer.parseInt(data.getBookingTimings().get(j).getTotalHours()), data.getBookingTimings().get(j).getFromTime(), data.getBookingTimings().get(j).getToTime()));
+                            }
+                        }
+                        list.add(new AvailabilitiesItem(timeItemList, data.getBookingTimings().get(i).getDay()));
                     }
-                } else {
+                }else {
                     timeItemList = new ArrayList<>();
-                    timeItemList.add(new TimeItem(Integer.parseInt(bookingTimingsItem.getTotalHours()), bookingTimingsItem.getFromTime(), bookingTimingsItem.getToTime()));
-                    list.add(i, new AvailabilitiesItem(timeItemList, bookingTimingsItem.getDay()));
+                    for (int j = 0; j < data.getBookingTimings().size(); j++) {
+                        if (data.getBookingTimings().get(i).getDay().equalsIgnoreCase(data.getBookingTimings().get(j).getDay())){
+                            if (timeItemList == null) {
+                                timeItemList = new ArrayList<>();
+                            }
+                            timeItemList.add(new TimeItem(Integer.parseInt(data.getBookingTimings().get(j).getTotalHours()), data.getBookingTimings().get(j).getFromTime(), data.getBookingTimings().get(j).getToTime()));
+                        }
+                    }
+                    list.add(new AvailabilitiesItem(timeItemList, data.getBookingTimings().get(i).getDay()));
                 }
             }
-
 
             buildTimingRv(list);
         }

@@ -120,10 +120,11 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
                     showSnackBarShort(response.getError());
                 } else if (response.getData().getData() != null) {
                     hideLoading();
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(Chatroom.this, RecyclerView.VERTICAL, false);
+                    activityBinding.chat.setLayoutManager(layoutManager);
                     if (response.getData().getData().getMessages().size() > 0){
                         msgs = new ArrayList<>();
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(Chatroom.this, RecyclerView.VERTICAL, false);
-                        activityBinding.chat.setLayoutManager(layoutManager);
+
                         List<MessagesItem> messagesItems = response.getData().getData().getMessages();
                         for (int i = 0; i <= messagesItems.size() - 1; i++) {
 
@@ -169,7 +170,7 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
         activityBinding.sendMessage.setOnClickListener(v -> {
             String message = activityBinding.messgae.getText().toString();
             if (TextUtils.isEmpty(message)){
-                showSnackBarShort("Enter message");
+//                showSnackBarShort("Enter message");
                 activityBinding.sendMessage.requestFocus();
             }else {
                 JsonObject object = new JsonObject();

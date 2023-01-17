@@ -83,11 +83,11 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
                 fragmentBinding.userNumber.setText(userData.getPhoneNumber());
                 fragmentBinding.userNumber1.setText(userData.getPhoneNumber());
                 Glide.with(requireContext())
-                        .load(userData.getImage())
+                        .load(Constants.IMG_PATH + userData.getImage())
                         .placeholder(R.color.teal_700)
                         .into(fragmentBinding.userImage);
                 Glide.with(requireContext())
-                        .load(userData.getImage())
+                        .load(Constants.IMG_PATH + userData.getImage())
                         .placeholder(R.color.teal_700)
                         .into(fragmentBinding.userImage1);
             }

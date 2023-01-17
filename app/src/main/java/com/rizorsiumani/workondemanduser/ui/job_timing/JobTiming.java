@@ -63,11 +63,10 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
 
         activityBinding.btnConfirm.setOnClickListener(view -> {
             for (int i = 0; i < mainList.size(); i++) {
-                if (i != 0) {
+//                if (i != 0) {
                     if (mainList.get(i).getTime() != null && mainList.get(i).getTime().size() > 0) {
                         TinyDbManager.saveTiming(mainList.get(i));
                     }
-                }
             }
             onBackPressed();
             finish();
@@ -117,9 +116,9 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
             String date  =  dayDate[1];
             dayTimeModelList.add(new DayTimeModel(i,date,day,null));
         }
-        if (mainList.size() == 0) {
-            mainList.add(0, new AvailabilitiesItem(mainTimeList, dayTimeModelList.get(0).getDay()));
-        }
+//        if (mainList.size() == 0) {
+//            mainList.add(0, new AvailabilitiesItem(mainTimeList, dayTimeModelList.get(0).getDay()));
+//        }
         daysRv(dayTimeModelList);
 
     }
@@ -152,7 +151,6 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
         dayTimeModelList.get(index).setTimeItems(mainTimeList);
         mainList.get(index).setTime(mainTimeList);
         timeSlotsRv(dayTimeModelList.get(index).getTimeItems());
-
 
     }
 
