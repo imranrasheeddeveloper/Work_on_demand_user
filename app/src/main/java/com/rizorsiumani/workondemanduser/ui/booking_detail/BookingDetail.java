@@ -65,13 +65,14 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
     List<String> name;
     AlertDialog.Builder dialogBuilder;
     AlertDialog alertDialog;
+    String commissionFee;
 
-//    String publish_key = "pk_test_51LqBTjGmaWwccsNaWNAb8x6B51zmMVMsI62gcxZTpC6lvhvGy7vdcw1CX1vkkrHYMkkN2C79mexjkPpuGeHW8Kg500CEi0L3Vm";
-//    String secret_key = "sk_test_51LqBTjGmaWwccsNaRmfGGvK4TOL4j0rXloATiyVD7Nou0aCzqjttDMqrjJjf7sRt4mIHaFx8bivnmlzsazUI1Zie00ob2H1tvR";
-
-    String publish_key = "pk_test_51M4i3YFyKkhI7Itr08xnMiRdCI0txUVQcAlroa7CfS1nLDIjRaKN6YIdMucBtThd1u7U0VZiKrkd5qEAT20yTVMI001ZLp3IjR";
-    String secret_key = "sk_test_51M4i3YFyKkhI7ItrcxzXMddb90sUJrShRKkPOXFMW25LhQjqsRrn0DKX8Cw4sA2u4PDMki7bPeMoZP2tX4nvMh7O00ijVe6qL6";
-
+////    String publish_key = "pk_test_51LqBTjGmaWwccsNaWNAb8x6B51zmMVMsI62gcxZTpC6lvhvGy7vdcw1CX1vkkrHYMkkN2C79mexjkPpuGeHW8Kg500CEi0L3Vm";
+////    String secret_key = "sk_test_51LqBTjGmaWwccsNaRmfGGvK4TOL4j0rXloATiyVD7Nou0aCzqjttDMqrjJjf7sRt4mIHaFx8bivnmlzsazUI1Zie00ob2H1tvR";
+//
+//    String publish_key = "pk_test_51M4i3YFyKkhI7Itr08xnMiRdCI0txUVQcAlroa7CfS1nLDIjRaKN6YIdMucBtThd1u7U0VZiKrkd5qEAT20yTVMI001ZLp3IjR";
+//    String secret_key = "sk_test_51M4i3YFyKkhI7ItrcxzXMddb90sUJrShRKkPOXFMW25LhQjqsRrn0DKX8Cw4sA2u4PDMki7bPeMoZP2tX4nvMh7O00ijVe6qL6";
+//
 
     PaymentSheet paymentSheet;
     String customerID;
@@ -99,17 +100,14 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
         hideCartButton();
 
-
         service_provider_id = TinyDbManager.getServiceProviderID();
-
         viewModel = new ViewModelProvider(this).get(BookingDetailViewModel.class);
 
-        setData();
+        getFee();
         clickListeners();
 
-
-        PaymentConfiguration.init(BookingDetail.this, publish_key);
-        paymentSheet = new PaymentSheet(this, this::onPaymentResult);
+//        PaymentConfiguration.init(BookingDetail.this, publish_key);
+//        paymentSheet = new PaymentSheet(this, this::onPaymentResult);
 
 //        try {
 //
@@ -163,6 +161,25 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
     }
 
+    private void getFee() {
+        viewModel.getBookingFee();
+        viewModel._fee.observe(this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    //showLoading();
+                } else if (!response.getError().isEmpty()) {
+                    hideLoading();
+                    showSnackBarShort(response.getError());
+                } else if (response.getData().getFees() != null) {
+                    hideLoading();
+                    commissionFee = response.getData().getFees();
+                    setData();
+
+                }
+            }
+        });
+    }
+
     private void setData() {
         try {
 
@@ -200,16 +217,18 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             }
 
             activityBinding.bookingDetailToolbar.title.setText("Booking Details");
-            activityBinding.btnPayNow.setText(Constants.constant.CURRENCY + getCartTotal());
+            int cartTotal = Integer.valueOf(getCartTotal());
+            float taxAmount = (float)cartTotal / (float) 100 * Integer.valueOf(commissionFee);
+            int totalToPay = (int) (taxAmount + cartTotal);
+            activityBinding.btnPayNow.setText(Constants.constant.CURRENCY + totalToPay);
 
             if (TinyDbManager.getCartData() != null) {
                 if (TinyDbManager.getCartData().size() > 0) {
                     getCartServices(TinyDbManager.getCartData());
                     activityBinding.totalCharges.setText(Constants.constant.CURRENCY + getCartTotal());
                     activityBinding.subTotal.setText(Constants.constant.CURRENCY + getCartTotal());
-                    int taxAmount = Math.round ((Integer.parseInt(getCartTotal()) / 100) * 10);
                     activityBinding.subTotalWithTax.setText(Constants.constant.CURRENCY + taxAmount);
-
+                    activityBinding.tvTax.setText("Service Tax ("+commissionFee+")");
                 }
             }
 
@@ -223,11 +242,13 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                     activityBinding.tvDiscount.setText(promoDataItem.getDiscount() + "% OFF (" + promoDataItem.getCode() + ")");
                     activityBinding.discountPrice.setText("- " + amount_of_discount);
                     int subTotal = Integer.valueOf(getCartTotal()) - amount_of_discount;
-                    activityBinding.btnPayNow.setText(Constants.constant.CURRENCY + subTotal);
                     activityBinding.subTotal.setText(Constants.constant.CURRENCY + subTotal);
-                    int taxAmount = Math.round ((amount_of_discount / 100) * 10);
-                    activityBinding.subTotalWithTax.setText(Constants.constant.CURRENCY + taxAmount);
-                    activityBinding.totalPayment.setText(Constants.constant.CURRENCY + subTotal);
+                    int cartTotal1 = Integer.valueOf(getCartTotal());
+                    float taxAmount1 = (float)cartTotal / (float) 100 * Integer.valueOf(commissionFee);
+                    int amountWithCom = (int) (taxAmount1 + subTotal);
+                    activityBinding.totalPayment.setText(Constants.constant.CURRENCY + amountWithCom);
+                    activityBinding.btnPayNow.setText(Constants.constant.CURRENCY + (subTotal+amountWithCom));
+
 
                     activityBinding.discountPrice.setVisibility(View.VISIBLE);
                     activityBinding.tvDiscount.setVisibility(View.VISIBLE);
@@ -247,120 +268,120 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
 
     }
 
-    private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
-        if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
-            Toast.makeText(BookingDetail.this, "Payment Success", Toast.LENGTH_SHORT).show();
-            addToBookingList();
-        }
-    }
-
-    private void getEphemeralKey(String customerID) {
-        StringRequest request = new StringRequest(Request.Method.POST,
-                "https://api.stripe.com/v1/ephemeral_keys",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        if (response != null) {
-                            Gson gson = new Gson();
-                            ephemeralKeyResponse = gson.fromJson(response, EphemeralKeyResponse.class);
-                            ephemeralKey = ephemeralKeyResponse.getId();
-                            getClientSecret(customerID, ephemeralKey);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> header = new HashMap<>();
-                header.put("Authorization", "Bearer " + secret_key);
-                header.put("Stripe-Version", "2022-08-01");
-                return header;
-            }
-
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> param = new HashMap<>();
-                param.put("customer", customerID);
-                return param;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(BookingDetail.this);
-        requestQueue.add(request);
-    }
-
-    private void getClientSecret(String customerID, String ephemeralKey) {
-        StringRequest request = new StringRequest(Request.Method.POST,
-                "https://api.stripe.com/v1/payment_intents",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        if (response != null) {
-                            Gson gson = new Gson();
-                            intentResponse = gson.fromJson(response, PaymentIntentResponse.class);
-                            clientSecret = intentResponse.getClientSecret();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> header = new HashMap<>();
-                header.put("Authorization", "Bearer " + secret_key);
-                return header;
-            }
-
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> param = new HashMap<>();
-                param.put("customer", customerID);
-                param.put("amount", getCartTotal() + "00");
-                param.put("currency", "eur");
-                param.put("automatic_payment_methods[enabled]", "true");
-
-                return param;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(BookingDetail.this);
-        requestQueue.add(request);
-    }
-
-    private void paymentFlow() {
-//        paymentSheet.presentWithPaymentIntent(
-//                clientSecret , new PaymentSheet.Configuration("ITRID",
-//                new PaymentSheet.Configuration(
-//                        customerID,
-//                        new PaymentSheet.Configuration(
-//                        ephemeralKey,
-//                )
-//        );
-        try {
-
-            final PaymentSheet.Configuration configuration = null;
-            paymentSheet.presentWithPaymentIntent(
-                    clientSecret,
-                    configuration
-            );
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-
-    }
+//    private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
+//        if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
+//            Toast.makeText(BookingDetail.this, "Payment Success", Toast.LENGTH_SHORT).show();
+//            addToBookingList();
+//        }
+//    }
+//
+//    private void getEphemeralKey(String customerID) {
+//        StringRequest request = new StringRequest(Request.Method.POST,
+//                "https://api.stripe.com/v1/ephemeral_keys",
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//
+//                        if (response != null) {
+//                            Gson gson = new Gson();
+//                            ephemeralKeyResponse = gson.fromJson(response, EphemeralKeyResponse.class);
+//                            ephemeralKey = ephemeralKeyResponse.getId();
+//                            getClientSecret(customerID, ephemeralKey);
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> header = new HashMap<>();
+//                header.put("Authorization", "Bearer " + secret_key);
+//                header.put("Stripe-Version", "2022-08-01");
+//                return header;
+//            }
+//
+//            @Nullable
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> param = new HashMap<>();
+//                param.put("customer", customerID);
+//                return param;
+//            }
+//        };
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(BookingDetail.this);
+//        requestQueue.add(request);
+//    }
+//
+//    private void getClientSecret(String customerID, String ephemeralKey) {
+//        StringRequest request = new StringRequest(Request.Method.POST,
+//                "https://api.stripe.com/v1/payment_intents",
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//
+//                        if (response != null) {
+//                            Gson gson = new Gson();
+//                            intentResponse = gson.fromJson(response, PaymentIntentResponse.class);
+//                            clientSecret = intentResponse.getClientSecret();
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> header = new HashMap<>();
+//                header.put("Authorization", "Bearer " + secret_key);
+//                return header;
+//            }
+//
+//            @Nullable
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> param = new HashMap<>();
+//                param.put("customer", customerID);
+//                param.put("amount", getCartTotal() + "00");
+//                param.put("currency", "eur");
+//                param.put("automatic_payment_methods[enabled]", "true");
+//
+//                return param;
+//            }
+//        };
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(BookingDetail.this);
+//        requestQueue.add(request);
+//    }
+//
+//    private void paymentFlow() {
+////        paymentSheet.presentWithPaymentIntent(
+////                clientSecret , new PaymentSheet.Configuration("ITRID",
+////                new PaymentSheet.Configuration(
+////                        customerID,
+////                        new PaymentSheet.Configuration(
+////                        ephemeralKey,
+////                )
+////        );
+//        try {
+//
+//            final PaymentSheet.Configuration configuration = null;
+//            paymentSheet.presentWithPaymentIntent(
+//                    clientSecret,
+//                    configuration
+//            );
+//
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
 
     private void showRequestedDialogue() {
         dialogBuilder = new AlertDialog.Builder(BookingDetail.this);
@@ -562,27 +583,27 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
         });
     }
 
-    private void chargeByCard() {
-        try {
-
-            com.stripe.Stripe.apiKey = secret_key;
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
-            ChargeCreateParams chargeParams =
-                    ChargeCreateParams.builder()
-                            .setAmount(Long.valueOf(getCartTotal() + 000))
-                            .setCurrency("usd")
-                            .setCustomer("cus_MoL5hcuaju8aSb")
-                            .build();
-
-
-            Charge charge = Charge.create(chargeParams);
-            addToBookingList();
-        } catch (StripeException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void chargeByCard() {
+//        try {
+//
+//            com.stripe.Stripe.apiKey = secret_key;
+//            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//            StrictMode.setThreadPolicy(policy);
+//
+//            ChargeCreateParams chargeParams =
+//                    ChargeCreateParams.builder()
+//                            .setAmount(Long.valueOf(getCartTotal() + 000))
+//                            .setCurrency("usd")
+//                            .setCustomer("cus_MoL5hcuaju8aSb")
+//                            .build();
+//
+//
+//            Charge charge = Charge.create(chargeParams);
+//            addToBookingList();
+//        } catch (StripeException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private void callPaymentmethodApi() {
         final BottomSheetDialog bt = new BottomSheetDialog(BookingDetail.this, R.style.BottomSheetDialogTheme);

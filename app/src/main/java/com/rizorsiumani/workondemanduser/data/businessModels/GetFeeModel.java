@@ -2,15 +2,20 @@ package com.rizorsiumani.workondemanduser.data.businessModels;
 
 import com.google.gson.annotations.SerializedName;
 
-import okhttp3.ResponseBody;
+public class GetFeeModel{
 
-public class BasicModel {
+	@SerializedName("fees")
+	private String fees;
 
 	@SerializedName("success")
 	private boolean success;
 
 	@SerializedName("message")
 	private String message;
+
+	public String getFees(){
+		return fees;
+	}
 
 	public boolean isSuccess(){
 		return success;

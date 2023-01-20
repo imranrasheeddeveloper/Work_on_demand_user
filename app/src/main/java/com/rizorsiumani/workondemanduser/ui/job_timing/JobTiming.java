@@ -151,7 +151,6 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
         dayTimeModelList.get(index).setTimeItems(mainTimeList);
         mainList.get(index).setTime(mainTimeList);
         timeSlotsRv(dayTimeModelList.get(index).getTimeItems());
-
     }
 
 

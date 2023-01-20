@@ -2,6 +2,7 @@ package com.rizorsiumani.workondemanduser.ui.booking_detail;
 
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.data.businessModels.AddBookingModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetFeeModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.PaymentGatewayModel;
 import com.rizorsiumani.workondemanduser.data.remote.RemoteRepository;
 import com.rizorsiumani.workondemanduser.data.remote.ResponseWrapper;
@@ -27,6 +28,9 @@ public class BookingDetailViewModel extends ViewModel {
 
     private final MutableLiveData<ResponseWrapper<AddBookingModel>> add_booking = new MutableLiveData<>();
     public LiveData<ResponseWrapper<AddBookingModel>> _add_booking = add_booking;
+
+    private final MutableLiveData<ResponseWrapper<GetFeeModel>> fee = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<GetFeeModel>> _fee = fee;
 
     public void getPaymentMethods() {
 
@@ -116,6 +120,49 @@ public class BookingDetailViewModel extends ViewModel {
                 });
     }
 
+    public void getBookingFee() {
+
+        fee.setValue(
+                new ResponseWrapper<>(
+                        true, "", null
+                ));
+
+        RemoteRepository.getInstance()
+                .bookingFee()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<GetFeeModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            try {
+                                fee.setValue(new ResponseWrapper<>(
+                                        false,
+                                        body.string(),
+                                        null
+                                ));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(GetFeeModel model) {
+                        fee.setValue(new ResponseWrapper<>(
+                                false,
+                                "",
+                                model
+                        ));
+                    }
+                });
+    }
 
 }
 

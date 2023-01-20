@@ -10,6 +10,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAllCardsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetFeeModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetRatingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
@@ -468,6 +469,20 @@ public class RemoteRepository {
     public Observable<BasicModel> deleteJobTiming(String token,int id) {
         if (mService != null) {
             return mService.delete_posted_job_timing(token,id);
+        }
+        return null;
+    }
+
+    public Observable<GetFeeModel> bookingFee() {
+        if (mService != null) {
+            return mService.getBookingFee();
+        }
+        return null;
+    }
+
+    public Observable<BasicModel> forgot(String email) {
+        if (mService != null) {
+            return mService.forgot_password(email);
         }
         return null;
     }

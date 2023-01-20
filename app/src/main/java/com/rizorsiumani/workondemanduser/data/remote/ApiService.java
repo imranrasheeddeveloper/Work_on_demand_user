@@ -9,6 +9,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAddressesModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetAllCardsModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingsModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.GetFeeModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetRatingModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.HomeContentModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.LoginModel;
@@ -254,4 +255,10 @@ public interface ApiService {
     @DELETE("users/delete_posted_job_time/{job_id}")
     Observable<BasicModel> delete_posted_job_timing(@Header("Authorization") String token,
                                              @Path("job_id") int job_id);
+
+    @POST("globalSettings/getFees")
+    Observable<GetFeeModel> getBookingFee();
+
+    @GET("users/forgotPassword/{email}")
+    Observable<BasicModel> forgot_password(@Path("email") String  email);
 }

@@ -148,4 +148,6 @@ public abstract class BaseActivity<binding extends ViewBinding> extends AppCompa
     protected void showSnackBarShort(@StringRes int resID) {
         Snackbar.make(activityBinding.getRoot(), resID, Snackbar.LENGTH_SHORT).show();
     }
+
+
 }
