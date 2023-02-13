@@ -25,6 +25,7 @@ import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderVie
 import com.rizorsiumani.workondemanduser.ui.service_providers.Serviceproviders;
 import com.rizorsiumani.workondemanduser.ui.walkthrough.OnBoardingViewModel;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,10 +68,13 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
-                    //we have error to show
+                } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
 
@@ -124,8 +128,8 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
             try {
 
             JsonObject object = new JsonObject();
-            object.addProperty("latitude", "31.510376");
-            object.addProperty("longitude", "74.339676");
+            object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
+            object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
             object.addProperty("category_id", String.valueOf(dataItems.get(position).getId()));
             String token = prefRepository.getString("token");
             providerViewModel.catServiceProviders(1, token, object);
@@ -133,9 +137,13 @@ public class SubCategories extends BaseActivity<ActivityResultantServiceProvider
                 if (response != null) {
                     if (response.isLoading()) {
                         showLoading();
-                    } else if (!response.getError().isEmpty()) {
-                        hideLoading();
-                        showSnackBarShort(response.getError());
+                  } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                     } else if (response.getData().isSuccess()) {
                         hideLoading();
                         if (response.getData().getData().size() > 0) {

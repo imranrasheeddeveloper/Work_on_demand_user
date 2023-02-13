@@ -35,6 +35,7 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
@@ -237,9 +238,13 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().isSuccess()) {
                     hideLoading();
 
@@ -269,9 +274,13 @@ public class AddAddress extends BaseActivity<ActivityAddAddressBinding> implemen
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
 

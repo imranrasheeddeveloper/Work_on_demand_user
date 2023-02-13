@@ -8,16 +8,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.address.SavedAddresses">
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:padding="@dimen/_5sdp"
-        android:background="@color/primary"
-        >
-
+        android:background="@color/primary">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -333,6 +329,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/map_location_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"

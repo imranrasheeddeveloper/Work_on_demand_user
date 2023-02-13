@@ -16,6 +16,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -26,6 +27,9 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.material.snackbar.Snackbar;
 import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -38,6 +42,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import okhttp3.ResponseBody;
 
 public final class Constants {
     public static final String BASE_URL = "http://34.203.72.68:4000/";
@@ -233,4 +239,39 @@ public final class Constants {
 
             return bitmap;
         }
+
+    public void getApiError(Context context, ResponseBody error) {
+            String data = null;
+            try {
+                data = error.string();
+                if (data != null && !data.isEmpty()) {
+                    JSONObject jObjError = null;
+                    try {
+                        jObjError = new JSONObject(data);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        Toast.makeText(context, jObjError.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (IOException e) {
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+//        String data = null;
+//        try {
+//            data = errorBody.string();
+//            if (data != null && !data.isEmpty()) {
+//                ErrorBodyModel errorBodyModel;
+//                Gson gson = new Gson();
+//                errorBodyModel = gson.fromJson(data, ErrorBodyModel.class);
+//                Toast.makeText(context, errorBodyModel.getErrors().getEmail().get(0).toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        } catch (IOException e) {
+//            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+//        }
+        }
+
 }

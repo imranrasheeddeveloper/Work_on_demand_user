@@ -25,7 +25,7 @@ public class OnBoardingViewModel extends ViewModel {
 
         onBoard.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -42,15 +42,11 @@ public class OnBoardingViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                onBoard.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            onBoard.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
 
@@ -58,7 +54,7 @@ public class OnBoardingViewModel extends ViewModel {
                     public void onNext(OnBoardingModel onBoardingModel) {
                         onBoard.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 onBoardingModel
                         ));
                     }

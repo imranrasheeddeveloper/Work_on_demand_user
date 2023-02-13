@@ -28,7 +28,7 @@ public class HomeViewModel extends ViewModel {
 
         category.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -45,15 +45,11 @@ public class HomeViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                category.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            category.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
 
@@ -61,7 +57,7 @@ public class HomeViewModel extends ViewModel {
                     public void onNext(CategoriesModel categoriesModel) {
                         category.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 categoriesModel
                         ));
                     }
@@ -72,7 +68,7 @@ public class HomeViewModel extends ViewModel {
 
         ddCategory.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -89,15 +85,11 @@ public class HomeViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                ddCategory.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            ddCategory.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
 
@@ -105,7 +97,7 @@ public class HomeViewModel extends ViewModel {
                     public void onNext(CategoriesModel categoriesModel) {
                         ddCategory.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 categoriesModel
                         ));
                     }

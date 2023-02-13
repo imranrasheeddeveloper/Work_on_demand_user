@@ -34,7 +34,7 @@ public class ServiceProviderViewModel extends ViewModel {
 
         provider.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -51,15 +51,11 @@ public class ServiceProviderViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                provider.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            provider.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
 
@@ -67,7 +63,7 @@ public class ServiceProviderViewModel extends ViewModel {
                     public void onNext(ServiceProviderModel ServiceProviderModel) {
                         provider.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 ServiceProviderModel
                         ));
                     }
@@ -78,7 +74,7 @@ public class ServiceProviderViewModel extends ViewModel {
 
         by_cat_provider.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -95,15 +91,11 @@ public class ServiceProviderViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                by_cat_provider.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            by_cat_provider.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
 
@@ -111,7 +103,7 @@ public class ServiceProviderViewModel extends ViewModel {
                     public void onNext(ServiceProviderModel ServiceProviderModel) {
                         by_cat_provider.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 ServiceProviderModel
                         ));
                     }
@@ -122,7 +114,7 @@ public class ServiceProviderViewModel extends ViewModel {
 
         search_provider.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -139,15 +131,11 @@ public class ServiceProviderViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                search_provider.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            search_provider.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
 
@@ -155,7 +143,7 @@ public class ServiceProviderViewModel extends ViewModel {
                     public void onNext(ServiceProviderModel ServiceProviderModel) {
                         search_provider.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 ServiceProviderModel
                         ));
                     }

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.FragmentWalletTopupBinding;
@@ -63,9 +64,13 @@ public class WalletTopup extends BaseFragment<FragmentWalletTopupBinding> {
                     if (response != null) {
                         if (response.isLoading()) {
                             showLoading();
-                        } else if (!response.getError().isEmpty()) {
-                            hideLoading();
-                            showSnackBarShort(response.getError());
+                        } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                         } else if (response.getData().isSuccess()) {
                             hideLoading();
                             showSnackBarShort(response.getData().getMessage());

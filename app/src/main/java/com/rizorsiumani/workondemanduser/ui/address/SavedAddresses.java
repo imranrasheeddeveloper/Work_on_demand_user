@@ -20,6 +20,7 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.addressDataItems;
@@ -28,6 +29,7 @@ import com.rizorsiumani.workondemanduser.databinding.ActivitySavedAddressesBindi
 import com.rizorsiumani.workondemanduser.ui.add_location.AddAddress;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +62,13 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
 
@@ -233,6 +239,10 @@ public class SavedAddresses extends BaseActivity<ActivitySavedAddressesBinding> 
         });
 
         activityBinding.addMapLocation.setOnClickListener(view -> {
+            TinyDbManager.saveSelectedAddress("");
+            navToAddAddress();
+        });
+        activityBinding.mapLocationView.setOnClickListener(view -> {
             TinyDbManager.saveSelectedAddress("");
             navToAddAddress();
         });

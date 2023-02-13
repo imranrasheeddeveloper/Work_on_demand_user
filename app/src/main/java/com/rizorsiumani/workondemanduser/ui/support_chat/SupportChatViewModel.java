@@ -31,122 +31,121 @@ public class SupportChatViewModel extends ViewModel {
     private final MutableLiveData<ResponseWrapper<SendSupportMessageModel>> send_query = new MutableLiveData<>();
     public LiveData<ResponseWrapper<SendSupportMessageModel>> _send_query = send_query;
 
-    public void getChat(String token, int account_id, int conversation_id) {
-            messages.setValue(
-                    new ResponseWrapper<>(
-                            true, "", null
-                    ));
+//    public void getChat(String token, int account_id, int conversation_id) {
+//            messages.setValue(
+//                    new ResponseWrapper<>(
+//                            true, null, null
+//                    ));
+//
+//            RemoteRepository.getInstance()
+//                    .getSupportChat(token, account_id, conversation_id)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<MessagesModel>() {
+//                        @Override
+//                        public void onCompleted() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//                            messages.setValue(new ResponseWrapper<>(
+//                                    false,
+//                                    e.getLocalizedMessage(),
+//                                    null
+//                            ));
+//                        }
+//
+//                        @Override
+//                        public void onNext(MessagesModel model) {
+//                            messages.setValue(new ResponseWrapper<>(
+//                                    false,
+//                                    null,
+//                                    model
+//                            ));
+//                        }
+//                    });
+//    }
 
-            RemoteRepository.getInstance()
-                    .getSupportChat(token, account_id, conversation_id)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<MessagesModel>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            messages.setValue(new ResponseWrapper<>(
-                                    false,
-                                    e.getLocalizedMessage(),
-                                    null
-                            ));
-                        }
-
-                        @Override
-                        public void onNext(MessagesModel model) {
-                            messages.setValue(new ResponseWrapper<>(
-                                    false,
-                                    "",
-                                    model
-                            ));
-                        }
-                    });
-    }
-
-    public void createConversation(String token, int account_id, JsonObject object) {
-
-            conversation.setValue(
-                    new ResponseWrapper<>(
-                            true, "", null
-                    ));
-
-            RemoteRepository.getInstance()
-                    .create_conversation(token, account_id, object)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<ConversationModel>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            conversation.setValue(new ResponseWrapper<>(
-                                    false,
-                                    e.getLocalizedMessage(),
-                                    null
-                            ));
-                        }
-
-                        @Override
-                        public void onNext(ConversationModel model) {
-                            conversation.setValue(new ResponseWrapper<>(
-                                    false,
-                                    "",
-                                    model
-                            ));
-                        }
-                    });
-    }
-
-    public void sendMessage(String token, int conversation_id,int account_id, JsonObject object) {
-
-        send_query.setValue(
-                new ResponseWrapper<>(
-                        true, "", null
-                ));
-
-        RemoteRepository.getInstance()
-                .send_support_message(token, conversation_id,account_id, object)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<SendSupportMessageModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e instanceof HttpException) {
-                            ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                send_query.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onNext(SendSupportMessageModel model) {
-                        send_query.setValue(new ResponseWrapper<>(
-                                false,
-                                "",
-                                model
-                        ));
-                    }
-                });
-    }
-
+//    public void createConversation(String token, int account_id, JsonObject object) {
+//
+//            conversation.setValue(
+//                    new ResponseWrapper<>(
+//                            true, null, null
+//                    ));
+//
+//            RemoteRepository.getInstance()
+//                    .create_conversation(token, account_id, object)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<ConversationModel>() {
+//                        @Override
+//                        public void onCompleted() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//                            if (e instanceof HttpException) {
+//                                ResponseBody body = ((HttpException) e).response().errorBody();
+//                                conversation.setValue(new ResponseWrapper<>(
+//                                        false,
+//                                        body,
+//                                        null
+//                                ));
+//                        }
+//
+//                        @Override
+//                        public void onNext(ConversationModel model) {
+//                            conversation.setValue(new ResponseWrapper<>(
+//                                    false,
+//                                    null,
+//                                    model
+//                            ));
+//                        }
+//                    });
+//    }
+//
+//    public void sendMessage(String token, int conversation_id,int account_id, JsonObject object) {
+//
+//        send_query.setValue(
+//                new ResponseWrapper<>(
+//                        true, null, null
+//                ));
+//
+//        RemoteRepository.getInstance()
+//                .send_support_message(token, conversation_id,account_id, object)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<SendSupportMessageModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        if (e instanceof HttpException) {
+//                            ResponseBody body = ((HttpException) e).response().errorBody();
+//                            send_query.setValue(new ResponseWrapper<>(
+//                                    false,
+//                                    body,
+//                                    null
+//                            ));
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onNext(SendSupportMessageModel model) {
+//                        send_query.setValue(new ResponseWrapper<>(
+//                                false,
+//                                null,
+//                                model
+//                        ));
+//                    }
+//                });
+//    }
+//
+//
 
 }

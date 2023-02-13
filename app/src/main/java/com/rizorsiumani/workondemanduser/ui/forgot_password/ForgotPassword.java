@@ -10,10 +10,12 @@ import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
 
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityForgotPasswordBinding;
 import com.rizorsiumani.workondemanduser.ui.login.Login;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 public class ForgotPassword extends BaseActivity<ActivityForgotPasswordBinding> {
 
@@ -54,9 +56,13 @@ public class ForgotPassword extends BaseActivity<ActivityForgotPasswordBinding> 
                     if (response != null) {
                         if (response.isLoading()) {
                             showLoading();
-                        } else if (!response.getError().isEmpty()) {
-                            hideLoading();
-                            showSnackBarShort(response.getError());
+                        } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                         } else if (response.getData().isSuccess()) {
                             hideLoading();
                             showSnackBarShort(response.getData().getMessage());

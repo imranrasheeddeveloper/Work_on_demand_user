@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.InboxDataItem;
@@ -14,6 +15,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.inbox.ServiceProvid
 import com.rizorsiumani.workondemanduser.databinding.ActivityInboxBinding;
 import com.rizorsiumani.workondemanduser.ui.chat.Chatroom;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +50,13 @@ public class Inbox extends BaseActivity<ActivityInboxBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     if (response.getData().getData().size() > 0){

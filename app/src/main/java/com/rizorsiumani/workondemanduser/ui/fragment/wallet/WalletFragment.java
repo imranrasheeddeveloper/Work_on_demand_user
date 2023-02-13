@@ -71,9 +71,13 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     if (response.getData().getData() != null) {
@@ -101,9 +105,13 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     if (response.getData().getData() != null) {

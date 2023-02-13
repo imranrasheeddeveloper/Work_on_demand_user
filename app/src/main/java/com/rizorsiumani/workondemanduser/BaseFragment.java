@@ -193,10 +193,14 @@ public abstract class BaseFragment<binding extends ViewBinding> extends Fragment
                 if (response != null){
                     if (response.isLoading()) {
                         showLoading();
-                    } else if (!response.getError().isEmpty()) {
+                    } else if (response.getError() != null) {
                         hideLoading();
                         alertDialog.dismiss();
-                        showSnackBarShort(response.getError());
+                        if (response.getError() == null){
+                            showSnackBarShort("Something went wrong!!");
+                        }else {
+                            Constants.constant.getApiError(App.applicationContext,response.getError());
+                        }
                     } else if (response.getData().isSuccess()) {
                         hideLoading();
                         alertDialog.dismiss();

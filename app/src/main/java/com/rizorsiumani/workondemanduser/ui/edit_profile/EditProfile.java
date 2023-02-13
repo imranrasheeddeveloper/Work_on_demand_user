@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.common.ImageUploadViewModel;
@@ -69,7 +70,7 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
 
         if (userData.getImage() != null) {
             Glide.with(EditProfile.this)
-                    .load(userData.getImage())
+                    .load(Constants.IMG_PATH + userData.getImage())
                     .placeholder(R.color.placeholder_bg)
                     .into(activityBinding.userImage);
 
@@ -203,9 +204,13 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().isSuccess()) {
                     if (!response.getData().getFilePATH().isEmpty()) {
                         imagePath = response.getData().getFilePATH();
@@ -241,9 +246,13 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(com.rizorsiumani.workondemanduser.App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     showSnackBarShort(response.getData().getMessage());

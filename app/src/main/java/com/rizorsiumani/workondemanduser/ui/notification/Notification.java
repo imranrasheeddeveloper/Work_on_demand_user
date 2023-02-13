@@ -16,6 +16,7 @@ import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.NotificationDataItem;
 import com.rizorsiumani.workondemanduser.databinding.ActivityNotificationBinding;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.DiscountPlansAdapter;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,9 +98,13 @@ public class Notification extends BaseActivity<ActivityNotificationBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     if (response.getData().getData().size() > 0) {

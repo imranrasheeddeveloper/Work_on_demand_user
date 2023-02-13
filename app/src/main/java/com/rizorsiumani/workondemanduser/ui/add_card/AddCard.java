@@ -3,9 +3,11 @@ package com.rizorsiumani.workondemanduser.ui.add_card;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.databinding.ActivityAddCardBinding;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.model.CardParams;
 
@@ -80,9 +82,13 @@ public class AddCard extends BaseActivity<ActivityAddCardBinding> {
                     if (response != null) {
                         if (response.isLoading()) {
                             showLoading();
-                        } else if (!response.getError().isEmpty()) {
-                            hideLoading();
-                            showSnackBarShort(response.getError());
+                        } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                         } else if (response.getData().isSuccess()) {
                             hideLoading();
                             showSnackBarShort(response.getData().getMessage());

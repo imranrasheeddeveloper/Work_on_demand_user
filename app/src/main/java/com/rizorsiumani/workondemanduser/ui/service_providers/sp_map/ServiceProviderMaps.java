@@ -157,9 +157,13 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
                         if (response != null) {
                             if (response.isLoading()) {
                                  showLoading();
-                            } else if (!response.getError().isEmpty()) {
-                                 hideLoading();
-                                showSnackBarShort(response.getError());
+                            } else if (response.getError() != null) {
+                                hideLoading();
+                                if (response.getError() == null){
+                                    showSnackBarShort("Something went wrong!!");
+                                }else {
+                                    Constants.constant.getApiError(App.applicationContext,response.getError());
+                                }
                             } else if (response.getData().isSuccess()) {
                                   hideLoading();
                                 if (response.getData().getData().size() > 0) {
@@ -310,9 +314,13 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
                     if (response != null) {
                         if (response.isLoading()) {
                             showLoading();
-                        } else if (!response.getError().isEmpty()) {
-                            hideLoading();
-                            showSnackBarShort(response.getError());
+                        } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                         } else if (response.getData().isSuccess()) {
                             hideLoading();
                             if (response.getData().getInboxId() != 0) {

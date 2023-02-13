@@ -25,7 +25,7 @@ public class SliderViewModel extends ViewModel {
 
         slider.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -41,22 +41,18 @@ public class SliderViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                slider.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            slider.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
                     @Override
                     public void onNext(SliderModel sliderModel) {
                         slider.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 sliderModel
                         ));
                     }

@@ -56,9 +56,13 @@ public class PromoCode extends BaseActivity<ActivityPromoCodeBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     promoDataItemList = new ArrayList<>();
@@ -121,10 +125,13 @@ public class PromoCode extends BaseActivity<ActivityPromoCodeBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
-                    showSnackBarShort(response.getError());
+                } else if (response.getError() != null) {
                     hideLoading();
-                 //   alertDialog.dismiss();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().isSuccess()) {
                     saveValidCode(selectedPromo);
                     hideLoading();

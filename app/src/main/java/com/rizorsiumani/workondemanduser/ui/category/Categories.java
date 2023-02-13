@@ -19,6 +19,7 @@ import com.rizorsiumani.workondemanduser.ui.fragment.home.CategoriesAdapter;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.HomeViewModel;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategories;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +49,13 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                       showLoading();
-                } else if (!response.getError().isEmpty()) {
-                     hideLoading();
-                    showSnackBarShort(response.getError());
+                } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                      hideLoading();
                     categoriesDataItems = new ArrayList<>();

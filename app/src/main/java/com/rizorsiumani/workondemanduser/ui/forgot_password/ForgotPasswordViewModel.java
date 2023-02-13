@@ -26,7 +26,7 @@ public class ForgotPasswordViewModel extends ViewModel {
 
         password.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -42,17 +42,10 @@ public class ForgotPasswordViewModel extends ViewModel {
                     @Override
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
-                            BasicModel model = new BasicModel();
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                Gson gson = new Gson();
-                                model = gson.fromJson(body.string(),BasicModel.class);
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
                             password.setValue(new ResponseWrapper<>(
                                     false,
-                                    model.getMessage(),
+                                    body,
                                     null
                             ));
                         }
@@ -62,7 +55,7 @@ public class ForgotPasswordViewModel extends ViewModel {
                     public void onNext(BasicModel model) {
                         password.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 model
                         ));
                     }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.CardsDataItem;
@@ -21,6 +22,7 @@ import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityGetAllCardsBinding;
 import com.rizorsiumani.workondemanduser.ui.add_card.AddCard;
 import com.rizorsiumani.workondemanduser.ui.add_card.CardViewModel;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 import com.stripe.android.PaymentConfiguration;
 
 import java.util.ArrayList;
@@ -77,9 +79,13 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
                 if (response != null) {
                     if (response.isLoading()) {
                         showLoading();
-                    } else if (!response.getError().isEmpty()) {
-                        hideLoading();
-                        showSnackBarShort(response.getError());
+                  } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                     } else if (response.getData().getData() != null) {
                         hideLoading();
                         if (response.getData().getData().getData().size() > 0) {
@@ -194,9 +200,13 @@ public class GetAllCards extends BaseActivity<ActivityGetAllCardsBinding> {
                     if (response != null){
                         if (response.isLoading()) {
                             showLoading();
-                        } else if (!response.getError().isEmpty()) {
-                            hideLoading();
-                            showSnackBarShort(response.getError());
+                        } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                         } else if (response.getData().isSuccess()) {
                             hideLoading();
                             adapter.removeItem(position);

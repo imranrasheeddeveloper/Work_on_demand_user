@@ -26,7 +26,7 @@ public class SubCategoryViewModel extends ViewModel {
 
         subCategory.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -43,15 +43,11 @@ public class SubCategoryViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                subCategory.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            subCategory.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
 
@@ -59,7 +55,7 @@ public class SubCategoryViewModel extends ViewModel {
                     public void onNext(SubCategoriesModel subCategoriesModel) {
                         subCategory.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 subCategoriesModel
                         ));
                     }
@@ -70,7 +66,7 @@ public class SubCategoryViewModel extends ViewModel {
 
         subCategory.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -87,15 +83,11 @@ public class SubCategoryViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                subCategory.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            subCategory.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
 
@@ -103,7 +95,7 @@ public class SubCategoryViewModel extends ViewModel {
                     public void onNext(SubCategoriesModel subCategoriesModel) {
                         subCategory.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 subCategoriesModel
                         ));
                     }

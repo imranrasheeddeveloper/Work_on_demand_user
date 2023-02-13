@@ -11,6 +11,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 
 import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
@@ -124,9 +125,13 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
                 if (response != null) {
                     if (response.isLoading()) {
                         showLoading();
-                    } else if (!response.getError().isEmpty()) {
-                        hideLoading();
-                        showSnackBarShort(response.getError());
+                  } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                     } else if (response.getData().getData() != null) {
                         hideLoading();
                         prefRepository.setString("token" , "Bearer "+response.getData().getToken());

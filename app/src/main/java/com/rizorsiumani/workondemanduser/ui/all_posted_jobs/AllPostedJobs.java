@@ -17,6 +17,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.PostedJobsDataItem;
 import com.rizorsiumani.workondemanduser.databinding.ActivityAllPostedJobsBinding;
 import com.rizorsiumani.workondemanduser.ui.address.AdressesAdapter;
 import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +47,13 @@ public class AllPostedJobs extends BaseActivity<ActivityAllPostedJobsBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
 
@@ -85,9 +90,13 @@ public class AllPostedJobs extends BaseActivity<ActivityAllPostedJobsBinding> {
                     if (response != null){
                         if (response.isLoading()){
                             showLoading();
-                        } else if (!response.getError().isEmpty()) {
-                            hideLoading();
-                            showSnackBarShort(response.getError());
+                        } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                         } else if (response.getData().isSuccess()) {
                             hideLoading();
                             adapter.remove(position);

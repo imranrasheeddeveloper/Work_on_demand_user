@@ -30,7 +30,7 @@ public class GetAddressViewModel extends ViewModel {
 
         address.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -47,15 +47,11 @@ public class GetAddressViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                address.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            address.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
 
@@ -63,7 +59,7 @@ public class GetAddressViewModel extends ViewModel {
                     public void onNext(GetAddressesModel addressesModel) {
                         address.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 addressesModel
                         ));
                     }

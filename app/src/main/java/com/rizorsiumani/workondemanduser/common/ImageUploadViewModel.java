@@ -30,7 +30,7 @@ public class ImageUploadViewModel extends ViewModel {
 
         response.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -47,15 +47,11 @@ public class ImageUploadViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                response.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            response.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
 
@@ -63,7 +59,7 @@ public class ImageUploadViewModel extends ViewModel {
                     public void onNext(CommonResponse commonResponse) {
                         response.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 commonResponse
                         ));
                     }
@@ -74,7 +70,7 @@ public class ImageUploadViewModel extends ViewModel {
 
         update.setValue(
                 new ResponseWrapper<>(
-                        true, "", null
+                        true, null, null
                 ));
 
         RemoteRepository.getInstance()
@@ -91,15 +87,11 @@ public class ImageUploadViewModel extends ViewModel {
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
                             ResponseBody body = ((HttpException) e).response().errorBody();
-                            try {
-                                update.setValue(new ResponseWrapper<>(
-                                        false,
-                                        body.string(),
-                                        null
-                                ));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            update.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
                         }
                     }
 
@@ -107,7 +99,7 @@ public class ImageUploadViewModel extends ViewModel {
                     public void onNext(UpdateUserModel userModel) {
                         update.setValue(new ResponseWrapper<>(
                                 false,
-                                "",
+                                null,
                                 userModel
                         ));
                     }

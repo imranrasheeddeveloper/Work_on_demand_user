@@ -18,6 +18,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.SProfileData;
@@ -64,9 +65,13 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                   //  showLoading();
-                } else if (!response.getError().isEmpty()) {
-                   // hideLoading();
-                    showSnackBarShort(response.getError());
+                } else if (response.getError() != null) {
+                    //hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().isSuccess()) {
                   //  hideLoading();
                     if (response.getData().getData() != null){
@@ -130,9 +135,13 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
                 if (response != null) {
                     if (response.isLoading()) {
                         showLoading();
-                    } else if (!response.getError().isEmpty()) {
-                        hideLoading();
-                        showSnackBarShort(response.getError());
+                  } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                     } else if (response.getData().isSuccess()) {
                         hideLoading();
                         if (response.getData().getInboxId() != 0) {

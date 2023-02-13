@@ -167,9 +167,13 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     //showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getFees() != null) {
                     hideLoading();
                     commissionFee = response.getData().getFees();
@@ -565,9 +569,13 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     for (int i = 0; i < response.getData().getData().size(); i++) {
@@ -615,9 +623,13 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     recyclerView.setHasFixedSize(true);
@@ -672,9 +684,13 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                 if (response != null) {
                     if (response.isLoading()) {
                         showLoading();
-                    } else if (!response.getError().isEmpty()) {
+                    } else if (response.getError() != null) {
                         hideLoading();
-                        showSnackBarShort(response.getError());
+                        if (response.getError() == null){
+                            showSnackBarShort("Something went wrong!!");
+                        }else {
+                            Constants.constant.getApiError(App.applicationContext,response.getError());
+                        }
                     } else if (response.getData() != null) {
                         hideLoading();
                         TinyDbManager.savePromo(null);

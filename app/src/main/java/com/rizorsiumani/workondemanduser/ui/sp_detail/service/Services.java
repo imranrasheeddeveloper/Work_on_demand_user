@@ -19,6 +19,7 @@ import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.FragmentServicesBinding;
 import com.rizorsiumani.workondemanduser.ui.sp_detail.ProviderDetailViewModel;
 import com.rizorsiumani.workondemanduser.ui.start_date.StartDate;
+import com.rizorsiumani.workondemanduser.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +52,13 @@ public class Services extends BaseFragment<FragmentServicesBinding> {
                 if (response != null) {
                     if (response.isLoading()) {
                         showLoading();
-                    } else if (!response.getError().isEmpty()) {
-                        hideLoading();
-                        showSnackBarShort(response.getError());
+                  } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                     } else if (response.getData().getData() != null) {
                         hideLoading();
                         if (response.getData().getData().size() > 0) {

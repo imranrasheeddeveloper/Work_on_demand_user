@@ -177,9 +177,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     if (response.getData().getData().size() > 0) {
@@ -227,9 +231,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getSliderData() != null) {
                     hideLoading();
                     sliderDataItems = new ArrayList<>();
@@ -339,9 +347,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                 } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     categoriesDataItems = new ArrayList<>();
@@ -409,9 +421,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
             if (response != null) {
                 if (response.isLoading()) {
                       showLoading();
-                } else if (!response.getError().isEmpty()) {
-                     hideLoading();
-                    showSnackBarShort(response.getError());
+                } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                      hideLoading();
                     categoriesDataItems = new ArrayList<>();

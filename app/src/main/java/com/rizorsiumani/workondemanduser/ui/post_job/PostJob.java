@@ -24,7 +24,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,7 +56,6 @@ import com.rizorsiumani.workondemanduser.ui.job_timing.AvailabilitiesItem;
 import com.rizorsiumani.workondemanduser.ui.job_timing.JobTiming;
 import com.rizorsiumani.workondemanduser.ui.job_timing.TimeItem;
 import com.rizorsiumani.workondemanduser.ui.sub_category.SubCategoryViewModel;
-import com.rizorsiumani.workondemanduser.ui.view_booking_information.BookingInformation;
 import com.rizorsiumani.workondemanduser.ui.view_booking_information.BookingTimingAdapter;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
 import com.rizorsiumani.workondemanduser.utils.Constants;
@@ -83,17 +81,15 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     List<CategoriesDataItem> categoriesDataItems;
     List<SubCategoryDataItem> subCategoryDataItems;
     private int READ_STORAGE_PERMISSION_REQUEST_CODE = 23;
-
+    boolean isDialogueCreated = false;
     int selectedCatID = 0;
     int selectedSubCatID;
     String selectedBudgetUnit;
 
     private PostJobViewModel postJobViewModel;
     Uri imageUri;
-    AlertDialog alertDialog1 = null;
     PostedJobsDataItem postedJobsDataItem;
     String status;
-
 
 
     @Override
@@ -106,7 +102,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         super.onStart();
 
         status = getIntent().getStringExtra("status");
-
 
 
         homeViewModel = new ViewModelProvider(PostJob.this).get(HomeViewModel.class);
@@ -122,9 +117,13 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null) {
+                        showSnackBarShort("Something went wrong!!");
+                    } else {
+                        Constants.constant.getApiError(App.applicationContext, response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
                     categoriesDataItems = new ArrayList<>();
@@ -140,9 +139,13 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                                     if (response1 != null) {
                                         if (response1.isLoading()) {
                                             showLoading();
-                                        } else if (!response1.getError().isEmpty()) {
+                                        } else if (response.getError() != null) {
                                             hideLoading();
-                                            showSnackBarShort(response1.getError());
+                                            if (response.getError() == null) {
+                                                showSnackBarShort("Something went wrong!!");
+                                            } else {
+                                                Constants.constant.getApiError(App.applicationContext, response.getError());
+                                            }
                                         } else if (response1.getData().getData() != null) {
                                             hideLoading();
 
@@ -169,7 +172,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             Gson gson = new Gson();
             String data = getIntent().getStringExtra("posted_job_detail");
             postedJobsDataItem = gson.fromJson(data, PostedJobsDataItem.class);
-            if (postedJobsDataItem != null){
+            if (postedJobsDataItem != null) {
                 setData(postedJobsDataItem);
             }
         }
@@ -209,42 +212,46 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
             }
 
-        }else {
+        } else {
 
-        if (status.equalsIgnoreCase("update")) {
-            postJobViewModel.getJobTiming(postedJobsDataItem.getId());
-            postJobViewModel._job_timing.observe(this, response -> {
-                if (response != null) {
-                    if (response.isLoading()) {
-                        showLoading();
-                    } else if (!response.getError().isEmpty()) {
-                        hideLoading();
-                        showSnackBarShort(response.getError());
-                    } else if (response.getData().getData() != null) {
-                        hideLoading();
-                        if (response.getData().getData().size() > 0) {
-                            List<TimeItem> timeItems = new ArrayList<>();
-                            for (int i = 0; i < response.getData().getData().size(); i++) {
-                                for (int j = 0; j < response.getData().getData().get(i).getJobDays().size(); j++) {
-                                    JobDaysItem daysItem = response.getData().getData().get(i).getJobDays().get(j);
-                                    timeItems.add(new TimeItem(Integer.valueOf(daysItem.getTotalHours()), daysItem.getFromTime(), daysItem.getToTime()));
+            if (status.equalsIgnoreCase("update")) {
+                postJobViewModel.getJobTiming(postedJobsDataItem.getId());
+                postJobViewModel._job_timing.observe(this, response -> {
+                    if (response != null) {
+                        if (response.isLoading()) {
+                            showLoading();
+                        } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
+                        } else if (response.getData().getData() != null) {
+                            hideLoading();
+                            if (response.getData().getData().size() > 0) {
+                                List<TimeItem> timeItems = new ArrayList<>();
+                                for (int i = 0; i < response.getData().getData().size(); i++) {
+                                    for (int j = 0; j < response.getData().getData().get(i).getJobDays().size(); j++) {
+                                        JobDaysItem daysItem = response.getData().getData().get(i).getJobDays().get(j);
+                                        timeItems.add(new TimeItem(Integer.valueOf(daysItem.getTotalHours()), daysItem.getFromTime(), daysItem.getToTime()));
 
+                                    }
                                 }
-                            }
-                            if (timeItems.size() > 0) {
+                                if (timeItems.size() > 0) {
 
-                                buildTimeSlotRv(response.getData().getData());
+                                    buildTimeSlotRv(response.getData().getData());
+                                } else {
+                                    activityBinding.deadlineDate.setVisibility(View.GONE);
+                                }
+
                             } else {
                                 activityBinding.deadlineDate.setVisibility(View.GONE);
                             }
-
-                        } else {
-                            activityBinding.deadlineDate.setVisibility(View.GONE);
                         }
                     }
-                }
-            });
-        }
+                });
+            }
         }
     }
 
@@ -264,68 +271,68 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             activityBinding.selectedBudgetUnit.setText(postedJobsDataItem.getPriceUnit());
 
 
-
-
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
+
     private void buildTimeSlotRv(List<JobTimingDataItem> data) {
 
-            if (data != null){
-                List<AvailabilitiesItem> list = new ArrayList<>();
-                List<TimeItem> timeItemList;
+        if (data != null) {
+            List<AvailabilitiesItem> list = new ArrayList<>();
+            List<TimeItem> timeItemList;
 
-                for (int i = 0; i < data.size(); i++) {
-                    if (list.size() > 0){
-                        boolean isBreak = false;
-                        for (AvailabilitiesItem s : list) {
-                            if (s.getDay().equalsIgnoreCase(data.get(i).getDay())) {
-                                isBreak = true;
-                            }
+            for (int i = 0; i < data.size(); i++) {
+                if (list.size() > 0) {
+                    boolean isBreak = false;
+                    for (AvailabilitiesItem s : list) {
+                        if (s.getDay().equalsIgnoreCase(data.get(i).getDay())) {
+                            isBreak = true;
                         }
-                        if (!isBreak){
-                            timeItemList = new ArrayList<>();
-                            for (int j = 0; j < data.size(); j++) {
-                                if (data.get(i).getDay().equalsIgnoreCase(data.get(j).getDay())){
-                                    if (timeItemList == null) {
-                                        timeItemList = new ArrayList<>();
-                                    }
-                                    for (int k = 0; k < data.get(j).getJobDays().size(); j++) {
-                                        timeItemList.add(new TimeItem(Integer.parseInt(data.get(j).getJobDays().get(k).getTotalHours()), data.get(j).getJobDays().get(k).getFromTime(), data.get(j).getJobDays().get(k).getToTime()));
-                                    }
-                                }
-                            }
-                            list.add(new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
-                        }
-                    }else {
+                    }
+                    if (!isBreak) {
                         timeItemList = new ArrayList<>();
                         for (int j = 0; j < data.size(); j++) {
-                            if (data.get(i).getDay().equalsIgnoreCase(data.get(j).getDay())){
+                            if (data.get(i).getDay().equalsIgnoreCase(data.get(j).getDay())) {
                                 if (timeItemList == null) {
                                     timeItemList = new ArrayList<>();
                                 }
                                 for (int k = 0; k < data.get(j).getJobDays().size(); j++) {
                                     timeItemList.add(new TimeItem(Integer.parseInt(data.get(j).getJobDays().get(k).getTotalHours()), data.get(j).getJobDays().get(k).getFromTime(), data.get(j).getJobDays().get(k).getToTime()));
-                                }                            }
+                                }
+                            }
                         }
                         list.add(new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
                     }
+                } else {
+                    timeItemList = new ArrayList<>();
+                    for (int j = 0; j < data.size(); j++) {
+                        if (data.get(i).getDay().equalsIgnoreCase(data.get(j).getDay())) {
+                            if (timeItemList == null) {
+                                timeItemList = new ArrayList<>();
+                            }
+                            for (int k = 0; k < data.get(j).getJobDays().size(); k++) {
+                                timeItemList.add(new TimeItem(Integer.parseInt(data.get(j).getJobDays().get(k).getTotalHours()), data.get(j).getJobDays().get(k).getFromTime(), data.get(j).getJobDays().get(k).getToTime()));
+                            }
+                        }
+                    }
+                    list.add(new AvailabilitiesItem(timeItemList, data.get(i).getDay()));
                 }
+            }
 
 
-                for (int i = 0; i < list.size(); i++) {
-                    TinyDbManager.saveTiming(list.get(i));
-                }
-                LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
-                activityBinding.timeData.setLayoutManager(layoutManager);
-                activityBinding.timeData.setOnFlingListener(null);
-                SnapHelper snapHelper = new PagerSnapHelper();
-                snapHelper.attachToRecyclerView(activityBinding.timeData);
-                BookingTimingAdapter adapter = new BookingTimingAdapter(list, PostJob.this);
-                activityBinding.timeData.setAdapter(adapter);
-                activityBinding.deadlineDate.setVisibility(View.GONE);
-                activityBinding.ivEditTiming.setVisibility(View.VISIBLE);
+            for (int i = 0; i < list.size(); i++) {
+                TinyDbManager.saveTiming(list.get(i));
+            }
+            LinearLayoutManager layoutManager = new LinearLayoutManager(App.applicationContext, RecyclerView.VERTICAL, false);
+            activityBinding.timeData.setLayoutManager(layoutManager);
+            activityBinding.timeData.setOnFlingListener(null);
+            SnapHelper snapHelper = new PagerSnapHelper();
+            snapHelper.attachToRecyclerView(activityBinding.timeData);
+            BookingTimingAdapter adapter = new BookingTimingAdapter(list, PostJob.this);
+            activityBinding.timeData.setAdapter(adapter);
+            activityBinding.deadlineDate.setVisibility(View.GONE);
+            activityBinding.ivEditTiming.setVisibility(View.VISIBLE);
 //                if (TinyDbManager.getTiming() != null) {
 //                    List<TimeItem> data1 = new ArrayList<>();
 //                    for (int i = 0; i < TinyDbManager.getTiming().size(); i++) {
@@ -352,8 +359,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 //
 //                }
 
-            }
-
+        }
 
 
 //
@@ -363,7 +369,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 //            activityBinding.ivAddTiming.setVisibility(View.GONE);
 //        }
     }
-
 
 
     private void clickListeners() {
@@ -386,8 +391,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.stationary, R.anim.slide_down);
-            }
-            else {
+            } else {
                 finish();
                 overridePendingTransition(R.anim.stationary, R.anim.slide_down);
             }
@@ -466,37 +470,37 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 } catch (NullPointerException | IllegalArgumentException | IllegalStateException e) {
                     e.printStackTrace();
                 }
-            }else {
+            } else {
                 try {
 
                     String title = postedJobsDataItem.getTitle();
-                        String description = postedJobsDataItem.getDescription();
-                        String budget = postedJobsDataItem.getBudget();
-                        String date = postedJobsDataItem.getDate();
-                        selectedBudgetUnit = postedJobsDataItem.getPriceUnit();
-                        imagesPath = postedJobsDataItem.getAttachment();
+                    String description = postedJobsDataItem.getDescription();
+                    String budget = postedJobsDataItem.getBudget();
+                    String date = postedJobsDataItem.getDate();
+                    selectedBudgetUnit = postedJobsDataItem.getPriceUnit();
+                    imagesPath = postedJobsDataItem.getAttachment();
 
-                        if (TextUtils.isEmpty(title)) {
-                            showSnackBarShort("Title required");
-                        } else if (TextUtils.isEmpty(description)) {
-                            showSnackBarShort("Description required");
-                        } else if (TextUtils.isEmpty(budget)) {
-                            showSnackBarShort("Budget required");
-                        } else if (selectedBudgetUnit == null) {
-                            showSnackBarShort("Budget Unit required");
-                        } else if (selectedCatID == 0) {
-                            showSnackBarShort("Select Category");
-                        } else if (selectedSubCatID == 0) {
-                            showSnackBarShort("Select Sub Category");
-                        } else if (TinyDbManager.getTiming().size() == 0) {
-                            showSnackBarShort("Add Your Timing");
+                    if (TextUtils.isEmpty(title)) {
+                        showSnackBarShort("Title required");
+                    } else if (TextUtils.isEmpty(description)) {
+                        showSnackBarShort("Description required");
+                    } else if (TextUtils.isEmpty(budget)) {
+                        showSnackBarShort("Budget required");
+                    } else if (selectedBudgetUnit == null) {
+                        showSnackBarShort("Budget Unit required");
+                    } else if (selectedCatID == 0) {
+                        showSnackBarShort("Select Category");
+                    } else if (selectedSubCatID == 0) {
+                        showSnackBarShort("Select Sub Category");
+                    } else if (TinyDbManager.getTiming().size() == 0) {
+                        showSnackBarShort("Add Your Timing");
+                    } else {
+                        if (imageUri != null) {
+                            uploadImage(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, date);
                         } else {
-                            if (imageUri != null) {
-                                uploadImage(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, date);
-                            }else {
-                                postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, imagesPath, date);
-                            }
+                            postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, imagesPath, date);
                         }
+                    }
 
                 } catch (NullPointerException | IllegalArgumentException | IllegalStateException e) {
                     e.printStackTrace();
@@ -513,29 +517,33 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null) {
+                        showSnackBarShort("Something went wrong!!");
+                    } else {
+                        Constants.constant.getApiError(App.applicationContext, response.getError());
+                    }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
 
                     subCategoryDataItems = new ArrayList<>();
                     subCategoryDataItems.addAll(response.getData().getData());
 
-
                     if (subCategoryDataItems.size() > 0) {
+                        if (!isDialogueCreated){
                             showSubCategoriesDialogue(activityBinding.selectedSubcategory);
-//                                if (id != 0) {
-//                                    selectedSubCatID = id;
-//                                }
                         }
-                    } else {
-                        showSnackBarShort("No Sub Category, Select Other Category");
                     }
+
+                } else {
+                    showSnackBarShort("No Sub Category, Select Other Category");
+                }
 
 
             }
         });
+
     }
 
     @Override
@@ -547,8 +555,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             startActivity(intent);
             finish();
             overridePendingTransition(R.anim.stationary, R.anim.slide_down);
-        }
-        else {
+        } else {
             finish();
             overridePendingTransition(R.anim.stationary, R.anim.slide_down);
         }
@@ -559,47 +566,51 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
         try {
 
-        showLoading();
-        String token = prefRepository.getString("token");
+            showLoading();
+            String token = prefRepository.getString("token");
 
-        Gson gson = new Gson();
-        JsonObject object = new JsonObject();
-        object.addProperty("title", title);
-        object.addProperty("description", description);
-        object.addProperty("category_id", String.valueOf(selectedCatID));
-        object.addProperty("sub_category_id", String.valueOf(selectedSubCatID));
-        object.addProperty("budget", budget);
-        object.addProperty("attachment", imagesPath);
-        object.addProperty("price_unit", selectedBudgetUnit);
-        object.add("timings", gson.toJsonTree(TinyDbManager.getTiming()));
-        object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
-        object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
-        object.addProperty("address", TinyDbManager.getCurrentAddress());
+            Gson gson = new Gson();
+            JsonObject object = new JsonObject();
+            object.addProperty("title", title);
+            object.addProperty("description", description);
+            object.addProperty("category_id", String.valueOf(selectedCatID));
+            object.addProperty("sub_category_id", String.valueOf(selectedSubCatID));
+            object.addProperty("budget", budget);
+            object.addProperty("attachment", imagesPath);
+            object.addProperty("price_unit", selectedBudgetUnit);
+            object.add("timings", gson.toJsonTree(TinyDbManager.getTiming()));
+            object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
+            object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
+            object.addProperty("address", TinyDbManager.getCurrentAddress());
 
 
-        postJobViewModel.post(token, object);
-        postJobViewModel._job.observe(PostJob.this, response -> {
-            if (response != null) {
-                if (response.isLoading()) {
-                    showLoading();
-                } else if (!response.getError().isEmpty()) {
-                    hideLoading();
-                    showSnackBarShort(response.getError());
-                } else if (response.getData().isSuccess()) {
-                    hideLoading();
-                    showSnackBarShort(response.getData().getMessage());
-                    TinyDbManager.clearTiming();
-                    Intent intent = new Intent(PostJob.this, Dashboard.class);
-                    startActivity(intent);
-                    finish();
-                    overridePendingTransition(R.anim.stationary, R.anim.slide_down);
+            postJobViewModel.post(token, object);
+            postJobViewModel._job.observe(PostJob.this, response -> {
+                if (response != null) {
+                    if (response.isLoading()) {
+                        showLoading();
+                    } else if (response.getError() != null) {
+                        hideLoading();
+                        if (response.getError() == null) {
+                            showSnackBarShort("Something went wrong!!");
+                        } else {
+                            Constants.constant.getApiError(App.applicationContext, response.getError());
+                        }
+                    } else if (response.getData().isSuccess()) {
+                        hideLoading();
+                        showSnackBarShort(response.getData().getMessage());
+                        TinyDbManager.clearTiming();
+                        Intent intent = new Intent(PostJob.this, Dashboard.class);
+                        startActivity(intent);
+                        finish();
+                        overridePendingTransition(R.anim.stationary, R.anim.slide_down);
 
+                    }
                 }
-            }
-        });
+            });
 
 
-        }catch (NullPointerException | IllegalArgumentException |IllegalStateException e){
+        } catch (NullPointerException | IllegalArgumentException | IllegalStateException e) {
             e.printStackTrace();
         }
 
@@ -647,6 +658,8 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 selectedBudgetUnit = valuePickerView.getSelectedItem().getTitle();
             } else if (value == 0) {
                 selectedCatID = valuePickerView.getSelectedItem().getId();
+                activityBinding.selectedSubcategory.setText("Select Subcategory");
+                isDialogueCreated = false;
             } else if (value == 1) {
                 selectedSubCatID = valuePickerView.getSelectedItem().getId();
             }
@@ -658,9 +671,10 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     }
 
     private void showSubCategoriesDialogue(TextView textView) {
+        isDialogueCreated = true;
         AlertDialog.Builder dialogBuilder1;
-        if (alertDialog1 == null) {
-            dialogBuilder1 = new AlertDialog.Builder(PostJob.this);
+        AlertDialog alertDialog1;
+         dialogBuilder1 = new AlertDialog.Builder(PostJob.this);
             View layoutView1 = getLayoutInflater().inflate(R.layout.pick_category_dialogue, null);
             TextView cancel = (TextView) layoutView1.findViewById(R.id.tv_cancel);
             TextView select = (TextView) layoutView1.findViewById(R.id.tv_done);
@@ -670,10 +684,8 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             });
 
             List<Item> pickerItems = null;
-
             pickerItems = getSubCatPickerItems();
             valuePickerView.setItems(getSubCatPickerItems());
-
             //valuePickerView.setSelectedItem(pickerItems.get(2));
 
 
@@ -682,19 +694,17 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             alertDialog1.getWindow().getAttributes().windowAnimations = R.style.DialogAnimations;
             alertDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             alertDialog1.show();
-            cancel.setOnClickListener(view1 -> {
-                alertDialog1.dismiss();
+        cancel.setOnClickListener(view1 -> {
+                alertDialog1.cancel();
             });
 
-            select.setOnClickListener(view1 -> {
+        select.setOnClickListener(view1 -> {
+
                 selectedSubCatID = valuePickerView.getSelectedItem().getId();
                 textView.setText(valuePickerView.getSelectedItem().getTitle());
-                alertDialog1.dismiss();
+            alertDialog1.cancel();
 
             });
-        } else {
-            alertDialog1.show();
-        }
     }
 
 
@@ -729,7 +739,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
     }
 
     private void uploadImage(String title, String description, String budget, String selectedBudgetUnit, int selectedCatID, int selectedSubCatID, String date) {
-        File file1 = new File(GetRealPathFromUri.getRealPathFromURI( imageUri, PostJob.this));
+        File file1 = new File(GetRealPathFromUri.getRealPathFromURI(imageUri, PostJob.this));
 
         MultipartBody.Part multiPartProfile = MultipartBody.Part.createFormData("image",
                 file1.getName(),
@@ -746,11 +756,15 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             if (response != null) {
                 if (response.isLoading()) {
                     showLoading();
-                } else if (!response.getError().isEmpty()) {
+                } else if (response.getError() != null) {
                     hideLoading();
-                    showSnackBarShort(response.getError());
+                    if (response.getError() == null) {
+                        showSnackBarShort("Something went wrong!!");
+                    } else {
+                        Constants.constant.getApiError(App.applicationContext, response.getError());
+                    }
                 } else if (response.getData().getMessage() != null) {
-                   // showSnackBarShort(response.getData().getMessage());
+                    // showSnackBarShort(response.getData().getMessage());
                     imagesPath = response.getData().getFilePATH();
                     postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, imagesPath, date);
                 }
@@ -804,30 +818,31 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(Intent.createChooser(intent, "Select Picture"), 13);
-                    }else{
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE)) {
-                                    showMessageOKCancel("You need to allow access to both the permissions",
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                        requestPermissions(new String[]{READ_EXTERNAL_STORAGE},
-                                                                112);
-                                                    }
+                    } else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE)) {
+                                showMessageOKCancel("You need to allow access to both the permissions",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(new String[]{READ_EXTERNAL_STORAGE},
+                                                            112);
                                                 }
-                                            });
-                                    return;
-                                }
+                                            }
+                                        });
+                                return;
                             }
-
                         }
+
                     }
-
-
-                    break;
                 }
+
+
+                break;
         }
+    }
+
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(PostJob.this)
                 .setMessage(message)
@@ -837,70 +852,70 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 .show();
     }
 
-        private void checkPermissions () {
+    private void checkPermissions() {
 
-            Dexter.withContext(PostJob.this)
-                    .withPermissions(Manifest.permission.CAMERA, READ_EXTERNAL_STORAGE)
-                    .withListener(new MultiplePermissionsListener() {
-                        @Override
-                        public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                            if (multiplePermissionsReport.areAllPermissionsGranted()) {
-                                Intent intent = new Intent();
-                                intent.setType("image/*");
-                                intent.setAction(Intent.ACTION_GET_CONTENT);
-                                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 13);
+        Dexter.withContext(PostJob.this)
+                .withPermissions(Manifest.permission.CAMERA, READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
+                            Intent intent = new Intent();
+                            intent.setType("image/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 13);
 
-                            } else if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
-                                //open app settings dialog
-                                Toast.makeText(PostJob.this, "Denied Permanently !", Toast.LENGTH_SHORT).show();
-                            }
+                        } else if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
+                            //open app settings dialog
+                            Toast.makeText(PostJob.this, "Denied Permanently !", Toast.LENGTH_SHORT).show();
                         }
+                    }
 
-                        @Override
-                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-                            permissionToken.continuePermissionRequest();
-                        }
-                    }).check();
-        }
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                        permissionToken.continuePermissionRequest();
+                    }
+                }).check();
+    }
 
-        @Override
-        public void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data){
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == 13) {
-                if (resultCode == Activity.RESULT_OK) {
-                    imageUri = data.getData();
-                    activityBinding.ivAddImage.setImageResource(0);
-                    activityBinding.ivAddImage.setImageURI(imageUri);
-                    activityBinding.ivAddImage.setBackgroundResource(R.drawable.rect_bg);
-                    activityBinding.deleteImage.setVisibility(View.VISIBLE);
-                }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 13) {
+            if (resultCode == Activity.RESULT_OK) {
+                imageUri = data.getData();
+                activityBinding.ivAddImage.setImageResource(0);
+                activityBinding.ivAddImage.setImageURI(imageUri);
+                activityBinding.ivAddImage.setBackgroundResource(R.drawable.rect_bg);
+                activityBinding.deleteImage.setVisibility(View.VISIBLE);
             }
         }
-
-
-        @Override
-        public void onDateSet (DatePicker datePicker,int year, int month, int dayOfMonth){
-            Calendar mCalendar = Calendar.getInstance();
-            mCalendar.set(Calendar.YEAR, year);
-            mCalendar.set(Calendar.MONTH, month);
-            mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mCalendar.getTime());
-            activityBinding.deadlineDate.setText(selectedDate);
-
-        }
-
-        @Override
-        protected void onDestroy () {
-            super.onDestroy();
-
-            homeViewModel._category.removeObservers(this);
-            postJobViewModel._job.removeObservers(this);
-            subCategoryViewModel._subCategory.removeObservers(this);
-            postJobViewModel._job_image.removeObservers(this);
-            TinyDbManager.clearTiming();
-
-            homeViewModel = null;
-            postJobViewModel = null;
-            subCategoryViewModel = null;
-        }
     }
+
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+        Calendar mCalendar = Calendar.getInstance();
+        mCalendar.set(Calendar.YEAR, year);
+        mCalendar.set(Calendar.MONTH, month);
+        mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mCalendar.getTime());
+        activityBinding.deadlineDate.setText(selectedDate);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        homeViewModel._category.removeObservers(this);
+        postJobViewModel._job.removeObservers(this);
+        subCategoryViewModel._subCategory.removeObservers(this);
+        postJobViewModel._job_image.removeObservers(this);
+        TinyDbManager.clearTiming();
+
+        homeViewModel = null;
+        postJobViewModel = null;
+        subCategoryViewModel = null;
+    }
+}
