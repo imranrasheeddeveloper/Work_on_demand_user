@@ -1,14 +1,13 @@
 package com.rizorsiumani.workondemanduser.common;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class Response{
 
-	@SerializedName("data")
-	private List<DataItem> data;
+	@SerializedName("service_provider")
+	private ServiceProvider serviceProvider;
 
-	public List<DataItem> getData(){
-		return data;
+	public ServiceProvider getServiceProvider(){
+		return serviceProvider;
 	}
 }

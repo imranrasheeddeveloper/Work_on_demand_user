@@ -25,7 +25,6 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import com.google.android.datatransport.BuildConfig;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.material.snackbar.Snackbar;
 import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
 
 import org.json.JSONException;

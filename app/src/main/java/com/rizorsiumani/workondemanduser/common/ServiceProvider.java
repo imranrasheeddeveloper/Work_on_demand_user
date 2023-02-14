@@ -1,9 +1,7 @@
-package com.rizorsiumani.workondemanduser.data.businessModels;
-
-import com.google.gson.annotations.SerializedName;
-import com.rizorsiumani.workondemanduser.common.ServiceProviderReviewsItem;
+package com.rizorsiumani.workondemanduser.common;
 
 import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 public class ServiceProvider{
 
@@ -20,7 +18,7 @@ public class ServiceProvider{
 	private String firstName;
 
 	@SerializedName("service_provider_reviews")
-	private List<ServiceProviderReviews> serviceProviderReviews;
+	private List<ServiceProviderReviewsItem> serviceProviderReviews;
 
 	public String getProfilePhoto(){
 		return profilePhoto;
@@ -38,7 +36,7 @@ public class ServiceProvider{
 		return firstName;
 	}
 
-	public List<ServiceProviderReviews> getServiceProviderReviews(){
+	public List<ServiceProviderReviewsItem> getServiceProviderReviews(){
 		return serviceProviderReviews;
 	}
 }

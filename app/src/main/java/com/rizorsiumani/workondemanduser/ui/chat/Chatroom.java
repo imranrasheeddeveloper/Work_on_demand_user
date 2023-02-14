@@ -94,6 +94,58 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
             }
         });
 
+        activityBinding.sendMessage.setOnClickListener(v -> {
+            String message = activityBinding.messgae.getText().toString();
+            if (TextUtils.isEmpty(message)){
+//                showSnackBarShort("Enter message");
+                activityBinding.sendMessage.requestFocus();
+            }else {
+                JsonObject object = new JsonObject();
+                object.addProperty("body",message);
+                object.addProperty("service_provider_id",provider.getId());
+                object.addProperty("inbox_id",inboxID);
+
+                viewModel.sendMessage(token,object);
+                viewModel._send_message.observe(this, response -> {
+                    if (response != null) {
+                        if (response.isLoading()) {
+                            showLoading();
+                        } else if (response.getError() != null) {
+                            hideLoading();
+                            if (response.getError() == null){
+                                showSnackBarShort("Something went wrong!!");
+                            }else {
+                                Constants.constant.getApiError(App.applicationContext,response.getError());
+                            }
+                        } else if (response.getData().isSuccess()) {
+                            hideLoading();
+                            if (msgs == null){
+                                msgs = new ArrayList<>();
+                            }
+                            String message1 = activityBinding.messgae.getText().toString();
+                            if (!message1.isEmpty()) {
+                                msgs.add(new SenderModel(message1, Calendar.getInstance().getTime().toString()));
+                            }
+                            if (msgs.size() == 1){
+                                adapter = new ChatAdapter(Chatroom.this, msgs);
+                                activityBinding.chat.setAdapter(adapter);
+                                activityBinding.chat.scrollToPosition(msgs.size() - 1);
+                                activityBinding.messgae.setText("");
+                                activityBinding.sendMessage.setEnabled(true);
+                            }else {
+                                activityBinding.chat.scrollToPosition(msgs.size() - 1);
+                                adapter.notifyItemInserted(msgs.size() - 1);
+                                adapter.notifyDataSetChanged();
+                                activityBinding.messgae.setText("");
+                                activityBinding.sendMessage.setEnabled(true);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+
     }
 
     private void registerChatReceiver() {
@@ -172,54 +224,6 @@ public class Chatroom extends BaseActivity<ActivityChatroomBinding> {
             }
         });
 
-        activityBinding.sendMessage.setOnClickListener(v -> {
-            String message = activityBinding.messgae.getText().toString();
-            if (TextUtils.isEmpty(message)){
-//                showSnackBarShort("Enter message");
-                activityBinding.sendMessage.requestFocus();
-            }else {
-                JsonObject object = new JsonObject();
-                object.addProperty("body",message);
-                object.addProperty("service_provider_id",provider.getId());
-                object.addProperty("inbox_id",inboxID);
-
-                viewModel.sendMessage(token,object);
-                viewModel._send_message.observe(this, response -> {
-                    if (response != null) {
-                        if (response.isLoading()) {
-                            showLoading();
-                        } else if (response.getError() != null) {
-                    hideLoading();
-                    if (response.getError() == null){
-                        showSnackBarShort("Something went wrong!!");
-                    }else {
-                        Constants.constant.getApiError(App.applicationContext,response.getError());
-                    }
-                        } else if (response.getData().isSuccess()) {
-                            hideLoading();
-                            if (msgs == null){
-                                msgs = new ArrayList<>();
-                            }
-                            msgs.add(new SenderModel(message, Calendar.getInstance().getTime().toString()));
-
-                            if (msgs.size() == 1){
-                                adapter = new ChatAdapter(Chatroom.this, msgs);
-                                activityBinding.chat.setAdapter(adapter);
-                                activityBinding.chat.scrollToPosition(msgs.size() - 1);
-                                activityBinding.messgae.setText("");
-                                activityBinding.sendMessage.setEnabled(true);
-                            }else {
-                                activityBinding.chat.scrollToPosition(msgs.size() - 1);
-                                adapter.notifyItemInserted(msgs.size() - 1);
-                                adapter.notifyDataSetChanged();
-                                activityBinding.messgae.setText("");
-                                activityBinding.sendMessage.setEnabled(true);
-                            }
-                        }
-                    }
-                });
-            }
-        });
     }
 
     @Override

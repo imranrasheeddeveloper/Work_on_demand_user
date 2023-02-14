@@ -65,7 +65,7 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
                     .placeholder(R.color.placeholder_bg)
                     .into(holder.sp_image);
 
-            holder.ratingBar.setRating(Float.valueOf(item.getServiceProvider().getServiceProviderReviews().getRating()));
+//          holder.ratingBar.setRating(Float.valueOf(item.getServiceProvider().getServiceProviderReviews().getRating()));
         }
 
 

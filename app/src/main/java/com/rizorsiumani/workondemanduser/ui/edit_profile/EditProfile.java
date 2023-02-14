@@ -271,7 +271,6 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
                 uri = data.getData();
                 activityBinding.userImage.setImageURI(uri);
                 activityBinding.editUserImage.setImageResource(R.drawable.ic_edit_blue);
-
 //                String path = Constants.constant.getRealPathFromURI(uri, EditProfile.this);
 //                Glide.with(EditProfile.this).load(path).into(activityBinding.userImage);
             }
