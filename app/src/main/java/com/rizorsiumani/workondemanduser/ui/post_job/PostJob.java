@@ -209,7 +209,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
-
             }
 
         } else {
@@ -235,16 +234,13 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                                     for (int j = 0; j < response.getData().getData().get(i).getJobDays().size(); j++) {
                                         JobDaysItem daysItem = response.getData().getData().get(i).getJobDays().get(j);
                                         timeItems.add(new TimeItem(Integer.valueOf(daysItem.getTotalHours()), daysItem.getFromTime(), daysItem.getToTime()));
-
                                     }
                                 }
                                 if (timeItems.size() > 0) {
-
                                     buildTimeSlotRv(response.getData().getData());
                                 } else {
                                     activityBinding.deadlineDate.setVisibility(View.GONE);
                                 }
-
                             } else {
                                 activityBinding.deadlineDate.setVisibility(View.GONE);
                             }
@@ -266,7 +262,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             }
             activityBinding.ivAddImage.setBackgroundResource(R.drawable.rect_bg);
             activityBinding.deleteImage.setVisibility(View.VISIBLE);
-
 
             activityBinding.selectedBudgetUnit.setText(postedJobsDataItem.getPriceUnit());
 
@@ -583,31 +578,60 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
             object.addProperty("address", TinyDbManager.getCurrentAddress());
 
+            if (status.equalsIgnoreCase("add")){
+                postJobViewModel.post(token, object);
+                postJobViewModel._job.observe(PostJob.this, response -> {
+                    if (response != null) {
+                        if (response.isLoading()) {
+                            showLoading();
+                        } else if (response.getError() != null) {
+                            hideLoading();
+                            if (response.getError() == null) {
+                                showSnackBarShort("Something went wrong!!");
+                            } else {
+                                Constants.constant.getApiError(App.applicationContext, response.getError());
+                            }
+                        } else if (response.getData().isSuccess()) {
+                            hideLoading();
+                            showSnackBarShort(response.getData().getMessage());
+                            TinyDbManager.clearTiming();
+                            Intent intent = new Intent(PostJob.this, Dashboard.class);
+                            startActivity(intent);
+                            finish();
+                            overridePendingTransition(R.anim.stationary, R.anim.slide_down);
 
-            postJobViewModel.post(token, object);
-            postJobViewModel._job.observe(PostJob.this, response -> {
-                if (response != null) {
-                    if (response.isLoading()) {
-                        showLoading();
-                    } else if (response.getError() != null) {
-                        hideLoading();
-                        if (response.getError() == null) {
-                            showSnackBarShort("Something went wrong!!");
-                        } else {
-                            Constants.constant.getApiError(App.applicationContext, response.getError());
                         }
-                    } else if (response.getData().isSuccess()) {
-                        hideLoading();
-                        showSnackBarShort(response.getData().getMessage());
-                        TinyDbManager.clearTiming();
-                        Intent intent = new Intent(PostJob.this, Dashboard.class);
-                        startActivity(intent);
-                        finish();
-                        overridePendingTransition(R.anim.stationary, R.anim.slide_down);
-
                     }
-                }
-            });
+                });
+
+            }else {
+                postJobViewModel.updateJob(token, object);
+                postJobViewModel._update_job.observe(PostJob.this, response -> {
+                    if (response != null) {
+                        if (response.isLoading()) {
+                            showLoading();
+                        } else if (response.getError() != null) {
+                            hideLoading();
+                            if (response.getError() == null) {
+                                showSnackBarShort("Something went wrong!!");
+                            } else {
+                                Constants.constant.getApiError(App.applicationContext, response.getError());
+                            }
+                        } else if (response.getData().isSuccess()) {
+                            hideLoading();
+                            showSnackBarShort(response.getData().getMessage());
+                            TinyDbManager.clearTiming();
+                            Intent intent = new Intent(PostJob.this, Dashboard.class);
+                            startActivity(intent);
+                            finish();
+                            overridePendingTransition(R.anim.stationary, R.anim.slide_down);
+
+                        }
+                    }
+                });
+
+            }
+
 
 
         } catch (NullPointerException | IllegalArgumentException | IllegalStateException e) {

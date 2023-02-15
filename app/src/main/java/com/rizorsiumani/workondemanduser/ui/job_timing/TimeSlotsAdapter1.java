@@ -45,7 +45,6 @@ public class TimeSlotsAdapter1 extends RecyclerView.Adapter<TimeSlotsAdapter1.Vi
 
         if (itemModel != null){
             holder.froTime.setText(itemModel.getFromTime() + " " + itemModel.getToTime());
-
         }
 
 

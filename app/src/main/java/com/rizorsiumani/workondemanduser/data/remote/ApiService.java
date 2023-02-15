@@ -103,6 +103,10 @@ public interface ApiService {
     Observable<PostJobModel> postNewJob(@Header("Authorization") String token,
                                         @Body JsonObject object);
 
+    @POST("users/update_posted_job")
+    Observable<PostJobModel> updatePostedJob(@Header("Authorization") String token,
+                                        @Body JsonObject object);
+
     @GET("categories/getCategoriesDropdown")
     Observable<CategoriesModel> getDropDownCategories();
 
@@ -256,7 +260,7 @@ public interface ApiService {
     Observable<BasicModel> delete_posted_job_timing(@Header("Authorization") String token,
                                              @Path("job_id") int job_id);
 
-    @POST("globalSettings/getFees")
+    @GET("globalSettings/getFees")
     Observable<GetFeeModel> getBookingFee();
 
     @GET("users/forgotPassword/{email}")

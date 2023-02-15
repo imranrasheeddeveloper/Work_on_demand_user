@@ -30,7 +30,7 @@ public class ServiceProviderDataItem {
 	private String firstName;
 
 	@SerializedName("service_provider_reviews")
-	private ServiceProviderReviewsItem serviceProviderReviews;
+	private List<ServiceProviderReviews> serviceProviderReviews;
 
 	@SerializedName("longitude")
 	private double longitude;
@@ -67,7 +67,7 @@ public class ServiceProviderDataItem {
 		return firstName;
 	}
 
-	public ServiceProviderReviewsItem getServiceProviderReviews(){
+	public List<ServiceProviderReviews> getServiceProviderReviews(){
 		return serviceProviderReviews;
 	}
 

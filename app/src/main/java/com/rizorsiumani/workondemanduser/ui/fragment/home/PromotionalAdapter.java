@@ -65,7 +65,18 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
                     .placeholder(R.color.placeholder_bg)
                     .into(holder.sp_image);
 
-//          holder.ratingBar.setRating(Float.valueOf(item.getServiceProvider().getServiceProviderReviews().getRating()));
+            if (item.getServiceProvider().getServiceProviderReviews() != null && item.getServiceProvider().getServiceProviderReviews().size() > 0){
+                int ratings = 0;
+                for (int i = 0; i < item.getServiceProvider().getServiceProviderReviews().size(); i++) {
+                    int currentRating = item.getServiceProvider().getServiceProviderReviews().get(i).getRaiting();
+                    ratings  = ratings + currentRating;
+                }
+                int average = ratings / item.getServiceProvider().getServiceProviderReviews().size();
+                if (average > 0){
+                   holder.ratingBar.setRating((float) average);
+                }
+            }
+
         }
 
 
@@ -93,7 +104,7 @@ public class PromotionalAdapter extends RecyclerView.Adapter<PromotionalAdapter.
             textView = itemView.findViewById(R.id.startFrom);
             sp_name = itemView.findViewById(R.id.sp_name);
             sp_image = itemView.findViewById(R.id.sp_image);
-            ratingBar = itemView.findViewById(R.id.rating);
+            ratingBar = itemView.findViewById(R.id.sp_average_rating);
           //  loading = itemView.findViewById(R.id.avi);
 
 

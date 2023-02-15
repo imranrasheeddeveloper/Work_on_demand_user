@@ -53,9 +53,21 @@ public class ServiceProviderAdapter extends RecyclerView.Adapter<ServiceProvider
             holder.service.setText(dataItem.getServiceProviderServices().get(0).getTitle());
             holder.price.setText(Constants.constant.CURRENCY + dataItem.getServiceProviderServices().get(0).getPrice());
         }
-        if (dataItem.getServiceProviderReviews() != null){
-            holder.reviews.setText(String.valueOf(dataItem.getServiceProviderReviews().getRating()) + " reviews");
-        }
+
+            if (dataItem.getServiceProviderReviews() != null && dataItem.getServiceProviderReviews().size() > 0){
+                int ratings = 0;
+                for (int i = 0; i < dataItem.getServiceProviderReviews().size(); i++) {
+                    int currentRating = dataItem.getServiceProviderReviews().get(i).getRaiting();
+                    ratings  = ratings + currentRating;
+                }
+                int average = ratings / dataItem.getServiceProviderReviews().size();
+                if (average > 0){
+                    holder.reviews.setText(average + " reviews");
+                }
+            }
+//        if (dataItem.getServiceProviderReviews() != null){
+//            holder.reviews.setText(String.valueOf(dataItem.getServiceProviderReviews().getRating()) + " reviews");
+//        }
 
         }catch (NullPointerException |IndexOutOfBoundsException| IllegalStateException | IllegalArgumentException e){
             e.printStackTrace();

@@ -56,9 +56,21 @@ public class SpMapAdapter extends RecyclerView.Adapter<SpMapAdapter.ViewHolder> 
             holder.budget.setText(Constants.constant.CURRENCY + dataItem.getServiceProviderServices().get(0).getPrice());
         }
 
-          if (dataItem.getServiceProviderReviews() != null){
-              holder.reviews.setRating(Float.parseFloat(dataItem.getServiceProviderReviews().getRating()));
+          if (dataItem.getServiceProviderReviews() != null && dataItem.getServiceProviderReviews().size() > 0){
+              int ratings = 0;
+              for (int i = 0; i < dataItem.getServiceProviderReviews().size(); i++) {
+                  int currentRating = dataItem.getServiceProviderReviews().get(i).getRaiting();
+                  ratings  = ratings + currentRating;
+              }
+              int average = ratings / dataItem.getServiceProviderReviews().size();
+              if (average > 0){
+                  holder.reviews.setRating((float) average);
+              }
           }
+
+//          if (dataItem.getServiceProviderReviews() != null){
+//              holder.reviews.setRating(Float.parseFloat(dataItem.getServiceProviderReviews().getRating()));
+//          }
 
     }catch (NullPointerException |IndexOutOfBoundsException| IllegalStateException | IllegalArgumentException e){
         e.printStackTrace();

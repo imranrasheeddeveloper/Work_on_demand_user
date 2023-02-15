@@ -94,7 +94,7 @@
                     app:layout_constraintStart_toEndOf="@id/stars_icon"
                     app:layout_constraintTop_toTopOf="@id/stars_icon"
                     app:layout_constraintBottom_toBottomOf="@id/stars_icon"
-                    android:text="2 reviews"
+                    android:text="0 reviews"
                     style="@style/normalText"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_3sdp"

@@ -14,6 +14,7 @@ import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.CategoriesDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.SerCategoryModel;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityCategoriesBinding;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.CategoriesAdapter;
 import com.rizorsiumani.workondemanduser.ui.fragment.home.HomeViewModel;
@@ -87,10 +88,8 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
         activityBinding.categoriiesList.setAdapter(adapter);
 
         adapter.setOnServiceClickListener(position -> {
-            Intent intent = new Intent(Categories.this, SubCategories.class);
-            intent.putExtra("category_id", categoriesDataItems.get(position).getId());
-            intent.putExtra("category_title", categoriesDataItems.get(position).getTitle());
-            startActivity(intent);
+            TinyDbManager.saveCategory(categoriesDataItems.get(position));
+            ActivityUtil.gotoPage(Categories.this, SubCategories.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
@@ -107,10 +106,8 @@ public class Categories extends BaseActivity<ActivityCategoriesBinding> {
             activityBinding.categoriiesList.setAdapter(adapter);
 
             adapter.setOnServiceClickListener(position -> {
-                Intent intent = new Intent(Categories.this, SubCategories.class);
-                intent.putExtra("category_id", categoriesDataItems.get(position).getId());
-                intent.putExtra("category_title", categoriesDataItems.get(position).getTitle());
-                startActivity(intent);
+                TinyDbManager.saveCategory(categoriesDataItems.get(position));
+                ActivityUtil.gotoPage(Categories.this, SubCategories.class);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             });
         });

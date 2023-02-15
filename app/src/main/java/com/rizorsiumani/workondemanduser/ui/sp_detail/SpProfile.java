@@ -57,10 +57,7 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
         id = TinyDbManager.getServiceProviderID();
 
         viewModel = new ViewModelProvider(this).get(ProviderDetailViewModel.class);
-        if (viewModel._profile.getValue() == null){
-            viewModel.getProfile(Integer.parseInt(id));
-        }
-
+        viewModel.getProfile(Integer.parseInt(id));
         viewModel._profile.observe(this , response -> {
             if (response != null) {
                 if (response.isLoading()) {

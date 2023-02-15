@@ -167,6 +167,13 @@ public class RemoteRepository {
         return null;
     }
 
+    public Observable<PostJobModel> updateJob(String token,JsonObject object){
+        if (mService != null){
+            return  mService.updatePostedJob(token,object);
+        }
+        return null;
+    }
+
     public Observable<PostImageModel> uploadJobImage(MultipartBody.Part part){
         if (mService != null){
             return  mService.uploadJobImage(part);

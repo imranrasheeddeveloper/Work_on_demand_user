@@ -25,10 +25,13 @@ import rx.schedulers.Schedulers;
 public class PostJobViewModel extends ViewModel {
 
     private final MutableLiveData<ResponseWrapper<PostJobModel>> job = new MutableLiveData<>();
-    public LiveData<ResponseWrapper<PostJobModel>> _job= job;
+    public LiveData<ResponseWrapper<PostJobModel>> _job = job;
+
+    private final MutableLiveData<ResponseWrapper<PostJobModel>> update_job = new MutableLiveData<>();
+    public LiveData<ResponseWrapper<PostJobModel>> _update_job = update_job;
 
     private final MutableLiveData<ResponseWrapper<PostImageModel>> job_image = new MutableLiveData<>();
-    public LiveData<ResponseWrapper<PostImageModel>> _job_image= job_image;
+    public LiveData<ResponseWrapper<PostImageModel>> _job_image = job_image;
 
     private final MutableLiveData<ResponseWrapper<JobTimingModel>> job_timing = new MutableLiveData<>();
     public LiveData<ResponseWrapper<JobTimingModel>> _job_timing = job_timing;
@@ -68,6 +71,46 @@ public class PostJobViewModel extends ViewModel {
                     @Override
                     public void onNext(PostJobModel model) {
                         job.setValue(new ResponseWrapper<>(
+                                false,
+                                null,
+                                model
+                        ));
+                    }
+                });
+    }
+
+    public void updateJob(String token, JsonObject object) {
+
+        update_job.setValue(
+                new ResponseWrapper<>(
+                        true, null, null
+                ));
+
+        RemoteRepository.getInstance()
+                .updateJob(token,object)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<PostJobModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof HttpException) {
+                            ResponseBody body = ((HttpException) e).response().errorBody();
+                            update_job.setValue(new ResponseWrapper<>(
+                                    false,
+                                    body,
+                                    null
+                            ));
+                        }
+                    }
+
+                    @Override
+                    public void onNext(PostJobModel model) {
+                        update_job.setValue(new ResponseWrapper<>(
                                 false,
                                 null,
                                 model

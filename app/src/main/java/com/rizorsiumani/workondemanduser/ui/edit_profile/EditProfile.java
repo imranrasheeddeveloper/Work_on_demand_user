@@ -11,11 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.common.ImageUploadViewModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.CompanyInfoModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityEditProfileBinding;
@@ -154,9 +156,9 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
                     showSnackBarShort("VAT Number Required");
                 } else {
                     if (uri != null) {
-                        uploadImage(first_name, last_name, email, number);
+                        uploadCommercialImage(first_name, last_name, email, number,com_name,com_building,com_owner,com_position,com_street,com_reg,com_vat);
                     } else {
-                        updateData(first_name, last_name, email, number);
+                        updateCommercialUser(first_name, last_name, email, number,com_name,com_building,com_owner,com_position,com_street,com_reg,com_vat);
                     }
                 }
             }else {
@@ -183,6 +185,86 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
             }
 
         });
+    }
+
+    private void updateCommercialUser(String first_name, String last_name, String email, String number, String com_name, String com_building, String com_owner, String com_position, String com_street, String com_reg, String com_vat) {
+        JsonObject object = new JsonObject();
+        Gson gson = new Gson();
+        object.addProperty("first_name", first_name);
+        object.addProperty("last_name", last_name);
+        object.addProperty("email", email);
+        object.addProperty("phone_number", number);
+        object.addProperty("type", "Commercial");
+        CompanyInfoModel model = new CompanyInfoModel(com_building,com_owner,com_reg,com_name,com_vat,com_position,com_street);
+        object.add("company",gson.toJsonTree(model));
+        if (imagePath == null) {
+            if (TinyDbManager.getUserInformation().getImage() != null) {
+                object.addProperty("image", TinyDbManager.getUserInformation().getImage());
+            } else {
+                object.addProperty("image", "");
+            }
+        } else {
+            object.addProperty("image", Constants.IMG_PATH + imagePath);
+        }
+        String token = prefRepository.getString("token");
+
+        viewModel.update(token, object);
+
+        viewModel._update.observe(this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(com.rizorsiumani.workondemanduser.App.applicationContext,response.getError());
+                    }
+                } else if (response.getData().getData() != null) {
+                    hideLoading();
+                    showSnackBarShort(response.getData().getMessage());
+                    TinyDbManager.saveUserData(response.getData().getData());
+                    setData(TinyDbManager.getUserInformation());
+                }
+            }
+        });
+    }
+
+    private void uploadCommercialImage(String first_name, String last_name, String email, String number, String com_name, String com_building, String com_owner, String com_position, String com_street, String com_reg, String com_vat) {
+        File file1 = new File(GetRealPathFromUri.getRealPathFromURI(uri, EditProfile.this));
+
+        MultipartBody.Part multiPartProfile = MultipartBody.Part.createFormData("image",
+                file1.getName(),
+                RequestBody.create(
+                        file1,
+                        MediaType.parse("*/*")
+                )
+        );
+
+        showLoading();
+        viewModel.upload(multiPartProfile);
+
+        viewModel._response.observe(this, response -> {
+            if (response != null) {
+                if (response.isLoading()) {
+                    showLoading();
+                } else if (response.getError() != null) {
+                    hideLoading();
+                    if (response.getError() == null){
+                        showSnackBarShort("Something went wrong!!");
+                    }else {
+                        Constants.constant.getApiError(App.applicationContext,response.getError());
+                    }
+                } else if (response.getData().isSuccess()) {
+                    if (!response.getData().getFilePATH().isEmpty()) {
+                        imagePath = response.getData().getFilePATH();
+                        updateCommercialUser(first_name, last_name, email, number,com_name,com_building,com_owner,com_position,com_street,com_reg,com_vat);
+                    }
+                }
+            }
+        });
+
     }
 
 
@@ -228,6 +310,7 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
         object.addProperty("first_name", first_name);
         object.addProperty("last_name", last_name);
         object.addProperty("email", email);
+        object.addProperty("type", "Residential");
         object.addProperty("phone_number", number);
         if (imagePath == null) {
             if (TinyDbManager.getUserInformation().getImage() != null) {

@@ -52,6 +52,7 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
         mainTimeList = new ArrayList<>();
         clickListeners();
         getNextWeekDays();
+
     }
 
     private void clickListeners() {
@@ -132,6 +133,15 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
         activityBinding.daysList.postDelayed(() -> Objects.requireNonNull(activityBinding.daysList.findViewHolderForAdapterPosition(0)).itemView.performClick(), 100);
 
         adapter.setOnDaySelectListener((position) -> {
+
+//            if (TinyDbManager.getTiming().size() > 0){
+//                for (int i = 0; i < TinyDbManager.getTiming().size(); i++) {
+//                    if (TinyDbManager.getTiming().get(i).getDay().equalsIgnoreCase(dayTimeModelList.get(position).getDay())){
+//                        mainList.add(new AvailabilitiesItem(TinyDbManager.getTiming().get(i).getTime(), TinyDbManager.getTiming().get(i).getDay()));
+//                    }
+//                }
+//            }
+
             selectedIndex = position;
             if (mainList.contains(dayTimeModelList.get(position).getDay())) {
                 mainList.add(new AvailabilitiesItem(mainTimeList, dayTimeModelList.get(position).getDay()));
