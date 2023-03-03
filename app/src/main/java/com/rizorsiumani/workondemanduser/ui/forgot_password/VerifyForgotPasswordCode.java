@@ -6,68 +6,70 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
-import android.widget.Toast;
 
 import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
-import com.rizorsiumani.workondemanduser.databinding.ActivityForgotPasswordBinding;
+import com.rizorsiumani.workondemanduser.databinding.ActivityVerifyForgotPasswordCodeBinding;
 import com.rizorsiumani.workondemanduser.ui.login.Login;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
-public class ForgotPassword extends BaseActivity<ActivityForgotPasswordBinding> {
+public class VerifyForgotPasswordCode extends BaseActivity<ActivityVerifyForgotPasswordCodeBinding> {
 
     ForgotPasswordViewModel viewModel;
+    String email;
 
     @Override
-    protected ActivityForgotPasswordBinding getActivityBinding() {
-        return ActivityForgotPasswordBinding.inflate(getLayoutInflater());
+    protected ActivityVerifyForgotPasswordCodeBinding getActivityBinding() {
+        return ActivityVerifyForgotPasswordCodeBinding.inflate(getLayoutInflater());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
         hideCartButton();
         viewModel = new ViewModelProvider(this).get(ForgotPasswordViewModel.class);
+        email = getIntent().getStringExtra("verification_email");
 
-        activityBinding.forgotPassToolbar.title.setText("Recover Password");
+        activityBinding.verifyCodeToolbar.title.setText("Verification");
         clickListeners();
+
     }
 
     private void clickListeners() {
 
-        activityBinding.forgotPassToolbar.back.setOnClickListener(view -> {
+        activityBinding.verifyCodeToolbar.back.setOnClickListener(view -> {
             onBackPressed();
             finish();
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
-        activityBinding.resetBtn.setOnClickListener(view -> {
-            String email = activityBinding.edEmail.getText().toString().trim();
-            if (TextUtils.isEmpty(email)){
-                showSnackBarShort("Enter email");
-            }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                showSnackBarShort("Enter valid Email Address");
+        activityBinding.verifyBtn.setOnClickListener(view -> {
+            String code = activityBinding.edCode.getText().toString().trim();
+            if (TextUtils.isEmpty(code)) {
+                showSnackBarShort("Enter Code");
             }else {
-                viewModel.sendEmail(email);
-                viewModel._password.observe(this, response -> {
+
+                viewModel.verifyEmail(email, Integer.parseInt(code));
+                viewModel._verify.observe(this, response -> {
                     if (response != null) {
                         if (response.isLoading()) {
                             showLoading();
                         } else if (response.getError() != null) {
-                    hideLoading();
-                    if (response.getError() == null){
-                        showSnackBarShort("Something went wrong!!");
-                    }else {
-                        Constants.constant.getApiError(App.applicationContext,response.getError());
-                    }
+                            hideLoading();
+                            if (response.getError() == null){
+                                showSnackBarShort("Something went wrong!!");
+                            }else {
+                                Constants.constant.getApiError(App.applicationContext,response.getError());
+                            }
                         } else if (response.getData().isSuccess()) {
                             hideLoading();
                             showSnackBarShort(response.getData().getMessage());
-                            Intent intent = new Intent(ForgotPassword.this, VerifyForgotPasswordCode.class);
+                            Intent intent = new Intent(VerifyForgotPasswordCode.this, NewPassword.class);
                             intent.putExtra("verification_email", email);
+                            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             finish();
                             overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
@@ -80,10 +82,11 @@ public class ForgotPassword extends BaseActivity<ActivityForgotPasswordBinding> 
         });
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        viewModel._password.removeObservers(this);
+        viewModel._verify.removeObservers(this);
         viewModel = null;
     }
 }

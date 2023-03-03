@@ -175,6 +175,8 @@ public class Login extends BaseActivity<ActivityLoginBinding> {
                     }
                 } else if (response.getData().getData() != null) {
                     hideLoading();
+                    Constants.SOURCE_ID = response.getData().getData().getChatwoot_source_id();
+                    Constants.CONTACT_ID = response.getData().getData().getChatwoot_contact_id();
                     prefRepository.setString("token" , "Bearer "+response.getData().getToken());
                     TinyDbManager.saveUserData(response.getData().getData());
                     ActivityUtil.gotoPage(Login.this, Dashboard.class);

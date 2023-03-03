@@ -79,6 +79,17 @@ public class SpProfile extends BaseActivity<ActivitySpProfileBinding> {
                                 .into(activityBinding.ivSp);
                         activityBinding.tvSpName.setText(sProfileData.getFirstName() + " " + sProfileData.getLastName());
                         activityBinding.title.setText(sProfileData.getFirstName() + " " + "Details");
+                        if (sProfileData.getServiceProviderReviews() != null && sProfileData.getServiceProviderReviews().size() > 0){
+                            int ratings = 0;
+                            for (int i = 0; i < sProfileData.getServiceProviderReviews().size(); i++) {
+                                int currentRating = sProfileData.getServiceProviderReviews().get(i).getRaiting();
+                                ratings  = ratings + currentRating;
+                            }
+                            int average = ratings / sProfileData.getServiceProviderReviews().size();
+                            if (average > 0){
+                                activityBinding.arting.setRating((float) average);
+                            }
+                        }
                     }
                 }
             }

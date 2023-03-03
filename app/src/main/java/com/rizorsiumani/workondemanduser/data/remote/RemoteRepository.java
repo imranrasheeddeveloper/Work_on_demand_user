@@ -43,6 +43,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.Send
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.GetInboxModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.InboxExistModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.job_timing.JobTimingModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.settings.SettingsModel;
 import com.rizorsiumani.workondemanduser.utils.RetrofitInstanceProvider;
 
 import okhttp3.MultipartBody;
@@ -490,6 +491,27 @@ public class RemoteRepository {
     public Observable<BasicModel> forgot(String email) {
         if (mService != null) {
             return mService.forgot_password(email);
+        }
+        return null;
+    }
+
+    public Observable<BasicModel> verify_email(String email, int code) {
+        if (mService != null) {
+            return mService.verify_email(email,code);
+        }
+        return null;
+    }
+
+    public Observable<BasicModel> reset_password(String email, String password) {
+        if (mService != null) {
+            return mService.reset(email,password);
+        }
+        return null;
+    }
+
+    public Observable<SettingsModel> settings() {
+        if (mService != null) {
+            return mService.get_settings();
         }
         return null;
     }

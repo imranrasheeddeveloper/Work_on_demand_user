@@ -42,6 +42,7 @@ import com.rizorsiumani.workondemanduser.data.businessModels.chatwoot_model.Send
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.GetInboxModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.inbox.InboxExistModel;
 import com.rizorsiumani.workondemanduser.data.businessModels.job_timing.JobTimingModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.settings.SettingsModel;
 
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
@@ -265,4 +266,15 @@ public interface ApiService {
 
     @GET("users/forgotPassword/{email}")
     Observable<BasicModel> forgot_password(@Path("email") String  email);
+
+    @GET("users/verifyCodeForgotPassword/{email}/{code}")
+    Observable<BasicModel> verify_email(@Path("email") String  email,
+                                           @Path("code") int code);
+
+    @GET("users/resetPassword/{email}/{password}")
+    Observable<BasicModel> reset(@Path("email") String  email,
+                                        @Path("password") String password);
+
+    @GET("users/getSettings")
+    Observable<SettingsModel> get_settings();
 }

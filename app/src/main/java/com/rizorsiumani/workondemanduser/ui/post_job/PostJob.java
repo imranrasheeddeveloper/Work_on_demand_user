@@ -103,7 +103,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
         status = getIntent().getStringExtra("status");
 
-
         homeViewModel = new ViewModelProvider(PostJob.this).get(HomeViewModel.class);
         subCategoryViewModel = new ViewModelProvider(PostJob.this).get(SubCategoryViewModel.class);
         postJobViewModel = new ViewModelProvider(PostJob.this).get(PostJobViewModel.class);
@@ -111,7 +110,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         if (homeViewModel._ddCategory.getValue() == null) {
             homeViewModel.dropDownCategories();
         }
-
 
         homeViewModel._ddCategory.observe(PostJob.this, response -> {
             if (response != null) {
@@ -315,7 +313,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 }
             }
 
-
             for (int i = 0; i < list.size(); i++) {
                 TinyDbManager.saveTiming(list.get(i));
             }
@@ -356,13 +353,6 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
 
         }
 
-
-//
-//        } else {
-//            activityBinding.deadlineDate.setVisibility(View.VISIBLE);
-//            activityBinding.timeData.setVisibility(View.GONE);
-//            activityBinding.ivAddTiming.setVisibility(View.GONE);
-//        }
     }
 
 
@@ -417,11 +407,13 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
         });
 
         activityBinding.deadlineDate.setOnClickListener(view -> {
+            TinyDbManager.clearTiming();
             ActivityUtil.gotoPage(PostJob.this, JobTiming.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
         activityBinding.ivEditTiming.setOnClickListener(view -> {
+            TinyDbManager.clearTiming();
             ActivityUtil.gotoPage(PostJob.this, JobTiming.class);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
@@ -468,11 +460,13 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             } else {
                 try {
 
-                    String title = postedJobsDataItem.getTitle();
-                    String description = postedJobsDataItem.getDescription();
-                    String budget = postedJobsDataItem.getBudget();
+                    String title = activityBinding.edTitle.getText().toString();
+                    String description = activityBinding.edDescribe.getText().toString();
+                    String budget = activityBinding.edBudget.getText().toString();
                     String date = postedJobsDataItem.getDate();
-                    selectedBudgetUnit = postedJobsDataItem.getPriceUnit();
+                    if (selectedBudgetUnit == null){
+                        selectedBudgetUnit = postedJobsDataItem.getPriceUnit();
+                    }
                     imagesPath = postedJobsDataItem.getAttachment();
 
                     if (TextUtils.isEmpty(title)) {
@@ -560,9 +554,10 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                          int selectedCatID, int selectedSubCatID, String imagesPath, String date) {
 
         try {
-
             showLoading();
-            String token = prefRepository.getString("token");
+            if (status.equalsIgnoreCase("add")){
+
+                String token = prefRepository.getString("token");
 
             Gson gson = new Gson();
             JsonObject object = new JsonObject();
@@ -578,7 +573,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
             object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
             object.addProperty("address", TinyDbManager.getCurrentAddress());
 
-            if (status.equalsIgnoreCase("add")){
+
                 postJobViewModel.post(token, object);
                 postJobViewModel._job.observe(PostJob.this, response -> {
                     if (response != null) {
@@ -605,6 +600,22 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 });
 
             }else {
+                String token = prefRepository.getString("token");
+
+                Gson gson = new Gson();
+                JsonObject object = new JsonObject();
+                object.addProperty("id", postedJobsDataItem.getId());
+                object.addProperty("title", title);
+                object.addProperty("description", description);
+                object.addProperty("category_id", String.valueOf(selectedCatID));
+                object.addProperty("sub_category_id", String.valueOf(selectedSubCatID));
+                object.addProperty("budget", budget);
+                object.addProperty("attachment", imagesPath);
+                object.addProperty("price_unit", selectedBudgetUnit);
+                object.add("timings", gson.toJsonTree(TinyDbManager.getTiming()));
+                object.addProperty("latitude", String.valueOf(Constants.constant.latitude));
+                object.addProperty("longitude", String.valueOf(Constants.constant.longitude));
+                object.addProperty("address", TinyDbManager.getCurrentAddress());
                 postJobViewModel.updateJob(token, object);
                 postJobViewModel._update_job.observe(PostJob.this, response -> {
                     if (response != null) {

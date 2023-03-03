@@ -2,6 +2,8 @@ package com.rizorsiumani.workondemanduser.data.businessModels;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class SProfileData {
 
 	@SerializedName("profile_photo")
@@ -18,6 +20,9 @@ public class SProfileData {
 
 	@SerializedName("id")
 	private int id;
+
+	@SerializedName("service_provider_reviews")
+	private List<ServiceProviderReviews> serviceProviderReviews;
 
 	@SerializedName("first_name")
 	private String firstName;
@@ -51,5 +56,9 @@ public class SProfileData {
 
 	public double getLongitude(){
 		return longitude;
+	}
+
+	public List<ServiceProviderReviews> getServiceProviderReviews() {
+		return serviceProviderReviews;
 	}
 }

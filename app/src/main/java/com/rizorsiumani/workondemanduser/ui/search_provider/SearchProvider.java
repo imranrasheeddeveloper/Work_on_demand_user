@@ -14,6 +14,7 @@ import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseActivity;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProviderDataItem;
+import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivitySearchProviderBinding;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderAdapter;
 import com.rizorsiumani.workondemanduser.ui.service_providers.ServiceProviderViewModel;
@@ -132,6 +133,7 @@ public class SearchProvider extends BaseActivity<ActivitySearchProviderBinding> 
         activityBinding.list.setVisibility(View.VISIBLE);
 
         adapter.setOnProviderSelectListener(position -> {
+            TinyDbManager.saveServiceProviderID(String.valueOf(serviceProviders.get(position).getId()));
             Intent intent = new Intent(SearchProvider.this, SpProfile.class);
             intent.putExtra("service_provider_id",String.valueOf(serviceProviders.get(position).getId()));
             startActivity(intent);

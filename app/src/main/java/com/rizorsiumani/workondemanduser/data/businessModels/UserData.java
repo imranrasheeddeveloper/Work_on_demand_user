@@ -44,6 +44,12 @@ public class UserData {
 	@SerializedName("stripe_customerId")
 	private String stripe_customerId;
 
+	@SerializedName("chatwoot_source_id")
+	private String chatwoot_source_id;
+
+	@SerializedName("chatwoot_contact_id")
+	private String chatwoot_contact_id;
+
 	public String getStripe_customerId() {
 		return stripe_customerId;
 	}
@@ -94,5 +100,13 @@ public class UserData {
 
 	public Company getCompany() {
 		return company;
+	}
+
+	public String getChatwoot_source_id() {
+		return chatwoot_source_id;
+	}
+
+	public String getChatwoot_contact_id() {
+		return chatwoot_contact_id;
 	}
 }

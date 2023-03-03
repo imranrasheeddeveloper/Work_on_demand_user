@@ -47,6 +47,13 @@ import okhttp3.ResponseBody;
 public final class Constants {
     public static final String BASE_URL = "http://34.203.72.68:4000/";
     public static final String IMG_PATH = "http://34.203.72.68:4000";
+    public static String CHATWOOT_API_KEY = "";
+    public static String ACCOUNT_ID = "";
+    public static String INBOX_ID = "";
+    public static int CONVERSATION_ID = 0;
+    public static String SOURCE_ID = "";
+    public static String CONTACT_ID = "";
+
     public  boolean isLocationPermissionGranted = false;
     public  static Constants constant = new Constants();
     public  final String APP_PREFERENCES = "com.rizorsiumani.workondemanduser.preferences";
@@ -145,6 +152,33 @@ public final class Constants {
         formatted_date = formatted_date.replaceAll("-", " ");
         return formatted_date;
     }
+
+    public  String getBookingDate(String data) {
+        String date;
+        String[] date_value = data.split("T");
+        date = date_value[0];
+        String formatted_date = formatBookingDate(date);
+        formatted_date = formatted_date.replaceAll("-", " ");
+        return formatted_date;
+    }
+    public String formatBookingDate(String earningPeriod) {
+        String inputPattern = "yyyy-MM-dd";
+        String outputPattern = "dd-MM-yyyy";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date date = null;
+        String str = null;
+
+        try {
+            date = inputFormat.parse(earningPeriod);
+            str = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
 
     public  String getTime(String data) {
         String time;

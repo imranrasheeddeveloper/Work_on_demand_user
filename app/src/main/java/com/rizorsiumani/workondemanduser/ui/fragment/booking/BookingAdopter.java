@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,15 @@ import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingDataItem;
 import com.rizorsiumani.workondemanduser.data.businessModels.ServiceProvider;
 import com.rizorsiumani.workondemanduser.utils.Constants;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -85,6 +94,22 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
             holder.token.setText("# "+ item.getId());
 
             holder.date.setText(Constants.constant.getDate(item.getStart_date()));
+            String cc = Constants.constant.getBookingDate(item.getCreatedAt());
+            String[] date_value = cc.split(" ");
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                LocalDateTime now = LocalDateTime.now();
+                if (now.getYear() == Integer.parseInt(date_value[2]) && now.getMonth().getValue() == Integer.parseInt(date_value[1])){
+                    if (now.getDayOfMonth() == Integer.parseInt(date_value[0])){
+                    holder.cancel.setVisibility(View.VISIBLE);
+                    }else {
+                        holder.cancel.setVisibility(View.VISIBLE);
+                    }
+                }else {
+                    holder.cancel.setVisibility(View.GONE);
+                }
+            }
+
 
             holder.service.setHorizontallyScrolling(true);
             holder.service.setFocusable(true);
@@ -99,6 +124,18 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
                         load(Constants.IMG_PATH + provider.getProfilePhoto())
                         .placeholder(R.color.teal_700)
                         .into(holder.circleImageView);
+            }
+
+            if (item.getServiceProvider().getServiceProviderReviews() != null && item.getServiceProvider().getServiceProviderReviews().size() > 0){
+                int ratings = 0;
+                for (int i = 0; i < item.getServiceProvider().getServiceProviderReviews().size(); i++) {
+                    int currentRating = item.getServiceProvider().getServiceProviderReviews().get(i).getRaiting();
+                    ratings  = ratings + currentRating;
+                }
+                int average = ratings / item.getServiceProvider().getServiceProviderReviews().size();
+                if (average > 0){
+                    holder.ratingBar.setRating((float) average);
+                }
             }
 
 
@@ -128,6 +165,7 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
         TextView status, service, name, description, token, total, date, time, rate;
         Button requested, cancel;
         CircleImageView circleImageView;
+        RatingBar ratingBar;
 
 
 
@@ -135,6 +173,7 @@ public class BookingAdopter extends RecyclerView.Adapter<BookingAdopter.ViewHold
             super(itemView);
 
 
+            ratingBar = itemView.findViewById(R.id.arting);
             status = itemView.findViewById(R.id.booking_status);
             service = itemView.findViewById(R.id.booking_service_title);
             token = itemView.findViewById(R.id.booking_token);

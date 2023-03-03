@@ -27,6 +27,7 @@ import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.GetBookingDataItem;
 import com.rizorsiumani.workondemanduser.databinding.FragmentBookingBinding;
+import com.rizorsiumani.workondemanduser.ui.booking_cancellation_reason.BookingCancellation;
 import com.rizorsiumani.workondemanduser.ui.booking_date.BookingDateTime;
 import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.login.Login;
@@ -206,16 +207,15 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                     startActivity(intent);
                 } else if (dataItems.get(position).getStatus().equalsIgnoreCase("In Progress")){
 
+
                 }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Declined")){
 
-                }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Approval")){
+                }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Approval")) {
                     status = "Completed";
                     confirmationDialogue("Do you want to Accept Approval?",
                             "By Confirm the Approval, this booking will be Complete.",
-                            token,bookingID,status);
+                            token, bookingID, status);
                 }
-
-
             }
 
             @Override
@@ -230,10 +230,14 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                             "By Confirm the Cancel, this booking will delete permanently.",
                             token,bookingID,status);
                 } else if (dataItems.get(position).getStatus().equalsIgnoreCase("In Progress")){
-                    status = "Canceled";
-                    confirmationDialogue("Do you want to Cancel Booking?",
-                            "By Confirm the Cancel, this booking will delete permanently.",
-                            token,bookingID,status);
+                    Intent intent = new Intent(requireContext(), BookingCancellation.class);
+                    intent.putExtra("bookingID", dataItems.get(position).getId());
+                    startActivity(intent);
+                    requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                    status = "Canceled";
+//                    confirmationDialogue("Do you want to Cancel Booking?",
+//                            "By Confirm the Cancel, this booking will delete permanently.",
+//                            token,bookingID,status);
                 }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Declined")){
 
                 }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Approval")){

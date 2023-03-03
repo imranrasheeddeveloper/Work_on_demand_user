@@ -52,6 +52,9 @@ public class GetBookingDataItem {
 	@SerializedName("promotion")
 	private Promotion promotion;
 
+	@SerializedName("createdAt")
+	private String createdAt;
+
 	public String getAddress(){
 		return address;
 	}
@@ -114,5 +117,9 @@ public class GetBookingDataItem {
 
 	public String getStart_date() {
 		return start_date;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
 	}
 }

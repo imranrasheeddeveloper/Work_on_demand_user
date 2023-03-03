@@ -10,9 +10,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.gson.JsonObject;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.BaseFragment;
 import com.rizorsiumani.workondemanduser.R;
 import com.rizorsiumani.workondemanduser.data.businessModels.UserData;
@@ -24,6 +28,7 @@ import com.rizorsiumani.workondemanduser.ui.dashboard.Dashboard;
 import com.rizorsiumani.workondemanduser.ui.edit_profile.EditProfile;
 import com.rizorsiumani.workondemanduser.ui.notification.Notification;
 import com.rizorsiumani.workondemanduser.ui.support_chat.SupportChat;
+import com.rizorsiumani.workondemanduser.ui.support_chat.SupportChatViewModel;
 import com.rizorsiumani.workondemanduser.ui.webview.WebView;
 import com.rizorsiumani.workondemanduser.ui.welcome_user.WelcomeUser;
 import com.rizorsiumani.workondemanduser.utils.ActivityUtil;
@@ -35,6 +40,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
 
     AlertDialog.Builder dialogBuilder;
     AlertDialog alertDialog;
+    SupportChatViewModel chatViewModel;
 
     @Override
     protected FragmentProfileBinding getFragmentBinding() {
@@ -45,6 +51,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        chatViewModel = new ViewModelProvider(this).get(SupportChatViewModel.class);
 
         Dashboard.hideTabs(false);
 
@@ -71,6 +78,37 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
                 }
             }
         });
+
+        getConversationId();
+    }
+
+    private void getConversationId() {
+        if (Constants.CONVERSATION_ID == 0){
+            if (!Constants.CHATWOOT_API_KEY.isEmpty()){
+                JsonObject object = new JsonObject();
+                object.addProperty("source_id", Constants.SOURCE_ID);
+                object.addProperty("inbox_id", Constants.INBOX_ID);
+                object.addProperty("contact_id", Integer.valueOf(Constants.CONTACT_ID));
+                chatViewModel.createConversation(Constants.CHATWOOT_API_KEY, Integer.parseInt(Constants.ACCOUNT_ID),object);
+                chatViewModel._conversation.observe(getViewLifecycleOwner(), response -> {
+                    if (response != null){
+                        if (response.isLoading()){
+                            showLoading();
+                        } else if (response.getError() != null) {
+                            hideLoading();
+                            if (response.getError() == null){
+                                showSnackBarShort("Something went wrong!!");
+                            }else {
+                                Constants.constant.getApiError(App.applicationContext,response.getError());
+                            }
+                        } else if (response.getData() != null) {
+                            Constants.CONVERSATION_ID = response.getData().getId();
+                        }
+                    }
+                });
+
+            }
+        }
     }
 
     private void setProfileInfo() {
@@ -130,8 +168,10 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         });
 
         fragmentBinding.tvSupportChat.setOnClickListener(view -> {
-            ActivityUtil.gotoPage(requireContext(), SupportChat.class);
-            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            if (Constants.CONVERSATION_ID != 0) {
+                ActivityUtil.gotoPage(requireContext(), SupportChat.class);
+                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
         });
 
         fragmentBinding.booking.setOnClickListener(view -> {
@@ -173,6 +213,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     }
 
     private void showLogoutDialogue() {
+
         dialogBuilder = new AlertDialog.Builder(requireContext());
         View layoutView = getLayoutInflater().inflate(R.layout.logout_confirmation_dialogue, null);
         TextView cancel = (TextView) layoutView.findViewById(R.id.cancel_logout);

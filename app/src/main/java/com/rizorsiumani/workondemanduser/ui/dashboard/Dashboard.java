@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.view.ViewManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,12 +28,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.tabs.TabLayout;
+import com.rizorsiumani.workondemanduser.App;
 import com.rizorsiumani.workondemanduser.R;
+import com.rizorsiumani.workondemanduser.common.SettingsViewModel;
+import com.rizorsiumani.workondemanduser.data.businessModels.settings.SettingData;
 import com.rizorsiumani.workondemanduser.data.local.TinyDbManager;
 import com.rizorsiumani.workondemanduser.databinding.ActivityDashboardBinding;
 import com.rizorsiumani.workondemanduser.ui.post_job.PostJob;
@@ -51,6 +56,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
 
     public static ActivityDashboardBinding binding;
     boolean isLocationPermissionGranted;
+    SettingsViewModel settingsViewModel;
     int press = 0;
 
     @Override
@@ -63,6 +69,8 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
     @Override
     protected void onStart() {
         super.onStart();
+
+        settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
 
         if (binding.bottomNavigation.getTabCount() > 0) {
             binding.bottomNavigation.removeAllTabs();
@@ -137,6 +145,7 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
                 tab.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
 
             }
@@ -147,6 +156,28 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
             }
         });
 
+
+        getAppCredentials();
+    }
+
+    private void getAppCredentials() {
+        settingsViewModel.settings();
+        settingsViewModel._setting.observe(this, response -> {
+            if (response != null){
+                if (response.isLoading()){
+
+                } else if (response.getError() != null) {
+                  Constants.constant.getApiError(App.applicationContext,response.getError());
+                } else if (response.getData() != null) {
+                    if (response.getData().getData() != null) {
+                        SettingData data = response.getData().getData();
+                        Constants.CHATWOOT_API_KEY = data.getChatwoot_api_key();
+                        Constants.ACCOUNT_ID = data.getChatwootAccountId();
+                        Constants.INBOX_ID = data.getChatwootInboxId();
+                    }
+                }
+            }
+        });
     }
 
 
