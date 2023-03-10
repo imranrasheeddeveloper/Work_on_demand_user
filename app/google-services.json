@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "345464100653",
-    "project_id": "work-on-demand-9233d",
-    "storage_bucket": "work-on-demand-9233d.appspot.com"
+    "project_number": "876290233206",
+    "project_id": "rizorsi-umani",
+    "storage_bucket": "rizorsi-umani.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:345464100653:android:694392ecd674f5ce5565a4",
+        "mobilesdk_app_id": "1:876290233206:android:4af74b3872fd3a5aa0a057",
         "android_client_info": {
-          "package_name": "com.rizorsiumani.workondemandprovider"
+          "package_name": "com.rizorsiumani.provider"
         }
       },
       "oauth_client": [
         {
-          "client_id": "345464100653-7es0v2q2o93ihn97qimth9p1kefed355.apps.googleusercontent.com",
+          "client_id": "876290233206-8l8ifsfhqkagu0ducd0gfijmlnk8cp2v.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCyUUvB58tHIMH-P-rD1ckzteHLRcE102w"
+          "current_key": "AIzaSyAK6wcCeCVPqgSh7uka96fnISSWiE622eI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "345464100653-7es0v2q2o93ihn97qimth9p1kefed355.apps.googleusercontent.com",
+              "client_id": "876290233206-8l8ifsfhqkagu0ducd0gfijmlnk8cp2v.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -36,27 +36,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:345464100653:android:ce4f339d7ff8a4a05565a4",
+        "mobilesdk_app_id": "1:876290233206:android:cb67f3ef5655880ca0a057",
         "android_client_info": {
-          "package_name": "com.rizorsiumani.workondemanduser"
+          "package_name": "com.rizorsiumani.user"
         }
       },
       "oauth_client": [
         {
-          "client_id": "345464100653-7es0v2q2o93ihn97qimth9p1kefed355.apps.googleusercontent.com",
+          "client_id": "876290233206-8l8ifsfhqkagu0ducd0gfijmlnk8cp2v.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCyUUvB58tHIMH-P-rD1ckzteHLRcE102w"
+          "current_key": "AIzaSyAK6wcCeCVPqgSh7uka96fnISSWiE622eI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "345464100653-7es0v2q2o93ihn97qimth9p1kefed355.apps.googleusercontent.com",
+              "client_id": "876290233206-8l8ifsfhqkagu0ducd0gfijmlnk8cp2v.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

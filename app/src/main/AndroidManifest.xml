@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.rizorsiumani.workondemanduser">
+    package="com.rizorsiumani.user">
 
     <uses-feature
         android:name="android.hardware.camera.autofocus"
@@ -36,136 +36,136 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustResize|stateHidden">
         <activity
-            android:name=".NewPassword"
+            android:name="com.rizorsiumani.user.ui.forgot_password.NewPassword"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".VerifyForgotPasswordCode"
+            android:name="com.rizorsiumani.user.ui.forgot_password.VerifyForgotPasswordCode"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.booking_cancellation_reason.BookingCancellation"
+            android:name="com.rizorsiumani.user.ui.booking_cancellation_reason.BookingCancellation"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.start_date.StartDate"
+            android:name="com.rizorsiumani.user.ui.start_date.StartDate"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.support_chat.SupportChat"
+            android:name="com.rizorsiumani.user.ui.support_chat.SupportChat"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.job_timing.JobTiming"
+            android:name="com.rizorsiumani.user.ui.job_timing.JobTiming"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.posted_job_details.PostedJobDetail"
+            android:name="com.rizorsiumani.user.ui.posted_job_details.PostedJobDetail"
             android:exported="false" />
         <activity
-            android:name=".ui.add_card.AddCard"
+            android:name="com.rizorsiumani.user.ui.add_card.AddCard"
             android:exported="false" />
         <activity
-            android:name=".ui.webview.WebView"
+            android:name="com.rizorsiumani.user.ui.webview.WebView"
             android:exported="false" />
         <activity
-            android:name=".ui.cards.GetAllCards"
+            android:name="com.rizorsiumani.user.ui.cards.GetAllCards"
             android:exported="false" />
         <activity
-            android:name=".ui.forgot_password.ForgotPassword"
+            android:name="com.rizorsiumani.user.ui.forgot_password.ForgotPassword"
             android:exported="false" />
         <activity
-            android:name=".ui.search_provider.SearchProvider"
+            android:name="com.rizorsiumani.user.ui.search_provider.SearchProvider"
             android:exported="false" />
         <activity
-            android:name=".ui.view_booking_information.BookingInformation"
+            android:name="com.rizorsiumani.user.ui.view_booking_information.BookingInformation"
             android:exported="false" />
         <activity
-            android:name=".ui.inbox.Inbox"
+            android:name="com.rizorsiumani.user.ui.inbox.Inbox"
             android:exported="false" />
         <activity
-            android:name=".ui.chat.Chatroom"
+            android:name="com.rizorsiumani.user.ui.chat.Chatroom"
             android:exported="false" /> <!-- Foreground services in Q+ require type. -->
         <activity
-            android:name=".ui.commercial_user_info.ComapnyInformation"
+            android:name="com.rizorsiumani.user.ui.commercial_user_info.ComapnyInformation"
             android:exported="false" />
         <activity
-            android:name=".ui.booking_date.BookingDateTime"
+            android:name="com.rizorsiumani.user.ui.booking_date.BookingDateTime"
             android:exported="false" />
         <activity
-            android:name=".ui.requested_sevices.RequestServices"
+            android:name="com.rizorsiumani.user.ui.requested_sevices.RequestServices"
             android:exported="false" />
         <activity
-            android:name=".ui.category.Categories"
+            android:name="com.rizorsiumani.user.ui.category.Categories"
             android:exported="false" />
         <activity
-            android:name=".ui.promo_code.PromoCode"
+            android:name="com.rizorsiumani.user.ui.promo_code.PromoCode"
             android:exported="false" />
         <activity
-            android:name=".ui.edit_profile.EditProfile"
+            android:name="com.rizorsiumani.user.ui.edit_profile.EditProfile"
             android:exported="false" />
         <activity
-            android:name=".ui.all_posted_jobs.AllPostedJobs"
+            android:name="com.rizorsiumani.user.ui.all_posted_jobs.AllPostedJobs"
             android:exported="false" />
         <activity
-            android:name=".ui.notification.Notification"
+            android:name="com.rizorsiumani.user.ui.notification.Notification"
             android:exported="false" />
         <activity
-            android:name=".ui.booking_detail.BookingDetail"
+            android:name="com.rizorsiumani.user.ui.booking_detail.BookingDetail"
             android:exported="false" />
         <activity
-            android:name=".ui.sub_category.SubCategories"
+            android:name="com.rizorsiumani.user.ui.sub_category.SubCategories"
             android:exported="false" />
         <activity
-            android:name=".ui.booking.BookService"
+            android:name="com.rizorsiumani.user.ui.booking.BookService"
             android:exported="false" />
         <activity
-            android:name=".ui.sp_detail.SpProfile"
+            android:name="com.rizorsiumani.user.ui.sp_detail.SpProfile"
             android:exported="false" />
         <activity
-            android:name=".ui.sp_detail.ServiceProviderProfile"
+            android:name="com.rizorsiumani.user.ui.sp_detail.ServiceProviderProfile"
             android:exported="false" />
         <activity
-            android:name=".ui.service_providers.Serviceproviders"
+            android:name="com.rizorsiumani.user.ui.service_providers.Serviceproviders"
             android:exported="false" />
         <activity
-            android:name=".ui.address.SavedAddresses"
+            android:name="com.rizorsiumani.user.ui.address.SavedAddresses"
             android:exported="false" />
         <activity
-            android:name=".ui.post_job.PostJob"
+            android:name="com.rizorsiumani.user.ui.post_job.PostJob"
             android:exported="false" />
         <activity
-            android:name=".ui.add_location.AddAddress"
+            android:name="com.rizorsiumani.user.ui.add_location.AddAddress"
             android:exported="false" />
         <activity
-            android:name=".ui.filter.FilterSearch"
+            android:name="com.rizorsiumani.user.ui.filter.FilterSearch"
             android:exported="false" />
         <activity
-            android:name=".ui.all_services.AllServices"
+            android:name="com.rizorsiumani.user.ui.all_services.AllServices"
             android:exported="false" />
         <activity
-            android:name=".ui.search.SearchServices"
+            android:name="com.rizorsiumani.user.ui.search.SearchServices"
             android:exported="false" />
         <activity
-            android:name=".ui.dashboard.Dashboard"
+            android:name="com.rizorsiumani.user.ui.dashboard.Dashboard"
             android:exported="true">
 
             <!-- <intent-filter> -->
@@ -174,25 +174,25 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".ui.register.OtpVerification"
+            android:name="com.rizorsiumani.user.ui.register.OtpVerification"
             android:exported="false" />
         <activity
-            android:name=".ui.register.CreatePassword"
+            android:name="com.rizorsiumani.user.ui.register.CreatePassword"
             android:exported="false" />
         <activity
-            android:name=".ui.register.Register"
+            android:name="com.rizorsiumani.user.ui.register.Register"
             android:exported="false" />
         <activity
-            android:name=".ui.login.Login"
+            android:name="com.rizorsiumani.user.ui.login.Login"
             android:exported="true" />
         <activity
-            android:name=".ui.welcome_user.WelcomeUser"
+            android:name="com.rizorsiumani.user.ui.welcome_user.WelcomeUser"
             android:exported="false" />
         <activity
-            android:name=".ui.walkthrough.OnboardingActivity"
+            android:name="com.rizorsiumani.user.ui.walkthrough.OnboardingActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="com.rizorsiumani.user.ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -210,7 +210,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.rizorsiumani.workondemanduser.provider"
+            android:authorities="com.rizorsiumani.user.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -219,7 +219,7 @@
         </provider>
 
         <service
-            android:name=".common.FirebaseCloudMessagingService"
+            android:name="com.rizorsiumani.user.common.FirebaseCloudMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

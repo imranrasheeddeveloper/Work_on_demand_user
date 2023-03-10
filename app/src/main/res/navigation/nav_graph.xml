@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.rizorsiumani.workondemanduser.ui.fragment.home.HomeFragment"
+        android:name="com.rizorsiumani.user.ui.fragment.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.rizorsiumani.workondemanduser.ui.fragment.profile.ProfileFragment"
+        android:name="com.rizorsiumani.user.ui.fragment.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/bookingFragment"
-        android:name="com.rizorsiumani.workondemanduser.ui.fragment.booking.BookingFragment"
+        android:name="com.rizorsiumani.user.ui.fragment.booking.BookingFragment"
         android:label="fragment_booking"
         tools:layout="@layout/fragment_booking" />
     <fragment
         android:id="@+id/walletFragment"
-        android:name="com.rizorsiumani.workondemanduser.ui.fragment.wallet.WalletFragment"
+        android:name="com.rizorsiumani.user.ui.fragment.wallet.WalletFragment"
         android:label="fragment_wallet"
         tools:layout="@layout/fragment_wallet" >
         <action
@@ -36,12 +36,12 @@
     </fragment>
     <activity
         android:id="@+id/postJob"
-        android:name="com.rizorsiumani.workondemanduser.ui.post_job.PostJob"
+        android:name="com.rizorsiumani.user.ui.post_job.PostJob"
         android:label="activity_post_job"
         tools:layout="@layout/activity_post_job" />
     <fragment
         android:id="@+id/walletTopup"
-        android:name="com.rizorsiumani.workondemanduser.ui.fragment.wallet.WalletTopup"
+        android:name="com.rizorsiumani.user.ui.fragment.wallet.WalletTopup"
         android:label="fragment_wallet_topup"
         tools:layout="@layout/fragment_wallet_topup" />
 </navigation>

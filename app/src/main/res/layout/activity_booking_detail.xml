@@ -428,6 +428,23 @@
             <!--                </androidx.cardview.widget.CardView>-->
             <!--                -->
 
+
+            <Button
+                android:id="@+id/btnPayNow"
+                style="@style/greenButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/button_round_bg"
+                android:fontFamily="@font/poppins_medium"
+                android:padding="@dimen/_6sdp"
+                android:text="0"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/totalCard" />
+
             <Button
                 android:id="@+id/btnPayLater"
                 style="@style/blueButtonStyle"
@@ -439,30 +456,12 @@
                 android:fontFamily="@font/poppins_medium"
                 android:padding="@dimen/_6sdp"
                 android:visibility="gone"
-                android:text="Book Now,Pay Later"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@id/btnPayNow"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/totalCard" />
-
-
-            <Button
-                android:id="@+id/btnPayNow"
-                style="@style/greenButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/button_round_bg"
-                android:fontFamily="@font/poppins_medium"
-                android:padding="@dimen/_6sdp"
-                android:text="0"
+                android:text="Book Now, Pay Later"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnPayLater"
-                app:layout_constraintTop_toBottomOf="@id/totalCard" />
-
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnPayNow" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

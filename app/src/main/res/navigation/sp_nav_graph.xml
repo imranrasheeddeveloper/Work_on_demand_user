@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/serviceProviderMaps"
-        android:name="com.rizorsiumani.workondemanduser.ui.service_providers.sp_map.ServiceProviderMaps"
+        android:name="com.rizorsiumani.user.ui.service_providers.sp_map.ServiceProviderMaps"
         android:label="fragment_service_provider_maps"
         tools:layout="@layout/fragment_service_provider_maps" />
     <fragment
         android:id="@+id/serviceProviderList"
-        android:name="com.rizorsiumani.workondemanduser.ui.service_providers.sp_list.ServiceProviderList"
+        android:name="com.rizorsiumani.user.ui.service_providers.sp_list.ServiceProviderList"
         android:label="fragment_service_provider_list"
         tools:layout="@layout/fragment_service_provider_list" />
 </navigation>
