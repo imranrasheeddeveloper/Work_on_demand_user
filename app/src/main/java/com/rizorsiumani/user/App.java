@@ -41,27 +41,27 @@ public class App extends Application {
 //        }
 
         getDeviceToken();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("base_url")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                Constants.BASE_URL = document.getData().get("base_url").toString();
-                                Constants.IMG_PATH = document.getData().get("image_url").toString();
-                                if (Constants.BASE_URL.isEmpty()){
-                                    Constants.BASE_URL = "http://34.203.72.68:4000/";
-                                    Constants.IMG_PATH = "http://34.203.72.68:4000";
-                                }
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("base_url")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                                Constants.BASE_URL = document.getData().get("base_url").toString();
+//                                Constants.IMG_PATH = document.getData().get("image_url").toString();
+//                                if (Constants.BASE_URL.isEmpty()){
+//                                    Constants.BASE_URL = "http://34.203.72.68:4000/";
+//                                    Constants.IMG_PATH = "http://34.203.72.68:4000";
+//                                }
+//                            }
+//                        } else {
+//                            Log.w(TAG, "Error getting documents.", task.getException());
+//                        }
+//                    }
+//                });
 
 
     }

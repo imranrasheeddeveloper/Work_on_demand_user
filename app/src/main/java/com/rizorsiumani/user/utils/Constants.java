@@ -41,11 +41,8 @@ import java.util.List;
 import okhttp3.ResponseBody;
 
 public final class Constants {
-//    public static final String BASE_URL = "http://34.203.72.68:4000/";
-//    public static final String IMG_PATH = "http://34.203.72.68:4000";
-
-    public static String BASE_URL;
-    public static String IMG_PATH;
+    public static final String BASE_URL = "http://34.203.72.68:4000/";
+    public static final String IMG_PATH = "http://34.203.72.68:4000";
 
     public static String CHATWOOT_API_KEY = "";
     public static String ACCOUNT_ID = "";
@@ -54,7 +51,7 @@ public final class Constants {
 
     public  boolean isLocationPermissionGranted = false;
     public  static Constants constant = new Constants();
-    public  final String APP_PREFERENCES = "com.rizorsiumani.workondemanduser.preferences";
+    public  final String APP_PREFERENCES = "com.rizorsiumani.user.preferences";
     public  String FCM_TOKEN = "";
     public  boolean isHome = false;
     public  double latitude;
