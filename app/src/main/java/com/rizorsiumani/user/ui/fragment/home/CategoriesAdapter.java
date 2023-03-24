@@ -59,18 +59,15 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                 final int[] colors = new int[2];
                 colors[0] = Color.parseColor(color);
                 colors[1] = Color.parseColor("#fef4ea");
-
                 GradientDrawable gd = new GradientDrawable(
                         GradientDrawable.Orientation.LEFT_RIGHT,
                         colors
                 );
                 holder.layout.setBackground(gd);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -102,7 +99,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                     }
                 }
             });
-
 
         }
     }

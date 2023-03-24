@@ -135,7 +135,6 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
         fragmentBinding.statusList.setAdapter(adapter);
         fragmentBinding.statusList.postDelayed(() -> Objects.requireNonNull(fragmentBinding.statusList.findViewHolderForAdapterPosition(0)).itemView.performClick(), 100);
 
-
         adapter.setOnStatusSelectListener(position -> {
             getBookings(1, status.get(position));
             current_status = status.get(position);
@@ -164,7 +163,6 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                         hideNoDataAnimation();
                         fragmentBinding.bookingList.setVisibility(View.VISIBLE);
                         maxPageLimit = response.getData().getPage();
-
                         dataItems = new ArrayList<>();
                         dataItems.addAll(response.getData().getData());
                         buildList(dataItems, status);
@@ -172,7 +170,6 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                         flag_loading = false;
                         showNoDataAnimation(R.raw.no_job,"No Booking");
                         fragmentBinding.bookingList.setVisibility(View.GONE);
-
                     }
                 }
             }
@@ -204,7 +201,6 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                     startActivity(intent);
                 } else if (dataItems.get(position).getStatus().equalsIgnoreCase("In Progress")){
 
-
                 }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Declined")){
 
                 }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Approval")) {
@@ -214,13 +210,11 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                             token, bookingID, status);
                 }
             }
-
             @Override
             public void cancelBooking(int position) {
                 String status = null;
                 String token = prefRepository.getString("token");
                 int bookingID = dataItems.get(position).getId();
-
                 if (dataItems.get(position).getStatus().equalsIgnoreCase("Pending")) {
                     status = "Canceled";
                     confirmationDialogue("Do you want to Cancel Booking?",
@@ -242,17 +236,14 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                     confirmationDialogue("Do you want to Cancel Approval?",
                             "By Confirm the Approval cancellation, this booking will be in Progress state.",
                             token,bookingID,status);
-
                 }
             }
-
             @Override
             public void bookingInformation(int position) {
                 Intent intent = new Intent(requireContext(), BookingInformation.class);
                 intent.putExtra("booking_id", String.valueOf(dataItems.get(position).getId()));
                 startActivity(intent);
             }
-
             @Override
             public void rateBooking(int position) {
                 ratingDialogue(String.valueOf(dataItems.get(position).getId()),
