@@ -132,12 +132,13 @@ public class ServiceProviderMaps extends BaseFragment<FragmentServiceProviderMap
 
     private void getData() {
         try {
+            catID = getActivity().getIntent().getStringExtra("cat_id");
+
             try {
 //               String providerData = getActivity().getIntent().getStringExtra("providers");
 //               Gson  gson = new Gson();
 //               providerModel = gson.fromJson(providerData, ServiceProviderModel.class);
                 providerModel = TinyDbManager.getProviderMap();
-               catID = getActivity().getIntent().getStringExtra("cat_id");
 
             }catch (NullPointerException e){
                 e.printStackTrace();

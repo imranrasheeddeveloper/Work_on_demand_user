@@ -45,11 +45,16 @@ public class ServiceProviderList extends BaseFragment<FragmentServiceProviderLis
         super.onViewCreated(view, savedInstanceState);
 
         try {
+            catID = getActivity().getIntent().getStringExtra("cat_id");
+
 //            String providerData = getActivity().getIntent().getStringExtra("providers");
 //            Gson gson = new Gson();
 //            providerModel = gson.fromJson(providerData, ServiceProviderModel.class);
-            providerModel = TinyDbManager.getProviderMap();
-            catID = getActivity().getIntent().getStringExtra("cat_id");
+            try {
+                providerModel = TinyDbManager.getProviderMap();
+            }catch (NullPointerException |IllegalStateException | IllegalArgumentException e){
+                e.printStackTrace();
+            }
 
             if (providerModel == null){
                 if (!catID.isEmpty()){

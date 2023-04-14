@@ -187,7 +187,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
                     hideLoading();
                     if (response.getData().getData().size() > 0) {
                         contentDataItems = new ArrayList<>();
-                        for (int i = 0; i < response.getData().getData().size()-1; i++) {
+                        for (int i = 0; i < response.getData().getData().size(); i++) {
                             if (response.getData().getData().get(i).getServiceProviderCategories() != null
                             && response.getData().getData().get(i).getServiceProviderCategories().size() > 0){
                                 contentDataItems.add(response.getData().getData().get(i));
