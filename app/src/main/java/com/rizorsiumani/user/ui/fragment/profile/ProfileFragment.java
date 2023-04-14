@@ -23,6 +23,7 @@ import com.rizorsiumani.user.data.local.TinyDbManager;
 import com.rizorsiumani.user.databinding.FragmentProfileBinding;
 import com.rizorsiumani.user.ui.all_posted_jobs.AllPostedJobs;
 import com.rizorsiumani.user.ui.booking_detail.BookingDetail;
+import com.rizorsiumani.user.ui.cards.GetAllCards;
 import com.rizorsiumani.user.ui.dashboard.Dashboard;
 import com.rizorsiumani.user.ui.edit_profile.EditProfile;
 import com.rizorsiumani.user.ui.notification.Notification;
@@ -145,6 +146,10 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     private void clickListeners() {
 
 
+        fragmentBinding.tvPayment.setOnClickListener(view -> {
+            ActivityUtil.gotoPage(requireContext(), GetAllCards.class);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
         fragmentBinding.tvNotifications.setOnClickListener(view -> {
             ActivityUtil.gotoPage(requireContext(), Notification.class);
             requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

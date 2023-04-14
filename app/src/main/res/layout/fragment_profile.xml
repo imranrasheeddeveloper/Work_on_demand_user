@@ -354,6 +354,19 @@
                         app:layout_constraintTop_toBottomOf="@+id/account_setting" />
 
                     <TextView
+                        android:id="@+id/tv_payment"
+                        style="@style/profile_text_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Payment Methods"
+                        android:layout_marginTop="1dp"
+                        android:background="@drawable/ripple_bg_selector"
+                        app:drawableEndCompat="@drawable/grey_forward_icon"
+                        app:drawableStartCompat="@drawable/payment"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_personal_details" />
+
+                    <TextView
                         android:id="@+id/tv_change_password"
                         style="@style/profile_text_appearance"
                         android:layout_width="match_parent"
@@ -365,7 +378,7 @@
                         app:drawableEndCompat="@drawable/grey_forward_icon"
                         app:drawableStartCompat="@drawable/change_password"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_personal_details" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_payment" />
 
                     <!--support setting-->
                     <TextView
