@@ -55,6 +55,7 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
                     activityBinding.companyDetails.setVisibility(View.GONE);
                 }
                 setData(userData);
+
             }
 
         } catch (NullPointerException e) {
@@ -71,12 +72,14 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
         activityBinding.companyDetails.setVisibility(View.GONE);
 
         if (userData.getImage() != null) {
-            Glide.with(EditProfile.this)
-                    .load(Constants.IMG_PATH + userData.getImage())
-                    .placeholder(R.color.placeholder_bg)
-                    .into(activityBinding.userImage);
+            if (uri == null) {
+//                Glide.with(EditProfile.this)
+//                        .load(Constants.IMG_PATH + userData.getImage())
+//                        .placeholder(R.color.placeholder_bg)
+//                        .into(activityBinding.userImage);
 
-            activityBinding.editUserImage.setImageResource(R.drawable.ic_edit_blue);
+                activityBinding.editUserImage.setImageResource(R.drawable.ic_edit_blue);
+            }
         } else {
             activityBinding.editUserImage.setImageResource(R.drawable.ic_add);
         }
@@ -353,6 +356,7 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
             if (resultCode == Activity.RESULT_OK) {
                 uri = data.getData();
                 activityBinding.userImage.setImageURI(uri);
+                activityBinding.userImage.setTag("uri");
                 activityBinding.editUserImage.setImageResource(R.drawable.ic_edit_blue);
 //                String path = Constants.constant.getRealPathFromURI(uri, EditProfile.this);
 //                Glide.with(EditProfile.this).load(path).into(activityBinding.userImage);
