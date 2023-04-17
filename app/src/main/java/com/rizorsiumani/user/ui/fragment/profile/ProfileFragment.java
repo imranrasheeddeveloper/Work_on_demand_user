@@ -198,19 +198,19 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         });
 
         fragmentBinding.tvPrivacyPolicy.setOnClickListener(view -> {
-            moveToWebView("Privacy Policy", "http://www.rizorsiumani.com.mt/privacy.html");
+            moveToWebView("Privacy Policy", "https://www.rizorsiumani.com.mt/privacy.html");
         });
 
         fragmentBinding.tvTerms.setOnClickListener(view -> {
-            moveToWebView("Terms & Conditions", "http://www.rizorsiumani.com.mt/terms.html");
+            moveToWebView("Terms & Conditions", "https://www.rizorsiumani.com.mt/terms.html");
         });
 
         fragmentBinding.tvReachUs.setOnClickListener(view -> {
-            moveToWebView("Reach Us", "http://www.rizorsiumani.com.mt/contact.html");
+            moveToWebView("Reach Us", "https://www.rizorsiumani.com.mt/contact.html");
         });
 
         fragmentBinding.tvAboutUs.setOnClickListener(view -> {
-            moveToWebView("Work On Demand", "http://www.rizorsiumani.com.mt/index.html");
+            moveToWebView("Work On Demand", "https://www.rizorsiumani.com.mt/index.html");
         });
     }
 

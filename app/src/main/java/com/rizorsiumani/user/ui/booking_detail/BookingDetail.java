@@ -454,7 +454,11 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                 }
 
                 int cartSubTotal = Integer.parseInt(cartItems.getData().getPrice()) - Integer.parseInt(Constants.constant.discount);
-
+                int selectedHours = 0;
+                for (int k = 0; k < cartItems.getAvailability().size(); k++) {
+                    String sHours = cartItems.getAvailability().get(k).getTotalHours();
+                    selectedHours = Integer.parseInt(sHours);
+                }
 
                 AddBookingDataItem bookingDataItem = new AddBookingDataItem(
                         Integer.parseInt(cartItems.getData().getPrice()),
@@ -465,7 +469,7 @@ public class BookingDetail extends BaseActivity<ActivityBookingDetailBinding> {
                         cartItems.getDescription(),
                         Integer.parseInt(Constants.constant.discount),
                         Integer.parseInt(Constants.constant.promotion_id),
-                        cartSubTotal,
+                        cartSubTotal * selectedHours,
                         payment_type_id,
                         Constants.constant.longitude,
                         service_id,

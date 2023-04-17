@@ -194,11 +194,13 @@ public class BookingFragment extends BaseFragment<FragmentBookingBinding> {
                 int bookingID = dataItems.get(position).getId();
 
                 if (dataItems.get(position).getStatus().equalsIgnoreCase("Pending")) {
-                    Intent intent = new Intent(requireContext(), BookingDateTime.class);
-                    intent.putExtra("service_provider_id", String.valueOf(dataItems.get(position).getServiceProvider().getId()));
-                    intent.putExtra("booking_id", String.valueOf(dataItems.get(position).getId()));
-                    intent.putExtra("availability_id", String.valueOf(dataItems.get(position).getBookingAvailability().getId()));
-                    startActivity(intent);
+                    if (dataItems.get(position).getBookingAvailability() != null) {
+                        Intent intent = new Intent(requireContext(), BookingDateTime.class);
+                        intent.putExtra("service_provider_id", String.valueOf(dataItems.get(position).getServiceProvider().getId()));
+                        intent.putExtra("booking_id", String.valueOf(dataItems.get(position).getId()));
+                        intent.putExtra("availability_id", String.valueOf(dataItems.get(position).getBookingAvailability().getId()));
+                        startActivity(intent);
+                    }
                 } else if (dataItems.get(position).getStatus().equalsIgnoreCase("In Progress")){
 
                 }else if (dataItems.get(position).getStatus().equalsIgnoreCase("Declined")){

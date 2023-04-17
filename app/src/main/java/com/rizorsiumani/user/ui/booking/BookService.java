@@ -15,7 +15,7 @@ public class BookService extends BaseActivity<ActivityBookServiceBinding> {
 
     ServicesDataItem servicesDataItem;
     String spID;
-    String hours;
+    int selectedHours;
 
 
     @Override

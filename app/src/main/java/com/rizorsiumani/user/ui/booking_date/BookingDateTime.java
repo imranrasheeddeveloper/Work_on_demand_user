@@ -146,6 +146,7 @@ public class BookingDateTime extends BaseActivity<ActivityBookingDateTimeBinding
 //                    startActivity(intent);
 //                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
+
                     Intent intent = new Intent(BookingDateTime.this, BookService.class);
                     intent.putExtra("service_data",serviceData);
                     startActivity(intent);
