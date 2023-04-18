@@ -1,5 +1,7 @@
 package com.rizorsiumani.user.ui.job_timing;
 
+import android.widget.Toast;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +14,7 @@ import com.rizorsiumani.user.BaseActivity;
 import com.rizorsiumani.user.R;
 import com.rizorsiumani.user.data.local.TinyDbManager;
 import com.rizorsiumani.user.databinding.ActivityJobTimingBinding;
+import com.rizorsiumani.user.utils.TimeSlot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +33,8 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
     Integer selectedIndex = 0;
     String fromTime;
     String toTime;
+    List<TimeSlot> timeSlots;
+
 
     @Override
     protected ActivityJobTimingBinding getActivityBinding() {
@@ -40,6 +45,7 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
     protected void onStart() {
         super.onStart();
 
+        timeSlots = new ArrayList<>();
         activityBinding.timingToolbar.title.setText("Add Timing");
         mainList = new ArrayList<>();
         dayTimeModelList = new ArrayList<>();
@@ -90,8 +96,32 @@ public class JobTiming extends BaseActivity<ActivityJobTimingBinding> {
                     public void onTimeSelected(TimeModel time1, TimeModel time2) {
                         fromTime = time1.getHour()+ " : " + time1.getMinute();
                         toTime = time2.getHour()+ " : " + time2.getMinute();
-                        int hours = Integer.valueOf(time1.getHour()) - Integer.valueOf(time2.getHour());
-                        appendTimeSlotsInWeekDays(selectedIndex , fromTime , toTime,hours);
+                        if (timeSlots.size() > 0) {
+                            boolean isTaken = TimeSlot.isTimeSlotTaken(timeSlots,
+                                    Integer.parseInt(time1.getHour()),
+                                    Integer.parseInt(time1.getMinute()),
+                                    Integer.parseInt(time2.getHour()),
+                                    Integer.parseInt(time2.getMinute()));
+
+                            if (isTaken) {
+                                showSnackBarShort("Already Taken, Please Choose Other Slot");
+                            } else {
+                                timeSlots.add(new TimeSlot(  Integer.parseInt(time1.getHour()),
+                                        Integer.parseInt(time1.getMinute()),
+                                        Integer.parseInt(time2.getHour()),
+                                        Integer.parseInt(time2.getMinute())));
+                                int hours = Integer.valueOf(time1.getHour()) - Integer.valueOf(time2.getHour());
+                                appendTimeSlotsInWeekDays(selectedIndex , fromTime , toTime,hours);
+                            }
+                        }else {
+                            timeSlots.add(new TimeSlot(  Integer.parseInt(time1.getHour()),
+                                    Integer.parseInt(time1.getMinute()),
+                                    Integer.parseInt(time2.getHour()),
+                                    Integer.parseInt(time2.getMinute())));
+                            int hours = Integer.valueOf(time1.getHour()) - Integer.valueOf(time2.getHour());
+                            appendTimeSlotsInWeekDays(selectedIndex , fromTime , toTime,hours);
+                        }
+
                     }
                 });
 
