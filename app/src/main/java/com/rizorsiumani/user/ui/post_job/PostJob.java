@@ -427,7 +427,7 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                 try {
 
 
-                    if (imageUri != null) {
+                  //  if (imageUri != null) {
                         String title = activityBinding.edTitle.getText().toString();
                         String description = activityBinding.edDescribe.getText().toString();
                         String budget = activityBinding.edBudget.getText().toString();
@@ -450,11 +450,15 @@ public class PostJob extends BaseActivity<ActivityPostJobBinding> implements Dat
                         } else if (TinyDbManager.getTiming().size() == 0) {
                             showSnackBarShort("Add Your Timing");
                         } else {
-                            uploadImage(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, date);
+                            if (imageUri != null){
+                                uploadImage(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, date);
+                            }else {
+                                postJob(title, description, budget, selectedBudgetUnit, selectedCatID, selectedSubCatID, "", date);
+                            }
                         }
-                    } else {
-                        showSnackBarShort("Image Required");
-                    }
+//                    } else {
+//                        showSnackBarShort("Image Required");
+//                    }
 
                 } catch (NullPointerException | IllegalArgumentException | IllegalStateException e) {
                     e.printStackTrace();

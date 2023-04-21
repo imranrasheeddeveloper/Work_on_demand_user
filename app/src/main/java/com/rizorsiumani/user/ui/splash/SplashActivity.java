@@ -63,30 +63,31 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding>
     @Override
     protected void onResume() {
         super.onResume();
-
-        isLocationPermissionGranted = LocationService.service.requestLocationPermission(SplashActivity.this);
-        if (isLocationPermissionGranted) {
-            locationHandler();
-        } else {
-            isLocationPermissionGranted = LocationService.service.requestLocationPermission(SplashActivity.this);
-            new Handler().postDelayed(() -> {
-                String token = prefRepository.getString("token");
-                if (token.equals("Bearer ") || token.equals("nil")) {
-                    boolean firstVisit = TinyDbManager.getVisit();
-                    if (firstVisit) {
-                        ActivityUtil.gotoPage(SplashActivity.this, WelcomeUser.class);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    } else {
-                        ActivityUtil.gotoPage(SplashActivity.this, OnboardingActivity.class);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    }
-                } else {
-                    ActivityUtil.gotoPage(SplashActivity.this, Dashboard.class);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                }
-            }, 3000);
-
-        }
+        ActivityUtil.gotoPage(SplashActivity.this, Dashboard.class);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//        isLocationPermissionGranted = LocationService.service.requestLocationPermission(SplashActivity.this);
+//        if (isLocationPermissionGranted) {
+//            locationHandler();
+//        } else {
+//            isLocationPermissionGranted = LocationService.service.requestLocationPermission(SplashActivity.this);
+//            new Handler().postDelayed(() -> {
+//                String token = prefRepository.getString("token");
+//                if (token.equals("Bearer ") || token.equals("nil")) {
+//                    boolean firstVisit = TinyDbManager.getVisit();
+//                    if (firstVisit) {
+//                        ActivityUtil.gotoPage(SplashActivity.this, WelcomeUser.class);
+//                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                    } else {
+//                        ActivityUtil.gotoPage(SplashActivity.this, OnboardingActivity.class);
+//                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                    }
+//                } else {
+//                    ActivityUtil.gotoPage(SplashActivity.this, Dashboard.class);
+//                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                }
+//            }, 3000);
+//
+//        }
 
     }
 
