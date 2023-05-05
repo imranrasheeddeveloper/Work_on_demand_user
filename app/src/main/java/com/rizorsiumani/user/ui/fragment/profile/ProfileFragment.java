@@ -127,14 +127,26 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
                 fragmentBinding.username.setText(userData.getFirstName() + " " + userData.getLastName());
                 fragmentBinding.userNumber.setText(userData.getPhoneNumber());
                 fragmentBinding.userNumber1.setText(userData.getPhoneNumber());
-                Glide.with(requireContext())
-                        .load(Constants.IMG_PATH + userData.getImage())
-                        .placeholder(R.color.teal_700)
-                        .into(fragmentBinding.userImage);
-                Glide.with(requireContext())
-                        .load(Constants.IMG_PATH + userData.getImage())
-                        .placeholder(R.color.teal_700)
-                        .into(fragmentBinding.userImage1);
+                if (userData.getImage().startsWith("http")){
+                    Glide.with(requireContext())
+                            .load(userData.getImage())
+                            .placeholder(R.color.teal_700)
+                            .into(fragmentBinding.userImage);
+                    Glide.with(requireContext())
+                            .load(userData.getImage())
+                            .placeholder(R.color.teal_700)
+                            .into(fragmentBinding.userImage1);
+                }else {
+                    Glide.with(requireContext())
+                            .load(Constants.IMG_PATH + userData.getImage())
+                            .placeholder(R.color.teal_700)
+                            .into(fragmentBinding.userImage);
+                    Glide.with(requireContext())
+                            .load(Constants.IMG_PATH + userData.getImage())
+                            .placeholder(R.color.teal_700)
+                            .into(fragmentBinding.userImage1);
+                }
+
             }
 
         } catch (NullPointerException e) {
@@ -237,6 +249,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
         alertDialog.show();
         cancel.setOnClickListener(view -> alertDialog.dismiss());
         logout.setOnClickListener(view -> {
+            TinyDbManager.selectedCard(null);
             prefRepository.setString("token", "nil");
             ActivityUtil.gotoPage(requireContext(), WelcomeUser.class);
             alertDialog.dismiss();

@@ -78,9 +78,12 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
         binding.bottomNavigation.addTab(binding.bottomNavigation.newTab().setText("Profile").setIcon(R.drawable.ic_profile).setId(4));
         binding.bottomNavigation.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        if (binding.bottomNavigation.getSelectedTabPosition() == 0) {
-            binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
-        }
+        binding.bottomNavigation.getTabAt(0).select();
+
+
+//        if (binding.bottomNavigation.getSelectedTabPosition() == 0) {
+//            binding.bottomNavigation.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#00A688"), PorterDuff.Mode.SRC_IN);
+//        }
 
         if (checkPermission()) {
             locationHandler();
@@ -158,22 +161,28 @@ public class Dashboard extends AppCompatActivity implements OnLocationUpdateList
     }
 
     private void getPayLaterStatus() {
-        settingsViewModel.isUserPayLater(TinyDbManager.getUserInformation().getId());
-        settingsViewModel._pay_later.observe(this, response -> {
-            if (response != null){
-                if (response.isLoading()){
+        try {
+            if (TinyDbManager.getUserInformation() != null) {
+                settingsViewModel.isUserPayLater(TinyDbManager.getUserInformation().getId());
+                settingsViewModel._pay_later.observe(this, response -> {
+                    if (response != null) {
+                        if (response.isLoading()) {
 
-                } else if (response.getError() != null) {
-                    Constants.constant.getApiError(App.applicationContext,response.getError());
-                } else if (response.getData() != null) {
-                    if (response.getData() != null) {
-                        if (response.getData().isSuccess()){
-                            Constants.isPayLater = response.getData().isCanPayLater();
+                        } else if (response.getError() != null) {
+                            Constants.constant.getApiError(App.applicationContext, response.getError());
+                        } else if (response.getData() != null) {
+                            if (response.getData() != null) {
+                                if (response.getData().isSuccess()) {
+                                    Constants.isPayLater = response.getData().isCanPayLater();
+                                }
+                            }
                         }
                     }
-                }
+                });
             }
-        });
+        }catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
     }
 
     private void getAppCredentials() {

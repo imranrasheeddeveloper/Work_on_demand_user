@@ -17,6 +17,9 @@ public class WelcomeUser extends BaseActivity<ActivityWelcomeUserBinding> {
     @Override
     protected void onStart() {
         super.onStart();
+        TinyDbManager.saveVisit(true);
+
+
 
         activityBinding.btnCommercial.setOnClickListener(view -> {
             TinyDbManager.saveUserType("Commercial");

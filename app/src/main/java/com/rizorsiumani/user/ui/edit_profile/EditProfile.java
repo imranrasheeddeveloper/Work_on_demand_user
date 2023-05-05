@@ -73,11 +73,17 @@ public class EditProfile extends BaseActivity<ActivityEditProfileBinding> {
 
         if (userData.getImage() != null) {
             if (uri == null) {
-//                Glide.with(EditProfile.this)
-//                        .load(Constants.IMG_PATH + userData.getImage())
-//                        .placeholder(R.color.placeholder_bg)
-//                        .into(activityBinding.userImage);
-
+                if (userData.getImage().startsWith("http")){
+                    Glide.with(EditProfile.this)
+                            .load(userData.getImage())
+                            .placeholder(R.color.placeholder_bg)
+                            .into(activityBinding.userImage);
+                }else {
+                    Glide.with(EditProfile.this)
+                            .load(Constants.IMG_PATH + userData.getImage())
+                            .placeholder(R.color.placeholder_bg)
+                            .into(activityBinding.userImage);
+                }
                 activityBinding.editUserImage.setImageResource(R.drawable.ic_edit_blue);
             }
         } else {

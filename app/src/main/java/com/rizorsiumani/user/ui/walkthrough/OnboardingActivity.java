@@ -41,7 +41,7 @@ public class OnboardingActivity extends BaseActivity<ActivityOnboardingBinding> 
     protected void onStart() {
         super.onStart();
 
-        TinyDbManager.saveVisit(true);
+        TinyDbManager.saveVisit(false);
 
         viewModel = new ViewModelProvider(this).get(OnBoardingViewModel.class);
 

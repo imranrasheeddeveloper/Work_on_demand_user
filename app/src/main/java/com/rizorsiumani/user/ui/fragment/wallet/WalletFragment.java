@@ -122,10 +122,17 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
                 UserData userData = TinyDbManager.getUserInformation();
                 fragmentBinding.username.setText(userData.getFirstName() + " " + userData.getLastName());
                 fragmentBinding.userNumber.setText(userData.getPhoneNumber());
-                Glide.with(requireContext())
-                        .load(Constants.IMG_PATH + userData.getImage())
-                        .placeholder(R.color.teal_700)
-                        .into(fragmentBinding.userImage);
+                if (userData.getImage().startsWith("http")){
+                    Glide.with(requireContext())
+                            .load(userData.getImage())
+                            .placeholder(R.color.teal_700)
+                            .into(fragmentBinding.userImage);
+                }else {
+                    Glide.with(requireContext())
+                            .load(Constants.IMG_PATH + userData.getImage())
+                            .placeholder(R.color.teal_700)
+                            .into(fragmentBinding.userImage);
+                }
             }
 
         }catch (NullPointerException e){

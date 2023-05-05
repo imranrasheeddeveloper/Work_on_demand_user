@@ -61,6 +61,8 @@ public class Register extends BaseActivity<ActivityRegisterBinding> {
             }
         });
 
+
+
     }
 
     private void validateInformation() {
